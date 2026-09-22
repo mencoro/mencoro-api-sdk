@@ -1,11 +1,11 @@
 [project]
 name = "mencoro"
-version = "1.0.0"
+version = "1.0.1"
 description = "Mencoro API"
 authors = [
   {name = "Mencoro Support",email = "support@mencoro.com"},
 ]
-license = { text = "Proprietary" }
+license = { text = "MIT" }
 readme = "README.md"
 keywords = ["OpenAPI", "OpenAPI-Generator", "Mencoro API"]
 requires-python = ">=3.9"

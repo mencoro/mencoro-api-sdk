@@ -1,7 +1,11 @@
 {
   "generatorVersion": "7.24.0",
-  "packageVersion": "1.0.0",
+  "packageVersion": "1.0.1",
   "contractUrl": "https://api.mencoro.com/api/v1/doc/json",
+  "license": {
+    "name": "MIT",
+    "url": "https://github.com/mencoro/mencoro-api-sdk/blob/main/LICENSE"
+  },
   "sdks": [
     {
       "dir": "python",
@@ -29,8 +33,7 @@
       "generator": "php",
       "label": "PHP 8.1+",
       "config": {
-        "invokerPackage": "Mencoro\\Api",
-        "licenseName": "MIT"
+        "invokerPackage": "Mencoro\\Api"
       },
       "nameMappings": {
         "modelName": "engineModelName"
@@ -65,9 +68,7 @@
         "developerName": "Mencoro Support",
         "developerEmail": "support@mencoro.com",
         "developerOrganization": "Virality Media, S.L.",
-        "developerOrganizationUrl": "https://mencoro.com",
-        "licenseName": "MIT",
-        "licenseUrl": "https://github.com/mencoro/mencoro-api-sdk/blob/main/LICENSE"
+        "developerOrganizationUrl": "https://mencoro.com"
       }
     },
     {

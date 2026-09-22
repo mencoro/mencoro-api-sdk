@@ -58,6 +58,12 @@ jobs:
           fi
           echo "releasing ${tagged}"
 
+      # sdks.json agreeing with the tag says nothing about the seven manifests that are actually
+      # published: three generators read a version option of their own, so they can sit a release
+      # behind while sdks.json looks correct.
+      - name: Every package must carry the version being released
+        run: python3 scripts/check-versions.py
+
       - name: The committed clients must match the contract
         run: |
           ./generate.sh

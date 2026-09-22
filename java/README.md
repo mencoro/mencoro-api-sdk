@@ -41,7 +41,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.mencoro</groupId>
   <artifactId>mencoro-api</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -57,7 +57,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.mencoro:mencoro-api:1.0.0"
+     implementation "com.mencoro:mencoro-api:1.0.1"
   }
 ```
 
@@ -71,7 +71,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/mencoro-api-1.0.0.jar`
+* `target/mencoro-api-1.0.1.jar`
 * `target/lib/*.jar`
 
 ## Getting Started

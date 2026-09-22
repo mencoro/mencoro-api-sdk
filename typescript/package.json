@@ -1,12 +1,13 @@
 {
   "name": "@mencoro/api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "OpenAPI client for @mencoro/api",
   "author": "OpenAPI-Generator",
   "repository": {
     "type": "git",
     "url": "https://github.com/mencoro/mencoro-api-sdk.git"
   },
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "module": "./dist/esm/index.js",

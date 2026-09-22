@@ -11,5 +11,5 @@ Generator version: 7.24.0
 =end
 
 module Mencoro
-  VERSION = '1.0.0'
+  VERSION = '1.0.1'
 end

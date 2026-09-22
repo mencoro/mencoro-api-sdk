@@ -5,7 +5,7 @@
     <artifactId>mencoro-api</artifactId>
     <packaging>jar</packaging>
     <name>mencoro-api</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <url>https://github.com/mencoro/mencoro-api-sdk</url>
     <description>Official Java client for the Mencoro API: projects, tracked queries, captures and AI-search visibility analytics.</description>
     <scm>
@@ -17,7 +17,7 @@
     <licenses>
         <license>
             <name>MIT</name>
-            <url>https://mencoro.com/legal/</url>
+            <url>https://github.com/mencoro/mencoro-api-sdk/blob/main/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>

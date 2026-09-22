@@ -142,7 +142,7 @@ public class ApiClient {
         json = new JSON();
 
         // Set default User-Agent.
-        setUserAgent("mencoro-java/1.0.0");
+        setUserAgent("mencoro-java/1.0.1");
 
         authentications = new HashMap<String, Authentication>();
     }

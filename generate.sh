@@ -92,7 +92,9 @@ print(sdk['generator'])
 ")
 
   # The per-language config is derived rather than committed: the fields every language shares —
-  # version, repository, user agent — must not be able to disagree between seven copies.
+  # version, repository, user agent, licence — must not be able to disagree between seven copies.
+  # Each generator spells the licence differently and two do not take one at all, so the shared
+  # value is mapped onto whatever option that language actually has.
   python3 -c "
 import json
 manifest = json.load(open('sdks.json'))
@@ -105,6 +107,28 @@ config.update({
     'httpUserAgent': 'mencoro-${target}/' + manifest['packageVersion'],
     'hideGenerationTimestamp': True,
 })
+
+# Three generators ignore packageVersion and read a name of their own, so a version bump that
+# only set packageVersion would leave Java, TypeScript and Ruby on whatever they defaulted to.
+version = manifest['packageVersion']
+version_options = {
+    'java': 'artifactVersion',
+    'typescript-fetch': 'npmVersion',
+    'ruby': 'gemVersion',
+}
+if sdk['generator'] in version_options:
+    config[version_options[sdk['generator']]] = version
+
+license = manifest['license']
+license_options = {
+    'java': {'licenseName': license['name'], 'licenseUrl': license['url']},
+    'typescript-fetch': {'licenseName': license['name']},
+    'php': {'licenseName': license['name']},
+    'csharp': {'licenseId': license['name']},
+    'ruby': {'gemLicense': license['name']},
+}
+config.update(license_options.get(sdk['generator'], {}))
+
 json.dump(config, open('.generator-configs/${target}.json', 'w'), indent=2)
 "
 
@@ -151,6 +175,11 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     # generated pom cannot be published as it stands. The plugin that supplies it is injected here
     # rather than committed by hand, because a hand edit is discarded by the next run.
     python3 scripts/java-pom-publish.py
+    python3 scripts/license.py java
+  fi
+
+  if [[ "${target}" == "python" ]]; then
+    python3 scripts/license.py python
   fi
 
   if [[ "${target}" == "go" ]]; then

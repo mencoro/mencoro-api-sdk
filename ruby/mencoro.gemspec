@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://openapi-generator.tech"
   s.summary     = "Mencoro API Ruby Gem"
   s.description = "Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`."
-  s.license     = "Unlicense"
+  s.license     = "MIT"
   s.required_ruby_version = ">= 2.7"
   s.metadata    = {}
 

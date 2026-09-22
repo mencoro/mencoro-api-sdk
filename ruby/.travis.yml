@@ -8,4 +8,4 @@ script:
   - bundle install --path vendor/bundle
   - bundle exec rspec
   - gem build mencoro.gemspec
-  - gem install ./mencoro-1.0.0.gem
+  - gem install ./mencoro-1.0.1.gem
