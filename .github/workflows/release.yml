@@ -12,15 +12,24 @@ name: Release
 # a release that silently published five of seven languages is worse than one that stopped.
 #
 #   npm            NPM_TOKEN                 automation token with publish rights on @mencoro
-#   NuGet          NUGET_API_KEY             push key scoped to Mencoro.Api
 #   RubyGems       RUBYGEMS_API_KEY          push key for the mencoro gem
 #   Maven Central  MAVEN_CENTRAL_USERNAME    Sonatype portal token
 #                  MAVEN_CENTRAL_PASSWORD
 #                  MAVEN_GPG_PRIVATE_KEY     armoured key; Central refuses unsigned artifacts
 #                  MAVEN_GPG_PASSPHRASE
 #
-# PyPI uses trusted publishing (OIDC) and needs no secret — configure mencoro-api-sdk as a trusted
-# publisher for the `mencoro` project first, or the upload is rejected.
+# PyPI and NuGet use trusted publishing (OIDC) and need no secret: each run exchanges its own
+# short-lived identity token for a credential that expires in minutes. Both require a policy
+# registered on the registry first — naming this repository, `release.yml` and the `release`
+# environment — or the upload is rejected. That registration is the credential; there is nothing
+# to rotate and nothing to leak.
+#
+# npm and RubyGems both support trusted publishing now, and both were deliberately left on tokens
+# for the first release. npm's trusted publisher is configured against an EXISTING package, and
+# `@mencoro/api` does not exist yet; its tracker also carries an open bug for OIDC publishing of
+# scoped packages, which is exactly what this is. RubyGems' own action drives a rake release task
+# the generated Rakefile does not define, and adding one means another exception to "everything
+# here is generated". Revisit both once 1.0.0 is out and the packages exist.
 #
 # Packagist and the Go module proxy need no job at all: Packagist watches the repository through
 # its GitHub webhook, and the Go proxy resolves whatever tags exist. Go is the reason `tag-go`
@@ -99,16 +108,25 @@ jobs:
     needs: verify
     runs-on: ubuntu-latest
     environment: release
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0"
+      # Trusted publishing: the run exchanges its OIDC token for an API key that lives minutes,
+      # so there is no long-lived push credential to leak or to rotate. `user` is the nuget.org
+      # account the trusted-publishing policy was created under, not a secret.
+      - uses: NuGet/login@v1.2.0
+        id: nuget-login
+        with:
+          user: mortl
       - working-directory: csharp
         run: |
           dotnet pack src/Mencoro.Api/Mencoro.Api.csproj --configuration Release --output ../artifacts
           dotnet nuget push "../artifacts/*.nupkg" \
-            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
             --source https://api.nuget.org/v3/index.json
 
   rubygems:
