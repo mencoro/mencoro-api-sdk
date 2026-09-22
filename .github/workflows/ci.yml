@@ -109,7 +109,9 @@ jobs:
       - working-directory: ruby
         run: |
           find lib -name '*.rb' -print0 | xargs -0 -n1 ruby -c > /dev/null
-          ruby -Ilib -e "require 'mencoro'; Mencoro::AccountApi.new; puts 'ruby ok'"
+          # Through bundler: the client requires faraday at load time, and a bare `ruby -Ilib`
+          # cannot see a gem that bundler installed.
+          bundle exec ruby -Ilib -e "require 'mencoro'; Mencoro::AccountApi.new; puts 'ruby ok'"
 
   # Regenerating must be a no-op against the committed contract. When it is not, either somebody
   # edited generated code by hand — which the next regeneration would silently discard — or the
