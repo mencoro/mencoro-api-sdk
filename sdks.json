@@ -29,7 +29,8 @@
       "generator": "php",
       "label": "PHP 8.1+",
       "config": {
-        "invokerPackage": "Mencoro\\Api"
+        "invokerPackage": "Mencoro\\Api",
+        "licenseName": "MIT"
       },
       "nameMappings": {
         "modelName": "engineModelName"

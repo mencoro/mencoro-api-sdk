@@ -1,0 +1,49 @@
+{
+    "name": "mencoro/mencoro-api-sdk",
+    "description": "Official PHP client for the Mencoro API: projects, tracked queries, captures and AI-search visibility analytics.",
+    "keywords": [
+        "mencoro",
+        "api",
+        "sdk",
+        "seo",
+        "geo",
+        "ai-search",
+        "brand-monitoring",
+        "rank-tracking"
+    ],
+    "homepage": "https://mencoro.com/api-docs/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mencoro Support",
+            "email": "support@mencoro.com",
+            "homepage": "https://mencoro.com/contact/"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0 || ^9.0",
+        "friendsofphp/php-cs-fixer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mencoro\\Api\\": "php/lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mencoro\\Api\\Test\\": "php/test/"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/mencoro/mencoro-api-sdk/issues",
+        "docs": "https://mencoro.com/api-docs/"
+    }
+}

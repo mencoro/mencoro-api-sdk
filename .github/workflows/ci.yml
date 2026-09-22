@@ -68,9 +68,10 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: "8.1"
-      - working-directory: php
-        run: |
-          find lib -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null
+      - run: find php/lib -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null
+      # The ROOT manifest is the published package: Packagist has no notion of a package living in
+      # a subdirectory, so that is what a consumer installs and that is what CI must prove.
+      - run: |
           composer validate --no-check-publish
           composer install --no-interaction --no-progress --quiet
           php -r "require 'vendor/autoload.php'; new Mencoro\Api\Api\AccountApi(); echo 'php ok', PHP_EOL;"

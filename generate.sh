@@ -136,6 +136,16 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     "${mapping_args[@]}" \
     2>&1 | grep -E "^\[main\] (ERROR|WARN o.o.codegen.InlineModelResolver)" || true
 
+  if [[ "${target}" == "php" ]]; then
+    # Packagist reads composer.json from the repository ROOT and has no notion of a package living
+    # in a subdirectory — the same shape of problem Go has, and with no equivalent of Go's
+    # directory-prefixed tags. So the published PHP manifest is the root one, derived here from the
+    # generated php/composer.json rather than written by hand, because two manifests maintained
+    # separately are two manifests that disagree.
+    python3 scripts/php-root-manifest.py
+    echo "    root composer.json <- php/composer.json"
+  fi
+
   if [[ "${target}" == "go" ]]; then
     # Go has no package registry: the import path IS the repository URL plus the directory, so in a
     # monorepo it has to be ".../mencoro-api-sdk/go". The generator derives the module path from

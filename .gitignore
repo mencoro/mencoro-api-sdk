@@ -8,6 +8,8 @@ __pycache__/
 *.egg-info/
 node_modules/
 typescript/dist/
+/vendor/
+/composer.lock
 php/vendor/
 java/target/
 csharp/**/bin/
