@@ -9,6 +9,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**createProject**](ProjectsApi.md#createProject) | **POST** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against |
 | [**deleteCompetitor**](ProjectsApi.md#deleteCompetitor) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project |
 | [**getBrandProfile**](ProjectsApi.md#getBrandProfile) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project&#39;s brand monitoring profile |
+| [**getCompetitor**](ProjectsApi.md#getCompetitor) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project&#39;s competitors |
 | [**getProject**](ProjectsApi.md#getProject) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration |
 | [**listCompetitors**](ProjectsApi.md#listCompetitors) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project |
 | [**listProjects**](ProjectsApi.md#listProjects) | **GET** /api/v1/organizations/{organizationId}/projects | List an organization&#39;s projects |
@@ -398,6 +399,80 @@ public class Example {
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids, or the project has no brand profile |  -  |
+
+<a id="getCompetitor"></a>
+# **getCompetitor**
+> CompetitorResource getCompetitor(organizationId, projectId, competitorId)
+
+Get one of a project&#39;s competitors
+
+Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+
+### Example
+```java
+// Import classes:
+import com.mencoro.api.ApiClient;
+import com.mencoro.api.ApiException;
+import com.mencoro.api.Configuration;
+import com.mencoro.api.auth.*;
+import com.mencoro.api.models.*;
+import com.mencoro.api.api.ProjectsApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.mencoro.com");
+    
+    // Configure HTTP bearer authorization: ApiKey
+    HttpBearerAuth ApiKey = (HttpBearerAuth) defaultClient.getAuthentication("ApiKey");
+    ApiKey.setBearerToken("BEARER TOKEN");
+
+    ProjectsApi apiInstance = new ProjectsApi(defaultClient);
+    UUID organizationId = UUID.randomUUID(); // UUID | 
+    UUID projectId = UUID.randomUUID(); // UUID | Must belong to the organization in the path.
+    UUID competitorId = UUID.randomUUID(); // UUID | Must belong to the project in the path.
+    try {
+      CompetitorResource result = apiInstance.getCompetitor(organizationId, projectId, competitorId);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling ProjectsApi#getCompetitor");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | **UUID**|  | |
+| **projectId** | **UUID**| Must belong to the organization in the path. | |
+| **competitorId** | **UUID**| Must belong to the project in the path. | |
+
+### Return type
+
+[**CompetitorResource**](CompetitorResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The competitor |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | No organization, project or competitor the caller can access under these ids |  -  |
 
 <a id="getProject"></a>
 # **getProject**

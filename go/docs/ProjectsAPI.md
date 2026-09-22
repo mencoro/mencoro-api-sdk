@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**CreateProject**](ProjectsAPI.md#CreateProject) | **Post** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against
 [**DeleteCompetitor**](ProjectsAPI.md#DeleteCompetitor) | **Delete** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project
 [**GetBrandProfile**](ProjectsAPI.md#GetBrandProfile) | **Get** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project&#39;s brand monitoring profile
+[**GetCompetitor**](ProjectsAPI.md#GetCompetitor) | **Get** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project&#39;s competitors
 [**GetProject**](ProjectsAPI.md#GetProject) | **Get** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration
 [**ListCompetitors**](ProjectsAPI.md#ListCompetitors) | **Get** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project
 [**ListProjects**](ProjectsAPI.md#ListProjects) | **Get** /api/v1/organizations/{organizationId}/projects | List an organization&#39;s projects
@@ -382,6 +383,82 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**BrandProfileResource**](BrandProfileResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetCompetitor
+
+> CompetitorResource GetCompetitor(ctx, organizationId, projectId, competitorId).Execute()
+
+Get one of a project's competitors
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+)
+
+func main() {
+	organizationId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	projectId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Must belong to the organization in the path.
+	competitorId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Must belong to the project in the path.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProjectsAPI.GetCompetitor(context.Background(), organizationId, projectId, competitorId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectsAPI.GetCompetitor``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetCompetitor`: CompetitorResource
+	fmt.Fprintf(os.Stdout, "Response from `ProjectsAPI.GetCompetitor`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**organizationId** | **string** |  | 
+**projectId** | **string** | Must belong to the organization in the path. | 
+**competitorId** | **string** | Must belong to the project in the path. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetCompetitorRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+
+### Return type
+
+[**CompetitorResource**](CompetitorResource.md)
 
 ### Authorization
 

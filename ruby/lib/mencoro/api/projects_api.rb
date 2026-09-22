@@ -430,6 +430,81 @@ module Mencoro
       return data, status_code, headers
     end
 
+    # Get one of a project's competitors
+    # Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+    # @param organization_id [String] 
+    # @param project_id [String] Must belong to the organization in the path.
+    # @param competitor_id [String] Must belong to the project in the path.
+    # @param [Hash] opts the optional parameters
+    # @return [CompetitorResource]
+    def get_competitor(organization_id, project_id, competitor_id, opts = {})
+      data, _status_code, _headers = get_competitor_with_http_info(organization_id, project_id, competitor_id, opts)
+      data
+    end
+
+    # Get one of a project&#39;s competitors
+    # Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+    # @param organization_id [String] 
+    # @param project_id [String] Must belong to the organization in the path.
+    # @param competitor_id [String] Must belong to the project in the path.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(CompetitorResource, Integer, Hash)>] CompetitorResource data, response status code and response headers
+    def get_competitor_with_http_info(organization_id, project_id, competitor_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: ProjectsApi.get_competitor ...'
+      end
+      # verify the required parameter 'organization_id' is set
+      if @api_client.config.client_side_validation && organization_id.nil?
+        fail ArgumentError, "Missing the required parameter 'organization_id' when calling ProjectsApi.get_competitor"
+      end
+      # verify the required parameter 'project_id' is set
+      if @api_client.config.client_side_validation && project_id.nil?
+        fail ArgumentError, "Missing the required parameter 'project_id' when calling ProjectsApi.get_competitor"
+      end
+      # verify the required parameter 'competitor_id' is set
+      if @api_client.config.client_side_validation && competitor_id.nil?
+        fail ArgumentError, "Missing the required parameter 'competitor_id' when calling ProjectsApi.get_competitor"
+      end
+      # resource path
+      local_var_path = '/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId}'.sub('{organizationId}', CGI.escape(organization_id.to_s)).sub('{projectId}', CGI.escape(project_id.to_s)).sub('{competitorId}', CGI.escape(competitor_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'CompetitorResource'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKey']
+
+      new_options = opts.merge(
+        :operation => :"ProjectsApi.get_competitor",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: ProjectsApi#get_competitor\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Get a project and its brand monitoring configuration
     # Minimum role: viewer. Returns the project together with the domains and brand names it is monitored for and the competitors it is measured against. A project that exists but belongs to another organization answers 404, never 403. A project that has been created but not yet configured for brand monitoring reports empty `websiteDomains`, `brandNames` and `competitors`. Headline metrics are not part of this response: use `listProjects` for the per-project figures, or `getProjectMetrics` for a window.
     # @param organization_id [String] 

@@ -137,6 +137,31 @@ namespace Mencoro.Api.Api
         /// <returns>ApiResponse of DeleteQueryCluster200Response</returns>
         ApiResponse<DeleteQueryCluster200Response> DeleteQueryClusterWithHttpInfo(Guid organizationId, Guid projectId, Guid clusterId, string idempotencyKey);
         /// <summary>
+        /// Get one of a project&#39;s keyword clusters
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="clusterId">Must be a cluster of the project in the path.</param>
+        /// <returns>QueryClusterResource</returns>
+        QueryClusterResource GetQueryCluster(Guid organizationId, Guid projectId, Guid clusterId);
+
+        /// <summary>
+        /// Get one of a project&#39;s keyword clusters
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="clusterId">Must be a cluster of the project in the path.</param>
+        /// <returns>ApiResponse of QueryClusterResource</returns>
+        ApiResponse<QueryClusterResource> GetQueryClusterWithHttpInfo(Guid organizationId, Guid projectId, Guid clusterId);
+        /// <summary>
         /// Rename a keyword cluster
         /// </summary>
         /// <remarks>
@@ -317,6 +342,33 @@ namespace Mencoro.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (DeleteQueryCluster200Response)</returns>
         System.Threading.Tasks.Task<ApiResponse<DeleteQueryCluster200Response>> DeleteQueryClusterWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid clusterId, string idempotencyKey, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Get one of a project&#39;s keyword clusters
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="clusterId">Must be a cluster of the project in the path.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of QueryClusterResource</returns>
+        System.Threading.Tasks.Task<QueryClusterResource> GetQueryClusterAsync(Guid organizationId, Guid projectId, Guid clusterId, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get one of a project&#39;s keyword clusters
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="clusterId">Must be a cluster of the project in the path.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (QueryClusterResource)</returns>
+        System.Threading.Tasks.Task<ApiResponse<QueryClusterResource>> GetQueryClusterWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid clusterId, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Rename a keyword cluster
         /// </summary>
@@ -1184,6 +1236,137 @@ namespace Mencoro.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("DeleteQueryCluster", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get one of a project&#39;s keyword clusters Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="clusterId">Must be a cluster of the project in the path.</param>
+        /// <returns>QueryClusterResource</returns>
+        public QueryClusterResource GetQueryCluster(Guid organizationId, Guid projectId, Guid clusterId)
+        {
+            Mencoro.Api.Client.ApiResponse<QueryClusterResource> localVarResponse = GetQueryClusterWithHttpInfo(organizationId, projectId, clusterId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get one of a project&#39;s keyword clusters Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="clusterId">Must be a cluster of the project in the path.</param>
+        /// <returns>ApiResponse of QueryClusterResource</returns>
+        public Mencoro.Api.Client.ApiResponse<QueryClusterResource> GetQueryClusterWithHttpInfo(Guid organizationId, Guid projectId, Guid clusterId)
+        {
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("projectId", Mencoro.Api.Client.ClientUtils.ParameterToString(projectId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("clusterId", Mencoro.Api.Client.ClientUtils.ParameterToString(clusterId)); // path parameter
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<QueryClusterResource>("/api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetQueryCluster", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get one of a project&#39;s keyword clusters Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="clusterId">Must be a cluster of the project in the path.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of QueryClusterResource</returns>
+        public async System.Threading.Tasks.Task<QueryClusterResource> GetQueryClusterAsync(Guid organizationId, Guid projectId, Guid clusterId, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Mencoro.Api.Client.ApiResponse<QueryClusterResource> localVarResponse = await GetQueryClusterWithHttpInfoAsync(organizationId, projectId, clusterId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get one of a project&#39;s keyword clusters Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="clusterId">Must be a cluster of the project in the path.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (QueryClusterResource)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<QueryClusterResource>> GetQueryClusterWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid clusterId, System.Threading.CancellationToken cancellationToken = default)
+        {
+
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("projectId", Mencoro.Api.Client.ClientUtils.ParameterToString(projectId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("clusterId", Mencoro.Api.Client.ClientUtils.ParameterToString(clusterId)); // path parameter
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<QueryClusterResource>("/api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetQueryCluster", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

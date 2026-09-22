@@ -95,6 +95,12 @@ export interface GetBrandProfileRequest {
     projectId: string;
 }
 
+export interface GetCompetitorRequest {
+    organizationId: string;
+    projectId: string;
+    competitorId: string;
+}
+
 export interface GetProjectRequest {
     organizationId: string;
     projectId: string;
@@ -302,6 +308,34 @@ export interface ProjectsApiInterface {
      * Get a project\'s brand monitoring profile
      */
     getBrandProfile(requestParameters: GetBrandProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BrandProfileResource>;
+
+    /**
+     * Creates request options for getCompetitor without sending the request
+     * @param {string} organizationId 
+     * @param {string} projectId Must belong to the organization in the path.
+     * @param {string} competitorId Must belong to the project in the path.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    getCompetitorRequestOpts(requestParameters: GetCompetitorRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+     * @summary Get one of a project\'s competitors
+     * @param {string} organizationId 
+     * @param {string} projectId Must belong to the organization in the path.
+     * @param {string} competitorId Must belong to the project in the path.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApiInterface
+     */
+    getCompetitorRaw(requestParameters: GetCompetitorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CompetitorResource>>;
+
+    /**
+     * Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+     * Get one of a project\'s competitors
+     */
+    getCompetitor(requestParameters: GetCompetitorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CompetitorResource>;
 
     /**
      * Creates request options for getProject without sending the request
@@ -932,6 +966,77 @@ export class ProjectsApi extends runtime.BaseAPI implements ProjectsApiInterface
      */
     async getBrandProfile(requestParameters: GetBrandProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BrandProfileResource> {
         const response = await this.getBrandProfileRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getCompetitor without sending the request
+     */
+    async getCompetitorRequestOpts(requestParameters: GetCompetitorRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['organizationId'] == null) {
+            throw new runtime.RequiredError(
+                'organizationId',
+                'Required parameter "organizationId" was null or undefined when calling getCompetitor().'
+            );
+        }
+
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling getCompetitor().'
+            );
+        }
+
+        if (requestParameters['competitorId'] == null) {
+            throw new runtime.RequiredError(
+                'competitorId',
+                'Required parameter "competitorId" was null or undefined when calling getCompetitor().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("ApiKey", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId}`;
+        urlPath = urlPath.replace('{organizationId}', encodeURIComponent(String(requestParameters['organizationId'])));
+        urlPath = urlPath.replace('{projectId}', encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace('{competitorId}', encodeURIComponent(String(requestParameters['competitorId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+     * Get one of a project\'s competitors
+     */
+    async getCompetitorRaw(requestParameters: GetCompetitorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CompetitorResource>> {
+        const requestOptions = await this.getCompetitorRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CompetitorResourceFromJSON(jsonValue));
+    }
+
+    /**
+     * Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+     * Get one of a project\'s competitors
+     */
+    async getCompetitor(requestParameters: GetCompetitorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CompetitorResource> {
+        const response = await this.getCompetitorRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

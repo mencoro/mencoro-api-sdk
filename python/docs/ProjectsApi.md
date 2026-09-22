@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**create_project**](ProjectsApi.md#create_project) | **POST** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against
 [**delete_competitor**](ProjectsApi.md#delete_competitor) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project
 [**get_brand_profile**](ProjectsApi.md#get_brand_profile) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project&#39;s brand monitoring profile
+[**get_competitor**](ProjectsApi.md#get_competitor) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project&#39;s competitors
 [**get_project**](ProjectsApi.md#get_project) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration
 [**list_competitors**](ProjectsApi.md#list_competitors) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project
 [**list_projects**](ProjectsApi.md#list_projects) | **GET** /api/v1/organizations/{organizationId}/projects | List an organization&#39;s projects
@@ -453,6 +454,91 @@ Name | Type | Description  | Notes
 **401** | Missing or invalid API key |  -  |
 **403** | The key lacks the read capability |  -  |
 **404** | No organization or project the caller can access under these ids, or the project has no brand profile |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_competitor**
+> CompetitorResource get_competitor(organization_id, project_id, competitor_id)
+
+Get one of a project's competitors
+
+Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+
+### Example
+
+* Bearer Authentication (ApiKey):
+
+```python
+import mencoro
+from mencoro.models.competitor_resource import CompetitorResource
+from mencoro.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.mencoro.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = mencoro.Configuration(
+    host = "https://api.mencoro.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization: ApiKey
+configuration = mencoro.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with mencoro.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = mencoro.ProjectsApi(api_client)
+    organization_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    project_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | Must belong to the organization in the path.
+    competitor_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | Must belong to the project in the path.
+
+    try:
+        # Get one of a project's competitors
+        api_response = api_instance.get_competitor(organization_id, project_id, competitor_id)
+        print("The response of ProjectsApi->get_competitor:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ProjectsApi->get_competitor: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **organization_id** | **UUID**|  | 
+ **project_id** | **UUID**| Must belong to the organization in the path. | 
+ **competitor_id** | **UUID**| Must belong to the project in the path. | 
+
+### Return type
+
+[**CompetitorResource**](CompetitorResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The competitor |  -  |
+**401** | Missing or invalid API key |  -  |
+**403** | The key lacks the read capability |  -  |
+**404** | No organization, project or competitor the caller can access under these ids |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -806,6 +806,165 @@ public class ClustersApi {
         return localVarCall;
     }
     /**
+     * Build call for getQueryCluster
+     * @param organizationId  (required)
+     * @param projectId Must belong to the organization in the path. (required)
+     * @param clusterId Must be a cluster of the project in the path. (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The keyword cluster </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization, project or cluster the caller can access under these ids </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getQueryClusterCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID clusterId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId}"
+            .replace("{" + "organizationId" + "}", localVarApiClient.escapeString(organizationId.toString()))
+            .replace("{" + "projectId" + "}", localVarApiClient.escapeString(projectId.toString()))
+            .replace("{" + "clusterId" + "}", localVarApiClient.escapeString(clusterId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKey" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getQueryClusterValidateBeforeCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID clusterId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'organizationId' is set
+        if (organizationId == null) {
+            throw new ApiException("Missing the required parameter 'organizationId' when calling getQueryCluster(Async)");
+        }
+
+        // verify the required parameter 'projectId' is set
+        if (projectId == null) {
+            throw new ApiException("Missing the required parameter 'projectId' when calling getQueryCluster(Async)");
+        }
+
+        // verify the required parameter 'clusterId' is set
+        if (clusterId == null) {
+            throw new ApiException("Missing the required parameter 'clusterId' when calling getQueryCluster(Async)");
+        }
+
+        return getQueryClusterCall(organizationId, projectId, clusterId, _callback);
+
+    }
+
+    /**
+     * Get one of a project&#39;s keyword clusters
+     * Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+     * @param organizationId  (required)
+     * @param projectId Must belong to the organization in the path. (required)
+     * @param clusterId Must be a cluster of the project in the path. (required)
+     * @return QueryClusterResource
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The keyword cluster </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization, project or cluster the caller can access under these ids </td><td>  -  </td></tr>
+     </table>
+     */
+    public QueryClusterResource getQueryCluster(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID clusterId) throws ApiException {
+        ApiResponse<QueryClusterResource> localVarResp = getQueryClusterWithHttpInfo(organizationId, projectId, clusterId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get one of a project&#39;s keyword clusters
+     * Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+     * @param organizationId  (required)
+     * @param projectId Must belong to the organization in the path. (required)
+     * @param clusterId Must be a cluster of the project in the path. (required)
+     * @return ApiResponse&lt;QueryClusterResource&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The keyword cluster </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization, project or cluster the caller can access under these ids </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<QueryClusterResource> getQueryClusterWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID clusterId) throws ApiException {
+        okhttp3.Call localVarCall = getQueryClusterValidateBeforeCall(organizationId, projectId, clusterId, null);
+        Type localVarReturnType = new TypeToken<QueryClusterResource>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get one of a project&#39;s keyword clusters (asynchronously)
+     * Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+     * @param organizationId  (required)
+     * @param projectId Must belong to the organization in the path. (required)
+     * @param clusterId Must be a cluster of the project in the path. (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The keyword cluster </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization, project or cluster the caller can access under these ids </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getQueryClusterAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID clusterId, final ApiCallback<QueryClusterResource> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getQueryClusterValidateBeforeCall(organizationId, projectId, clusterId, _callback);
+        Type localVarReturnType = new TypeToken<QueryClusterResource>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for renameQueryCluster
      * @param organizationId  (required)
      * @param projectId  (required)

@@ -145,6 +145,7 @@ Class | Method | HTTP request | Description
 *ClustersApi* | [**batchCreateQueryClusters**](docs/ClustersApi.md#batchCreateQueryClusters) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once
 *ClustersApi* | [**createQueryCluster**](docs/ClustersApi.md#createQueryCluster) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster
 *ClustersApi* | [**deleteQueryCluster**](docs/ClustersApi.md#deleteQueryCluster) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster
+*ClustersApi* | [**getQueryCluster**](docs/ClustersApi.md#getQueryCluster) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project&#39;s keyword clusters
 *ClustersApi* | [**renameQueryCluster**](docs/ClustersApi.md#renameQueryCluster) | **PATCH** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster
 *ClustersApi* | [**startClusteringJob**](docs/ClustersApi.md#startClusteringJob) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job
 *DiscoveryApi* | [**startBrandDiscoveryJob**](docs/DiscoveryApi.md#startBrandDiscoveryJob) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/discovery/brands | Start a brand discovery job for a project
@@ -177,6 +178,7 @@ Class | Method | HTTP request | Description
 *ProjectsApi* | [**createProject**](docs/ProjectsApi.md#createProject) | **POST** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against
 *ProjectsApi* | [**deleteCompetitor**](docs/ProjectsApi.md#deleteCompetitor) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project
 *ProjectsApi* | [**getBrandProfile**](docs/ProjectsApi.md#getBrandProfile) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project&#39;s brand monitoring profile
+*ProjectsApi* | [**getCompetitor**](docs/ProjectsApi.md#getCompetitor) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project&#39;s competitors
 *ProjectsApi* | [**getProject**](docs/ProjectsApi.md#getProject) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration
 *ProjectsApi* | [**listCompetitors**](docs/ProjectsApi.md#listCompetitors) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project
 *ProjectsApi* | [**listProjects**](docs/ProjectsApi.md#listProjects) | **GET** /api/v1/organizations/{organizationId}/projects | List an organization&#39;s projects

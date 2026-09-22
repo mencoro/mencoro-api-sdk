@@ -9,6 +9,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**create_project**](ProjectsApi.md#create_project) | **POST** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against |
 | [**delete_competitor**](ProjectsApi.md#delete_competitor) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project |
 | [**get_brand_profile**](ProjectsApi.md#get_brand_profile) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project&#39;s brand monitoring profile |
+| [**get_competitor**](ProjectsApi.md#get_competitor) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project&#39;s competitors |
 | [**get_project**](ProjectsApi.md#get_project) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration |
 | [**list_competitors**](ProjectsApi.md#list_competitors) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project |
 | [**list_projects**](ProjectsApi.md#list_projects) | **GET** /api/v1/organizations/{organizationId}/projects | List an organization&#39;s projects |
@@ -375,6 +376,79 @@ end
 ### Return type
 
 [**BrandProfileResource**](BrandProfileResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## get_competitor
+
+> <CompetitorResource> get_competitor(organization_id, project_id, competitor_id)
+
+Get one of a project's competitors
+
+Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+
+### Examples
+
+```ruby
+require 'time'
+require 'mencoro'
+# setup authorization
+Mencoro.configure do |config|
+  # Configure Bearer authorization: ApiKey
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = Mencoro::ProjectsApi.new
+organization_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+project_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | Must belong to the organization in the path.
+competitor_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | Must belong to the project in the path.
+
+begin
+  # Get one of a project's competitors
+  result = api_instance.get_competitor(organization_id, project_id, competitor_id)
+  p result
+rescue Mencoro::ApiError => e
+  puts "Error when calling ProjectsApi->get_competitor: #{e}"
+end
+```
+
+#### Using the get_competitor_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<CompetitorResource>, Integer, Hash)> get_competitor_with_http_info(organization_id, project_id, competitor_id)
+
+```ruby
+begin
+  # Get one of a project's competitors
+  data, status_code, headers = api_instance.get_competitor_with_http_info(organization_id, project_id, competitor_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <CompetitorResource>
+rescue Mencoro::ApiError => e
+  puts "Error when calling ProjectsApi->get_competitor_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **organization_id** | **String** |  |  |
+| **project_id** | **String** | Must belong to the organization in the path. |  |
+| **competitor_id** | **String** | Must belong to the project in the path. |  |
+
+### Return type
+
+[**CompetitorResource**](CompetitorResource.md)
 
 ### Authorization
 

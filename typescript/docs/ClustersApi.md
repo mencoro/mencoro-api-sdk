@@ -8,6 +8,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**batchCreateQueryClusters**](ClustersApi.md#batchcreatequeryclusters) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once |
 | [**createQueryCluster**](ClustersApi.md#createqueryclusteroperation) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster |
 | [**deleteQueryCluster**](ClustersApi.md#deletequerycluster) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster |
+| [**getQueryCluster**](ClustersApi.md#getquerycluster) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project\&#39;s keyword clusters |
 | [**renameQueryCluster**](ClustersApi.md#renamequerycluster) | **PATCH** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster |
 | [**startClusteringJob**](ClustersApi.md#startclusteringjob) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job |
 
@@ -349,6 +350,86 @@ example().catch(console.error);
 | **403** | The key lacks the write capability |  -  |
 | **404** | No organization, project or cluster the caller can access under these ids |  -  |
 | **409** | The organization is archived, or the idempotency key was reused for a different request, a concurrent request with the same key is still running, or a previous attempt with it ended without a known outcome |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getQueryCluster
+
+> QueryClusterResource getQueryCluster(organizationId, projectId, clusterId)
+
+Get one of a project\&#39;s keyword clusters
+
+Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  ClustersApi,
+} from '@mencoro/api';
+import type { GetQueryClusterRequest } from '@mencoro/api';
+
+async function example() {
+  console.log("🚀 Testing @mencoro/api SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: ApiKey
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ClustersApi(config);
+
+  const body = {
+    // string
+    organizationId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Must belong to the organization in the path.
+    projectId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Must be a cluster of the project in the path.
+    clusterId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies GetQueryClusterRequest;
+
+  try {
+    const data = await api.getQueryCluster(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | `string` |  | [Defaults to `undefined`] |
+| **projectId** | `string` | Must belong to the organization in the path. | [Defaults to `undefined`] |
+| **clusterId** | `string` | Must be a cluster of the project in the path. | [Defaults to `undefined`] |
+
+### Return type
+
+[**QueryClusterResource**](QueryClusterResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The keyword cluster |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | No organization, project or cluster the caller can access under these ids |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

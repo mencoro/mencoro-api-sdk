@@ -8,6 +8,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**batchCreateQueryClusters**](ClustersApi.md#batchCreateQueryClusters) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once |
 | [**createQueryCluster**](ClustersApi.md#createQueryCluster) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster |
 | [**deleteQueryCluster**](ClustersApi.md#deleteQueryCluster) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster |
+| [**getQueryCluster**](ClustersApi.md#getQueryCluster) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project&#39;s keyword clusters |
 | [**renameQueryCluster**](ClustersApi.md#renameQueryCluster) | **PATCH** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster |
 | [**startClusteringJob**](ClustersApi.md#startClusteringJob) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job |
 
@@ -323,6 +324,80 @@ public class Example {
 | **403** | The key lacks the write capability |  -  |
 | **404** | No organization, project or cluster the caller can access under these ids |  -  |
 | **409** | The organization is archived, or the idempotency key was reused for a different request, a concurrent request with the same key is still running, or a previous attempt with it ended without a known outcome |  -  |
+
+<a id="getQueryCluster"></a>
+# **getQueryCluster**
+> QueryClusterResource getQueryCluster(organizationId, projectId, clusterId)
+
+Get one of a project&#39;s keyword clusters
+
+Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+
+### Example
+```java
+// Import classes:
+import com.mencoro.api.ApiClient;
+import com.mencoro.api.ApiException;
+import com.mencoro.api.Configuration;
+import com.mencoro.api.auth.*;
+import com.mencoro.api.models.*;
+import com.mencoro.api.api.ClustersApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.mencoro.com");
+    
+    // Configure HTTP bearer authorization: ApiKey
+    HttpBearerAuth ApiKey = (HttpBearerAuth) defaultClient.getAuthentication("ApiKey");
+    ApiKey.setBearerToken("BEARER TOKEN");
+
+    ClustersApi apiInstance = new ClustersApi(defaultClient);
+    UUID organizationId = UUID.randomUUID(); // UUID | 
+    UUID projectId = UUID.randomUUID(); // UUID | Must belong to the organization in the path.
+    UUID clusterId = UUID.randomUUID(); // UUID | Must be a cluster of the project in the path.
+    try {
+      QueryClusterResource result = apiInstance.getQueryCluster(organizationId, projectId, clusterId);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling ClustersApi#getQueryCluster");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | **UUID**|  | |
+| **projectId** | **UUID**| Must belong to the organization in the path. | |
+| **clusterId** | **UUID**| Must be a cluster of the project in the path. | |
+
+### Return type
+
+[**QueryClusterResource**](QueryClusterResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The keyword cluster |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | No organization, project or cluster the caller can access under these ids |  -  |
 
 <a id="renameQueryCluster"></a>
 # **renameQueryCluster**

@@ -11,6 +11,7 @@ All URIs are relative to https://api.mencoro.com, except if the operation define
 | [**createProject()**](ProjectsApi.md#createProject) | **POST** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against |
 | [**deleteCompetitor()**](ProjectsApi.md#deleteCompetitor) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project |
 | [**getBrandProfile()**](ProjectsApi.md#getBrandProfile) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project&#39;s brand monitoring profile |
+| [**getCompetitor()**](ProjectsApi.md#getCompetitor) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project&#39;s competitors |
 | [**getProject()**](ProjectsApi.md#getProject) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration |
 | [**listCompetitors()**](ProjectsApi.md#listCompetitors) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project |
 | [**listProjects()**](ProjectsApi.md#listProjects) | **GET** /api/v1/organizations/{organizationId}/projects | List an organization&#39;s projects |
@@ -329,6 +330,70 @@ try {
 ### Return type
 
 [**\Mencoro\Api\Model\BrandProfileResource**](../Model/BrandProfileResource.md)
+
+### Authorization
+
+[ApiKey](../../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getCompetitor()`
+
+```php
+getCompetitor($organization_id, $project_id, $competitor_id): \Mencoro\Api\Model\CompetitorResource
+```
+
+Get one of a project's competitors
+
+Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: ApiKey
+$config = Mencoro\Api\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Mencoro\Api\Api\ProjectsApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$organization_id = 'organization_id_example'; // string
+$project_id = 'project_id_example'; // string | Must belong to the organization in the path.
+$competitor_id = 'competitor_id_example'; // string | Must belong to the project in the path.
+
+try {
+    $result = $apiInstance->getCompetitor($organization_id, $project_id, $competitor_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ProjectsApi->getCompetitor: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **organization_id** | **string**|  | |
+| **project_id** | **string**| Must belong to the organization in the path. | |
+| **competitor_id** | **string**| Must belong to the project in the path. | |
+
+### Return type
+
+[**\Mencoro\Api\Model\CompetitorResource**](../Model/CompetitorResource.md)
 
 ### Authorization
 

@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**batch_create_query_clusters**](ClustersApi.md#batch_create_query_clusters) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once
 [**create_query_cluster**](ClustersApi.md#create_query_cluster) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster
 [**delete_query_cluster**](ClustersApi.md#delete_query_cluster) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster
+[**get_query_cluster**](ClustersApi.md#get_query_cluster) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project&#39;s keyword clusters
 [**rename_query_cluster**](ClustersApi.md#rename_query_cluster) | **PATCH** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster
 [**start_clustering_job**](ClustersApi.md#start_clustering_job) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job
 
@@ -367,6 +368,91 @@ Name | Type | Description  | Notes
 **403** | The key lacks the write capability |  -  |
 **404** | No organization, project or cluster the caller can access under these ids |  -  |
 **409** | The organization is archived, or the idempotency key was reused for a different request, a concurrent request with the same key is still running, or a previous attempt with it ended without a known outcome |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_query_cluster**
+> QueryClusterResource get_query_cluster(organization_id, project_id, cluster_id)
+
+Get one of a project's keyword clusters
+
+Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+
+### Example
+
+* Bearer Authentication (ApiKey):
+
+```python
+import mencoro
+from mencoro.models.query_cluster_resource import QueryClusterResource
+from mencoro.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.mencoro.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = mencoro.Configuration(
+    host = "https://api.mencoro.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization: ApiKey
+configuration = mencoro.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with mencoro.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = mencoro.ClustersApi(api_client)
+    organization_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    project_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | Must belong to the organization in the path.
+    cluster_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | Must be a cluster of the project in the path.
+
+    try:
+        # Get one of a project's keyword clusters
+        api_response = api_instance.get_query_cluster(organization_id, project_id, cluster_id)
+        print("The response of ClustersApi->get_query_cluster:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ClustersApi->get_query_cluster: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **organization_id** | **UUID**|  | 
+ **project_id** | **UUID**| Must belong to the organization in the path. | 
+ **cluster_id** | **UUID**| Must be a cluster of the project in the path. | 
+
+### Return type
+
+[**QueryClusterResource**](QueryClusterResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The keyword cluster |  -  |
+**401** | Missing or invalid API key |  -  |
+**403** | The key lacks the read capability |  -  |
+**404** | No organization, project or cluster the caller can access under these ids |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

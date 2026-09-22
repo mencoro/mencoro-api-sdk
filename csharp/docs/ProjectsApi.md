@@ -9,6 +9,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**CreateProject**](ProjectsApi.md#createproject) | **POST** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against |
 | [**DeleteCompetitor**](ProjectsApi.md#deletecompetitor) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project |
 | [**GetBrandProfile**](ProjectsApi.md#getbrandprofile) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project&#39;s brand monitoring profile |
+| [**GetCompetitor**](ProjectsApi.md#getcompetitor) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project&#39;s competitors |
 | [**GetProject**](ProjectsApi.md#getproject) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration |
 | [**ListCompetitors**](ProjectsApi.md#listcompetitors) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project |
 | [**ListProjects**](ProjectsApi.md#listprojects) | **GET** /api/v1/organizations/{organizationId}/projects | List an organization&#39;s projects |
@@ -550,6 +551,111 @@ catch (ApiException e)
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids, or the project has no brand profile |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getcompetitor"></a>
+# **GetCompetitor**
+> CompetitorResource GetCompetitor (Guid organizationId, Guid projectId, Guid competitorId)
+
+Get one of a project's competitors
+
+Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Mencoro.Api.Api;
+using Mencoro.Api.Client;
+using Mencoro.Api.Model;
+
+namespace Example
+{
+    public class GetCompetitorExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.mencoro.com";
+            // Configure Bearer token for authorization: ApiKey
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ProjectsApi(httpClient, config, httpClientHandler);
+            var organizationId = "organizationId_example";  // Guid | 
+            var projectId = "projectId_example";  // Guid | Must belong to the organization in the path.
+            var competitorId = "competitorId_example";  // Guid | Must belong to the project in the path.
+
+            try
+            {
+                // Get one of a project's competitors
+                CompetitorResource result = apiInstance.GetCompetitor(organizationId, projectId, competitorId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ProjectsApi.GetCompetitor: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetCompetitorWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get one of a project's competitors
+    ApiResponse<CompetitorResource> response = apiInstance.GetCompetitorWithHttpInfo(organizationId, projectId, competitorId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ProjectsApi.GetCompetitorWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **organizationId** | **Guid** |  |  |
+| **projectId** | **Guid** | Must belong to the organization in the path. |  |
+| **competitorId** | **Guid** | Must belong to the project in the path. |  |
+
+### Return type
+
+[**CompetitorResource**](CompetitorResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The competitor |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | No organization, project or competitor the caller can access under these ids |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

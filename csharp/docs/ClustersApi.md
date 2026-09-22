@@ -8,6 +8,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**BatchCreateQueryClusters**](ClustersApi.md#batchcreatequeryclusters) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once |
 | [**CreateQueryCluster**](ClustersApi.md#createquerycluster) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster |
 | [**DeleteQueryCluster**](ClustersApi.md#deletequerycluster) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster |
+| [**GetQueryCluster**](ClustersApi.md#getquerycluster) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project&#39;s keyword clusters |
 | [**RenameQueryCluster**](ClustersApi.md#renamequerycluster) | **PATCH** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster |
 | [**StartClusteringJob**](ClustersApi.md#startclusteringjob) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job |
 
@@ -444,6 +445,111 @@ catch (ApiException e)
 | **403** | The key lacks the write capability |  -  |
 | **404** | No organization, project or cluster the caller can access under these ids |  -  |
 | **409** | The organization is archived, or the idempotency key was reused for a different request, a concurrent request with the same key is still running, or a previous attempt with it ended without a known outcome |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getquerycluster"></a>
+# **GetQueryCluster**
+> QueryClusterResource GetQueryCluster (Guid organizationId, Guid projectId, Guid clusterId)
+
+Get one of a project's keyword clusters
+
+Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Mencoro.Api.Api;
+using Mencoro.Api.Client;
+using Mencoro.Api.Model;
+
+namespace Example
+{
+    public class GetQueryClusterExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.mencoro.com";
+            // Configure Bearer token for authorization: ApiKey
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ClustersApi(httpClient, config, httpClientHandler);
+            var organizationId = "organizationId_example";  // Guid | 
+            var projectId = "projectId_example";  // Guid | Must belong to the organization in the path.
+            var clusterId = "clusterId_example";  // Guid | Must be a cluster of the project in the path.
+
+            try
+            {
+                // Get one of a project's keyword clusters
+                QueryClusterResource result = apiInstance.GetQueryCluster(organizationId, projectId, clusterId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ClustersApi.GetQueryCluster: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetQueryClusterWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get one of a project's keyword clusters
+    ApiResponse<QueryClusterResource> response = apiInstance.GetQueryClusterWithHttpInfo(organizationId, projectId, clusterId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ClustersApi.GetQueryClusterWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **organizationId** | **Guid** |  |  |
+| **projectId** | **Guid** | Must belong to the organization in the path. |  |
+| **clusterId** | **Guid** | Must be a cluster of the project in the path. |  |
+
+### Return type
+
+[**QueryClusterResource**](QueryClusterResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The keyword cluster |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | No organization, project or cluster the caller can access under these ids |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

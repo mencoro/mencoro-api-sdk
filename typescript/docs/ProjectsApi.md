@@ -9,6 +9,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**createProject**](ProjectsApi.md#createprojectoperation) | **POST** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against |
 | [**deleteCompetitor**](ProjectsApi.md#deletecompetitor) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project |
 | [**getBrandProfile**](ProjectsApi.md#getbrandprofile) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project\&#39;s brand monitoring profile |
+| [**getCompetitor**](ProjectsApi.md#getcompetitor) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project\&#39;s competitors |
 | [**getProject**](ProjectsApi.md#getproject) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration |
 | [**listCompetitors**](ProjectsApi.md#listcompetitors) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project |
 | [**listProjects**](ProjectsApi.md#listprojects) | **GET** /api/v1/organizations/{organizationId}/projects | List an organization\&#39;s projects |
@@ -427,6 +428,86 @@ example().catch(console.error);
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids, or the project has no brand profile |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getCompetitor
+
+> CompetitorResource getCompetitor(organizationId, projectId, competitorId)
+
+Get one of a project\&#39;s competitors
+
+Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  ProjectsApi,
+} from '@mencoro/api';
+import type { GetCompetitorRequest } from '@mencoro/api';
+
+async function example() {
+  console.log("🚀 Testing @mencoro/api SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: ApiKey
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ProjectsApi(config);
+
+  const body = {
+    // string
+    organizationId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Must belong to the organization in the path.
+    projectId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | Must belong to the project in the path.
+    competitorId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies GetCompetitorRequest;
+
+  try {
+    const data = await api.getCompetitor(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | `string` |  | [Defaults to `undefined`] |
+| **projectId** | `string` | Must belong to the organization in the path. | [Defaults to `undefined`] |
+| **competitorId** | `string` | Must belong to the project in the path. | [Defaults to `undefined`] |
+
+### Return type
+
+[**CompetitorResource**](CompetitorResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The competitor |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | No organization, project or competitor the caller can access under these ids |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
