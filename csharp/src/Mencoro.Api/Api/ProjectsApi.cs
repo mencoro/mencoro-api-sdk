@@ -156,6 +156,31 @@ namespace Mencoro.Api.Api
         /// <returns>ApiResponse of BrandProfileResource</returns>
         ApiResponse<BrandProfileResource> GetBrandProfileWithHttpInfo(Guid organizationId, Guid projectId);
         /// <summary>
+        /// Get one of a project&#39;s competitors
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="competitorId">Must belong to the project in the path.</param>
+        /// <returns>CompetitorResource</returns>
+        CompetitorResource GetCompetitor(Guid organizationId, Guid projectId, Guid competitorId);
+
+        /// <summary>
+        /// Get one of a project&#39;s competitors
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="competitorId">Must belong to the project in the path.</param>
+        /// <returns>ApiResponse of CompetitorResource</returns>
+        ApiResponse<CompetitorResource> GetCompetitorWithHttpInfo(Guid organizationId, Guid projectId, Guid competitorId);
+        /// <summary>
         /// Get a project and its brand monitoring configuration
         /// </summary>
         /// <remarks>
@@ -523,6 +548,33 @@ namespace Mencoro.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (BrandProfileResource)</returns>
         System.Threading.Tasks.Task<ApiResponse<BrandProfileResource>> GetBrandProfileWithHttpInfoAsync(Guid organizationId, Guid projectId, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Get one of a project&#39;s competitors
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="competitorId">Must belong to the project in the path.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CompetitorResource</returns>
+        System.Threading.Tasks.Task<CompetitorResource> GetCompetitorAsync(Guid organizationId, Guid projectId, Guid competitorId, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get one of a project&#39;s competitors
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="competitorId">Must belong to the project in the path.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CompetitorResource)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CompetitorResource>> GetCompetitorWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid competitorId, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Get a project and its brand monitoring configuration
         /// </summary>
@@ -1681,6 +1733,137 @@ namespace Mencoro.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetBrandProfile", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get one of a project&#39;s competitors Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="competitorId">Must belong to the project in the path.</param>
+        /// <returns>CompetitorResource</returns>
+        public CompetitorResource GetCompetitor(Guid organizationId, Guid projectId, Guid competitorId)
+        {
+            Mencoro.Api.Client.ApiResponse<CompetitorResource> localVarResponse = GetCompetitorWithHttpInfo(organizationId, projectId, competitorId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get one of a project&#39;s competitors Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="competitorId">Must belong to the project in the path.</param>
+        /// <returns>ApiResponse of CompetitorResource</returns>
+        public Mencoro.Api.Client.ApiResponse<CompetitorResource> GetCompetitorWithHttpInfo(Guid organizationId, Guid projectId, Guid competitorId)
+        {
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("projectId", Mencoro.Api.Client.ClientUtils.ParameterToString(projectId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("competitorId", Mencoro.Api.Client.ClientUtils.ParameterToString(competitorId)); // path parameter
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<CompetitorResource>("/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId}", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetCompetitor", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Get one of a project&#39;s competitors Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="competitorId">Must belong to the project in the path.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of CompetitorResource</returns>
+        public async System.Threading.Tasks.Task<CompetitorResource> GetCompetitorAsync(Guid organizationId, Guid projectId, Guid competitorId, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Mencoro.Api.Client.ApiResponse<CompetitorResource> localVarResponse = await GetCompetitorWithHttpInfoAsync(organizationId, projectId, competitorId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get one of a project&#39;s competitors Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId">Must belong to the organization in the path.</param>
+        /// <param name="competitorId">Must belong to the project in the path.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (CompetitorResource)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<CompetitorResource>> GetCompetitorWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid competitorId, System.Threading.CancellationToken cancellationToken = default)
+        {
+
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("projectId", Mencoro.Api.Client.ClientUtils.ParameterToString(projectId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("competitorId", Mencoro.Api.Client.ClientUtils.ParameterToString(competitorId)); // path parameter
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<CompetitorResource>("/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetCompetitor", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

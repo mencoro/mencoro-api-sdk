@@ -365,6 +365,81 @@ module Mencoro
       return data, status_code, headers
     end
 
+    # Get one of a project's keyword clusters
+    # Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+    # @param organization_id [String] 
+    # @param project_id [String] Must belong to the organization in the path.
+    # @param cluster_id [String] Must be a cluster of the project in the path.
+    # @param [Hash] opts the optional parameters
+    # @return [QueryClusterResource]
+    def get_query_cluster(organization_id, project_id, cluster_id, opts = {})
+      data, _status_code, _headers = get_query_cluster_with_http_info(organization_id, project_id, cluster_id, opts)
+      data
+    end
+
+    # Get one of a project&#39;s keyword clusters
+    # Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+    # @param organization_id [String] 
+    # @param project_id [String] Must belong to the organization in the path.
+    # @param cluster_id [String] Must be a cluster of the project in the path.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(QueryClusterResource, Integer, Hash)>] QueryClusterResource data, response status code and response headers
+    def get_query_cluster_with_http_info(organization_id, project_id, cluster_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: ClustersApi.get_query_cluster ...'
+      end
+      # verify the required parameter 'organization_id' is set
+      if @api_client.config.client_side_validation && organization_id.nil?
+        fail ArgumentError, "Missing the required parameter 'organization_id' when calling ClustersApi.get_query_cluster"
+      end
+      # verify the required parameter 'project_id' is set
+      if @api_client.config.client_side_validation && project_id.nil?
+        fail ArgumentError, "Missing the required parameter 'project_id' when calling ClustersApi.get_query_cluster"
+      end
+      # verify the required parameter 'cluster_id' is set
+      if @api_client.config.client_side_validation && cluster_id.nil?
+        fail ArgumentError, "Missing the required parameter 'cluster_id' when calling ClustersApi.get_query_cluster"
+      end
+      # resource path
+      local_var_path = '/api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId}'.sub('{organizationId}', CGI.escape(organization_id.to_s)).sub('{projectId}', CGI.escape(project_id.to_s)).sub('{clusterId}', CGI.escape(cluster_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'QueryClusterResource'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKey']
+
+      new_options = opts.merge(
+        :operation => :"ClustersApi.get_query_cluster",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: ClustersApi#get_query_cluster\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Rename a keyword cluster
     # Minimum role: manager. Changes the name of one keyword cluster and nothing else: the tracked queries assigned to it are untouched, and its id does not change, so nothing a client stored breaks. The new name is trimmed and lower-cased and must be unique within the project; a collision is refused with 409. Renaming to the name the cluster already has is accepted and is a no-op. The organization must not be archived; an archived project IS refused with 409, stricter than the Mencoro app, which lets cluster writes into one. Requires the write capability and an Idempotency-Key header.
     # @param organization_id [String] 

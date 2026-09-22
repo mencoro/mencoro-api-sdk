@@ -3175,6 +3175,59 @@ paths:
       - Clusters
       x-accepts:
       - application/json
+    get:
+      description: "Minimum role: viewer. Returns a single keyword cluster of the\
+        \ project, the same projection the cluster listing returns for each of its\
+        \ rows. A cluster belonging to another project answers 404, the same answer\
+        \ an unknown id and a malformed one get, so the API never confirms that a\
+        \ cluster the caller cannot reach exists."
+      operationId: getQueryCluster
+      parameters:
+      - explode: false
+        in: path
+        name: organizationId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Must belong to the organization in the path.
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Must be a cluster of the project in the path.
+        explode: false
+        in: path
+        name: clusterId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryClusterResource"
+          description: The keyword cluster
+        "401":
+          description: Missing or invalid API key
+        "403":
+          description: The key lacks the read capability
+        "404":
+          description: "No organization, project or cluster the caller can access\
+            \ under these ids"
+      summary: Get one of a project's keyword clusters
+      tags:
+      - Clusters
+      x-accepts:
+      - application/json
     patch:
       description: "Minimum role: manager. Changes the name of one keyword cluster\
         \ and nothing else: the tracked queries assigned to it are untouched, and\
@@ -5798,6 +5851,61 @@ paths:
             \ request with the same key is still running, or a previous attempt with\
             \ it ended without a known outcome"
       summary: Remove a competitor from a project
+      tags:
+      - Projects
+      x-accepts:
+      - application/json
+    get:
+      description: "Minimum role: viewer. Returns a single competitor of the project,\
+        \ the same projection the competitor listing returns for each of its rows.\
+        \ A competitor belonging to another project answers 404, the same answer an\
+        \ unknown id and a malformed one get, so the API never confirms that a competitor\
+        \ the caller cannot reach exists. A project whose brand monitoring profile\
+        \ has not been created yet has no competitors at all and answers 404 for any\
+        \ competitor id."
+      operationId: getCompetitor
+      parameters:
+      - explode: false
+        in: path
+        name: organizationId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Must belong to the organization in the path.
+        explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Must belong to the project in the path.
+        explode: false
+        in: path
+        name: competitorId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompetitorResource"
+          description: The competitor
+        "401":
+          description: Missing or invalid API key
+        "403":
+          description: The key lacks the read capability
+        "404":
+          description: "No organization, project or competitor the caller can access\
+            \ under these ids"
+      summary: Get one of a project's competitors
       tags:
       - Projects
       x-accepts:

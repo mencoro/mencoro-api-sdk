@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**BatchCreateQueryClusters**](ClustersAPI.md#BatchCreateQueryClusters) | **Post** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once
 [**CreateQueryCluster**](ClustersAPI.md#CreateQueryCluster) | **Post** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster
 [**DeleteQueryCluster**](ClustersAPI.md#DeleteQueryCluster) | **Delete** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster
+[**GetQueryCluster**](ClustersAPI.md#GetQueryCluster) | **Get** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project&#39;s keyword clusters
 [**RenameQueryCluster**](ClustersAPI.md#RenameQueryCluster) | **Patch** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster
 [**StartClusteringJob**](ClustersAPI.md#StartClusteringJob) | **Post** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job
 
@@ -308,6 +309,82 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**DeleteQueryCluster200Response**](DeleteQueryCluster200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetQueryCluster
+
+> QueryClusterResource GetQueryCluster(ctx, organizationId, projectId, clusterId).Execute()
+
+Get one of a project's keyword clusters
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+)
+
+func main() {
+	organizationId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	projectId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Must belong to the organization in the path.
+	clusterId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Must be a cluster of the project in the path.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ClustersAPI.GetQueryCluster(context.Background(), organizationId, projectId, clusterId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ClustersAPI.GetQueryCluster``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetQueryCluster`: QueryClusterResource
+	fmt.Fprintf(os.Stdout, "Response from `ClustersAPI.GetQueryCluster`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**organizationId** | **string** |  | 
+**projectId** | **string** | Must belong to the organization in the path. | 
+**clusterId** | **string** | Must be a cluster of the project in the path. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetQueryClusterRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+
+### Return type
+
+[**QueryClusterResource**](QueryClusterResource.md)
 
 ### Authorization
 

@@ -936,6 +936,165 @@ public class ProjectsApi {
         return localVarCall;
     }
     /**
+     * Build call for getCompetitor
+     * @param organizationId  (required)
+     * @param projectId Must belong to the organization in the path. (required)
+     * @param competitorId Must belong to the project in the path. (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The competitor </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization, project or competitor the caller can access under these ids </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getCompetitorCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID competitorId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId}"
+            .replace("{" + "organizationId" + "}", localVarApiClient.escapeString(organizationId.toString()))
+            .replace("{" + "projectId" + "}", localVarApiClient.escapeString(projectId.toString()))
+            .replace("{" + "competitorId" + "}", localVarApiClient.escapeString(competitorId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKey" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getCompetitorValidateBeforeCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID competitorId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'organizationId' is set
+        if (organizationId == null) {
+            throw new ApiException("Missing the required parameter 'organizationId' when calling getCompetitor(Async)");
+        }
+
+        // verify the required parameter 'projectId' is set
+        if (projectId == null) {
+            throw new ApiException("Missing the required parameter 'projectId' when calling getCompetitor(Async)");
+        }
+
+        // verify the required parameter 'competitorId' is set
+        if (competitorId == null) {
+            throw new ApiException("Missing the required parameter 'competitorId' when calling getCompetitor(Async)");
+        }
+
+        return getCompetitorCall(organizationId, projectId, competitorId, _callback);
+
+    }
+
+    /**
+     * Get one of a project&#39;s competitors
+     * Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+     * @param organizationId  (required)
+     * @param projectId Must belong to the organization in the path. (required)
+     * @param competitorId Must belong to the project in the path. (required)
+     * @return CompetitorResource
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The competitor </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization, project or competitor the caller can access under these ids </td><td>  -  </td></tr>
+     </table>
+     */
+    public CompetitorResource getCompetitor(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID competitorId) throws ApiException {
+        ApiResponse<CompetitorResource> localVarResp = getCompetitorWithHttpInfo(organizationId, projectId, competitorId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get one of a project&#39;s competitors
+     * Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+     * @param organizationId  (required)
+     * @param projectId Must belong to the organization in the path. (required)
+     * @param competitorId Must belong to the project in the path. (required)
+     * @return ApiResponse&lt;CompetitorResource&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The competitor </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization, project or competitor the caller can access under these ids </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<CompetitorResource> getCompetitorWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID competitorId) throws ApiException {
+        okhttp3.Call localVarCall = getCompetitorValidateBeforeCall(organizationId, projectId, competitorId, null);
+        Type localVarReturnType = new TypeToken<CompetitorResource>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get one of a project&#39;s competitors (asynchronously)
+     * Minimum role: viewer. Returns a single competitor of the project, the same projection the competitor listing returns for each of its rows. A competitor belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a competitor the caller cannot reach exists. A project whose brand monitoring profile has not been created yet has no competitors at all and answers 404 for any competitor id.
+     * @param organizationId  (required)
+     * @param projectId Must belong to the organization in the path. (required)
+     * @param competitorId Must belong to the project in the path. (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The competitor </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization, project or competitor the caller can access under these ids </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getCompetitorAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID competitorId, final ApiCallback<CompetitorResource> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getCompetitorValidateBeforeCall(organizationId, projectId, competitorId, _callback);
+        Type localVarReturnType = new TypeToken<CompetitorResource>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for getProject
      * @param organizationId  (required)
      * @param projectId  (required)

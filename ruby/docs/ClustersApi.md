@@ -8,6 +8,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**batch_create_query_clusters**](ClustersApi.md#batch_create_query_clusters) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once |
 | [**create_query_cluster**](ClustersApi.md#create_query_cluster) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster |
 | [**delete_query_cluster**](ClustersApi.md#delete_query_cluster) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster |
+| [**get_query_cluster**](ClustersApi.md#get_query_cluster) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project&#39;s keyword clusters |
 | [**rename_query_cluster**](ClustersApi.md#rename_query_cluster) | **PATCH** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster |
 | [**start_clustering_job**](ClustersApi.md#start_clustering_job) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job |
 
@@ -301,6 +302,79 @@ end
 ### Return type
 
 [**DeleteQueryCluster200Response**](DeleteQueryCluster200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## get_query_cluster
+
+> <QueryClusterResource> get_query_cluster(organization_id, project_id, cluster_id)
+
+Get one of a project's keyword clusters
+
+Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+
+### Examples
+
+```ruby
+require 'time'
+require 'mencoro'
+# setup authorization
+Mencoro.configure do |config|
+  # Configure Bearer authorization: ApiKey
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = Mencoro::ClustersApi.new
+organization_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+project_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | Must belong to the organization in the path.
+cluster_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | Must be a cluster of the project in the path.
+
+begin
+  # Get one of a project's keyword clusters
+  result = api_instance.get_query_cluster(organization_id, project_id, cluster_id)
+  p result
+rescue Mencoro::ApiError => e
+  puts "Error when calling ClustersApi->get_query_cluster: #{e}"
+end
+```
+
+#### Using the get_query_cluster_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<QueryClusterResource>, Integer, Hash)> get_query_cluster_with_http_info(organization_id, project_id, cluster_id)
+
+```ruby
+begin
+  # Get one of a project's keyword clusters
+  data, status_code, headers = api_instance.get_query_cluster_with_http_info(organization_id, project_id, cluster_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <QueryClusterResource>
+rescue Mencoro::ApiError => e
+  puts "Error when calling ClustersApi->get_query_cluster_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **organization_id** | **String** |  |  |
+| **project_id** | **String** | Must belong to the organization in the path. |  |
+| **cluster_id** | **String** | Must be a cluster of the project in the path. |  |
+
+### Return type
+
+[**QueryClusterResource**](QueryClusterResource.md)
 
 ### Authorization
 

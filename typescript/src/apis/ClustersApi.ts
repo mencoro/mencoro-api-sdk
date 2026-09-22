@@ -87,6 +87,12 @@ export interface DeleteQueryClusterRequest {
     idempotencyKey: string;
 }
 
+export interface GetQueryClusterRequest {
+    organizationId: string;
+    projectId: string;
+    clusterId: string;
+}
+
 export interface RenameQueryClusterRequest {
     organizationId: string;
     projectId: string;
@@ -228,6 +234,34 @@ export interface ClustersApiInterface {
      * Delete a keyword cluster
      */
     deleteQueryCluster(requestParameters: DeleteQueryClusterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteQueryCluster200Response>;
+
+    /**
+     * Creates request options for getQueryCluster without sending the request
+     * @param {string} organizationId 
+     * @param {string} projectId Must belong to the organization in the path.
+     * @param {string} clusterId Must be a cluster of the project in the path.
+     * @throws {RequiredError}
+     * @memberof ClustersApiInterface
+     */
+    getQueryClusterRequestOpts(requestParameters: GetQueryClusterRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+     * @summary Get one of a project\'s keyword clusters
+     * @param {string} organizationId 
+     * @param {string} projectId Must belong to the organization in the path.
+     * @param {string} clusterId Must be a cluster of the project in the path.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClustersApiInterface
+     */
+    getQueryClusterRaw(requestParameters: GetQueryClusterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QueryClusterResource>>;
+
+    /**
+     * Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+     * Get one of a project\'s keyword clusters
+     */
+    getQueryCluster(requestParameters: GetQueryClusterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<QueryClusterResource>;
 
     /**
      * Creates request options for renameQueryCluster without sending the request
@@ -627,6 +661,77 @@ export class ClustersApi extends runtime.BaseAPI implements ClustersApiInterface
      */
     async deleteQueryCluster(requestParameters: DeleteQueryClusterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteQueryCluster200Response> {
         const response = await this.deleteQueryClusterRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getQueryCluster without sending the request
+     */
+    async getQueryClusterRequestOpts(requestParameters: GetQueryClusterRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['organizationId'] == null) {
+            throw new runtime.RequiredError(
+                'organizationId',
+                'Required parameter "organizationId" was null or undefined when calling getQueryCluster().'
+            );
+        }
+
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling getQueryCluster().'
+            );
+        }
+
+        if (requestParameters['clusterId'] == null) {
+            throw new runtime.RequiredError(
+                'clusterId',
+                'Required parameter "clusterId" was null or undefined when calling getQueryCluster().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("ApiKey", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId}`;
+        urlPath = urlPath.replace('{organizationId}', encodeURIComponent(String(requestParameters['organizationId'])));
+        urlPath = urlPath.replace('{projectId}', encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace('{clusterId}', encodeURIComponent(String(requestParameters['clusterId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+     * Get one of a project\'s keyword clusters
+     */
+    async getQueryClusterRaw(requestParameters: GetQueryClusterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QueryClusterResource>> {
+        const requestOptions = await this.getQueryClusterRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => QueryClusterResourceFromJSON(jsonValue));
+    }
+
+    /**
+     * Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+     * Get one of a project\'s keyword clusters
+     */
+    async getQueryCluster(requestParameters: GetQueryClusterRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<QueryClusterResource> {
+        const response = await this.getQueryClusterRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

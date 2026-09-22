@@ -10,6 +10,7 @@ All URIs are relative to https://api.mencoro.com, except if the operation define
 | [**batchCreateQueryClusters()**](ClustersApi.md#batchCreateQueryClusters) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once |
 | [**createQueryCluster()**](ClustersApi.md#createQueryCluster) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster |
 | [**deleteQueryCluster()**](ClustersApi.md#deleteQueryCluster) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster |
+| [**getQueryCluster()**](ClustersApi.md#getQueryCluster) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project&#39;s keyword clusters |
 | [**renameQueryCluster()**](ClustersApi.md#renameQueryCluster) | **PATCH** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster |
 | [**startClusteringJob()**](ClustersApi.md#startClusteringJob) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job |
 
@@ -264,6 +265,70 @@ try {
 ### Return type
 
 [**\Mencoro\Api\Model\DeleteQueryCluster200Response**](../Model/DeleteQueryCluster200Response.md)
+
+### Authorization
+
+[ApiKey](../../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getQueryCluster()`
+
+```php
+getQueryCluster($organization_id, $project_id, $cluster_id): \Mencoro\Api\Model\QueryClusterResource
+```
+
+Get one of a project's keyword clusters
+
+Minimum role: viewer. Returns a single keyword cluster of the project, the same projection the cluster listing returns for each of its rows. A cluster belonging to another project answers 404, the same answer an unknown id and a malformed one get, so the API never confirms that a cluster the caller cannot reach exists.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: ApiKey
+$config = Mencoro\Api\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Mencoro\Api\Api\ClustersApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$organization_id = 'organization_id_example'; // string
+$project_id = 'project_id_example'; // string | Must belong to the organization in the path.
+$cluster_id = 'cluster_id_example'; // string | Must be a cluster of the project in the path.
+
+try {
+    $result = $apiInstance->getQueryCluster($organization_id, $project_id, $cluster_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ClustersApi->getQueryCluster: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **organization_id** | **string**|  | |
+| **project_id** | **string**| Must belong to the organization in the path. | |
+| **cluster_id** | **string**| Must be a cluster of the project in the path. | |
+
+### Return type
+
+[**\Mencoro\Api\Model\QueryClusterResource**](../Model/QueryClusterResource.md)
 
 ### Authorization
 

@@ -112,6 +112,7 @@ Class | Method | HTTP request | Description
 *Mencoro::ClustersApi* | [**batch_create_query_clusters**](docs/ClustersApi.md#batch_create_query_clusters) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/batch | Create several keyword clusters at once
 *Mencoro::ClustersApi* | [**create_query_cluster**](docs/ClustersApi.md#create_query_cluster) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters | Create a keyword cluster
 *Mencoro::ClustersApi* | [**delete_query_cluster**](docs/ClustersApi.md#delete_query_cluster) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Delete a keyword cluster
+*Mencoro::ClustersApi* | [**get_query_cluster**](docs/ClustersApi.md#get_query_cluster) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Get one of a project's keyword clusters
 *Mencoro::ClustersApi* | [**rename_query_cluster**](docs/ClustersApi.md#rename_query_cluster) | **PATCH** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/{clusterId} | Rename a keyword cluster
 *Mencoro::ClustersApi* | [**start_clustering_job**](docs/ClustersApi.md#start_clustering_job) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/clusters/jobs | Start a keyword clustering job
 *Mencoro::DiscoveryApi* | [**start_brand_discovery_job**](docs/DiscoveryApi.md#start_brand_discovery_job) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/discovery/brands | Start a brand discovery job for a project
@@ -144,6 +145,7 @@ Class | Method | HTTP request | Description
 *Mencoro::ProjectsApi* | [**create_project**](docs/ProjectsApi.md#create_project) | **POST** /api/v1/organizations/{organizationId}/projects | Create a project and the brand monitoring profile its checks run against
 *Mencoro::ProjectsApi* | [**delete_competitor**](docs/ProjectsApi.md#delete_competitor) | **DELETE** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Remove a competitor from a project
 *Mencoro::ProjectsApi* | [**get_brand_profile**](docs/ProjectsApi.md#get_brand_profile) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/brand-profile | Get a project's brand monitoring profile
+*Mencoro::ProjectsApi* | [**get_competitor**](docs/ProjectsApi.md#get_competitor) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors/{competitorId} | Get one of a project's competitors
 *Mencoro::ProjectsApi* | [**get_project**](docs/ProjectsApi.md#get_project) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId} | Get a project and its brand monitoring configuration
 *Mencoro::ProjectsApi* | [**list_competitors**](docs/ProjectsApi.md#list_competitors) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/competitors | List the competitors tracked by a project
 *Mencoro::ProjectsApi* | [**list_projects**](docs/ProjectsApi.md#list_projects) | **GET** /api/v1/organizations/{organizationId}/projects | List an organization's projects
