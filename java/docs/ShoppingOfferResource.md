@@ -1,0 +1,24 @@
+
+
+# ShoppingOfferResource
+
+One offer of a captured shopping page
+
+## Properties
+
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**rank** | **Integer** | Rank on the captured page, starting at 1 |  |
+|**title** | **String** | Product title as the marketplace showed it |  |
+|**productUrl** | **String** | Link to the offer |  |
+|**sellerName** | **String** | Seller name as the marketplace showed it |  |
+|**sellerDomain** | **String** | Seller host, when the marketplace reported one |  [optional] |
+|**productId** | **String** | The marketplace&#39;s own identifier for this listing, not a Mencoro id |  |
+|**thumbnailUrl** | **String** | Product image the marketplace showed, when it showed one |  [optional] |
+|**price** | **Float** | Price as shown at capture time: no tax normalisation, no shipping, no conversion |  |
+|**currency** | **String** | ISO-4217 currency of price. May differ between offers in one snapshot |  |
+|**rating** | **Float** | Star rating shown for the offer, when there was one |  [optional] |
+|**ratingVotes** | **Integer** | Number of votes behind rating, when the marketplace reported one |  [optional] |
+
+
+

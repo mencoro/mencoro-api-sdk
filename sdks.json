@@ -1,0 +1,83 @@
+{
+  "generatorVersion": "7.24.0",
+  "packageVersion": "1.0.0",
+  "contractUrl": "https://api.mencoro.com/api/v1/doc/json",
+  "sdks": [
+    {
+      "dir": "python",
+      "generator": "python",
+      "label": "Python 3.9+",
+      "config": {
+        "packageName": "mencoro",
+        "projectName": "mencoro",
+        "library": "urllib3"
+      }
+    },
+    {
+      "dir": "typescript",
+      "generator": "typescript-fetch",
+      "label": "TypeScript (Node 18+ and browsers)",
+      "config": {
+        "npmName": "@mencoro/api",
+        "supportsES6": true,
+        "typescriptThreePlus": true,
+        "withInterfaces": true
+      }
+    },
+    {
+      "dir": "php",
+      "generator": "php",
+      "label": "PHP 8.1+",
+      "config": {
+        "invokerPackage": "Mencoro\\Api"
+      },
+      "nameMappings": {
+        "modelName": "engineModelName"
+      }
+    },
+    {
+      "dir": "go",
+      "generator": "go",
+      "label": "Go 1.21+",
+      "config": {
+        "packageName": "mencoro",
+        "isGoSubmodule": true,
+        "withGoMod": true
+      }
+    },
+    {
+      "dir": "java",
+      "generator": "java",
+      "label": "Java 11+",
+      "config": {
+        "library": "okhttp-gson",
+        "groupId": "com.mencoro",
+        "artifactId": "mencoro-api",
+        "invokerPackage": "com.mencoro.api",
+        "apiPackage": "com.mencoro.api.api",
+        "modelPackage": "com.mencoro.api.model"
+      }
+    },
+    {
+      "dir": "csharp",
+      "generator": "csharp",
+      "label": ".NET 8",
+      "config": {
+        "packageName": "Mencoro.Api",
+        "targetFramework": "net8.0",
+        "library": "httpclient"
+      }
+    },
+    {
+      "dir": "ruby",
+      "generator": "ruby",
+      "label": "Ruby 3.0+",
+      "config": {
+        "gemName": "mencoro",
+        "moduleName": "Mencoro",
+        "library": "faraday"
+      }
+    }
+  ],
+  "goToolchain": "1.23"
+}

@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  # The clients are generated, so the failure this guards against is not "somebody wrote bad code"
+  # but "somebody committed a regeneration they never compiled". Every language is built from the
+  # committed sources exactly as a consumer would get them.
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - working-directory: python
+        run: |
+          pip install --quiet -e .
+          python -c "
+          from mencoro import ApiClient, Configuration
+          from mencoro.api import AccountApi
+          config = Configuration(host='https://api.mencoro.com', access_token='ci')
+          with ApiClient(config) as client:
+              method, url, headers, _, _ = AccountApi(client)._get_me_serialize(
+                  _request_auth=None, _content_type=None, _headers=None, _host_index=0
+              )
+          assert url == 'https://api.mencoro.com/api/v1/me', url
+          assert headers['Authorization'] == 'Bearer ci', headers
+          print('python ok:', method, url)
+          "
+
+  typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - working-directory: typescript
+        run: |
+          npm install --no-audit --no-fund
+          npx tsc --noEmit -p tsconfig.json
+          npm run build
+
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+          cache-dependency-path: go/go.sum
+      - working-directory: go
+        run: |
+          go build ./...
+          go vet ./...
+
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+      - working-directory: php
+        run: |
+          find lib -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null
+          composer validate --no-check-publish
+          composer install --no-interaction --no-progress --quiet
+          php -r "require 'vendor/autoload.php'; new Mencoro\Api\Api\AccountApi(); echo 'php ok', PHP_EOL;"
+
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+          cache: maven
+      - working-directory: java
+        run: mvn --batch-mode --no-transfer-progress -DskipTests package
+
+  csharp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0"
+      - working-directory: csharp
+        run: dotnet build src/Mencoro.Api/Mencoro.Api.csproj --configuration Release
+
+  ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.0"
+          working-directory: ruby
+          bundler-cache: true
+      - working-directory: ruby
+        run: |
+          find lib -name '*.rb' -print0 | xargs -0 -n1 ruby -c > /dev/null
+          ruby -Ilib -e "require 'mencoro'; Mencoro::AccountApi.new; puts 'ruby ok'"
+
+  # Regenerating must be a no-op against the committed contract. When it is not, either somebody
+  # edited generated code by hand — which the next regeneration would silently discard — or the
+  # committed clients were built from a different contract than the one in this repository.
+  generated-sources-are-current:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./generate.sh
+      - run: |
+          if ! git diff --quiet; then
+            echo "::error::regenerating produced a diff — the committed clients do not match openapi.json"
+            git diff --stat
+            exit 1
+          fi
+          echo "generated sources match openapi.json"
