@@ -1,5 +1,8 @@
 # Mencoro API SDKs
 
+[![CI](https://github.com/mencoro/mencoro-api-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/mencoro/mencoro-api-sdk/actions/workflows/ci.yml)
+[![Release](https://github.com/mencoro/mencoro-api-sdk/actions/workflows/release.yml/badge.svg)](https://github.com/mencoro/mencoro-api-sdk/actions/workflows/release.yml)
+
 Official clients for the [Mencoro API](https://mencoro.com/api-docs/) — 86 operations over your
 projects, tracked queries, captures and the analytics computed from them.
 
@@ -7,15 +10,15 @@ Every client here is **generated from the OpenAPI contract the API itself publis
 what the running service does rather than what a handwritten wrapper remembers about it. One
 contract, one generator run, one version: a change to the API reaches all seven languages together.
 
-| Language | Package | Directory |
-|---|---|---|
-| Python 3.9+ | `mencoro` | [`python/`](python/) |
-| TypeScript (Node 18+, browsers) | `@mencoro/api` | [`typescript/`](typescript/) |
-| PHP 8.1+ | `mencoro/mencoro-api-sdk` | [`php/`](php/) |
-| Go 1.21+ | `github.com/mencoro/mencoro-api-sdk/go` | [`go/`](go/) |
-| Java 11+ | `com.mencoro:mencoro-api` | [`java/`](java/) |
-| .NET 8 | `Mencoro.Api` | [`csharp/`](csharp/) |
-| Ruby 3.0+ | `mencoro` | [`ruby/`](ruby/) |
+| Language | Package | Version | Directory |
+|---|---|---|---|
+| Python 3.9+ | `mencoro` | [![PyPI](https://img.shields.io/pypi/v/mencoro?label=pypi&color=informational)](https://pypi.org/project/mencoro/) | [`python/`](python/) |
+| TypeScript (Node 18+, browsers) | `@mencoro/api` | [![npm](https://img.shields.io/npm/v/%40mencoro%2Fapi?label=npm&color=informational)](https://www.npmjs.com/package/@mencoro/api) | [`typescript/`](typescript/) |
+| PHP 8.1+ | `mencoro/mencoro-api-sdk` | [![Packagist](https://img.shields.io/packagist/v/mencoro/mencoro-api-sdk?label=packagist&color=informational)](https://packagist.org/packages/mencoro/mencoro-api-sdk) | [`php/`](php/) |
+| Go 1.21+ | `github.com/mencoro/mencoro-api-sdk/go` | [![Go module](https://img.shields.io/github/v/tag/mencoro/mencoro-api-sdk?filter=go%2F*&label=go&color=informational)](https://pkg.go.dev/github.com/mencoro/mencoro-api-sdk/go) | [`go/`](go/) |
+| Java 11+ | `com.mencoro:mencoro-api` | [![Maven Central](https://img.shields.io/maven-central/v/com.mencoro/mencoro-api?label=maven%20central&color=informational)](https://central.sonatype.com/artifact/com.mencoro/mencoro-api) | [`java/`](java/) |
+| .NET 8 | `Mencoro.Api` | [![NuGet](https://img.shields.io/nuget/v/Mencoro.Api?label=nuget&color=informational)](https://www.nuget.org/packages/Mencoro.Api/) | [`csharp/`](csharp/) |
+| Ruby 3.0+ | `mencoro` | [![RubyGems](https://img.shields.io/gem/v/mencoro?label=gem&color=informational)](https://rubygems.org/gems/mencoro) | [`ruby/`](ruby/) |
 
 Each directory carries the generated reference for its language: one page per resource and one per
 model under its own `docs/`.
