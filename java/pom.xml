@@ -6,17 +6,17 @@
     <packaging>jar</packaging>
     <name>mencoro-api</name>
     <version>1.0.0</version>
-    <url>https://github.com/openapitools/openapi-generator</url>
-    <description>OpenAPI Java</description>
+    <url>https://github.com/mencoro/mencoro-api-sdk</url>
+    <description>Official Java client for the Mencoro API: projects, tracked queries, captures and AI-search visibility analytics.</description>
     <scm>
-        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
-        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
-        <url>https://github.com/openapitools/openapi-generator</url>
+        <connection>scm:git:git://github.com/mencoro/mencoro-api-sdk.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/mencoro/mencoro-api-sdk.git</developerConnection>
+        <url>https://github.com/mencoro/mencoro-api-sdk</url>
     </scm>
 
     <licenses>
         <license>
-            <name>Unlicense</name>
+            <name>MIT</name>
             <url>https://mencoro.com/legal/</url>
             <distribution>repo</distribution>
         </license>
@@ -24,15 +24,26 @@
 
     <developers>
         <developer>
-            <name>OpenAPI-Generator Contributors</name>
-            <email>team@openapitools.org</email>
-            <organization>OpenAPITools.org</organization>
-            <organizationUrl>http://openapitools.org</organizationUrl>
+            <name>Mencoro Support</name>
+            <email>support@mencoro.com</email>
+            <organization>Virality Media, S.L.</organization>
+            <organizationUrl>https://mencoro.com</organizationUrl>
         </developer>
     </developers>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.11.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>validated</waitUntil>
+                </configuration>
+            </plugin>
            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

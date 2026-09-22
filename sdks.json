@@ -56,7 +56,18 @@
         "artifactId": "mencoro-api",
         "invokerPackage": "com.mencoro.api",
         "apiPackage": "com.mencoro.api.api",
-        "modelPackage": "com.mencoro.api.model"
+        "modelPackage": "com.mencoro.api.model",
+        "artifactUrl": "https://github.com/mencoro/mencoro-api-sdk",
+        "artifactDescription": "Official Java client for the Mencoro API: projects, tracked queries, captures and AI-search visibility analytics.",
+        "scmConnection": "scm:git:git://github.com/mencoro/mencoro-api-sdk.git",
+        "scmDeveloperConnection": "scm:git:ssh://git@github.com/mencoro/mencoro-api-sdk.git",
+        "scmUrl": "https://github.com/mencoro/mencoro-api-sdk",
+        "developerName": "Mencoro Support",
+        "developerEmail": "support@mencoro.com",
+        "developerOrganization": "Virality Media, S.L.",
+        "developerOrganizationUrl": "https://mencoro.com",
+        "licenseName": "MIT",
+        "licenseUrl": "https://github.com/mencoro/mencoro-api-sdk/blob/main/LICENSE"
       }
     },
     {
@@ -80,5 +91,6 @@
       }
     }
   ],
-  "goToolchain": "1.23"
+  "goToolchain": "1.23",
+  "centralPublishingPluginVersion": "0.11.0"
 }

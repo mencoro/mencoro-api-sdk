@@ -146,6 +146,13 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     echo "    root composer.json <- php/composer.json"
   fi
 
+  if [[ "${target}" == "java" ]]; then
+    # Maven needs a deploy destination and the Java generator has no option that emits one, so the
+    # generated pom cannot be published as it stands. The plugin that supplies it is injected here
+    # rather than committed by hand, because a hand edit is discarded by the next run.
+    python3 scripts/java-pom-publish.py
+  fi
+
   if [[ "${target}" == "go" ]]; then
     # Go has no package registry: the import path IS the repository URL plus the directory, so in a
     # monorepo it has to be ".../mencoro-api-sdk/go". The generator derives the module path from
