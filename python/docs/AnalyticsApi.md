@@ -106,7 +106,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cited_sources**
-> get_cited_sources(organization_id, project_id, date_from, date_to, engines=engines, group_by=group_by, limit=limit, offset=offset)
+> CitedSourcesResponse get_cited_sources(organization_id, project_id, date_from, date_to, engines=engines, group_by=group_by, limit=limit, offset=offset)
 
 Domains and pages the AI answers cited
 
@@ -118,6 +118,7 @@ Minimum role: viewer. The sources the answer engines drew on across a project's 
 
 ```python
 import mencoro
+from mencoro.models.cited_sources_response import CitedSourcesResponse
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -152,7 +153,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Domains and pages the AI answers cited
-        api_instance.get_cited_sources(organization_id, project_id, date_from, date_to, engines=engines, group_by=group_by, limit=limit, offset=offset)
+        api_response = api_instance.get_cited_sources(organization_id, project_id, date_from, date_to, engines=engines, group_by=group_by, limit=limit, offset=offset)
+        print("The response of AnalyticsApi->get_cited_sources:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_cited_sources: %s\n" % e)
 ```
@@ -175,7 +178,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CitedSourcesResponse**](CitedSourcesResponse.md)
 
 ### Authorization
 
@@ -184,7 +187,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -199,7 +202,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_cluster_breakdown**
-> get_cluster_breakdown(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+> ProjectRankTrackingClusterBreakdown get_cluster_breakdown(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
 
 Rank-tracking metrics per keyword cluster
 
@@ -211,6 +214,7 @@ Minimum role: viewer. One row per keyword cluster over a date window, with its t
 
 ```python
 import mencoro
+from mencoro.models.project_rank_tracking_cluster_breakdown import ProjectRankTrackingClusterBreakdown
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -245,7 +249,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Rank-tracking metrics per keyword cluster
-        api_instance.get_cluster_breakdown(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+        api_response = api_instance.get_cluster_breakdown(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+        print("The response of AnalyticsApi->get_cluster_breakdown:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_cluster_breakdown: %s\n" % e)
 ```
@@ -268,7 +274,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectRankTrackingClusterBreakdown**](ProjectRankTrackingClusterBreakdown.md)
 
 ### Authorization
 
@@ -277,7 +283,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -292,7 +298,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_competitor_co_occurrence**
-> get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, competitor_id=competitor_id)
+> CompetitorCoOccurrenceResponse get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, competitor_id=competitor_id)
 
 Head-to-head record of the brand against each tracked competitor
 
@@ -304,6 +310,7 @@ Minimum role: viewer. Restricted to the AI answers where the brand and a competi
 
 ```python
 import mencoro
+from mencoro.models.competitor_co_occurrence_response import CompetitorCoOccurrenceResponse
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -337,7 +344,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Head-to-head record of the brand against each tracked competitor
-        api_instance.get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, competitor_id=competitor_id)
+        api_response = api_instance.get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, competitor_id=competitor_id)
+        print("The response of AnalyticsApi->get_competitor_co_occurrence:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_competitor_co_occurrence: %s\n" % e)
 ```
@@ -359,7 +368,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**CompetitorCoOccurrenceResponse**](CompetitorCoOccurrenceResponse.md)
 
 ### Authorization
 
@@ -368,7 +377,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -383,7 +392,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_mention_mix**
-> get_mention_mix(organization_id, project_id, date_from, date_to, engines=engines, countries=countries)
+> ProjectMentionMixResponse get_mention_mix(organization_id, project_id, date_from, date_to, engines=engines, countries=countries)
 
 Composition of a project brand mentions in AI answers
 
@@ -395,6 +404,7 @@ Minimum role: viewer. Counts of the project brand's own text mentions in AI answ
 
 ```python
 import mencoro
+from mencoro.models.project_mention_mix_response import ProjectMentionMixResponse
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -427,7 +437,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Composition of a project brand mentions in AI answers
-        api_instance.get_mention_mix(organization_id, project_id, date_from, date_to, engines=engines, countries=countries)
+        api_response = api_instance.get_mention_mix(organization_id, project_id, date_from, date_to, engines=engines, countries=countries)
+        print("The response of AnalyticsApi->get_mention_mix:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_mention_mix: %s\n" % e)
 ```
@@ -448,7 +460,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectMentionMixResponse**](ProjectMentionMixResponse.md)
 
 ### Authorization
 
@@ -457,7 +469,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -472,7 +484,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_mention_samples**
-> get_mention_samples(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, sentiment=sentiment, mention_type=mention_type, competitor_id=competitor_id, sort_by=sort_by, limit=limit, offset=offset)
+> ProjectMentionSamplesResponse get_mention_samples(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, sentiment=sentiment, mention_type=mention_type, competitor_id=competitor_id, sort_by=sort_by, limit=limit, offset=offset)
 
 Sample of the raw AI mention texts of a project
 
@@ -484,6 +496,7 @@ Minimum role: viewer. A paginated page of the individual mention texts behind th
 
 ```python
 import mencoro
+from mencoro.models.project_mention_samples_response import ProjectMentionSamplesResponse
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -522,7 +535,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Sample of the raw AI mention texts of a project
-        api_instance.get_mention_samples(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, sentiment=sentiment, mention_type=mention_type, competitor_id=competitor_id, sort_by=sort_by, limit=limit, offset=offset)
+        api_response = api_instance.get_mention_samples(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, sentiment=sentiment, mention_type=mention_type, competitor_id=competitor_id, sort_by=sort_by, limit=limit, offset=offset)
+        print("The response of AnalyticsApi->get_mention_samples:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_mention_samples: %s\n" % e)
 ```
@@ -549,7 +564,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectMentionSamplesResponse**](ProjectMentionSamplesResponse.md)
 
 ### Authorization
 
@@ -730,7 +745,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_project_metrics**
-> get_project_metrics(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+> ProjectRankTrackingStats get_project_metrics(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
 
 Headline visibility metrics of a project
 
@@ -742,6 +757,7 @@ Minimum role: viewer. The project overview over a date window: share of voice (o
 
 ```python
 import mencoro
+from mencoro.models.project_rank_tracking_stats import ProjectRankTrackingStats
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -776,7 +792,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Headline visibility metrics of a project
-        api_instance.get_project_metrics(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+        api_response = api_instance.get_project_metrics(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+        print("The response of AnalyticsApi->get_project_metrics:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_project_metrics: %s\n" % e)
 ```
@@ -799,7 +817,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectRankTrackingStats**](ProjectRankTrackingStats.md)
 
 ### Authorization
 
@@ -808,7 +826,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -823,7 +841,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_project_sentiment**
-> get_project_sentiment(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+> ProjectSentimentBreakdown get_project_sentiment(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
 
 Sentiment breakdown of a project brand mentions
 
@@ -835,6 +853,7 @@ Minimum role: viewer. Positive, neutral and negative split of the brand mentions
 
 ```python
 import mencoro
+from mencoro.models.project_sentiment_breakdown import ProjectSentimentBreakdown
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -869,7 +888,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Sentiment breakdown of a project brand mentions
-        api_instance.get_project_sentiment(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+        api_response = api_instance.get_project_sentiment(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries)
+        print("The response of AnalyticsApi->get_project_sentiment:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_project_sentiment: %s\n" % e)
 ```
@@ -892,7 +913,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectSentimentBreakdown**](ProjectSentimentBreakdown.md)
 
 ### Authorization
 
@@ -901,7 +922,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -916,7 +937,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_project_time_series**
-> get_project_time_series(organization_id, project_id, date_from, date_to, granularity=granularity, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries, competitor_ids=competitor_ids)
+> ProjectRankTrackingTimeSeries get_project_time_series(organization_id, project_id, date_from, date_to, granularity=granularity, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries, competitor_ids=competitor_ids)
 
 Rank-tracking metrics of a project over time
 
@@ -928,6 +949,7 @@ Minimum role: viewer. One point per bucket over the date window, each carrying t
 
 ```python
 import mencoro
+from mencoro.models.project_rank_tracking_time_series import ProjectRankTrackingTimeSeries
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -964,7 +986,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Rank-tracking metrics of a project over time
-        api_instance.get_project_time_series(organization_id, project_id, date_from, date_to, granularity=granularity, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries, competitor_ids=competitor_ids)
+        api_response = api_instance.get_project_time_series(organization_id, project_id, date_from, date_to, granularity=granularity, engines=engines, countries=countries, query_cluster_ids=query_cluster_ids, include_ungrouped_queries=include_ungrouped_queries, competitor_ids=competitor_ids)
+        print("The response of AnalyticsApi->get_project_time_series:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_project_time_series: %s\n" % e)
 ```
@@ -989,7 +1013,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ProjectRankTrackingTimeSeries**](ProjectRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -998,7 +1022,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -1013,7 +1037,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_query_movers**
-> get_query_movers(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, sort_by=sort_by, sort_order=sort_order, limit=limit, offset=offset)
+> TrackedQueryMoversResponse get_query_movers(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, sort_by=sort_by, sort_order=sort_order, limit=limit, offset=offset)
 
 Tracked queries ranked by how much a metric moved
 
@@ -1025,6 +1049,7 @@ Minimum role: viewer. One row per tracked query — a single engine plus country
 
 ```python
 import mencoro
+from mencoro.models.tracked_query_movers_response import TrackedQueryMoversResponse
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -1061,7 +1086,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Tracked queries ranked by how much a metric moved
-        api_instance.get_query_movers(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, sort_by=sort_by, sort_order=sort_order, limit=limit, offset=offset)
+        api_response = api_instance.get_query_movers(organization_id, project_id, date_from, date_to, engines=engines, countries=countries, sort_by=sort_by, sort_order=sort_order, limit=limit, offset=offset)
+        print("The response of AnalyticsApi->get_query_movers:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_query_movers: %s\n" % e)
 ```
@@ -1086,7 +1113,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**TrackedQueryMoversResponse**](TrackedQueryMoversResponse.md)
 
 ### Authorization
 
@@ -1095,7 +1122,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
@@ -1194,7 +1221,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_tracked_query_time_series**
-> get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, granularity=granularity, competitor_ids=competitor_ids)
+> TrackedQueryRankTrackingTimeSeries get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, granularity=granularity, competitor_ids=competitor_ids)
 
 Rank-tracking time series of a single tracked query
 
@@ -1206,6 +1233,7 @@ Minimum role: viewer. One point per bucket over the date window, each carrying t
 
 ```python
 import mencoro
+from mencoro.models.tracked_query_rank_tracking_time_series import TrackedQueryRankTrackingTimeSeries
 from mencoro.rest import ApiException
 from pprint import pprint
 
@@ -1239,7 +1267,9 @@ with mencoro.ApiClient(configuration) as api_client:
 
     try:
         # Rank-tracking time series of a single tracked query
-        api_instance.get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, granularity=granularity, competitor_ids=competitor_ids)
+        api_response = api_instance.get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, granularity=granularity, competitor_ids=competitor_ids)
+        print("The response of AnalyticsApi->get_tracked_query_time_series:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling AnalyticsApi->get_tracked_query_time_series: %s\n" % e)
 ```
@@ -1261,7 +1291,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**TrackedQueryRankTrackingTimeSeries**](TrackedQueryRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -1270,7 +1300,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 

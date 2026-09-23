@@ -331,4 +331,36 @@ func Test_mencoro_TrackedQueriesAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test TrackedQueriesAPIService SearchTrackedQueryMentionMatches", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var organizationId string
+		var projectId string
+		var trackedQueryId string
+
+		resp, httpRes, err := apiClient.TrackedQueriesAPI.SearchTrackedQueryMentionMatches(context.Background(), organizationId, projectId, trackedQueryId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test TrackedQueriesAPIService SearchTrackedQuerySerpMatches", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var organizationId string
+		var projectId string
+		var trackedQueryId string
+
+		resp, httpRes, err := apiClient.TrackedQueriesAPI.SearchTrackedQuerySerpMatches(context.Background(), organizationId, projectId, trackedQueryId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 }

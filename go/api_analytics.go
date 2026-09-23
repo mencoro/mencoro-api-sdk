@@ -181,7 +181,7 @@ func (r ApiGetCitedSourcesRequest) Offset(offset int32) ApiGetCitedSourcesReques
 	return r
 }
 
-func (r ApiGetCitedSourcesRequest) Execute() (*http.Response, error) {
+func (r ApiGetCitedSourcesRequest) Execute() (*CitedSourcesResponse, *http.Response, error) {
 	return r.ApiService.GetCitedSourcesExecute(r)
 }
 
@@ -205,16 +205,18 @@ func (a *AnalyticsAPIService) GetCitedSources(ctx context.Context, organizationI
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetCitedSourcesExecute(r ApiGetCitedSourcesRequest) (*http.Response, error) {
+//  @return CitedSourcesResponse
+func (a *AnalyticsAPIService) GetCitedSourcesExecute(r ApiGetCitedSourcesRequest) (*CitedSourcesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *CitedSourcesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetCitedSources")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/cited-sources"
@@ -225,10 +227,10 @@ func (a *AnalyticsAPIService) GetCitedSourcesExecute(r ApiGetCitedSourcesRequest
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -275,7 +277,7 @@ func (a *AnalyticsAPIService) GetCitedSourcesExecute(r ApiGetCitedSourcesRequest
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -284,19 +286,19 @@ func (a *AnalyticsAPIService) GetCitedSourcesExecute(r ApiGetCitedSourcesRequest
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -304,10 +306,19 @@ func (a *AnalyticsAPIService) GetCitedSourcesExecute(r ApiGetCitedSourcesRequest
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetClusterBreakdownRequest struct {
@@ -359,7 +370,7 @@ func (r ApiGetClusterBreakdownRequest) IncludeUngroupedQueries(includeUngroupedQ
 	return r
 }
 
-func (r ApiGetClusterBreakdownRequest) Execute() (*http.Response, error) {
+func (r ApiGetClusterBreakdownRequest) Execute() (*ProjectRankTrackingClusterBreakdown, *http.Response, error) {
 	return r.ApiService.GetClusterBreakdownExecute(r)
 }
 
@@ -383,16 +394,18 @@ func (a *AnalyticsAPIService) GetClusterBreakdown(ctx context.Context, organizat
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetClusterBreakdownExecute(r ApiGetClusterBreakdownRequest) (*http.Response, error) {
+//  @return ProjectRankTrackingClusterBreakdown
+func (a *AnalyticsAPIService) GetClusterBreakdownExecute(r ApiGetClusterBreakdownRequest) (*ProjectRankTrackingClusterBreakdown, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *ProjectRankTrackingClusterBreakdown
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetClusterBreakdown")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/clusters"
@@ -403,10 +416,10 @@ func (a *AnalyticsAPIService) GetClusterBreakdownExecute(r ApiGetClusterBreakdow
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -461,7 +474,7 @@ func (a *AnalyticsAPIService) GetClusterBreakdownExecute(r ApiGetClusterBreakdow
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -470,19 +483,19 @@ func (a *AnalyticsAPIService) GetClusterBreakdownExecute(r ApiGetClusterBreakdow
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -490,10 +503,19 @@ func (a *AnalyticsAPIService) GetClusterBreakdownExecute(r ApiGetClusterBreakdow
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetCompetitorCoOccurrenceRequest struct {
@@ -538,7 +560,7 @@ func (r ApiGetCompetitorCoOccurrenceRequest) CompetitorId(competitorId string) A
 	return r
 }
 
-func (r ApiGetCompetitorCoOccurrenceRequest) Execute() (*http.Response, error) {
+func (r ApiGetCompetitorCoOccurrenceRequest) Execute() (*CompetitorCoOccurrenceResponse, *http.Response, error) {
 	return r.ApiService.GetCompetitorCoOccurrenceExecute(r)
 }
 
@@ -562,16 +584,18 @@ func (a *AnalyticsAPIService) GetCompetitorCoOccurrence(ctx context.Context, org
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetCompetitorCoOccurrenceExecute(r ApiGetCompetitorCoOccurrenceRequest) (*http.Response, error) {
+//  @return CompetitorCoOccurrenceResponse
+func (a *AnalyticsAPIService) GetCompetitorCoOccurrenceExecute(r ApiGetCompetitorCoOccurrenceRequest) (*CompetitorCoOccurrenceResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *CompetitorCoOccurrenceResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetCompetitorCoOccurrence")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/co-occurrence"
@@ -582,10 +606,10 @@ func (a *AnalyticsAPIService) GetCompetitorCoOccurrenceExecute(r ApiGetCompetito
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -625,7 +649,7 @@ func (a *AnalyticsAPIService) GetCompetitorCoOccurrenceExecute(r ApiGetCompetito
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -634,19 +658,19 @@ func (a *AnalyticsAPIService) GetCompetitorCoOccurrenceExecute(r ApiGetCompetito
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -654,10 +678,19 @@ func (a *AnalyticsAPIService) GetCompetitorCoOccurrenceExecute(r ApiGetCompetito
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetMentionMixRequest struct {
@@ -695,7 +728,7 @@ func (r ApiGetMentionMixRequest) Countries(countries []string) ApiGetMentionMixR
 	return r
 }
 
-func (r ApiGetMentionMixRequest) Execute() (*http.Response, error) {
+func (r ApiGetMentionMixRequest) Execute() (*ProjectMentionMixResponse, *http.Response, error) {
 	return r.ApiService.GetMentionMixExecute(r)
 }
 
@@ -719,16 +752,18 @@ func (a *AnalyticsAPIService) GetMentionMix(ctx context.Context, organizationId 
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetMentionMixExecute(r ApiGetMentionMixRequest) (*http.Response, error) {
+//  @return ProjectMentionMixResponse
+func (a *AnalyticsAPIService) GetMentionMixExecute(r ApiGetMentionMixRequest) (*ProjectMentionMixResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *ProjectMentionMixResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetMentionMix")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/mentions/mix"
@@ -739,10 +774,10 @@ func (a *AnalyticsAPIService) GetMentionMixExecute(r ApiGetMentionMixRequest) (*
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -779,7 +814,7 @@ func (a *AnalyticsAPIService) GetMentionMixExecute(r ApiGetMentionMixRequest) (*
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -788,19 +823,19 @@ func (a *AnalyticsAPIService) GetMentionMixExecute(r ApiGetMentionMixRequest) (*
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -808,10 +843,19 @@ func (a *AnalyticsAPIService) GetMentionMixExecute(r ApiGetMentionMixRequest) (*
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetMentionSamplesRequest struct {
@@ -891,7 +935,7 @@ func (r ApiGetMentionSamplesRequest) Offset(offset int32) ApiGetMentionSamplesRe
 	return r
 }
 
-func (r ApiGetMentionSamplesRequest) Execute() (*http.Response, error) {
+func (r ApiGetMentionSamplesRequest) Execute() (*ProjectMentionSamplesResponse, *http.Response, error) {
 	return r.ApiService.GetMentionSamplesExecute(r)
 }
 
@@ -915,16 +959,18 @@ func (a *AnalyticsAPIService) GetMentionSamples(ctx context.Context, organizatio
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetMentionSamplesExecute(r ApiGetMentionSamplesRequest) (*http.Response, error) {
+//  @return ProjectMentionSamplesResponse
+func (a *AnalyticsAPIService) GetMentionSamplesExecute(r ApiGetMentionSamplesRequest) (*ProjectMentionSamplesResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *ProjectMentionSamplesResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetMentionSamples")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/mentions"
@@ -935,10 +981,10 @@ func (a *AnalyticsAPIService) GetMentionSamplesExecute(r ApiGetMentionSamplesReq
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -1014,19 +1060,19 @@ func (a *AnalyticsAPIService) GetMentionSamplesExecute(r ApiGetMentionSamplesReq
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1039,16 +1085,25 @@ func (a *AnalyticsAPIService) GetMentionSamplesExecute(r ApiGetMentionSamplesReq
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
-			return localVarHTTPResponse, newErr
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetMetricGlossaryRequest struct {
@@ -1302,7 +1357,7 @@ func (r ApiGetProjectMetricsRequest) IncludeUngroupedQueries(includeUngroupedQue
 	return r
 }
 
-func (r ApiGetProjectMetricsRequest) Execute() (*http.Response, error) {
+func (r ApiGetProjectMetricsRequest) Execute() (*ProjectRankTrackingStats, *http.Response, error) {
 	return r.ApiService.GetProjectMetricsExecute(r)
 }
 
@@ -1326,16 +1381,18 @@ func (a *AnalyticsAPIService) GetProjectMetrics(ctx context.Context, organizatio
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetProjectMetricsExecute(r ApiGetProjectMetricsRequest) (*http.Response, error) {
+//  @return ProjectRankTrackingStats
+func (a *AnalyticsAPIService) GetProjectMetricsExecute(r ApiGetProjectMetricsRequest) (*ProjectRankTrackingStats, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *ProjectRankTrackingStats
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetProjectMetrics")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/metrics"
@@ -1346,10 +1403,10 @@ func (a *AnalyticsAPIService) GetProjectMetricsExecute(r ApiGetProjectMetricsReq
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -1404,7 +1461,7 @@ func (a *AnalyticsAPIService) GetProjectMetricsExecute(r ApiGetProjectMetricsReq
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -1413,19 +1470,19 @@ func (a *AnalyticsAPIService) GetProjectMetricsExecute(r ApiGetProjectMetricsReq
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1433,10 +1490,19 @@ func (a *AnalyticsAPIService) GetProjectMetricsExecute(r ApiGetProjectMetricsReq
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetProjectSentimentRequest struct {
@@ -1486,7 +1552,7 @@ func (r ApiGetProjectSentimentRequest) IncludeUngroupedQueries(includeUngroupedQ
 	return r
 }
 
-func (r ApiGetProjectSentimentRequest) Execute() (*http.Response, error) {
+func (r ApiGetProjectSentimentRequest) Execute() (*ProjectSentimentBreakdown, *http.Response, error) {
 	return r.ApiService.GetProjectSentimentExecute(r)
 }
 
@@ -1510,16 +1576,18 @@ func (a *AnalyticsAPIService) GetProjectSentiment(ctx context.Context, organizat
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetProjectSentimentExecute(r ApiGetProjectSentimentRequest) (*http.Response, error) {
+//  @return ProjectSentimentBreakdown
+func (a *AnalyticsAPIService) GetProjectSentimentExecute(r ApiGetProjectSentimentRequest) (*ProjectSentimentBreakdown, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *ProjectSentimentBreakdown
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetProjectSentiment")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/sentiment"
@@ -1530,10 +1598,10 @@ func (a *AnalyticsAPIService) GetProjectSentimentExecute(r ApiGetProjectSentimen
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -1588,7 +1656,7 @@ func (a *AnalyticsAPIService) GetProjectSentimentExecute(r ApiGetProjectSentimen
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -1597,19 +1665,19 @@ func (a *AnalyticsAPIService) GetProjectSentimentExecute(r ApiGetProjectSentimen
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1617,10 +1685,19 @@ func (a *AnalyticsAPIService) GetProjectSentimentExecute(r ApiGetProjectSentimen
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetProjectTimeSeriesRequest struct {
@@ -1685,7 +1762,7 @@ func (r ApiGetProjectTimeSeriesRequest) CompetitorIds(competitorIds []string) Ap
 	return r
 }
 
-func (r ApiGetProjectTimeSeriesRequest) Execute() (*http.Response, error) {
+func (r ApiGetProjectTimeSeriesRequest) Execute() (*ProjectRankTrackingTimeSeries, *http.Response, error) {
 	return r.ApiService.GetProjectTimeSeriesExecute(r)
 }
 
@@ -1709,16 +1786,18 @@ func (a *AnalyticsAPIService) GetProjectTimeSeries(ctx context.Context, organiza
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetProjectTimeSeriesExecute(r ApiGetProjectTimeSeriesRequest) (*http.Response, error) {
+//  @return ProjectRankTrackingTimeSeries
+func (a *AnalyticsAPIService) GetProjectTimeSeriesExecute(r ApiGetProjectTimeSeriesRequest) (*ProjectRankTrackingTimeSeries, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *ProjectRankTrackingTimeSeries
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetProjectTimeSeries")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/timeseries"
@@ -1729,10 +1808,10 @@ func (a *AnalyticsAPIService) GetProjectTimeSeriesExecute(r ApiGetProjectTimeSer
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -1805,7 +1884,7 @@ func (a *AnalyticsAPIService) GetProjectTimeSeriesExecute(r ApiGetProjectTimeSer
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -1814,19 +1893,19 @@ func (a *AnalyticsAPIService) GetProjectTimeSeriesExecute(r ApiGetProjectTimeSer
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1834,10 +1913,19 @@ func (a *AnalyticsAPIService) GetProjectTimeSeriesExecute(r ApiGetProjectTimeSer
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetQueryMoversRequest struct {
@@ -1902,7 +1990,7 @@ func (r ApiGetQueryMoversRequest) Offset(offset int32) ApiGetQueryMoversRequest 
 	return r
 }
 
-func (r ApiGetQueryMoversRequest) Execute() (*http.Response, error) {
+func (r ApiGetQueryMoversRequest) Execute() (*TrackedQueryMoversResponse, *http.Response, error) {
 	return r.ApiService.GetQueryMoversExecute(r)
 }
 
@@ -1926,16 +2014,18 @@ func (a *AnalyticsAPIService) GetQueryMovers(ctx context.Context, organizationId
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetQueryMoversExecute(r ApiGetQueryMoversRequest) (*http.Response, error) {
+//  @return TrackedQueryMoversResponse
+func (a *AnalyticsAPIService) GetQueryMoversExecute(r ApiGetQueryMoversRequest) (*TrackedQueryMoversResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *TrackedQueryMoversResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetQueryMovers")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/movers"
@@ -1946,10 +2036,10 @@ func (a *AnalyticsAPIService) GetQueryMoversExecute(r ApiGetQueryMoversRequest) 
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -2014,7 +2104,7 @@ func (a *AnalyticsAPIService) GetQueryMoversExecute(r ApiGetQueryMoversRequest) 
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -2023,19 +2113,19 @@ func (a *AnalyticsAPIService) GetQueryMoversExecute(r ApiGetQueryMoversRequest) 
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2043,10 +2133,19 @@ func (a *AnalyticsAPIService) GetQueryMoversExecute(r ApiGetQueryMoversRequest) 
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetShareOfVoiceFormulaRequest struct {
@@ -2192,7 +2291,7 @@ func (r ApiGetTrackedQueryTimeSeriesRequest) CompetitorIds(competitorIds []strin
 	return r
 }
 
-func (r ApiGetTrackedQueryTimeSeriesRequest) Execute() (*http.Response, error) {
+func (r ApiGetTrackedQueryTimeSeriesRequest) Execute() (*TrackedQueryRankTrackingTimeSeries, *http.Response, error) {
 	return r.ApiService.GetTrackedQueryTimeSeriesExecute(r)
 }
 
@@ -2218,16 +2317,18 @@ func (a *AnalyticsAPIService) GetTrackedQueryTimeSeries(ctx context.Context, org
 }
 
 // Execute executes the request
-func (a *AnalyticsAPIService) GetTrackedQueryTimeSeriesExecute(r ApiGetTrackedQueryTimeSeriesRequest) (*http.Response, error) {
+//  @return TrackedQueryRankTrackingTimeSeries
+func (a *AnalyticsAPIService) GetTrackedQueryTimeSeriesExecute(r ApiGetTrackedQueryTimeSeriesRequest) (*TrackedQueryRankTrackingTimeSeries, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *TrackedQueryRankTrackingTimeSeries
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnalyticsAPIService.GetTrackedQueryTimeSeries")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/timeseries"
@@ -2239,10 +2340,10 @@ func (a *AnalyticsAPIService) GetTrackedQueryTimeSeriesExecute(r ApiGetTrackedQu
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.dateFrom == nil {
-		return nil, reportError("dateFrom is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateFrom is required and must be specified")
 	}
 	if r.dateTo == nil {
-		return nil, reportError("dateTo is required and must be specified")
+		return localVarReturnValue, nil, reportError("dateTo is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
@@ -2275,7 +2376,7 @@ func (a *AnalyticsAPIService) GetTrackedQueryTimeSeriesExecute(r ApiGetTrackedQu
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -2284,19 +2385,19 @@ func (a *AnalyticsAPIService) GetTrackedQueryTimeSeriesExecute(r ApiGetTrackedQu
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2304,10 +2405,19 @@ func (a *AnalyticsAPIService) GetTrackedQueryTimeSeriesExecute(r ApiGetTrackedQu
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetTrackingCoverageRequest struct {

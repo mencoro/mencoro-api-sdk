@@ -24,6 +24,8 @@ Method | HTTP request | Description
 [**report_ai_response**](TrackedQueriesApi.md#report_ai_response) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/responses/{aiResponseId}/report | Report a problem with a captured AI answer
 [**resume_tracked_query**](TrackedQueriesApi.md#resume_tracked_query) | **PUT** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/resume | Resume a tracked query
 [**search_tracked_queries**](TrackedQueriesApi.md#search_tracked_queries) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries | Search a project&#39;s tracked queries
+[**search_tracked_query_mention_matches**](TrackedQueriesApi.md#search_tracked_query_mention_matches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches | List stored mention matches of a tracked query
+[**search_tracked_query_serp_matches**](TrackedQueriesApi.md#search_tracked_query_serp_matches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches | List stored serp matches of a tracked query
 
 
 # **add_clusters_to_tracked_query**
@@ -1833,6 +1835,198 @@ Name | Type | Description  | Notes
 **401** | Missing or invalid API key |  -  |
 **403** | The key lacks the read capability |  -  |
 **404** | No organization or project the caller can access under these ids |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **search_tracked_query_mention_matches**
+> SearchTrackedQueryMentionMatches200Response search_tracked_query_mention_matches(organization_id, project_id, tracked_query_id, date_from=date_from, date_to=date_to, limit=limit, offset=offset, sort_order=sort_order)
+
+List stored mention matches of a tracked query
+
+Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+
+* Bearer Authentication (ApiKey):
+
+```python
+import mencoro
+from mencoro.models.search_tracked_query_mention_matches200_response import SearchTrackedQueryMentionMatches200Response
+from mencoro.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.mencoro.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = mencoro.Configuration(
+    host = "https://api.mencoro.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization: ApiKey
+configuration = mencoro.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with mencoro.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = mencoro.TrackedQueriesApi(api_client)
+    organization_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    project_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    tracked_query_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    date_from = '2013-10-20' # date | Inclusive UTC day; defaults to the retention floor. (optional)
+    date_to = '2013-10-20' # date | Inclusive UTC day. (optional)
+    limit = 20 # int |  (optional) (default to 20)
+    offset = 0 # int |  (optional) (default to 0)
+    sort_order = 'desc' # str |  (optional) (default to 'desc')
+
+    try:
+        # List stored mention matches of a tracked query
+        api_response = api_instance.search_tracked_query_mention_matches(organization_id, project_id, tracked_query_id, date_from=date_from, date_to=date_to, limit=limit, offset=offset, sort_order=sort_order)
+        print("The response of TrackedQueriesApi->search_tracked_query_mention_matches:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TrackedQueriesApi->search_tracked_query_mention_matches: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **organization_id** | **UUID**|  | 
+ **project_id** | **UUID**|  | 
+ **tracked_query_id** | **UUID**|  | 
+ **date_from** | **date**| Inclusive UTC day; defaults to the retention floor. | [optional] 
+ **date_to** | **date**| Inclusive UTC day. | [optional] 
+ **limit** | **int**|  | [optional] [default to 20]
+ **offset** | **int**|  | [optional] [default to 0]
+ **sort_order** | **str**|  | [optional] [default to &#39;desc&#39;]
+
+### Return type
+
+[**SearchTrackedQueryMentionMatches200Response**](SearchTrackedQueryMentionMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/csv
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Stored matches and total under the same filters |  -  |
+**400** | Invalid or unsupported query parameters |  -  |
+**401** | Missing or invalid API key |  -  |
+**403** | The key lacks the read capability |  -  |
+**404** | Organization, project or tracked query is not accessible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **search_tracked_query_serp_matches**
+> SearchTrackedQuerySerpMatches200Response search_tracked_query_serp_matches(organization_id, project_id, tracked_query_id, date_from=date_from, date_to=date_to, limit=limit, offset=offset, sort_order=sort_order)
+
+List stored serp matches of a tracked query
+
+Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+
+* Bearer Authentication (ApiKey):
+
+```python
+import mencoro
+from mencoro.models.search_tracked_query_serp_matches200_response import SearchTrackedQuerySerpMatches200Response
+from mencoro.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.mencoro.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = mencoro.Configuration(
+    host = "https://api.mencoro.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization: ApiKey
+configuration = mencoro.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with mencoro.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = mencoro.TrackedQueriesApi(api_client)
+    organization_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    project_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    tracked_query_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    date_from = '2013-10-20' # date | Inclusive UTC day; defaults to the retention floor. (optional)
+    date_to = '2013-10-20' # date | Inclusive UTC day. (optional)
+    limit = 20 # int |  (optional) (default to 20)
+    offset = 0 # int |  (optional) (default to 0)
+    sort_order = 'desc' # str |  (optional) (default to 'desc')
+
+    try:
+        # List stored serp matches of a tracked query
+        api_response = api_instance.search_tracked_query_serp_matches(organization_id, project_id, tracked_query_id, date_from=date_from, date_to=date_to, limit=limit, offset=offset, sort_order=sort_order)
+        print("The response of TrackedQueriesApi->search_tracked_query_serp_matches:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TrackedQueriesApi->search_tracked_query_serp_matches: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **organization_id** | **UUID**|  | 
+ **project_id** | **UUID**|  | 
+ **tracked_query_id** | **UUID**|  | 
+ **date_from** | **date**| Inclusive UTC day; defaults to the retention floor. | [optional] 
+ **date_to** | **date**| Inclusive UTC day. | [optional] 
+ **limit** | **int**|  | [optional] [default to 20]
+ **offset** | **int**|  | [optional] [default to 0]
+ **sort_order** | **str**|  | [optional] [default to &#39;desc&#39;]
+
+### Return type
+
+[**SearchTrackedQuerySerpMatches200Response**](SearchTrackedQuerySerpMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/csv
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Stored matches and total under the same filters |  -  |
+**400** | Invalid or unsupported query parameters |  -  |
+**401** | Missing or invalid API key |  -  |
+**403** | The key lacks the read capability |  -  |
+**404** | Organization, project or tracked query is not accessible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

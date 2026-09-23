@@ -126,7 +126,7 @@ catch (ApiException e)
 
 <a id="getcitedsources"></a>
 # **GetCitedSources**
-> void GetCitedSources (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, string? groupBy = null, int? limit = null, int? offset = null)
+> CitedSourcesResponse GetCitedSources (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, string? groupBy = null, int? limit = null, int? offset = null)
 
 Domains and pages the AI answers cited
 
@@ -168,7 +168,8 @@ namespace Example
             try
             {
                 // Domains and pages the AI answers cited
-                apiInstance.GetCitedSources(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+                CitedSourcesResponse result = apiInstance.GetCitedSources(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -188,7 +189,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Domains and pages the AI answers cited
-    apiInstance.GetCitedSourcesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+    ApiResponse<CitedSourcesResponse> response = apiInstance.GetCitedSourcesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -213,7 +217,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**CitedSourcesResponse**](CitedSourcesResponse.md)
 
 ### Authorization
 
@@ -222,7 +226,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -238,7 +242,7 @@ void (empty response body)
 
 <a id="getclusterbreakdown"></a>
 # **GetClusterBreakdown**
-> void GetClusterBreakdown (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, List<Guid>? queryClusterIds = null, bool? includeUngroupedQueries = null)
+> ProjectRankTrackingClusterBreakdown GetClusterBreakdown (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, List<Guid>? queryClusterIds = null, bool? includeUngroupedQueries = null)
 
 Rank-tracking metrics per keyword cluster
 
@@ -280,7 +284,8 @@ namespace Example
             try
             {
                 // Rank-tracking metrics per keyword cluster
-                apiInstance.GetClusterBreakdown(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+                ProjectRankTrackingClusterBreakdown result = apiInstance.GetClusterBreakdown(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -300,7 +305,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Rank-tracking metrics per keyword cluster
-    apiInstance.GetClusterBreakdownWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    ApiResponse<ProjectRankTrackingClusterBreakdown> response = apiInstance.GetClusterBreakdownWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -325,7 +333,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**ProjectRankTrackingClusterBreakdown**](ProjectRankTrackingClusterBreakdown.md)
 
 ### Authorization
 
@@ -334,7 +342,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -350,7 +358,7 @@ void (empty response body)
 
 <a id="getcompetitorcooccurrence"></a>
 # **GetCompetitorCoOccurrence**
-> void GetCompetitorCoOccurrence (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, Guid? competitorId = null)
+> CompetitorCoOccurrenceResponse GetCompetitorCoOccurrence (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, Guid? competitorId = null)
 
 Head-to-head record of the brand against each tracked competitor
 
@@ -391,7 +399,8 @@ namespace Example
             try
             {
                 // Head-to-head record of the brand against each tracked competitor
-                apiInstance.GetCompetitorCoOccurrence(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+                CompetitorCoOccurrenceResponse result = apiInstance.GetCompetitorCoOccurrence(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -411,7 +420,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Head-to-head record of the brand against each tracked competitor
-    apiInstance.GetCompetitorCoOccurrenceWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+    ApiResponse<CompetitorCoOccurrenceResponse> response = apiInstance.GetCompetitorCoOccurrenceWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -435,7 +447,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**CompetitorCoOccurrenceResponse**](CompetitorCoOccurrenceResponse.md)
 
 ### Authorization
 
@@ -444,7 +456,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -460,7 +472,7 @@ void (empty response body)
 
 <a id="getmentionmix"></a>
 # **GetMentionMix**
-> void GetMentionMix (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null)
+> ProjectMentionMixResponse GetMentionMix (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null)
 
 Composition of a project brand mentions in AI answers
 
@@ -500,7 +512,8 @@ namespace Example
             try
             {
                 // Composition of a project brand mentions in AI answers
-                apiInstance.GetMentionMix(organizationId, projectId, dateFrom, dateTo, engines, countries);
+                ProjectMentionMixResponse result = apiInstance.GetMentionMix(organizationId, projectId, dateFrom, dateTo, engines, countries);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -520,7 +533,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Composition of a project brand mentions in AI answers
-    apiInstance.GetMentionMixWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries);
+    ApiResponse<ProjectMentionMixResponse> response = apiInstance.GetMentionMixWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -543,7 +559,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**ProjectMentionMixResponse**](ProjectMentionMixResponse.md)
 
 ### Authorization
 
@@ -552,7 +568,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -568,7 +584,7 @@ void (empty response body)
 
 <a id="getmentionsamples"></a>
 # **GetMentionSamples**
-> void GetMentionSamples (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, string? sentiment = null, string? mentionType = null, Guid? competitorId = null, string? sortBy = null, int? limit = null, int? offset = null)
+> ProjectMentionSamplesResponse GetMentionSamples (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, string? sentiment = null, string? mentionType = null, Guid? competitorId = null, string? sortBy = null, int? limit = null, int? offset = null)
 
 Sample of the raw AI mention texts of a project
 
@@ -614,7 +630,8 @@ namespace Example
             try
             {
                 // Sample of the raw AI mention texts of a project
-                apiInstance.GetMentionSamples(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+                ProjectMentionSamplesResponse result = apiInstance.GetMentionSamples(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -634,7 +651,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Sample of the raw AI mention texts of a project
-    apiInstance.GetMentionSamplesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+    ApiResponse<ProjectMentionSamplesResponse> response = apiInstance.GetMentionSamplesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -663,7 +683,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**ProjectMentionSamplesResponse**](ProjectMentionSamplesResponse.md)
 
 ### Authorization
 
@@ -884,7 +904,7 @@ catch (ApiException e)
 
 <a id="getprojectmetrics"></a>
 # **GetProjectMetrics**
-> void GetProjectMetrics (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, List<Guid>? queryClusterIds = null, bool? includeUngroupedQueries = null)
+> ProjectRankTrackingStats GetProjectMetrics (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, List<Guid>? queryClusterIds = null, bool? includeUngroupedQueries = null)
 
 Headline visibility metrics of a project
 
@@ -926,7 +946,8 @@ namespace Example
             try
             {
                 // Headline visibility metrics of a project
-                apiInstance.GetProjectMetrics(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+                ProjectRankTrackingStats result = apiInstance.GetProjectMetrics(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -946,7 +967,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Headline visibility metrics of a project
-    apiInstance.GetProjectMetricsWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    ApiResponse<ProjectRankTrackingStats> response = apiInstance.GetProjectMetricsWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -971,7 +995,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**ProjectRankTrackingStats**](ProjectRankTrackingStats.md)
 
 ### Authorization
 
@@ -980,7 +1004,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -996,7 +1020,7 @@ void (empty response body)
 
 <a id="getprojectsentiment"></a>
 # **GetProjectSentiment**
-> void GetProjectSentiment (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, List<Guid>? queryClusterIds = null, bool? includeUngroupedQueries = null)
+> ProjectSentimentBreakdown GetProjectSentiment (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, List<Guid>? queryClusterIds = null, bool? includeUngroupedQueries = null)
 
 Sentiment breakdown of a project brand mentions
 
@@ -1038,7 +1062,8 @@ namespace Example
             try
             {
                 // Sentiment breakdown of a project brand mentions
-                apiInstance.GetProjectSentiment(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+                ProjectSentimentBreakdown result = apiInstance.GetProjectSentiment(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -1058,7 +1083,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Sentiment breakdown of a project brand mentions
-    apiInstance.GetProjectSentimentWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    ApiResponse<ProjectSentimentBreakdown> response = apiInstance.GetProjectSentimentWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -1083,7 +1111,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**ProjectSentimentBreakdown**](ProjectSentimentBreakdown.md)
 
 ### Authorization
 
@@ -1092,7 +1120,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -1108,7 +1136,7 @@ void (empty response body)
 
 <a id="getprojecttimeseries"></a>
 # **GetProjectTimeSeries**
-> void GetProjectTimeSeries (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = null, List<string>? engines = null, List<string>? countries = null, List<Guid>? queryClusterIds = null, bool? includeUngroupedQueries = null, List<Guid>? competitorIds = null)
+> ProjectRankTrackingTimeSeries GetProjectTimeSeries (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = null, List<string>? engines = null, List<string>? countries = null, List<Guid>? queryClusterIds = null, bool? includeUngroupedQueries = null, List<Guid>? competitorIds = null)
 
 Rank-tracking metrics of a project over time
 
@@ -1152,7 +1180,8 @@ namespace Example
             try
             {
                 // Rank-tracking metrics of a project over time
-                apiInstance.GetProjectTimeSeries(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+                ProjectRankTrackingTimeSeries result = apiInstance.GetProjectTimeSeries(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -1172,7 +1201,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Rank-tracking metrics of a project over time
-    apiInstance.GetProjectTimeSeriesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+    ApiResponse<ProjectRankTrackingTimeSeries> response = apiInstance.GetProjectTimeSeriesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -1199,7 +1231,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**ProjectRankTrackingTimeSeries**](ProjectRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -1208,7 +1240,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -1224,7 +1256,7 @@ void (empty response body)
 
 <a id="getquerymovers"></a>
 # **GetQueryMovers**
-> void GetQueryMovers (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, string? sortBy = null, string? sortOrder = null, int? limit = null, int? offset = null)
+> TrackedQueryMoversResponse GetQueryMovers (Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = null, List<string>? countries = null, string? sortBy = null, string? sortOrder = null, int? limit = null, int? offset = null)
 
 Tracked queries ranked by how much a metric moved
 
@@ -1268,7 +1300,8 @@ namespace Example
             try
             {
                 // Tracked queries ranked by how much a metric moved
-                apiInstance.GetQueryMovers(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+                TrackedQueryMoversResponse result = apiInstance.GetQueryMovers(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -1288,7 +1321,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Tracked queries ranked by how much a metric moved
-    apiInstance.GetQueryMoversWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+    ApiResponse<TrackedQueryMoversResponse> response = apiInstance.GetQueryMoversWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -1315,7 +1351,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**TrackedQueryMoversResponse**](TrackedQueryMoversResponse.md)
 
 ### Authorization
 
@@ -1324,7 +1360,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -1444,7 +1480,7 @@ catch (ApiException e)
 
 <a id="gettrackedquerytimeseries"></a>
 # **GetTrackedQueryTimeSeries**
-> void GetTrackedQueryTimeSeries (Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = null, List<Guid>? competitorIds = null)
+> TrackedQueryRankTrackingTimeSeries GetTrackedQueryTimeSeries (Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = null, List<Guid>? competitorIds = null)
 
 Rank-tracking time series of a single tracked query
 
@@ -1485,7 +1521,8 @@ namespace Example
             try
             {
                 // Rank-tracking time series of a single tracked query
-                apiInstance.GetTrackedQueryTimeSeries(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+                TrackedQueryRankTrackingTimeSeries result = apiInstance.GetTrackedQueryTimeSeries(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -1505,7 +1542,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Rank-tracking time series of a single tracked query
-    apiInstance.GetTrackedQueryTimeSeriesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+    ApiResponse<TrackedQueryRankTrackingTimeSeries> response = apiInstance.GetTrackedQueryTimeSeriesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -1529,7 +1569,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**TrackedQueryRankTrackingTimeSeries**](TrackedQueryRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -1538,7 +1578,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

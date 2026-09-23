@@ -21,12 +21,22 @@ from pydantic import Field, StrictBool, StrictStr, field_validator
 from typing import List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
+from mencoro.models.cited_sources_response import CitedSourcesResponse
+from mencoro.models.competitor_co_occurrence_response import CompetitorCoOccurrenceResponse
 from mencoro.models.get_available_filters200_response import GetAvailableFilters200Response
 from mencoro.models.get_metric_glossary200_response import GetMetricGlossary200Response
 from mencoro.models.get_organization_overview200_response import GetOrganizationOverview200Response
 from mencoro.models.get_share_of_voice_formula200_response import GetShareOfVoiceFormula200Response
 from mencoro.models.get_tracking_coverage200_response import GetTrackingCoverage200Response
 from mencoro.models.list_keyword_listings200_response import ListKeywordListings200Response
+from mencoro.models.project_mention_mix_response import ProjectMentionMixResponse
+from mencoro.models.project_mention_samples_response import ProjectMentionSamplesResponse
+from mencoro.models.project_rank_tracking_cluster_breakdown import ProjectRankTrackingClusterBreakdown
+from mencoro.models.project_rank_tracking_stats import ProjectRankTrackingStats
+from mencoro.models.project_rank_tracking_time_series import ProjectRankTrackingTimeSeries
+from mencoro.models.project_sentiment_breakdown import ProjectSentimentBreakdown
+from mencoro.models.tracked_query_movers_response import TrackedQueryMoversResponse
+from mencoro.models.tracked_query_rank_tracking_time_series import TrackedQueryRankTrackingTimeSeries
 
 from mencoro.api_client import ApiClient, RequestSerialized
 from mencoro.api_response import ApiResponse
@@ -354,7 +364,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> CitedSourcesResponse:
         """Domains and pages the AI answers cited
 
         Minimum role: viewer. The sources the answer engines drew on across a project's AI answers over a date window, ranked by how often they were cited. Per source: citationCount, the total number of citations; distinctResponseCount and distinctQueryCount, how many captured answers and tracked queries it appeared in; avgPosition, its average 1-based rank inside the answers' citation lists, where LOWER is better. A null avgPosition means no citation in the window carried a position, not a rank of zero; a null domain or sampleTitle means the citation never carried one. `total` counts the distinct sources matching the window, before paging. The list is UNFILTERED by ownership: the brand's, competitors' and third-party sources sit in the same ranking. Only the AI answer engines (chatgpt, perplexity, google_ai_overview, google_ai_mode) produce citations, so filtering by google_serp or google_shopping is accepted and returns nothing. Citations still behind an answer engine's redirect (a google.com/goto link, whose URL names the engine rather than the source) are excluded, so a source cited only through such links is absent from this list rather than counted as zero.
@@ -413,7 +423,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "CitedSourcesResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -453,7 +463,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[CitedSourcesResponse]:
         """Domains and pages the AI answers cited
 
         Minimum role: viewer. The sources the answer engines drew on across a project's AI answers over a date window, ranked by how often they were cited. Per source: citationCount, the total number of citations; distinctResponseCount and distinctQueryCount, how many captured answers and tracked queries it appeared in; avgPosition, its average 1-based rank inside the answers' citation lists, where LOWER is better. A null avgPosition means no citation in the window carried a position, not a rank of zero; a null domain or sampleTitle means the citation never carried one. `total` counts the distinct sources matching the window, before paging. The list is UNFILTERED by ownership: the brand's, competitors' and third-party sources sit in the same ranking. Only the AI answer engines (chatgpt, perplexity, google_ai_overview, google_ai_mode) produce citations, so filtering by google_serp or google_shopping is accepted and returns nothing. Citations still behind an answer engine's redirect (a google.com/goto link, whose URL names the engine rather than the source) are excluded, so a source cited only through such links is absent from this list rather than counted as zero.
@@ -512,7 +522,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "CitedSourcesResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -611,7 +621,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "CitedSourcesResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -708,6 +718,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -756,7 +773,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ProjectRankTrackingClusterBreakdown:
         """Rank-tracking metrics per keyword cluster
 
         Minimum role: viewer. One row per keyword cluster over a date window, with its tracked query and keyword counts, average positions, rates, share of voice and sentiment split. A row whose clusterId is null is the ungrouped bucket: the tracked queries belonging to no cluster. Position metrics are 1-based and LOWER is better; rates, positivityIndex and shareOfVoice are 0-100 percentages where higher is better. A null metric means nothing was captured for that cluster in the window — it is not a zero, and averaging or charting it as one would misstate the period. dataDirtySince is non-null while a recalculation is pending, meaning the numbers predate the latest configuration change.
@@ -815,7 +832,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingClusterBreakdown",
             '401': None,
             '400': None,
             '403': None,
@@ -855,7 +872,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ProjectRankTrackingClusterBreakdown]:
         """Rank-tracking metrics per keyword cluster
 
         Minimum role: viewer. One row per keyword cluster over a date window, with its tracked query and keyword counts, average positions, rates, share of voice and sentiment split. A row whose clusterId is null is the ungrouped bucket: the tracked queries belonging to no cluster. Position metrics are 1-based and LOWER is better; rates, positivityIndex and shareOfVoice are 0-100 percentages where higher is better. A null metric means nothing was captured for that cluster in the window — it is not a zero, and averaging or charting it as one would misstate the period. dataDirtySince is non-null while a recalculation is pending, meaning the numbers predate the latest configuration change.
@@ -914,7 +931,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingClusterBreakdown",
             '401': None,
             '400': None,
             '403': None,
@@ -1013,7 +1030,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingClusterBreakdown",
             '401': None,
             '400': None,
             '403': None,
@@ -1112,6 +1129,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1159,7 +1183,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> CompetitorCoOccurrenceResponse:
         """Head-to-head record of the brand against each tracked competitor
 
         Minimum role: viewer. Restricted to the AI answers where the brand and a competitor are BOTH mentioned, one row per tracked competitor: sharedResponseCount is how many such answers there are, and brandWins / competitorWins / ties split them by who holds the better (lower) best mention position. winRate is the percentage 0-100 of those answers the brand wins; avgOwnPosition and avgCompetitorPosition are the average best mention position each side held, 1-based, so LOWER is better. exampleQueryText and exampleAiResponseId point at one representative shared answer. Every nullable field means \"not known yet\" rather than zero: a null winRate or average position is the absence of a shared answer in the window, not a record of losing. Tracked competitors only.
@@ -1215,7 +1239,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "CompetitorCoOccurrenceResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -1254,7 +1278,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[CompetitorCoOccurrenceResponse]:
         """Head-to-head record of the brand against each tracked competitor
 
         Minimum role: viewer. Restricted to the AI answers where the brand and a competitor are BOTH mentioned, one row per tracked competitor: sharedResponseCount is how many such answers there are, and brandWins / competitorWins / ties split them by who holds the better (lower) best mention position. winRate is the percentage 0-100 of those answers the brand wins; avgOwnPosition and avgCompetitorPosition are the average best mention position each side held, 1-based, so LOWER is better. exampleQueryText and exampleAiResponseId point at one representative shared answer. Every nullable field means \"not known yet\" rather than zero: a null winRate or average position is the absence of a shared answer in the window, not a record of losing. Tracked competitors only.
@@ -1310,7 +1334,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "CompetitorCoOccurrenceResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -1405,7 +1429,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "CompetitorCoOccurrenceResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -1498,6 +1522,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1544,7 +1575,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ProjectMentionMixResponse:
         """Composition of a project brand mentions in AI answers
 
         Minimum role: viewer. Counts of the project brand's own text mentions in AI answers over a date window, grouped three ways: byType (recommendation, comparison, listing, example, reference), byTone (positive, neutral, negative) and byQualifier (direct, conditional — a conditional mention is one the answer hedged with a condition). These are the inputs behind the Share of Voice weighted score. Every bucket is always present and is a plain count, never null: a zero means no mention of that kind was found in the window. The three groupings count the same mentions, so each one sums to the same total. Only the project brand is counted, never a competitor, and only mentions inside the answer text — a citation of the brand's URL is not a mention here. Only AI answer engines produce mentions, so restricting engines to google_serp or google_shopping alone returns all zeros. For the positive/neutral/negative split per engine and per competitor use the sentiment endpoint.
@@ -1597,7 +1628,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectMentionMixResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -1635,7 +1666,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ProjectMentionMixResponse]:
         """Composition of a project brand mentions in AI answers
 
         Minimum role: viewer. Counts of the project brand's own text mentions in AI answers over a date window, grouped three ways: byType (recommendation, comparison, listing, example, reference), byTone (positive, neutral, negative) and byQualifier (direct, conditional — a conditional mention is one the answer hedged with a condition). These are the inputs behind the Share of Voice weighted score. Every bucket is always present and is a plain count, never null: a zero means no mention of that kind was found in the window. The three groupings count the same mentions, so each one sums to the same total. Only the project brand is counted, never a competitor, and only mentions inside the answer text — a citation of the brand's URL is not a mention here. Only AI answer engines produce mentions, so restricting engines to google_serp or google_shopping alone returns all zeros. For the positive/neutral/negative split per engine and per competitor use the sentiment endpoint.
@@ -1688,7 +1719,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectMentionMixResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -1779,7 +1810,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectMentionMixResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -1867,6 +1898,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1919,7 +1957,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ProjectMentionSamplesResponse:
         """Sample of the raw AI mention texts of a project
 
         Minimum role: viewer. A paginated page of the individual mention texts behind the aggregate numbers, for qualitative review and for checking sentiment labels by eye. Each sample carries the mention text, the engine and country it was seen in, the tracked query that produced it, its sentiment and mention type, and mentionPosition — a 1-based rank inside the answer where LOWER is better, always present. `total` counts every mention matching the filters, not the size of the page returned. Only mentions inside the answer text are returned: a citation of the brand URL is not a mention here, and only AI answer engines produce mentions, so restricting engines to google_serp or google_shopping alone returns an empty page rather than an error. Two fields carry a \"not known\" rather than a zero: country is null and queryText is empty when the tracked query behind the mention has since been deleted, and competitorId is null when the mention row stores no competitor id — which is NOT an assertion that the mention is about your own brand, since an untracked competitor also stores none. Read mentionRelation instead: `own` and `tracked-competitor` are what the scraper resolved to a configured entity, `untracked-competitor` is a rival the project does not track, and null means the row predates the field. brandName carries the mentioned brand, and is the only way to name an untracked competitor, which has no competitor id to resolve one from. Omitting the competitorId filter returns exactly the rows with no competitor id stored — that is, own-brand AND untracked-competitor mentions together, not every competitor; pass a competitor UUID to restrict the page to that competitor, and use mentionRelation to separate the rest. For the aggregate positive/neutral/negative split use the sentiment endpoint, and for weighted mention-type counts the mention mix endpoint.
@@ -1990,7 +2028,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectMentionSamplesResponse",
             '401': None,
             '400': "GetMentionSamples400Response",
             '403': None,
@@ -2034,7 +2072,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ProjectMentionSamplesResponse]:
         """Sample of the raw AI mention texts of a project
 
         Minimum role: viewer. A paginated page of the individual mention texts behind the aggregate numbers, for qualitative review and for checking sentiment labels by eye. Each sample carries the mention text, the engine and country it was seen in, the tracked query that produced it, its sentiment and mention type, and mentionPosition — a 1-based rank inside the answer where LOWER is better, always present. `total` counts every mention matching the filters, not the size of the page returned. Only mentions inside the answer text are returned: a citation of the brand URL is not a mention here, and only AI answer engines produce mentions, so restricting engines to google_serp or google_shopping alone returns an empty page rather than an error. Two fields carry a \"not known\" rather than a zero: country is null and queryText is empty when the tracked query behind the mention has since been deleted, and competitorId is null when the mention row stores no competitor id — which is NOT an assertion that the mention is about your own brand, since an untracked competitor also stores none. Read mentionRelation instead: `own` and `tracked-competitor` are what the scraper resolved to a configured entity, `untracked-competitor` is a rival the project does not track, and null means the row predates the field. brandName carries the mentioned brand, and is the only way to name an untracked competitor, which has no competitor id to resolve one from. Omitting the competitorId filter returns exactly the rows with no competitor id stored — that is, own-brand AND untracked-competitor mentions together, not every competitor; pass a competitor UUID to restrict the page to that competitor, and use mentionRelation to separate the rest. For the aggregate positive/neutral/negative split use the sentiment endpoint, and for weighted mention-type counts the mention mix endpoint.
@@ -2105,7 +2143,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectMentionSamplesResponse",
             '401': None,
             '400': "GetMentionSamples400Response",
             '403': None,
@@ -2220,7 +2258,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectMentionSamplesResponse",
             '401': None,
             '400': "GetMentionSamples400Response",
             '403': None,
@@ -2915,7 +2953,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ProjectRankTrackingStats:
         """Headline visibility metrics of a project
 
         Minimum role: viewer. The project overview over a date window: share of voice (own and per competitor), mention / SERP / shopping rates, average and best positions, position stability, the sentiment split and the position-distribution buckets. Positions are 1-based, so a LOWER number is better; rates, the positivity index and share of voice are percentages from 0 to 100, where HIGHER is better. Every `trend*` field is the signed change against the immediately preceding window of the same length: negative means an improved position, positive means an improved rate or score. A null metric means \"not known yet\", never zero: a scalar is null when the window holds no checks at all, and a `trend*` field is null when there is no earlier window to compare against. The counters (`mentionCount`, `*TrackedQueryCount`, `*QueriesWithResult`, `sentiment*` and `mentionTypeCounts`) are genuine zeros instead, so an empty window reads as zero counts with null rates. `dataDirtySince` is non-null while a recalculation is pending, meaning the figures may still move for dates from then on.
@@ -2974,7 +3012,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingStats",
             '401': None,
             '400': None,
             '403': None,
@@ -3014,7 +3052,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ProjectRankTrackingStats]:
         """Headline visibility metrics of a project
 
         Minimum role: viewer. The project overview over a date window: share of voice (own and per competitor), mention / SERP / shopping rates, average and best positions, position stability, the sentiment split and the position-distribution buckets. Positions are 1-based, so a LOWER number is better; rates, the positivity index and share of voice are percentages from 0 to 100, where HIGHER is better. Every `trend*` field is the signed change against the immediately preceding window of the same length: negative means an improved position, positive means an improved rate or score. A null metric means \"not known yet\", never zero: a scalar is null when the window holds no checks at all, and a `trend*` field is null when there is no earlier window to compare against. The counters (`mentionCount`, `*TrackedQueryCount`, `*QueriesWithResult`, `sentiment*` and `mentionTypeCounts`) are genuine zeros instead, so an empty window reads as zero counts with null rates. `dataDirtySince` is non-null while a recalculation is pending, meaning the figures may still move for dates from then on.
@@ -3073,7 +3111,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingStats",
             '401': None,
             '400': None,
             '403': None,
@@ -3172,7 +3210,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingStats",
             '401': None,
             '400': None,
             '403': None,
@@ -3271,6 +3309,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -3319,7 +3364,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ProjectSentimentBreakdown:
         """Sentiment breakdown of a project brand mentions
 
         Minimum role: viewer. Positive, neutral and negative split of the brand mentions in AI answers over a date window, per engine and per competitor. A null positivityIndex means no mentions were found in the window, which is not the same as a score of zero.
@@ -3378,7 +3423,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectSentimentBreakdown",
             '401': None,
             '400': None,
             '403': None,
@@ -3418,7 +3463,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ProjectSentimentBreakdown]:
         """Sentiment breakdown of a project brand mentions
 
         Minimum role: viewer. Positive, neutral and negative split of the brand mentions in AI answers over a date window, per engine and per competitor. A null positivityIndex means no mentions were found in the window, which is not the same as a score of zero.
@@ -3477,7 +3522,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectSentimentBreakdown",
             '401': None,
             '400': None,
             '403': None,
@@ -3576,7 +3621,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectSentimentBreakdown",
             '401': None,
             '400': None,
             '403': None,
@@ -3675,6 +3720,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -3725,7 +3777,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> ProjectRankTrackingTimeSeries:
         """Rank-tracking metrics of a project over time
 
         Minimum role: viewer. One point per bucket over the date window, each carrying the brand metrics and one same-shaped entry per requested competitor. Rank metrics (serp, shopping, mention, link) are 1-based averages where LOWER is better; positivity (0-100), shareOfVoice (0-100), mentionRate (0-100) and serpRate (0-100) are scores where higher is better. Every metric is nullable, and a null means no data was collected for that bucket, which is not the same as a value of zero. A project with no tracked queries returns an empty points list. Prefer weekly or monthly granularity over a long window to keep the response compact.
@@ -3790,7 +3842,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingTimeSeries",
             '401': None,
             '400': None,
             '403': None,
@@ -3832,7 +3884,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[ProjectRankTrackingTimeSeries]:
         """Rank-tracking metrics of a project over time
 
         Minimum role: viewer. One point per bucket over the date window, each carrying the brand metrics and one same-shaped entry per requested competitor. Rank metrics (serp, shopping, mention, link) are 1-based averages where LOWER is better; positivity (0-100), shareOfVoice (0-100), mentionRate (0-100) and serpRate (0-100) are scores where higher is better. Every metric is nullable, and a null means no data was collected for that bucket, which is not the same as a value of zero. A project with no tracked queries returns an empty points list. Prefer weekly or monthly granularity over a long window to keep the response compact.
@@ -3897,7 +3949,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingTimeSeries",
             '401': None,
             '400': None,
             '403': None,
@@ -4004,7 +4056,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "ProjectRankTrackingTimeSeries",
             '401': None,
             '400': None,
             '403': None,
@@ -4114,6 +4166,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4164,7 +4223,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> TrackedQueryMoversResponse:
         """Tracked queries ranked by how much a metric moved
 
         Minimum role: viewer. One row per tracked query — a single engine plus country — carrying its current metric envelope and the signed change against the immediately preceding window of equal length: a 7-day window is compared with the 7 days before it. Every trend delta is signed so that POSITIVE means improved, including the position trends, where the underlying avgSerpPosition / avgShoppingPosition / avgMentionPosition / avgLinkPosition are 1-based ranks and therefore LOWER is better. shareOfVoice and positivityIndex are percentages from 0 to 100, where HIGHER is better. Sorting applies to the trend keys only: sortOrder=desc gives the top gainers, asc the top losers. Every nullable field means \"not known yet\" rather than zero — a null position or shareOfVoice is a query with no data in the window, and a null positivityIndex or trend is a period with no mentions to score, neither of which is a record of losing ground. total counts the tracked queries the filters match, not the rows on this page. dataDirtySince is a date from which the rank data is being recomputed, or null when nothing is pending; while it is non-null the deltas may still move.
@@ -4229,7 +4288,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "TrackedQueryMoversResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -4271,7 +4330,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[TrackedQueryMoversResponse]:
         """Tracked queries ranked by how much a metric moved
 
         Minimum role: viewer. One row per tracked query — a single engine plus country — carrying its current metric envelope and the signed change against the immediately preceding window of equal length: a 7-day window is compared with the 7 days before it. Every trend delta is signed so that POSITIVE means improved, including the position trends, where the underlying avgSerpPosition / avgShoppingPosition / avgMentionPosition / avgLinkPosition are 1-based ranks and therefore LOWER is better. shareOfVoice and positivityIndex are percentages from 0 to 100, where HIGHER is better. Sorting applies to the trend keys only: sortOrder=desc gives the top gainers, asc the top losers. Every nullable field means \"not known yet\" rather than zero — a null position or shareOfVoice is a query with no data in the window, and a null positivityIndex or trend is a period with no mentions to score, neither of which is a record of losing ground. total counts the tracked queries the filters match, not the rows on this page. dataDirtySince is a date from which the rank data is being recomputed, or null when nothing is pending; while it is non-null the deltas may still move.
@@ -4336,7 +4395,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "TrackedQueryMoversResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -4443,7 +4502,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "TrackedQueryMoversResponse",
             '401': None,
             '400': None,
             '403': None,
@@ -4551,6 +4610,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4886,7 +4952,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> TrackedQueryRankTrackingTimeSeries:
         """Rank-tracking time series of a single tracked query
 
         Minimum role: viewer. One point per bucket over the date window, each carrying the brand metrics and one same-shaped entry per requested competitor. Positions (serp, shopping, mention, link) are 1-based, so a LOWER number is better; positivity, shareOfVoice, mentionRate and serpRate are percentages from 0 to 100, where higher is better. Every metric is nullable, and a null means nothing was captured for that entity in that bucket — it is not a zero: a null shareOfVoice means no measurement, a shareOfVoice of 0 means measured and never mentioned. The tracked query fixes its own engine and country, so no engine or country filter is accepted. A non-null dataDirtySince is a timestamp warning that tracked queries were deleted from the project and historical buckets may still include their contributions until the nightly refresh rebuilds them.
@@ -4942,7 +5008,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "TrackedQueryRankTrackingTimeSeries",
             '401': None,
             '400': None,
             '403': None,
@@ -4981,7 +5047,7 @@ class AnalyticsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[TrackedQueryRankTrackingTimeSeries]:
         """Rank-tracking time series of a single tracked query
 
         Minimum role: viewer. One point per bucket over the date window, each carrying the brand metrics and one same-shaped entry per requested competitor. Positions (serp, shopping, mention, link) are 1-based, so a LOWER number is better; positivity, shareOfVoice, mentionRate and serpRate are percentages from 0 to 100, where higher is better. Every metric is nullable, and a null means nothing was captured for that entity in that bucket — it is not a zero: a null shareOfVoice means no measurement, a shareOfVoice of 0 means measured and never mentioned. The tracked query fixes its own engine and country, so no engine or country filter is accepted. A non-null dataDirtySince is a timestamp warning that tracked queries were deleted from the project and historical buckets may still include their contributions until the nightly refresh rebuilds them.
@@ -5037,7 +5103,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "TrackedQueryRankTrackingTimeSeries",
             '401': None,
             '400': None,
             '403': None,
@@ -5132,7 +5198,7 @@ class AnalyticsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "TrackedQueryRankTrackingTimeSeries",
             '401': None,
             '400': None,
             '403': None,
@@ -5222,6 +5288,13 @@ class AnalyticsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting

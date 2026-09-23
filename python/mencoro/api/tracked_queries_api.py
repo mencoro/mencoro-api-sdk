@@ -16,6 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from datetime import date
 from pydantic import Field, StrictStr, field_validator
 from typing import List, Optional
 from typing_extensions import Annotated
@@ -39,6 +40,8 @@ from mencoro.models.change_tracked_query_passes_request_data import ChangeTracke
 from mencoro.models.cluster_membership_request_data import ClusterMembershipRequestData
 from mencoro.models.report_ai_response_request import ReportAiResponseRequest
 from mencoro.models.search_tracked_queries200_response import SearchTrackedQueries200Response
+from mencoro.models.search_tracked_query_mention_matches200_response import SearchTrackedQueryMentionMatches200Response
+from mencoro.models.search_tracked_query_serp_matches200_response import SearchTrackedQuerySerpMatches200Response
 from mencoro.models.submitted_checks_resource import SubmittedChecksResource
 from mencoro.models.tracked_query_count_resource import TrackedQueryCountResource
 from mencoro.models.tracked_query_detail_resource import TrackedQueryDetailResource
@@ -6798,6 +6801,820 @@ class TrackedQueriesApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def search_tracked_query_mention_matches(
+        self,
+        organization_id: UUID,
+        project_id: UUID,
+        tracked_query_id: UUID,
+        date_from: Annotated[Optional[date], Field(description="Inclusive UTC day; defaults to the retention floor.")] = None,
+        date_to: Annotated[Optional[date], Field(description="Inclusive UTC day.")] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True, ge=1)]] = None,
+        offset: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        sort_order: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SearchTrackedQueryMentionMatches200Response:
+        """List stored mention matches of a tracked query
+
+        Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+        :param organization_id: (required)
+        :type organization_id: UUID
+        :param project_id: (required)
+        :type project_id: UUID
+        :param tracked_query_id: (required)
+        :type tracked_query_id: UUID
+        :param date_from: Inclusive UTC day; defaults to the retention floor.
+        :type date_from: date
+        :param date_to: Inclusive UTC day.
+        :type date_to: date
+        :param limit:
+        :type limit: int
+        :param offset:
+        :type offset: int
+        :param sort_order:
+        :type sort_order: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._search_tracked_query_mention_matches_serialize(
+            organization_id=organization_id,
+            project_id=project_id,
+            tracked_query_id=tracked_query_id,
+            date_from=date_from,
+            date_to=date_to,
+            limit=limit,
+            offset=offset,
+            sort_order=sort_order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SearchTrackedQueryMentionMatches200Response",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def search_tracked_query_mention_matches_with_http_info(
+        self,
+        organization_id: UUID,
+        project_id: UUID,
+        tracked_query_id: UUID,
+        date_from: Annotated[Optional[date], Field(description="Inclusive UTC day; defaults to the retention floor.")] = None,
+        date_to: Annotated[Optional[date], Field(description="Inclusive UTC day.")] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True, ge=1)]] = None,
+        offset: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        sort_order: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SearchTrackedQueryMentionMatches200Response]:
+        """List stored mention matches of a tracked query
+
+        Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+        :param organization_id: (required)
+        :type organization_id: UUID
+        :param project_id: (required)
+        :type project_id: UUID
+        :param tracked_query_id: (required)
+        :type tracked_query_id: UUID
+        :param date_from: Inclusive UTC day; defaults to the retention floor.
+        :type date_from: date
+        :param date_to: Inclusive UTC day.
+        :type date_to: date
+        :param limit:
+        :type limit: int
+        :param offset:
+        :type offset: int
+        :param sort_order:
+        :type sort_order: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._search_tracked_query_mention_matches_serialize(
+            organization_id=organization_id,
+            project_id=project_id,
+            tracked_query_id=tracked_query_id,
+            date_from=date_from,
+            date_to=date_to,
+            limit=limit,
+            offset=offset,
+            sort_order=sort_order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SearchTrackedQueryMentionMatches200Response",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def search_tracked_query_mention_matches_without_preload_content(
+        self,
+        organization_id: UUID,
+        project_id: UUID,
+        tracked_query_id: UUID,
+        date_from: Annotated[Optional[date], Field(description="Inclusive UTC day; defaults to the retention floor.")] = None,
+        date_to: Annotated[Optional[date], Field(description="Inclusive UTC day.")] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True, ge=1)]] = None,
+        offset: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        sort_order: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List stored mention matches of a tracked query
+
+        Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+        :param organization_id: (required)
+        :type organization_id: UUID
+        :param project_id: (required)
+        :type project_id: UUID
+        :param tracked_query_id: (required)
+        :type tracked_query_id: UUID
+        :param date_from: Inclusive UTC day; defaults to the retention floor.
+        :type date_from: date
+        :param date_to: Inclusive UTC day.
+        :type date_to: date
+        :param limit:
+        :type limit: int
+        :param offset:
+        :type offset: int
+        :param sort_order:
+        :type sort_order: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._search_tracked_query_mention_matches_serialize(
+            organization_id=organization_id,
+            project_id=project_id,
+            tracked_query_id=tracked_query_id,
+            date_from=date_from,
+            date_to=date_to,
+            limit=limit,
+            offset=offset,
+            sort_order=sort_order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SearchTrackedQueryMentionMatches200Response",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _search_tracked_query_mention_matches_serialize(
+        self,
+        organization_id,
+        project_id,
+        tracked_query_id,
+        date_from,
+        date_to,
+        limit,
+        offset,
+        sort_order,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if organization_id is not None:
+            _path_params['organizationId'] = organization_id
+        if project_id is not None:
+            _path_params['projectId'] = project_id
+        if tracked_query_id is not None:
+            _path_params['trackedQueryId'] = tracked_query_id
+        # process the query parameters
+        if date_from is not None:
+            if isinstance(date_from, date):
+                _query_params.append(
+                    (
+                        'dateFrom',
+                        date_from.strftime(
+                            self.api_client.configuration.date_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('dateFrom', date_from))
+            
+        if date_to is not None:
+            if isinstance(date_to, date):
+                _query_params.append(
+                    (
+                        'dateTo',
+                        date_to.strftime(
+                            self.api_client.configuration.date_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('dateTo', date_to))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
+        if sort_order is not None:
+            
+            _query_params.append(('sortOrder', sort_order))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'text/csv'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKey'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def search_tracked_query_serp_matches(
+        self,
+        organization_id: UUID,
+        project_id: UUID,
+        tracked_query_id: UUID,
+        date_from: Annotated[Optional[date], Field(description="Inclusive UTC day; defaults to the retention floor.")] = None,
+        date_to: Annotated[Optional[date], Field(description="Inclusive UTC day.")] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True, ge=1)]] = None,
+        offset: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        sort_order: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SearchTrackedQuerySerpMatches200Response:
+        """List stored serp matches of a tracked query
+
+        Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+        :param organization_id: (required)
+        :type organization_id: UUID
+        :param project_id: (required)
+        :type project_id: UUID
+        :param tracked_query_id: (required)
+        :type tracked_query_id: UUID
+        :param date_from: Inclusive UTC day; defaults to the retention floor.
+        :type date_from: date
+        :param date_to: Inclusive UTC day.
+        :type date_to: date
+        :param limit:
+        :type limit: int
+        :param offset:
+        :type offset: int
+        :param sort_order:
+        :type sort_order: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._search_tracked_query_serp_matches_serialize(
+            organization_id=organization_id,
+            project_id=project_id,
+            tracked_query_id=tracked_query_id,
+            date_from=date_from,
+            date_to=date_to,
+            limit=limit,
+            offset=offset,
+            sort_order=sort_order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SearchTrackedQuerySerpMatches200Response",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def search_tracked_query_serp_matches_with_http_info(
+        self,
+        organization_id: UUID,
+        project_id: UUID,
+        tracked_query_id: UUID,
+        date_from: Annotated[Optional[date], Field(description="Inclusive UTC day; defaults to the retention floor.")] = None,
+        date_to: Annotated[Optional[date], Field(description="Inclusive UTC day.")] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True, ge=1)]] = None,
+        offset: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        sort_order: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SearchTrackedQuerySerpMatches200Response]:
+        """List stored serp matches of a tracked query
+
+        Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+        :param organization_id: (required)
+        :type organization_id: UUID
+        :param project_id: (required)
+        :type project_id: UUID
+        :param tracked_query_id: (required)
+        :type tracked_query_id: UUID
+        :param date_from: Inclusive UTC day; defaults to the retention floor.
+        :type date_from: date
+        :param date_to: Inclusive UTC day.
+        :type date_to: date
+        :param limit:
+        :type limit: int
+        :param offset:
+        :type offset: int
+        :param sort_order:
+        :type sort_order: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._search_tracked_query_serp_matches_serialize(
+            organization_id=organization_id,
+            project_id=project_id,
+            tracked_query_id=tracked_query_id,
+            date_from=date_from,
+            date_to=date_to,
+            limit=limit,
+            offset=offset,
+            sort_order=sort_order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SearchTrackedQuerySerpMatches200Response",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def search_tracked_query_serp_matches_without_preload_content(
+        self,
+        organization_id: UUID,
+        project_id: UUID,
+        tracked_query_id: UUID,
+        date_from: Annotated[Optional[date], Field(description="Inclusive UTC day; defaults to the retention floor.")] = None,
+        date_to: Annotated[Optional[date], Field(description="Inclusive UTC day.")] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True, ge=1)]] = None,
+        offset: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        sort_order: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List stored serp matches of a tracked query
+
+        Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+        :param organization_id: (required)
+        :type organization_id: UUID
+        :param project_id: (required)
+        :type project_id: UUID
+        :param tracked_query_id: (required)
+        :type tracked_query_id: UUID
+        :param date_from: Inclusive UTC day; defaults to the retention floor.
+        :type date_from: date
+        :param date_to: Inclusive UTC day.
+        :type date_to: date
+        :param limit:
+        :type limit: int
+        :param offset:
+        :type offset: int
+        :param sort_order:
+        :type sort_order: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._search_tracked_query_serp_matches_serialize(
+            organization_id=organization_id,
+            project_id=project_id,
+            tracked_query_id=tracked_query_id,
+            date_from=date_from,
+            date_to=date_to,
+            limit=limit,
+            offset=offset,
+            sort_order=sort_order,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SearchTrackedQuerySerpMatches200Response",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _search_tracked_query_serp_matches_serialize(
+        self,
+        organization_id,
+        project_id,
+        tracked_query_id,
+        date_from,
+        date_to,
+        limit,
+        offset,
+        sort_order,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if organization_id is not None:
+            _path_params['organizationId'] = organization_id
+        if project_id is not None:
+            _path_params['projectId'] = project_id
+        if tracked_query_id is not None:
+            _path_params['trackedQueryId'] = tracked_query_id
+        # process the query parameters
+        if date_from is not None:
+            if isinstance(date_from, date):
+                _query_params.append(
+                    (
+                        'dateFrom',
+                        date_from.strftime(
+                            self.api_client.configuration.date_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('dateFrom', date_from))
+            
+        if date_to is not None:
+            if isinstance(date_to, date):
+                _query_params.append(
+                    (
+                        'dateTo',
+                        date_to.strftime(
+                            self.api_client.configuration.date_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('dateTo', date_to))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
+        if sort_order is not None:
+            
+            _query_params.append(('sortOrder', sort_order))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'text/csv'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKey'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

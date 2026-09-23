@@ -2661,3 +2661,343 @@ func (a *TrackedQueriesAPIService) SearchTrackedQueriesExecute(r ApiSearchTracke
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+
+type ApiSearchTrackedQueryMentionMatchesRequest struct {
+	ctx context.Context
+	ApiService *TrackedQueriesAPIService
+	organizationId string
+	projectId string
+	trackedQueryId string
+	dateFrom *string
+	dateTo *string
+	limit *int32
+	offset *int32
+	sortOrder *string
+}
+
+// Inclusive UTC day; defaults to the retention floor.
+func (r ApiSearchTrackedQueryMentionMatchesRequest) DateFrom(dateFrom string) ApiSearchTrackedQueryMentionMatchesRequest {
+	r.dateFrom = &dateFrom
+	return r
+}
+
+// Inclusive UTC day.
+func (r ApiSearchTrackedQueryMentionMatchesRequest) DateTo(dateTo string) ApiSearchTrackedQueryMentionMatchesRequest {
+	r.dateTo = &dateTo
+	return r
+}
+
+func (r ApiSearchTrackedQueryMentionMatchesRequest) Limit(limit int32) ApiSearchTrackedQueryMentionMatchesRequest {
+	r.limit = &limit
+	return r
+}
+
+func (r ApiSearchTrackedQueryMentionMatchesRequest) Offset(offset int32) ApiSearchTrackedQueryMentionMatchesRequest {
+	r.offset = &offset
+	return r
+}
+
+func (r ApiSearchTrackedQueryMentionMatchesRequest) SortOrder(sortOrder string) ApiSearchTrackedQueryMentionMatchesRequest {
+	r.sortOrder = &sortOrder
+	return r
+}
+
+func (r ApiSearchTrackedQueryMentionMatchesRequest) Execute() (*SearchTrackedQueryMentionMatches200Response, *http.Response, error) {
+	return r.ApiService.SearchTrackedQueryMentionMatchesExecute(r)
+}
+
+/*
+SearchTrackedQueryMentionMatches List stored mention matches of a tracked query
+
+Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param organizationId
+ @param projectId
+ @param trackedQueryId
+ @return ApiSearchTrackedQueryMentionMatchesRequest
+*/
+func (a *TrackedQueriesAPIService) SearchTrackedQueryMentionMatches(ctx context.Context, organizationId string, projectId string, trackedQueryId string) ApiSearchTrackedQueryMentionMatchesRequest {
+	return ApiSearchTrackedQueryMentionMatchesRequest{
+		ApiService: a,
+		ctx: ctx,
+		organizationId: organizationId,
+		projectId: projectId,
+		trackedQueryId: trackedQueryId,
+	}
+}
+
+// Execute executes the request
+//  @return SearchTrackedQueryMentionMatches200Response
+func (a *TrackedQueriesAPIService) SearchTrackedQueryMentionMatchesExecute(r ApiSearchTrackedQueryMentionMatchesRequest) (*SearchTrackedQueryMentionMatches200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SearchTrackedQueryMentionMatches200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TrackedQueriesAPIService.SearchTrackedQueryMentionMatches")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches"
+	localVarPath = strings.Replace(localVarPath, "{"+"organizationId"+"}", url.PathEscape(parameterValueToString(r.organizationId, "organizationId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"projectId"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"trackedQueryId"+"}", url.PathEscape(parameterValueToString(r.trackedQueryId, "trackedQueryId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.dateFrom != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
+	}
+	if r.dateTo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "dateTo", r.dateTo, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	} else {
+		var defaultValue int32 = 20
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
+		r.limit = &defaultValue
+	}
+	if r.offset != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "offset", r.offset, "form", "")
+	} else {
+		var defaultValue int32 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "offset", defaultValue, "form", "")
+		r.offset = &defaultValue
+	}
+	if r.sortOrder != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sortOrder", r.sortOrder, "form", "")
+	} else {
+		var defaultValue string = "desc"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sortOrder", defaultValue, "form", "")
+		r.sortOrder = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json", "text/csv"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSearchTrackedQuerySerpMatchesRequest struct {
+	ctx context.Context
+	ApiService *TrackedQueriesAPIService
+	organizationId string
+	projectId string
+	trackedQueryId string
+	dateFrom *string
+	dateTo *string
+	limit *int32
+	offset *int32
+	sortOrder *string
+}
+
+// Inclusive UTC day; defaults to the retention floor.
+func (r ApiSearchTrackedQuerySerpMatchesRequest) DateFrom(dateFrom string) ApiSearchTrackedQuerySerpMatchesRequest {
+	r.dateFrom = &dateFrom
+	return r
+}
+
+// Inclusive UTC day.
+func (r ApiSearchTrackedQuerySerpMatchesRequest) DateTo(dateTo string) ApiSearchTrackedQuerySerpMatchesRequest {
+	r.dateTo = &dateTo
+	return r
+}
+
+func (r ApiSearchTrackedQuerySerpMatchesRequest) Limit(limit int32) ApiSearchTrackedQuerySerpMatchesRequest {
+	r.limit = &limit
+	return r
+}
+
+func (r ApiSearchTrackedQuerySerpMatchesRequest) Offset(offset int32) ApiSearchTrackedQuerySerpMatchesRequest {
+	r.offset = &offset
+	return r
+}
+
+func (r ApiSearchTrackedQuerySerpMatchesRequest) SortOrder(sortOrder string) ApiSearchTrackedQuerySerpMatchesRequest {
+	r.sortOrder = &sortOrder
+	return r
+}
+
+func (r ApiSearchTrackedQuerySerpMatchesRequest) Execute() (*SearchTrackedQuerySerpMatches200Response, *http.Response, error) {
+	return r.ApiService.SearchTrackedQuerySerpMatchesExecute(r)
+}
+
+/*
+SearchTrackedQuerySerpMatches List stored serp matches of a tracked query
+
+Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param organizationId
+ @param projectId
+ @param trackedQueryId
+ @return ApiSearchTrackedQuerySerpMatchesRequest
+*/
+func (a *TrackedQueriesAPIService) SearchTrackedQuerySerpMatches(ctx context.Context, organizationId string, projectId string, trackedQueryId string) ApiSearchTrackedQuerySerpMatchesRequest {
+	return ApiSearchTrackedQuerySerpMatchesRequest{
+		ApiService: a,
+		ctx: ctx,
+		organizationId: organizationId,
+		projectId: projectId,
+		trackedQueryId: trackedQueryId,
+	}
+}
+
+// Execute executes the request
+//  @return SearchTrackedQuerySerpMatches200Response
+func (a *TrackedQueriesAPIService) SearchTrackedQuerySerpMatchesExecute(r ApiSearchTrackedQuerySerpMatchesRequest) (*SearchTrackedQuerySerpMatches200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SearchTrackedQuerySerpMatches200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TrackedQueriesAPIService.SearchTrackedQuerySerpMatches")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches"
+	localVarPath = strings.Replace(localVarPath, "{"+"organizationId"+"}", url.PathEscape(parameterValueToString(r.organizationId, "organizationId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"projectId"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"trackedQueryId"+"}", url.PathEscape(parameterValueToString(r.trackedQueryId, "trackedQueryId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.dateFrom != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")
+	}
+	if r.dateTo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "dateTo", r.dateTo, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	} else {
+		var defaultValue int32 = 20
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
+		r.limit = &defaultValue
+	}
+	if r.offset != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "offset", r.offset, "form", "")
+	} else {
+		var defaultValue int32 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "offset", defaultValue, "form", "")
+		r.offset = &defaultValue
+	}
+	if r.sortOrder != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sortOrder", r.sortOrder, "form", "")
+	} else {
+		var defaultValue string = "desc"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sortOrder", defaultValue, "form", "")
+		r.sortOrder = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json", "text/csv"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}

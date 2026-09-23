@@ -84,6 +84,14 @@ fi
 
 mkdir -p .generator-configs
 
+go_output=""
+cleanup_go_output() {
+  if [[ -n "${go_output}" ]]; then
+    python3 -c 'import shutil, sys; shutil.rmtree(sys.argv[1])' "${go_output}"
+  fi
+}
+trap cleanup_go_output EXIT
+
 for target in "${targets[@]}"; do
   generator=$(python3 -c "
 import json
@@ -147,6 +155,15 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     mapping_args=(--name-mappings "$(IFS=,; echo "${name_mappings[*]}")")
   fi
 
+  output_dir="${target}"
+  if [[ "${target}" == "go" ]]; then
+    # Go API tests are deliberately not overwritten by OpenAPI Generator. Generate in an empty
+    # directory so changed response signatures also update those tests, then overlay only after
+    # successful generation. A generator failure leaves the existing client and tests intact.
+    go_output=$(mktemp -d .generator-configs/go.XXXXXXXX)
+    output_dir="${go_output}"
+  fi
+
   echo "==> ${target} (${generator})"
   docker run --rm \
     -u "$(id -u):$(id -g)" \
@@ -155,10 +172,17 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     generate \
     -i /local/openapi.json \
     -g "${generator}" \
-    -o "/local/${target}" \
+    -o "/local/${output_dir}" \
     -c "/local/.generator-configs/${target}.json" \
     "${mapping_args[@]}" \
-    2>&1 | grep -E "^\[main\] (ERROR|WARN o.o.codegen.InlineModelResolver)" || true
+    2>&1 | sed '/^\[main\] INFO /d'
+
+  if [[ "${target}" == "go" ]]; then
+    mkdir -p go
+    cp -a "${go_output}/." go/
+    cleanup_go_output
+    go_output=""
+  fi
 
   if [[ "${target}" == "php" ]]; then
     # Packagist reads composer.json from the repository ROOT and has no notion of a package living

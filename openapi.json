@@ -1090,7 +1090,14 @@
         ],
         "responses": {
           "200": {
-            "description": "The cited sources for this page, plus the total number of distinct sources in the window"
+            "description": "The cited sources for this page, plus the total number of distinct sources in the window",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CitedSourcesResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -1208,7 +1215,14 @@
         ],
         "responses": {
           "200": {
-            "description": "One row per keyword cluster, plus the ungrouped bucket where it applies"
+            "description": "One row per keyword cluster, plus the ungrouped bucket where it applies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectRankTrackingClusterBreakdown"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -1314,7 +1328,14 @@
         ],
         "responses": {
           "200": {
-            "description": "One head-to-head row per tracked competitor, under \"competitors\""
+            "description": "One head-to-head row per tracked competitor, under \"competitors\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompetitorCoOccurrenceResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -1411,7 +1432,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Mention counts by type, by tone and by qualifier"
+            "description": "Mention counts by type, by tone and by qualifier",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectMentionMixResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -1581,7 +1609,14 @@
         ],
         "responses": {
           "200": {
-            "description": "A page of mention samples and the total matching the filters"
+            "description": "A page of mention samples and the total matching the filters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectMentionSamplesResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -1972,7 +2007,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions"
+            "description": "Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectRankTrackingStats"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -2088,7 +2130,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Sentiment per engine and per competitor"
+            "description": "Sentiment per engine and per competitor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectSentimentBreakdown"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -2231,7 +2280,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending"
+            "description": "Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectRankTrackingTimeSeries"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -2377,7 +2433,14 @@
         ],
         "responses": {
           "200": {
-            "description": "The ranked tracked queries under \"rows\", with \"total\" and \"dataDirtySince\""
+            "description": "The ranked tracked queries under \"rows\", with \"total\" and \"dataDirtySince\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackedQueryMoversResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -2562,7 +2625,14 @@
         ],
         "responses": {
           "200": {
-            "description": "One point per bucket, with brand and per-competitor metrics"
+            "description": "One point per bucket, with brand and per-competitor metrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackedQueryRankTrackingTimeSeries"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing or invalid API key"
@@ -5036,6 +5106,262 @@
           },
           "404": {
             "description": "No organization or project the caller can access under these ids"
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches": {
+      "get": {
+        "tags": [
+          "Tracked Queries"
+        ],
+        "summary": "List stored mention matches of a tracked query",
+        "description": "Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.",
+        "operationId": "searchTrackedQueryMentionMatches",
+        "parameters": [
+          {
+            "name": "organizationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "trackedQueryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "dateFrom",
+            "in": "query",
+            "description": "Inclusive UTC day; defaults to the retention floor.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "dateTo",
+            "in": "query",
+            "description": "Inclusive UTC day.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stored matches and total under the same filters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/MentionMatchResource"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unsupported query parameters"
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "403": {
+            "description": "The key lacks the read capability"
+          },
+          "404": {
+            "description": "Organization, project or tracked query is not accessible"
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches": {
+      "get": {
+        "tags": [
+          "Tracked Queries"
+        ],
+        "summary": "List stored serp matches of a tracked query",
+        "description": "Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.",
+        "operationId": "searchTrackedQuerySerpMatches",
+        "parameters": [
+          {
+            "name": "organizationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "trackedQueryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "dateFrom",
+            "in": "query",
+            "description": "Inclusive UTC day; defaults to the retention floor.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "dateTo",
+            "in": "query",
+            "description": "Inclusive UTC day.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stored matches and total under the same filters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SerpMatchResource"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or unsupported query parameters"
+          },
+          "401": {
+            "description": "Missing or invalid API key"
+          },
+          "403": {
+            "description": "The key lacks the read capability"
+          },
+          "404": {
+            "description": "Organization, project or tracked query is not accessible"
           }
         }
       }
@@ -8829,6 +9155,983 @@
         },
         "type": "object"
       },
+      "CitedSourceRow": {
+        "required": [
+          "groupKey",
+          "citationCount",
+          "distinctQueryCount",
+          "distinctResponseCount",
+          "sampleUrl"
+        ],
+        "properties": {
+          "groupKey": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string",
+            "nullable": true
+          },
+          "citationCount": {
+            "type": "integer"
+          },
+          "distinctQueryCount": {
+            "type": "integer"
+          },
+          "distinctResponseCount": {
+            "type": "integer"
+          },
+          "avgPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "sampleTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "sampleUrl": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CitedSourcesResponse": {
+        "required": [
+          "sources",
+          "total"
+        ],
+        "properties": {
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CitedSourceRow"
+            }
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "MentionTypeCounts": {
+        "required": [
+          "recommendation",
+          "comparison",
+          "listing",
+          "example",
+          "reference"
+        ],
+        "properties": {
+          "recommendation": {
+            "type": "integer"
+          },
+          "comparison": {
+            "type": "integer"
+          },
+          "listing": {
+            "type": "integer"
+          },
+          "example": {
+            "type": "integer"
+          },
+          "reference": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "ClusterBreakdownRow": {
+        "required": [
+          "clusterName",
+          "queryCount",
+          "keywordCount",
+          "sentimentPositive",
+          "sentimentNeutral",
+          "sentimentNegative",
+          "mentionTypeCounts"
+        ],
+        "properties": {
+          "clusterId": {
+            "type": "string",
+            "nullable": true
+          },
+          "clusterName": {
+            "type": "string"
+          },
+          "queryCount": {
+            "type": "integer"
+          },
+          "keywordCount": {
+            "type": "integer"
+          },
+          "avgSerpPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendSerp": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgShoppingPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendShopping": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgMentionPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendMention": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgLinkPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendLink": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "mentionPositionStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "serpPositionStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendSerpStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "shoppingPositionStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendShoppingStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "positivityIndex": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendPositivity": {
+            "type": "integer",
+            "nullable": true
+          },
+          "mentionRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendMentionRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "serpRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendSerpRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "shoppingRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendShoppingRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "shareOfVoice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendShareOfVoice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "sentimentPositive": {
+            "type": "integer"
+          },
+          "sentimentNeutral": {
+            "type": "integer"
+          },
+          "sentimentNegative": {
+            "type": "integer"
+          },
+          "avgMentionCount": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "mentionTypeCounts": {
+            "$ref": "#/components/schemas/MentionTypeCounts"
+          }
+        },
+        "type": "object"
+      },
+      "ProjectRankTrackingClusterBreakdown": {
+        "required": [
+          "rows"
+        ],
+        "properties": {
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClusterBreakdownRow"
+            }
+          },
+          "dataDirtySince": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "CompetitorCoOccurrenceRow": {
+        "required": [
+          "competitorId",
+          "sharedResponseCount",
+          "brandWins",
+          "competitorWins",
+          "ties"
+        ],
+        "properties": {
+          "competitorId": {
+            "type": "string"
+          },
+          "sharedResponseCount": {
+            "type": "integer"
+          },
+          "brandWins": {
+            "type": "integer"
+          },
+          "competitorWins": {
+            "type": "integer"
+          },
+          "ties": {
+            "type": "integer"
+          },
+          "winRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "avgOwnPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgCompetitorPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "exampleQueryText": {
+            "type": "string",
+            "nullable": true
+          },
+          "exampleAiResponseId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "CompetitorCoOccurrenceResponse": {
+        "required": [
+          "competitors"
+        ],
+        "properties": {
+          "competitors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompetitorCoOccurrenceRow"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "ProjectMentionMixResponse": {
+        "required": [
+          "byType",
+          "byTone",
+          "byQualifier"
+        ],
+        "properties": {
+          "byType": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "byTone": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "byQualifier": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "MentionSampleResponse": {
+        "required": [
+          "id",
+          "trackedQueryId",
+          "aiResponseId",
+          "engine",
+          "sentiment",
+          "mentionType",
+          "mentionPosition",
+          "text",
+          "detectedAt",
+          "queryText"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "trackedQueryId": {
+            "type": "string"
+          },
+          "aiResponseId": {
+            "type": "string"
+          },
+          "engine": {
+            "type": "string"
+          },
+          "competitorId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sentiment": {
+            "type": "string"
+          },
+          "mentionType": {
+            "type": "string"
+          },
+          "mentionPosition": {
+            "type": "integer"
+          },
+          "text": {
+            "type": "string"
+          },
+          "detectedAt": {
+            "type": "string"
+          },
+          "queryText": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "mentionRelation": {
+            "title": "How the mentioned brand relates to the project: `own`, `tracked-competitor` or\n`untracked-competitor`. Null on rows written before the column existed.",
+            "description": "Published because `competitorId` alone cannot answer the question. Own-brand AND\nuntracked-competitor mentions both carry a null competitor id - the confusion migration\nVersion20260608130000 was written to end - so a reader that treats a null competitor id as\n\"us\" silently counts a rival as the brand.",
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "brandName": {
+            "title": "The denormalised brand name. The only way to name an untracked competitor, which by\ndefinition has no competitor id to resolve one from. Null on legacy rows.",
+            "type": "string",
+            "default": null,
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "ProjectMentionSamplesResponse": {
+        "required": [
+          "samples",
+          "total"
+        ],
+        "properties": {
+          "samples": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MentionSampleResponse"
+            }
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "PositionDistributionBucket": {
+        "required": [
+          "bucket",
+          "count"
+        ],
+        "properties": {
+          "bucket": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "CompetitorShareOfVoice": {
+        "required": [
+          "competitorId"
+        ],
+        "properties": {
+          "competitorId": {
+            "type": "string"
+          },
+          "shareOfVoice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "ProjectRankTrackingStats": {
+        "required": [
+          "sentimentPositive",
+          "sentimentNeutral",
+          "sentimentNegative",
+          "mentionCount",
+          "aiTrackedQueryCount",
+          "aiQueriesWithMention",
+          "serpTrackedQueryCount",
+          "serpQueriesWithResult",
+          "shoppingTrackedQueryCount",
+          "shoppingQueriesWithResult",
+          "mentionTypeCounts"
+        ],
+        "properties": {
+          "avgSerpPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendSerp": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgShoppingPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendShopping": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgMentionPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendMention": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgLinkPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendLink": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "mentionPositionStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "serpPositionStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendSerpStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "shoppingPositionStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendShoppingStability": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "positivityIndex": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendPositivity": {
+            "type": "integer",
+            "nullable": true
+          },
+          "mentionRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendMentionRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "serpRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendSerpRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "shoppingRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendShoppingRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "shareOfVoice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendShareOfVoice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "sentimentPositive": {
+            "type": "integer"
+          },
+          "sentimentNeutral": {
+            "type": "integer"
+          },
+          "sentimentNegative": {
+            "type": "integer"
+          },
+          "mentionCount": {
+            "type": "integer"
+          },
+          "aiTrackedQueryCount": {
+            "type": "integer"
+          },
+          "aiQueriesWithMention": {
+            "type": "integer"
+          },
+          "serpTrackedQueryCount": {
+            "type": "integer"
+          },
+          "serpQueriesWithResult": {
+            "type": "integer"
+          },
+          "shoppingTrackedQueryCount": {
+            "type": "integer"
+          },
+          "shoppingQueriesWithResult": {
+            "type": "integer"
+          },
+          "mentionTypeCounts": {
+            "$ref": "#/components/schemas/MentionTypeCounts"
+          },
+          "dataDirtySince": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "mentionPositionDistribution": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PositionDistributionBucket"
+            },
+            "default": []
+          },
+          "serpPositionDistribution": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PositionDistributionBucket"
+            },
+            "default": []
+          },
+          "shoppingPositionDistribution": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PositionDistributionBucket"
+            },
+            "default": []
+          },
+          "competitorShareOfVoice": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompetitorShareOfVoice"
+            },
+            "default": []
+          }
+        },
+        "type": "object"
+      },
+      "PerEngineSentiment": {
+        "required": [
+          "engine",
+          "positive",
+          "neutral",
+          "negative",
+          "mentionCount"
+        ],
+        "properties": {
+          "engine": {
+            "type": "string"
+          },
+          "positive": {
+            "type": "integer"
+          },
+          "neutral": {
+            "type": "integer"
+          },
+          "negative": {
+            "type": "integer"
+          },
+          "mentionCount": {
+            "type": "integer"
+          },
+          "positivityIndex": {
+            "type": "integer",
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "PerCompetitorSentiment": {
+        "required": [
+          "competitorId",
+          "positive",
+          "neutral",
+          "negative",
+          "mentionCount",
+          "mentionTypeCounts"
+        ],
+        "properties": {
+          "competitorId": {
+            "type": "string"
+          },
+          "positive": {
+            "type": "integer"
+          },
+          "neutral": {
+            "type": "integer"
+          },
+          "negative": {
+            "type": "integer"
+          },
+          "mentionCount": {
+            "type": "integer"
+          },
+          "positivityIndex": {
+            "type": "integer",
+            "nullable": true
+          },
+          "mentionTypeCounts": {
+            "$ref": "#/components/schemas/MentionTypeCounts"
+          }
+        },
+        "type": "object"
+      },
+      "ProjectSentimentBreakdown": {
+        "required": [
+          "perEngine",
+          "perCompetitor"
+        ],
+        "properties": {
+          "perEngine": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PerEngineSentiment"
+            }
+          },
+          "perCompetitor": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PerCompetitorSentiment"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "PerEntityMetrics": {
+        "properties": {
+          "serp": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "shopping": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "mention": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "link": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "positivity": {
+            "type": "integer",
+            "nullable": true
+          },
+          "shareOfVoice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "mentionRate": {
+            "type": "integer",
+            "nullable": true
+          },
+          "serpRate": {
+            "type": "integer",
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "TimeSeriesPoint": {
+        "required": [
+          "rawDate",
+          "brand",
+          "competitors"
+        ],
+        "properties": {
+          "rawDate": {
+            "type": "string"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/PerEntityMetrics"
+          },
+          "competitors": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PerEntityMetrics"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "ProjectRankTrackingTimeSeries": {
+        "required": [
+          "points"
+        ],
+        "properties": {
+          "points": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimeSeriesPoint"
+            }
+          },
+          "dataDirtySince": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "TrackedQueryMoverRow": {
+        "required": [
+          "trackedQueryId",
+          "queryText",
+          "engine",
+          "country",
+          "sentimentPositive",
+          "sentimentNeutral",
+          "sentimentNegative",
+          "mentionCount",
+          "mentionTypeCounts"
+        ],
+        "properties": {
+          "trackedQueryId": {
+            "type": "string"
+          },
+          "queryText": {
+            "type": "string"
+          },
+          "engine": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "avgSerpPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendSerp": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgShoppingPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendShopping": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgMentionPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendMention": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "avgLinkPosition": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendLink": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "shareOfVoice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "trendShareOfVoice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "positivityIndex": {
+            "type": "integer",
+            "nullable": true
+          },
+          "trendPositivity": {
+            "type": "integer",
+            "nullable": true
+          },
+          "sentimentPositive": {
+            "type": "integer"
+          },
+          "sentimentNeutral": {
+            "type": "integer"
+          },
+          "sentimentNegative": {
+            "type": "integer"
+          },
+          "mentionCount": {
+            "type": "integer"
+          },
+          "mentionTypeCounts": {
+            "$ref": "#/components/schemas/MentionTypeCounts"
+          }
+        },
+        "type": "object"
+      },
+      "TrackedQueryMoversResponse": {
+        "required": [
+          "rows",
+          "total"
+        ],
+        "properties": {
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrackedQueryMoverRow"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "dataDirtySince": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "TrackedQueryRankTrackingTimeSeries": {
+        "required": [
+          "points"
+        ],
+        "properties": {
+          "points": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimeSeriesPoint"
+            }
+          },
+          "dataDirtySince": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
       "EntitlementsResource": {
         "description": "What an organization's plan allows and what it has consumed",
         "required": [
@@ -9915,6 +11218,118 @@
               }
             },
             "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "MentionMatchResource": {
+        "description": "A stored mention match; no provider credentials or operational metadata",
+        "required": [
+          "trackedQueryId",
+          "projectId",
+          "engine",
+          "aiResponseId",
+          "mentionPosition",
+          "sentiment",
+          "mentionType",
+          "responseContext",
+          "detectedAt"
+        ],
+        "properties": {
+          "trackedQueryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "engine": {
+            "type": "string"
+          },
+          "aiResponseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "competitorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "mentionPosition": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sentiment": {
+            "type": "string"
+          },
+          "mentionType": {
+            "type": "string"
+          },
+          "mentionTypeCondition": {
+            "type": "string",
+            "nullable": true
+          },
+          "responseContext": {
+            "type": "string"
+          },
+          "detectedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mentionRelation": {
+            "type": "string",
+            "nullable": true
+          },
+          "brandName": {
+            "type": "string",
+            "nullable": true
+          },
+          "brandNameAsMentioned": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "SerpMatchResource": {
+        "description": "A stored serp match; no provider credentials or operational metadata",
+        "required": [
+          "trackedQueryId",
+          "projectId",
+          "engine",
+          "searchPageId",
+          "position",
+          "detectedAt"
+        ],
+        "properties": {
+          "trackedQueryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "projectId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "engine": {
+            "type": "string"
+          },
+          "searchPageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "competitorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "detectedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "type": "object"

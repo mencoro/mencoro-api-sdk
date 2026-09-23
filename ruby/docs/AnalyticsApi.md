@@ -95,7 +95,7 @@ end
 
 ## get_cited_sources
 
-> get_cited_sources(organization_id, project_id, date_from, date_to, opts)
+> <CitedSourcesResponse> get_cited_sources(organization_id, project_id, date_from, date_to, opts)
 
 Domains and pages the AI answers cited
 
@@ -126,7 +126,8 @@ opts = {
 
 begin
   # Domains and pages the AI answers cited
-  api_instance.get_cited_sources(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_cited_sources(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_cited_sources: #{e}"
 end
@@ -134,9 +135,9 @@ end
 
 #### Using the get_cited_sources_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_cited_sources_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<CitedSourcesResponse>, Integer, Hash)> get_cited_sources_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -144,7 +145,7 @@ begin
   data, status_code, headers = api_instance.get_cited_sources_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <CitedSourcesResponse>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_cited_sources_with_http_info: #{e}"
 end
@@ -165,7 +166,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**CitedSourcesResponse**](CitedSourcesResponse.md)
 
 ### Authorization
 
@@ -174,12 +175,12 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_cluster_breakdown
 
-> get_cluster_breakdown(organization_id, project_id, date_from, date_to, opts)
+> <ProjectRankTrackingClusterBreakdown> get_cluster_breakdown(organization_id, project_id, date_from, date_to, opts)
 
 Rank-tracking metrics per keyword cluster
 
@@ -210,7 +211,8 @@ opts = {
 
 begin
   # Rank-tracking metrics per keyword cluster
-  api_instance.get_cluster_breakdown(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_cluster_breakdown(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_cluster_breakdown: #{e}"
 end
@@ -218,9 +220,9 @@ end
 
 #### Using the get_cluster_breakdown_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_cluster_breakdown_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<ProjectRankTrackingClusterBreakdown>, Integer, Hash)> get_cluster_breakdown_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -228,7 +230,7 @@ begin
   data, status_code, headers = api_instance.get_cluster_breakdown_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <ProjectRankTrackingClusterBreakdown>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_cluster_breakdown_with_http_info: #{e}"
 end
@@ -249,7 +251,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**ProjectRankTrackingClusterBreakdown**](ProjectRankTrackingClusterBreakdown.md)
 
 ### Authorization
 
@@ -258,12 +260,12 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_competitor_co_occurrence
 
-> get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, opts)
+> <CompetitorCoOccurrenceResponse> get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, opts)
 
 Head-to-head record of the brand against each tracked competitor
 
@@ -293,7 +295,8 @@ opts = {
 
 begin
   # Head-to-head record of the brand against each tracked competitor
-  api_instance.get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_competitor_co_occurrence: #{e}"
 end
@@ -301,9 +304,9 @@ end
 
 #### Using the get_competitor_co_occurrence_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_competitor_co_occurrence_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<CompetitorCoOccurrenceResponse>, Integer, Hash)> get_competitor_co_occurrence_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -311,7 +314,7 @@ begin
   data, status_code, headers = api_instance.get_competitor_co_occurrence_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <CompetitorCoOccurrenceResponse>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_competitor_co_occurrence_with_http_info: #{e}"
 end
@@ -331,7 +334,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**CompetitorCoOccurrenceResponse**](CompetitorCoOccurrenceResponse.md)
 
 ### Authorization
 
@@ -340,12 +343,12 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_mention_mix
 
-> get_mention_mix(organization_id, project_id, date_from, date_to, opts)
+> <ProjectMentionMixResponse> get_mention_mix(organization_id, project_id, date_from, date_to, opts)
 
 Composition of a project brand mentions in AI answers
 
@@ -374,7 +377,8 @@ opts = {
 
 begin
   # Composition of a project brand mentions in AI answers
-  api_instance.get_mention_mix(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_mention_mix(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_mention_mix: #{e}"
 end
@@ -382,9 +386,9 @@ end
 
 #### Using the get_mention_mix_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_mention_mix_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<ProjectMentionMixResponse>, Integer, Hash)> get_mention_mix_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -392,7 +396,7 @@ begin
   data, status_code, headers = api_instance.get_mention_mix_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <ProjectMentionMixResponse>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_mention_mix_with_http_info: #{e}"
 end
@@ -411,7 +415,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**ProjectMentionMixResponse**](ProjectMentionMixResponse.md)
 
 ### Authorization
 
@@ -420,12 +424,12 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_mention_samples
 
-> get_mention_samples(organization_id, project_id, date_from, date_to, opts)
+> <ProjectMentionSamplesResponse> get_mention_samples(organization_id, project_id, date_from, date_to, opts)
 
 Sample of the raw AI mention texts of a project
 
@@ -460,7 +464,8 @@ opts = {
 
 begin
   # Sample of the raw AI mention texts of a project
-  api_instance.get_mention_samples(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_mention_samples(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_mention_samples: #{e}"
 end
@@ -468,9 +473,9 @@ end
 
 #### Using the get_mention_samples_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_mention_samples_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<ProjectMentionSamplesResponse>, Integer, Hash)> get_mention_samples_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -478,7 +483,7 @@ begin
   data, status_code, headers = api_instance.get_mention_samples_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <ProjectMentionSamplesResponse>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_mention_samples_with_http_info: #{e}"
 end
@@ -503,7 +508,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**ProjectMentionSamplesResponse**](ProjectMentionSamplesResponse.md)
 
 ### Authorization
 
@@ -652,7 +657,7 @@ end
 
 ## get_project_metrics
 
-> get_project_metrics(organization_id, project_id, date_from, date_to, opts)
+> <ProjectRankTrackingStats> get_project_metrics(organization_id, project_id, date_from, date_to, opts)
 
 Headline visibility metrics of a project
 
@@ -683,7 +688,8 @@ opts = {
 
 begin
   # Headline visibility metrics of a project
-  api_instance.get_project_metrics(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_project_metrics(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_project_metrics: #{e}"
 end
@@ -691,9 +697,9 @@ end
 
 #### Using the get_project_metrics_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_project_metrics_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<ProjectRankTrackingStats>, Integer, Hash)> get_project_metrics_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -701,7 +707,7 @@ begin
   data, status_code, headers = api_instance.get_project_metrics_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <ProjectRankTrackingStats>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_project_metrics_with_http_info: #{e}"
 end
@@ -722,7 +728,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**ProjectRankTrackingStats**](ProjectRankTrackingStats.md)
 
 ### Authorization
 
@@ -731,12 +737,12 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_project_sentiment
 
-> get_project_sentiment(organization_id, project_id, date_from, date_to, opts)
+> <ProjectSentimentBreakdown> get_project_sentiment(organization_id, project_id, date_from, date_to, opts)
 
 Sentiment breakdown of a project brand mentions
 
@@ -767,7 +773,8 @@ opts = {
 
 begin
   # Sentiment breakdown of a project brand mentions
-  api_instance.get_project_sentiment(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_project_sentiment(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_project_sentiment: #{e}"
 end
@@ -775,9 +782,9 @@ end
 
 #### Using the get_project_sentiment_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_project_sentiment_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<ProjectSentimentBreakdown>, Integer, Hash)> get_project_sentiment_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -785,7 +792,7 @@ begin
   data, status_code, headers = api_instance.get_project_sentiment_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <ProjectSentimentBreakdown>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_project_sentiment_with_http_info: #{e}"
 end
@@ -806,7 +813,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**ProjectSentimentBreakdown**](ProjectSentimentBreakdown.md)
 
 ### Authorization
 
@@ -815,12 +822,12 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_project_time_series
 
-> get_project_time_series(organization_id, project_id, date_from, date_to, opts)
+> <ProjectRankTrackingTimeSeries> get_project_time_series(organization_id, project_id, date_from, date_to, opts)
 
 Rank-tracking metrics of a project over time
 
@@ -853,7 +860,8 @@ opts = {
 
 begin
   # Rank-tracking metrics of a project over time
-  api_instance.get_project_time_series(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_project_time_series(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_project_time_series: #{e}"
 end
@@ -861,9 +869,9 @@ end
 
 #### Using the get_project_time_series_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_project_time_series_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<ProjectRankTrackingTimeSeries>, Integer, Hash)> get_project_time_series_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -871,7 +879,7 @@ begin
   data, status_code, headers = api_instance.get_project_time_series_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <ProjectRankTrackingTimeSeries>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_project_time_series_with_http_info: #{e}"
 end
@@ -894,7 +902,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**ProjectRankTrackingTimeSeries**](ProjectRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -903,12 +911,12 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_query_movers
 
-> get_query_movers(organization_id, project_id, date_from, date_to, opts)
+> <TrackedQueryMoversResponse> get_query_movers(organization_id, project_id, date_from, date_to, opts)
 
 Tracked queries ranked by how much a metric moved
 
@@ -941,7 +949,8 @@ opts = {
 
 begin
   # Tracked queries ranked by how much a metric moved
-  api_instance.get_query_movers(organization_id, project_id, date_from, date_to, opts)
+  result = api_instance.get_query_movers(organization_id, project_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_query_movers: #{e}"
 end
@@ -949,9 +958,9 @@ end
 
 #### Using the get_query_movers_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_query_movers_with_http_info(organization_id, project_id, date_from, date_to, opts)
+> <Array(<TrackedQueryMoversResponse>, Integer, Hash)> get_query_movers_with_http_info(organization_id, project_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -959,7 +968,7 @@ begin
   data, status_code, headers = api_instance.get_query_movers_with_http_info(organization_id, project_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <TrackedQueryMoversResponse>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_query_movers_with_http_info: #{e}"
 end
@@ -982,7 +991,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**TrackedQueryMoversResponse**](TrackedQueryMoversResponse.md)
 
 ### Authorization
 
@@ -991,7 +1000,7 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_share_of_voice_formula
@@ -1067,7 +1076,7 @@ end
 
 ## get_tracked_query_time_series
 
-> get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
+> <TrackedQueryRankTrackingTimeSeries> get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
 
 Rank-tracking time series of a single tracked query
 
@@ -1097,7 +1106,8 @@ opts = {
 
 begin
   # Rank-tracking time series of a single tracked query
-  api_instance.get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
+  result = api_instance.get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
+  p result
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_tracked_query_time_series: #{e}"
 end
@@ -1105,9 +1115,9 @@ end
 
 #### Using the get_tracked_query_time_series_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> get_tracked_query_time_series_with_http_info(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
+> <Array(<TrackedQueryRankTrackingTimeSeries>, Integer, Hash)> get_tracked_query_time_series_with_http_info(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
 
 ```ruby
 begin
@@ -1115,7 +1125,7 @@ begin
   data, status_code, headers = api_instance.get_tracked_query_time_series_with_http_info(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <TrackedQueryRankTrackingTimeSeries>
 rescue Mencoro::ApiError => e
   puts "Error when calling AnalyticsApi->get_tracked_query_time_series_with_http_info: #{e}"
 end
@@ -1135,7 +1145,7 @@ end
 
 ### Return type
 
-nil (empty response body)
+[**TrackedQueryRankTrackingTimeSeries**](TrackedQueryRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -1144,7 +1154,7 @@ nil (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_tracking_coverage

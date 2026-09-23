@@ -586,6 +586,76 @@ namespace Mencoro.Api.Api
         /// <param name="sortOrder"> (optional, default to desc)</param>
         /// <returns>ApiResponse of SearchTrackedQueries200Response</returns>
         ApiResponse<SearchTrackedQueries200Response> SearchTrackedQueriesWithHttpInfo(Guid organizationId, Guid projectId, int? limit = default, int? offset = default, string? search = default, string? status = default, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default);
+        /// <summary>
+        /// List stored mention matches of a tracked query
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <returns>SearchTrackedQueryMentionMatches200Response</returns>
+        SearchTrackedQueryMentionMatches200Response SearchTrackedQueryMentionMatches(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default);
+
+        /// <summary>
+        /// List stored mention matches of a tracked query
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <returns>ApiResponse of SearchTrackedQueryMentionMatches200Response</returns>
+        ApiResponse<SearchTrackedQueryMentionMatches200Response> SearchTrackedQueryMentionMatchesWithHttpInfo(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default);
+        /// <summary>
+        /// List stored serp matches of a tracked query
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <returns>SearchTrackedQuerySerpMatches200Response</returns>
+        SearchTrackedQuerySerpMatches200Response SearchTrackedQuerySerpMatches(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default);
+
+        /// <summary>
+        /// List stored serp matches of a tracked query
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <returns>ApiResponse of SearchTrackedQuerySerpMatches200Response</returns>
+        ApiResponse<SearchTrackedQuerySerpMatches200Response> SearchTrackedQuerySerpMatchesWithHttpInfo(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default);
         #endregion Synchronous Operations
     }
 
@@ -1193,6 +1263,80 @@ namespace Mencoro.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SearchTrackedQueries200Response)</returns>
         System.Threading.Tasks.Task<ApiResponse<SearchTrackedQueries200Response>> SearchTrackedQueriesWithHttpInfoAsync(Guid organizationId, Guid projectId, int? limit = default, int? offset = default, string? search = default, string? status = default, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// List stored mention matches of a tracked query
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SearchTrackedQueryMentionMatches200Response</returns>
+        System.Threading.Tasks.Task<SearchTrackedQueryMentionMatches200Response> SearchTrackedQueryMentionMatchesAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// List stored mention matches of a tracked query
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SearchTrackedQueryMentionMatches200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SearchTrackedQueryMentionMatches200Response>> SearchTrackedQueryMentionMatchesWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// List stored serp matches of a tracked query
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SearchTrackedQuerySerpMatches200Response</returns>
+        System.Threading.Tasks.Task<SearchTrackedQuerySerpMatches200Response> SearchTrackedQuerySerpMatchesAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// List stored serp matches of a tracked query
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SearchTrackedQuerySerpMatches200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<SearchTrackedQuerySerpMatches200Response>> SearchTrackedQuerySerpMatchesWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -4526,6 +4670,392 @@ namespace Mencoro.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("SearchTrackedQueries", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// List stored mention matches of a tracked query Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <returns>SearchTrackedQueryMentionMatches200Response</returns>
+        public SearchTrackedQueryMentionMatches200Response SearchTrackedQueryMentionMatches(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default)
+        {
+            Mencoro.Api.Client.ApiResponse<SearchTrackedQueryMentionMatches200Response> localVarResponse = SearchTrackedQueryMentionMatchesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List stored mention matches of a tracked query Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <returns>ApiResponse of SearchTrackedQueryMentionMatches200Response</returns>
+        public Mencoro.Api.Client.ApiResponse<SearchTrackedQueryMentionMatches200Response> SearchTrackedQueryMentionMatchesWithHttpInfo(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default)
+        {
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "text/csv"
+            };
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("projectId", Mencoro.Api.Client.ClientUtils.ParameterToString(projectId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("trackedQueryId", Mencoro.Api.Client.ClientUtils.ParameterToString(trackedQueryId)); // path parameter
+            if (dateFrom != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "dateFrom", dateFrom));
+            }
+            if (dateTo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "dateTo", dateTo));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
+            if (offset != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "offset", offset));
+            }
+            if (sortOrder != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "sortOrder", sortOrder));
+            }
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<SearchTrackedQueryMentionMatches200Response>("/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("SearchTrackedQueryMentionMatches", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// List stored mention matches of a tracked query Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SearchTrackedQueryMentionMatches200Response</returns>
+        public async System.Threading.Tasks.Task<SearchTrackedQueryMentionMatches200Response> SearchTrackedQueryMentionMatchesAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Mencoro.Api.Client.ApiResponse<SearchTrackedQueryMentionMatches200Response> localVarResponse = await SearchTrackedQueryMentionMatchesWithHttpInfoAsync(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List stored mention matches of a tracked query Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SearchTrackedQueryMentionMatches200Response)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<SearchTrackedQueryMentionMatches200Response>> SearchTrackedQueryMentionMatchesWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "text/csv"
+            };
+
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("projectId", Mencoro.Api.Client.ClientUtils.ParameterToString(projectId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("trackedQueryId", Mencoro.Api.Client.ClientUtils.ParameterToString(trackedQueryId)); // path parameter
+            if (dateFrom != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "dateFrom", dateFrom));
+            }
+            if (dateTo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "dateTo", dateTo));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
+            if (offset != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "offset", offset));
+            }
+            if (sortOrder != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "sortOrder", sortOrder));
+            }
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<SearchTrackedQueryMentionMatches200Response>("/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("SearchTrackedQueryMentionMatches", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// List stored serp matches of a tracked query Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <returns>SearchTrackedQuerySerpMatches200Response</returns>
+        public SearchTrackedQuerySerpMatches200Response SearchTrackedQuerySerpMatches(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default)
+        {
+            Mencoro.Api.Client.ApiResponse<SearchTrackedQuerySerpMatches200Response> localVarResponse = SearchTrackedQuerySerpMatchesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List stored serp matches of a tracked query Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <returns>ApiResponse of SearchTrackedQuerySerpMatches200Response</returns>
+        public Mencoro.Api.Client.ApiResponse<SearchTrackedQuerySerpMatches200Response> SearchTrackedQuerySerpMatchesWithHttpInfo(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default)
+        {
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "text/csv"
+            };
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("projectId", Mencoro.Api.Client.ClientUtils.ParameterToString(projectId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("trackedQueryId", Mencoro.Api.Client.ClientUtils.ParameterToString(trackedQueryId)); // path parameter
+            if (dateFrom != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "dateFrom", dateFrom));
+            }
+            if (dateTo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "dateTo", dateTo));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
+            if (offset != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "offset", offset));
+            }
+            if (sortOrder != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "sortOrder", sortOrder));
+            }
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<SearchTrackedQuerySerpMatches200Response>("/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("SearchTrackedQuerySerpMatches", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// List stored serp matches of a tracked query Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of SearchTrackedQuerySerpMatches200Response</returns>
+        public async System.Threading.Tasks.Task<SearchTrackedQuerySerpMatches200Response> SearchTrackedQuerySerpMatchesAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Mencoro.Api.Client.ApiResponse<SearchTrackedQuerySerpMatches200Response> localVarResponse = await SearchTrackedQuerySerpMatchesWithHttpInfoAsync(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List stored serp matches of a tracked query Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="trackedQueryId"></param>
+        /// <param name="dateFrom">Inclusive UTC day; defaults to the retention floor. (optional)</param>
+        /// <param name="dateTo">Inclusive UTC day. (optional)</param>
+        /// <param name="limit"> (optional, default to 20)</param>
+        /// <param name="offset"> (optional, default to 0)</param>
+        /// <param name="sortOrder"> (optional, default to desc)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (SearchTrackedQuerySerpMatches200Response)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<SearchTrackedQuerySerpMatches200Response>> SearchTrackedQuerySerpMatchesWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? limit = default, int? offset = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json",
+                "text/csv"
+            };
+
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("projectId", Mencoro.Api.Client.ClientUtils.ParameterToString(projectId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("trackedQueryId", Mencoro.Api.Client.ClientUtils.ParameterToString(trackedQueryId)); // path parameter
+            if (dateFrom != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "dateFrom", dateFrom));
+            }
+            if (dateTo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "dateTo", dateTo));
+            }
+            if (limit != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
+            }
+            if (offset != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "offset", offset));
+            }
+            if (sortOrder != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Mencoro.Api.Client.ClientUtils.ParameterToMultiMap("", "sortOrder", sortOrder));
+            }
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<SearchTrackedQuerySerpMatches200Response>("/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("SearchTrackedQuerySerpMatches", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

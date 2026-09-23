@@ -44,9 +44,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetCitedSources(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetCitedSources(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -58,9 +59,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetClusterBreakdown(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetClusterBreakdown(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -72,9 +74,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetCompetitorCoOccurrence(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetCompetitorCoOccurrence(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -86,9 +89,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetMentionMix(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetMentionMix(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -100,9 +104,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetMentionSamples(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetMentionSamples(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -140,9 +145,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetProjectMetrics(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetProjectMetrics(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -154,9 +160,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetProjectSentiment(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetProjectSentiment(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -168,9 +175,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetProjectTimeSeries(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetProjectTimeSeries(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -182,9 +190,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var organizationId string
 		var projectId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetQueryMovers(context.Background(), organizationId, projectId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetQueryMovers(context.Background(), organizationId, projectId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -212,9 +221,10 @@ func Test_mencoro_AnalyticsAPIService(t *testing.T) {
 		var projectId string
 		var trackedQueryId string
 
-		httpRes, err := apiClient.AnalyticsAPI.GetTrackedQueryTimeSeries(context.Background(), organizationId, projectId, trackedQueryId).Execute()
+		resp, httpRes, err := apiClient.AnalyticsAPI.GetTrackedQueryTimeSeries(context.Background(), organizationId, projectId, trackedQueryId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

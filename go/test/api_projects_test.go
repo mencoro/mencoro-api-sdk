@@ -97,6 +97,22 @@ func Test_mencoro_ProjectsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test ProjectsAPIService GetCompetitor", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var organizationId string
+		var projectId string
+		var competitorId string
+
+		resp, httpRes, err := apiClient.ProjectsAPI.GetCompetitor(context.Background(), organizationId, projectId, competitorId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test ProjectsAPIService GetProject", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

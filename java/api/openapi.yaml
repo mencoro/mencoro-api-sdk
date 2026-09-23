@@ -915,6 +915,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CitedSourcesResponse"
           description: "The cited sources for this page, plus the total number of\
             \ distinct sources in the window"
         "401":
@@ -1031,6 +1035,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectRankTrackingClusterBreakdown"
           description: "One row per keyword cluster, plus the ungrouped bucket where\
             \ it applies"
         "401":
@@ -1139,6 +1147,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompetitorCoOccurrenceResponse"
           description: "One head-to-head row per tracked competitor, under \"competitors\""
         "401":
           description: Missing or invalid API key
@@ -1237,6 +1249,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectMentionMixResponse"
           description: "Mention counts by type, by tone and by qualifier"
         "401":
           description: Missing or invalid API key
@@ -1424,6 +1440,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectMentionSamplesResponse"
           description: A page of mention samples and the total matching the filters
         "401":
           description: Missing or invalid API key
@@ -1641,6 +1661,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectRankTrackingStats"
           description: "Headline metrics, trends, sentiment split, per-competitor\
             \ share of voice and position distributions"
         "401":
@@ -1748,6 +1772,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectSentimentBreakdown"
           description: Sentiment per engine and per competitor
         "401":
           description: Missing or invalid API key
@@ -1887,6 +1915,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectRankTrackingTimeSeries"
           description: "Points in bucket order, plus dataDirtySince: a date from which\
             \ the rank data is being recomputed, or null when nothing is pending"
         "401":
@@ -2038,6 +2070,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackedQueryMoversResponse"
           description: "The ranked tracked queries under \"rows\", with \"total\"\
             \ and \"dataDirtySince\""
         "401":
@@ -2197,6 +2233,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackedQueryRankTrackingTimeSeries"
           description: "One point per bucket, with brand and per-competitor metrics"
         "401":
           description: Missing or invalid API key
@@ -4315,6 +4355,224 @@ paths:
       - Analytics
       x-accepts:
       - application/json
+  /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches:
+    get:
+      description: "Minimum role: viewer. Text mentions across own brand and tracked\
+        \ or untracked competitors. Citation-only rows are excluded before pagination.\
+        \ Read mentionRelation to distinguish own brand from untracked competitors;\
+        \ a null competitorId alone does not classify the mention. Newest first by\
+        \ detection time, with an id tie-break. Dates cover whole UTC days. Only the\
+        \ retained 16-month window is readable, including when dateFrom is omitted.\
+        \ Unknown filters are rejected. The total counts all matching rows before\
+        \ pagination. Send Accept: text/csv for the same bounded page and filters\
+        \ as CSV, with formula-safe cells and no total."
+      operationId: searchTrackedQueryMentionMatches
+      parameters:
+      - explode: false
+        in: path
+        name: organizationId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: trackedQueryId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Inclusive UTC day; defaults to the retention floor.
+        explode: true
+        in: query
+        name: dateFrom
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - description: Inclusive UTC day.
+        explode: true
+        in: query
+        name: dateTo
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          default: desc
+          enum:
+          - asc
+          - desc
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/searchTrackedQueryMentionMatches_200_response"
+            text/csv:
+              schema:
+                type: string
+          description: Stored matches and total under the same filters
+        "400":
+          description: Invalid or unsupported query parameters
+        "401":
+          description: Missing or invalid API key
+        "403":
+          description: The key lacks the read capability
+        "404":
+          description: "Organization, project or tracked query is not accessible"
+      summary: List stored mention matches of a tracked query
+      tags:
+      - Tracked Queries
+      x-accepts:
+      - application/json
+      - text/csv
+  /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches:
+    get:
+      description: "Minimum role: viewer. Stored organic-search matches with the competitor\
+        \ attribution and position recorded at detection time. A null competitorId\
+        \ identifies the own-brand match. These are historical matches, not a reclassification\
+        \ using the current brand profile. Newest first by detection time, with an\
+        \ id tie-break. Dates cover whole UTC days. Only the retained 16-month window\
+        \ is readable, including when dateFrom is omitted. Unknown filters are rejected.\
+        \ The total counts all matching rows before pagination. Send Accept: text/csv\
+        \ for the same bounded page and filters as CSV, with formula-safe cells and\
+        \ no total."
+      operationId: searchTrackedQuerySerpMatches
+      parameters:
+      - explode: false
+        in: path
+        name: organizationId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: projectId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: trackedQueryId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Inclusive UTC day; defaults to the retention floor.
+        explode: true
+        in: query
+        name: dateFrom
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - description: Inclusive UTC day.
+        explode: true
+        in: query
+        name: dateTo
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          default: desc
+          enum:
+          - asc
+          - desc
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/searchTrackedQuerySerpMatches_200_response"
+            text/csv:
+              schema:
+                type: string
+          description: Stored matches and total under the same filters
+        "400":
+          description: Invalid or unsupported query parameters
+        "401":
+          description: Missing or invalid API key
+        "403":
+          description: The key lacks the read capability
+        "404":
+          description: "Organization, project or tracked query is not accessible"
+      summary: List stored serp matches of a tracked query
+      tags:
+      - Tracked Queries
+      x-accepts:
+      - application/json
+      - text/csv
   /api/v1/me:
     get:
       description: "Returns the user the API key belongs to, plus the key's capabilities\
@@ -7556,6 +7814,1295 @@ components:
       - submitted
       - trackedQueryIds
       type: object
+    CitedSourceRow:
+      example:
+        groupKey: groupKey
+        domain: domain
+        citationCount: 0
+        distinctQueryCount: 6
+        distinctResponseCount: 1
+        avgPosition: 5.962134
+        sampleTitle: sampleTitle
+        sampleUrl: sampleUrl
+      properties:
+        groupKey:
+          type: string
+        domain:
+          nullable: true
+          type: string
+        citationCount:
+          type: integer
+        distinctQueryCount:
+          type: integer
+        distinctResponseCount:
+          type: integer
+        avgPosition:
+          format: float
+          nullable: true
+          type: number
+        sampleTitle:
+          nullable: true
+          type: string
+        sampleUrl:
+          type: string
+      required:
+      - citationCount
+      - distinctQueryCount
+      - distinctResponseCount
+      - groupKey
+      - sampleUrl
+      type: object
+    CitedSourcesResponse:
+      example:
+        sources:
+        - groupKey: groupKey
+          domain: domain
+          citationCount: 0
+          distinctQueryCount: 6
+          distinctResponseCount: 1
+          avgPosition: 5.962134
+          sampleTitle: sampleTitle
+          sampleUrl: sampleUrl
+        - groupKey: groupKey
+          domain: domain
+          citationCount: 0
+          distinctQueryCount: 6
+          distinctResponseCount: 1
+          avgPosition: 5.962134
+          sampleTitle: sampleTitle
+          sampleUrl: sampleUrl
+        total: 5
+      properties:
+        sources:
+          items:
+            $ref: "#/components/schemas/CitedSourceRow"
+          type: array
+        total:
+          type: integer
+      required:
+      - sources
+      - total
+      type: object
+    MentionTypeCounts:
+      example:
+        recommendation: 6
+        comparison: 6
+        listing: 5
+        example: 6
+        reference: 3
+      properties:
+        recommendation:
+          type: integer
+        comparison:
+          type: integer
+        listing:
+          type: integer
+        example:
+          type: integer
+        reference:
+          type: integer
+      required:
+      - comparison
+      - example
+      - listing
+      - recommendation
+      - reference
+      type: object
+    ClusterBreakdownRow:
+      example:
+        clusterId: clusterId
+        clusterName: clusterName
+        queryCount: 0
+        keywordCount: 6
+        avgSerpPosition: 1.4658129
+        trendSerp: 5.962134
+        avgShoppingPosition: 5.637377
+        trendShopping: 2.302136
+        avgMentionPosition: 7.0614014
+        trendMention: 9.301444
+        avgLinkPosition: 3.6160767
+        trendLink: 2.027123
+        mentionPositionStability: 4.145608
+        trendStability: 7.386282
+        serpPositionStability: 1.2315135
+        trendSerpStability: 1.0246457
+        shoppingPositionStability: 1.4894159
+        trendShoppingStability: 6.846853
+        positivityIndex: 7
+        trendPositivity: 1
+        mentionRate: 4
+        trendMentionRate: 5
+        serpRate: 9
+        trendSerpRate: 9
+        shoppingRate: 6
+        trendShoppingRate: 8
+        shareOfVoice: 9.018348
+        trendShareOfVoice: 6.4384236
+        sentimentPositive: 3
+        sentimentNeutral: 6
+        sentimentNegative: 1
+        avgMentionCount: 2.8841622
+        mentionTypeCounts:
+          recommendation: 6
+          comparison: 6
+          listing: 5
+          example: 6
+          reference: 3
+      properties:
+        clusterId:
+          nullable: true
+          type: string
+        clusterName:
+          type: string
+        queryCount:
+          type: integer
+        keywordCount:
+          type: integer
+        avgSerpPosition:
+          format: float
+          nullable: true
+          type: number
+        trendSerp:
+          format: float
+          nullable: true
+          type: number
+        avgShoppingPosition:
+          format: float
+          nullable: true
+          type: number
+        trendShopping:
+          format: float
+          nullable: true
+          type: number
+        avgMentionPosition:
+          format: float
+          nullable: true
+          type: number
+        trendMention:
+          format: float
+          nullable: true
+          type: number
+        avgLinkPosition:
+          format: float
+          nullable: true
+          type: number
+        trendLink:
+          format: float
+          nullable: true
+          type: number
+        mentionPositionStability:
+          format: float
+          nullable: true
+          type: number
+        trendStability:
+          format: float
+          nullable: true
+          type: number
+        serpPositionStability:
+          format: float
+          nullable: true
+          type: number
+        trendSerpStability:
+          format: float
+          nullable: true
+          type: number
+        shoppingPositionStability:
+          format: float
+          nullable: true
+          type: number
+        trendShoppingStability:
+          format: float
+          nullable: true
+          type: number
+        positivityIndex:
+          nullable: true
+          type: integer
+        trendPositivity:
+          nullable: true
+          type: integer
+        mentionRate:
+          nullable: true
+          type: integer
+        trendMentionRate:
+          nullable: true
+          type: integer
+        serpRate:
+          nullable: true
+          type: integer
+        trendSerpRate:
+          nullable: true
+          type: integer
+        shoppingRate:
+          nullable: true
+          type: integer
+        trendShoppingRate:
+          nullable: true
+          type: integer
+        shareOfVoice:
+          format: float
+          nullable: true
+          type: number
+        trendShareOfVoice:
+          format: float
+          nullable: true
+          type: number
+        sentimentPositive:
+          type: integer
+        sentimentNeutral:
+          type: integer
+        sentimentNegative:
+          type: integer
+        avgMentionCount:
+          format: float
+          nullable: true
+          type: number
+        mentionTypeCounts:
+          $ref: "#/components/schemas/MentionTypeCounts"
+      required:
+      - clusterName
+      - keywordCount
+      - mentionTypeCounts
+      - queryCount
+      - sentimentNegative
+      - sentimentNeutral
+      - sentimentPositive
+      type: object
+    ProjectRankTrackingClusterBreakdown:
+      example:
+        rows:
+        - clusterId: clusterId
+          clusterName: clusterName
+          queryCount: 0
+          keywordCount: 6
+          avgSerpPosition: 1.4658129
+          trendSerp: 5.962134
+          avgShoppingPosition: 5.637377
+          trendShopping: 2.302136
+          avgMentionPosition: 7.0614014
+          trendMention: 9.301444
+          avgLinkPosition: 3.6160767
+          trendLink: 2.027123
+          mentionPositionStability: 4.145608
+          trendStability: 7.386282
+          serpPositionStability: 1.2315135
+          trendSerpStability: 1.0246457
+          shoppingPositionStability: 1.4894159
+          trendShoppingStability: 6.846853
+          positivityIndex: 7
+          trendPositivity: 1
+          mentionRate: 4
+          trendMentionRate: 5
+          serpRate: 9
+          trendSerpRate: 9
+          shoppingRate: 6
+          trendShoppingRate: 8
+          shareOfVoice: 9.018348
+          trendShareOfVoice: 6.4384236
+          sentimentPositive: 3
+          sentimentNeutral: 6
+          sentimentNegative: 1
+          avgMentionCount: 2.8841622
+          mentionTypeCounts:
+            recommendation: 6
+            comparison: 6
+            listing: 5
+            example: 6
+            reference: 3
+        - clusterId: clusterId
+          clusterName: clusterName
+          queryCount: 0
+          keywordCount: 6
+          avgSerpPosition: 1.4658129
+          trendSerp: 5.962134
+          avgShoppingPosition: 5.637377
+          trendShopping: 2.302136
+          avgMentionPosition: 7.0614014
+          trendMention: 9.301444
+          avgLinkPosition: 3.6160767
+          trendLink: 2.027123
+          mentionPositionStability: 4.145608
+          trendStability: 7.386282
+          serpPositionStability: 1.2315135
+          trendSerpStability: 1.0246457
+          shoppingPositionStability: 1.4894159
+          trendShoppingStability: 6.846853
+          positivityIndex: 7
+          trendPositivity: 1
+          mentionRate: 4
+          trendMentionRate: 5
+          serpRate: 9
+          trendSerpRate: 9
+          shoppingRate: 6
+          trendShoppingRate: 8
+          shareOfVoice: 9.018348
+          trendShareOfVoice: 6.4384236
+          sentimentPositive: 3
+          sentimentNeutral: 6
+          sentimentNegative: 1
+          avgMentionCount: 2.8841622
+          mentionTypeCounts:
+            recommendation: 6
+            comparison: 6
+            listing: 5
+            example: 6
+            reference: 3
+        dataDirtySince: dataDirtySince
+      properties:
+        rows:
+          items:
+            $ref: "#/components/schemas/ClusterBreakdownRow"
+          type: array
+        dataDirtySince:
+          nullable: true
+          type: string
+          default: null
+      required:
+      - rows
+      type: object
+    CompetitorCoOccurrenceRow:
+      example:
+        competitorId: competitorId
+        sharedResponseCount: 0
+        brandWins: 6
+        competitorWins: 1
+        ties: 5
+        winRate: 5
+        avgOwnPosition: 2.302136
+        avgCompetitorPosition: 7.0614014
+        exampleQueryText: exampleQueryText
+        exampleAiResponseId: exampleAiResponseId
+      properties:
+        competitorId:
+          type: string
+        sharedResponseCount:
+          type: integer
+        brandWins:
+          type: integer
+        competitorWins:
+          type: integer
+        ties:
+          type: integer
+        winRate:
+          nullable: true
+          type: integer
+        avgOwnPosition:
+          format: float
+          nullable: true
+          type: number
+        avgCompetitorPosition:
+          format: float
+          nullable: true
+          type: number
+        exampleQueryText:
+          nullable: true
+          type: string
+        exampleAiResponseId:
+          nullable: true
+          type: string
+      required:
+      - brandWins
+      - competitorId
+      - competitorWins
+      - sharedResponseCount
+      - ties
+      type: object
+    CompetitorCoOccurrenceResponse:
+      example:
+        competitors:
+        - competitorId: competitorId
+          sharedResponseCount: 0
+          brandWins: 6
+          competitorWins: 1
+          ties: 5
+          winRate: 5
+          avgOwnPosition: 2.302136
+          avgCompetitorPosition: 7.0614014
+          exampleQueryText: exampleQueryText
+          exampleAiResponseId: exampleAiResponseId
+        - competitorId: competitorId
+          sharedResponseCount: 0
+          brandWins: 6
+          competitorWins: 1
+          ties: 5
+          winRate: 5
+          avgOwnPosition: 2.302136
+          avgCompetitorPosition: 7.0614014
+          exampleQueryText: exampleQueryText
+          exampleAiResponseId: exampleAiResponseId
+      properties:
+        competitors:
+          items:
+            $ref: "#/components/schemas/CompetitorCoOccurrenceRow"
+          type: array
+      required:
+      - competitors
+      type: object
+    ProjectMentionMixResponse:
+      example:
+        byType:
+          key: 0
+        byTone:
+          key: 6
+        byQualifier:
+          key: 1
+      properties:
+        byType:
+          additionalProperties:
+            type: integer
+          type: object
+        byTone:
+          additionalProperties:
+            type: integer
+          type: object
+        byQualifier:
+          additionalProperties:
+            type: integer
+          type: object
+      required:
+      - byQualifier
+      - byTone
+      - byType
+      type: object
+    MentionSampleResponse:
+      example:
+        id: id
+        trackedQueryId: trackedQueryId
+        aiResponseId: aiResponseId
+        engine: engine
+        competitorId: competitorId
+        sentiment: sentiment
+        mentionType: mentionType
+        mentionPosition: 0
+        text: text
+        detectedAt: detectedAt
+        queryText: queryText
+        country: country
+        mentionRelation: mentionRelation
+        brandName: brandName
+      properties:
+        id:
+          type: string
+        trackedQueryId:
+          type: string
+        aiResponseId:
+          type: string
+        engine:
+          type: string
+        competitorId:
+          nullable: true
+          type: string
+        sentiment:
+          type: string
+        mentionType:
+          type: string
+        mentionPosition:
+          type: integer
+        text:
+          type: string
+        detectedAt:
+          type: string
+        queryText:
+          type: string
+        country:
+          nullable: true
+          type: string
+        mentionRelation:
+          description: |-
+            Published because `competitorId` alone cannot answer the question. Own-brand AND
+            untracked-competitor mentions both carry a null competitor id - the confusion migration
+            Version20260608130000 was written to end - so a reader that treats a null competitor id as
+            "us" silently counts a rival as the brand.
+          nullable: true
+          title: |-
+            How the mentioned brand relates to the project: `own`, `tracked-competitor` or
+            `untracked-competitor`. Null on rows written before the column existed.
+          type: string
+          default: null
+        brandName:
+          nullable: true
+          title: |-
+            The denormalised brand name. The only way to name an untracked competitor, which by
+            definition has no competitor id to resolve one from. Null on legacy rows.
+          type: string
+          default: null
+      required:
+      - aiResponseId
+      - detectedAt
+      - engine
+      - id
+      - mentionPosition
+      - mentionType
+      - queryText
+      - sentiment
+      - text
+      - trackedQueryId
+      type: object
+    ProjectMentionSamplesResponse:
+      example:
+        samples:
+        - id: id
+          trackedQueryId: trackedQueryId
+          aiResponseId: aiResponseId
+          engine: engine
+          competitorId: competitorId
+          sentiment: sentiment
+          mentionType: mentionType
+          mentionPosition: 0
+          text: text
+          detectedAt: detectedAt
+          queryText: queryText
+          country: country
+          mentionRelation: mentionRelation
+          brandName: brandName
+        - id: id
+          trackedQueryId: trackedQueryId
+          aiResponseId: aiResponseId
+          engine: engine
+          competitorId: competitorId
+          sentiment: sentiment
+          mentionType: mentionType
+          mentionPosition: 0
+          text: text
+          detectedAt: detectedAt
+          queryText: queryText
+          country: country
+          mentionRelation: mentionRelation
+          brandName: brandName
+        total: 6
+      properties:
+        samples:
+          items:
+            $ref: "#/components/schemas/MentionSampleResponse"
+          type: array
+        total:
+          type: integer
+      required:
+      - samples
+      - total
+      type: object
+    PositionDistributionBucket:
+      example:
+        bucket: bucket
+        count: 3
+      properties:
+        bucket:
+          type: string
+        count:
+          type: integer
+      required:
+      - bucket
+      - count
+      type: object
+    CompetitorShareOfVoice:
+      example:
+        competitorId: competitorId
+        shareOfVoice: 3.0937452
+      properties:
+        competitorId:
+          type: string
+        shareOfVoice:
+          format: float
+          nullable: true
+          type: number
+      required:
+      - competitorId
+      type: object
+    ProjectRankTrackingStats:
+      example:
+        avgSerpPosition: 0.8008282
+        trendSerp: 6.0274563
+        avgShoppingPosition: 1.4658129
+        trendShopping: 5.962134
+        avgMentionPosition: 5.637377
+        trendMention: 2.302136
+        avgLinkPosition: 7.0614014
+        trendLink: 9.301444
+        mentionPositionStability: 3.6160767
+        trendStability: 2.027123
+        serpPositionStability: 4.145608
+        trendSerpStability: 7.386282
+        shoppingPositionStability: 1.2315135
+        trendShoppingStability: 1.0246457
+        positivityIndex: 1
+        trendPositivity: 6
+        mentionRate: 7
+        trendMentionRate: 1
+        serpRate: 4
+        trendSerpRate: 5
+        shoppingRate: 9
+        trendShoppingRate: 9
+        shareOfVoice: 6.6835623
+        trendShareOfVoice: 8.762042
+        sentimentPositive: 9
+        sentimentNeutral: 6
+        sentimentNegative: 3
+        mentionCount: 6
+        aiTrackedQueryCount: 1
+        aiQueriesWithMention: 2
+        serpTrackedQueryCount: 6
+        serpQueriesWithResult: 6
+        shoppingTrackedQueryCount: 5
+        shoppingQueriesWithResult: 6
+        mentionTypeCounts:
+          recommendation: 6
+          comparison: 6
+          listing: 5
+          example: 6
+          reference: 3
+        dataDirtySince: dataDirtySince
+        mentionPositionDistribution:
+        - bucket: bucket
+          count: 3
+        - bucket: bucket
+          count: 3
+        serpPositionDistribution:
+        - bucket: bucket
+          count: 3
+        - bucket: bucket
+          count: 3
+        shoppingPositionDistribution:
+        - bucket: bucket
+          count: 3
+        - bucket: bucket
+          count: 3
+        competitorShareOfVoice:
+        - competitorId: competitorId
+          shareOfVoice: 3.0937452
+        - competitorId: competitorId
+          shareOfVoice: 3.0937452
+      properties:
+        avgSerpPosition:
+          format: float
+          nullable: true
+          type: number
+        trendSerp:
+          format: float
+          nullable: true
+          type: number
+        avgShoppingPosition:
+          format: float
+          nullable: true
+          type: number
+        trendShopping:
+          format: float
+          nullable: true
+          type: number
+        avgMentionPosition:
+          format: float
+          nullable: true
+          type: number
+        trendMention:
+          format: float
+          nullable: true
+          type: number
+        avgLinkPosition:
+          format: float
+          nullable: true
+          type: number
+        trendLink:
+          format: float
+          nullable: true
+          type: number
+        mentionPositionStability:
+          format: float
+          nullable: true
+          type: number
+        trendStability:
+          format: float
+          nullable: true
+          type: number
+        serpPositionStability:
+          format: float
+          nullable: true
+          type: number
+        trendSerpStability:
+          format: float
+          nullable: true
+          type: number
+        shoppingPositionStability:
+          format: float
+          nullable: true
+          type: number
+        trendShoppingStability:
+          format: float
+          nullable: true
+          type: number
+        positivityIndex:
+          nullable: true
+          type: integer
+        trendPositivity:
+          nullable: true
+          type: integer
+        mentionRate:
+          nullable: true
+          type: integer
+        trendMentionRate:
+          nullable: true
+          type: integer
+        serpRate:
+          nullable: true
+          type: integer
+        trendSerpRate:
+          nullable: true
+          type: integer
+        shoppingRate:
+          nullable: true
+          type: integer
+        trendShoppingRate:
+          nullable: true
+          type: integer
+        shareOfVoice:
+          format: float
+          nullable: true
+          type: number
+        trendShareOfVoice:
+          format: float
+          nullable: true
+          type: number
+        sentimentPositive:
+          type: integer
+        sentimentNeutral:
+          type: integer
+        sentimentNegative:
+          type: integer
+        mentionCount:
+          type: integer
+        aiTrackedQueryCount:
+          type: integer
+        aiQueriesWithMention:
+          type: integer
+        serpTrackedQueryCount:
+          type: integer
+        serpQueriesWithResult:
+          type: integer
+        shoppingTrackedQueryCount:
+          type: integer
+        shoppingQueriesWithResult:
+          type: integer
+        mentionTypeCounts:
+          $ref: "#/components/schemas/MentionTypeCounts"
+        dataDirtySince:
+          nullable: true
+          type: string
+          default: null
+        mentionPositionDistribution:
+          default: []
+          items:
+            $ref: "#/components/schemas/PositionDistributionBucket"
+          type: array
+        serpPositionDistribution:
+          default: []
+          items:
+            $ref: "#/components/schemas/PositionDistributionBucket"
+          type: array
+        shoppingPositionDistribution:
+          default: []
+          items:
+            $ref: "#/components/schemas/PositionDistributionBucket"
+          type: array
+        competitorShareOfVoice:
+          default: []
+          items:
+            $ref: "#/components/schemas/CompetitorShareOfVoice"
+          type: array
+      required:
+      - aiQueriesWithMention
+      - aiTrackedQueryCount
+      - mentionCount
+      - mentionTypeCounts
+      - sentimentNegative
+      - sentimentNeutral
+      - sentimentPositive
+      - serpQueriesWithResult
+      - serpTrackedQueryCount
+      - shoppingQueriesWithResult
+      - shoppingTrackedQueryCount
+      type: object
+    PerEngineSentiment:
+      example:
+        engine: engine
+        positive: 0
+        neutral: 6
+        negative: 1
+        mentionCount: 5
+        positivityIndex: 5
+      properties:
+        engine:
+          type: string
+        positive:
+          type: integer
+        neutral:
+          type: integer
+        negative:
+          type: integer
+        mentionCount:
+          type: integer
+        positivityIndex:
+          nullable: true
+          type: integer
+      required:
+      - engine
+      - mentionCount
+      - negative
+      - neutral
+      - positive
+      type: object
+    PerCompetitorSentiment:
+      example:
+        competitorId: competitorId
+        positive: 2
+        neutral: 7
+        negative: 9
+        mentionCount: 3
+        positivityIndex: 2
+        mentionTypeCounts:
+          recommendation: 6
+          comparison: 6
+          listing: 5
+          example: 6
+          reference: 3
+      properties:
+        competitorId:
+          type: string
+        positive:
+          type: integer
+        neutral:
+          type: integer
+        negative:
+          type: integer
+        mentionCount:
+          type: integer
+        positivityIndex:
+          nullable: true
+          type: integer
+        mentionTypeCounts:
+          $ref: "#/components/schemas/MentionTypeCounts"
+      required:
+      - competitorId
+      - mentionCount
+      - mentionTypeCounts
+      - negative
+      - neutral
+      - positive
+      type: object
+    ProjectSentimentBreakdown:
+      example:
+        perEngine:
+        - engine: engine
+          positive: 0
+          neutral: 6
+          negative: 1
+          mentionCount: 5
+          positivityIndex: 5
+        - engine: engine
+          positive: 0
+          neutral: 6
+          negative: 1
+          mentionCount: 5
+          positivityIndex: 5
+        perCompetitor:
+        - competitorId: competitorId
+          positive: 2
+          neutral: 7
+          negative: 9
+          mentionCount: 3
+          positivityIndex: 2
+          mentionTypeCounts:
+            recommendation: 6
+            comparison: 6
+            listing: 5
+            example: 6
+            reference: 3
+        - competitorId: competitorId
+          positive: 2
+          neutral: 7
+          negative: 9
+          mentionCount: 3
+          positivityIndex: 2
+          mentionTypeCounts:
+            recommendation: 6
+            comparison: 6
+            listing: 5
+            example: 6
+            reference: 3
+      properties:
+        perEngine:
+          items:
+            $ref: "#/components/schemas/PerEngineSentiment"
+          type: array
+        perCompetitor:
+          items:
+            $ref: "#/components/schemas/PerCompetitorSentiment"
+          type: array
+      required:
+      - perCompetitor
+      - perEngine
+      type: object
+    PerEntityMetrics:
+      example:
+        serp: 0.8008282
+        shopping: 6.0274563
+        mention: 1.4658129
+        link: 5.962134
+        positivity: 5
+        shareOfVoice: 2.302136
+        mentionRate: 7
+        serpRate: 9
+      properties:
+        serp:
+          format: float
+          nullable: true
+          type: number
+        shopping:
+          format: float
+          nullable: true
+          type: number
+        mention:
+          format: float
+          nullable: true
+          type: number
+        link:
+          format: float
+          nullable: true
+          type: number
+        positivity:
+          nullable: true
+          type: integer
+        shareOfVoice:
+          format: float
+          nullable: true
+          type: number
+        mentionRate:
+          nullable: true
+          type: integer
+        serpRate:
+          nullable: true
+          type: integer
+      type: object
+    TimeSeriesPoint:
+      example:
+        rawDate: rawDate
+        brand:
+          serp: 0.8008282
+          shopping: 6.0274563
+          mention: 1.4658129
+          link: 5.962134
+          positivity: 5
+          shareOfVoice: 2.302136
+          mentionRate: 7
+          serpRate: 9
+        competitors:
+          key:
+            serp: 0.8008282
+            shopping: 6.0274563
+            mention: 1.4658129
+            link: 5.962134
+            positivity: 5
+            shareOfVoice: 2.302136
+            mentionRate: 7
+            serpRate: 9
+      properties:
+        rawDate:
+          type: string
+        brand:
+          $ref: "#/components/schemas/PerEntityMetrics"
+        competitors:
+          additionalProperties:
+            $ref: "#/components/schemas/PerEntityMetrics"
+          type: object
+      required:
+      - brand
+      - competitors
+      - rawDate
+      type: object
+    ProjectRankTrackingTimeSeries:
+      example:
+        points:
+        - rawDate: rawDate
+          brand:
+            serp: 0.8008282
+            shopping: 6.0274563
+            mention: 1.4658129
+            link: 5.962134
+            positivity: 5
+            shareOfVoice: 2.302136
+            mentionRate: 7
+            serpRate: 9
+          competitors:
+            key:
+              serp: 0.8008282
+              shopping: 6.0274563
+              mention: 1.4658129
+              link: 5.962134
+              positivity: 5
+              shareOfVoice: 2.302136
+              mentionRate: 7
+              serpRate: 9
+        - rawDate: rawDate
+          brand:
+            serp: 0.8008282
+            shopping: 6.0274563
+            mention: 1.4658129
+            link: 5.962134
+            positivity: 5
+            shareOfVoice: 2.302136
+            mentionRate: 7
+            serpRate: 9
+          competitors:
+            key:
+              serp: 0.8008282
+              shopping: 6.0274563
+              mention: 1.4658129
+              link: 5.962134
+              positivity: 5
+              shareOfVoice: 2.302136
+              mentionRate: 7
+              serpRate: 9
+        dataDirtySince: dataDirtySince
+      properties:
+        points:
+          items:
+            $ref: "#/components/schemas/TimeSeriesPoint"
+          type: array
+        dataDirtySince:
+          nullable: true
+          type: string
+          default: null
+      required:
+      - points
+      type: object
+    TrackedQueryMoverRow:
+      example:
+        trackedQueryId: trackedQueryId
+        queryText: queryText
+        engine: engine
+        country: country
+        avgSerpPosition: 0.8008282
+        trendSerp: 6.0274563
+        avgShoppingPosition: 1.4658129
+        trendShopping: 5.962134
+        avgMentionPosition: 5.637377
+        trendMention: 2.302136
+        avgLinkPosition: 7.0614014
+        trendLink: 9.301444
+        shareOfVoice: 3.6160767
+        trendShareOfVoice: 2.027123
+        positivityIndex: 4
+        trendPositivity: 7
+        sentimentPositive: 1
+        sentimentNeutral: 1
+        sentimentNegative: 1
+        mentionCount: 6
+        mentionTypeCounts:
+          recommendation: 6
+          comparison: 6
+          listing: 5
+          example: 6
+          reference: 3
+      properties:
+        trackedQueryId:
+          type: string
+        queryText:
+          type: string
+        engine:
+          type: string
+        country:
+          type: string
+        avgSerpPosition:
+          format: float
+          nullable: true
+          type: number
+        trendSerp:
+          format: float
+          nullable: true
+          type: number
+        avgShoppingPosition:
+          format: float
+          nullable: true
+          type: number
+        trendShopping:
+          format: float
+          nullable: true
+          type: number
+        avgMentionPosition:
+          format: float
+          nullable: true
+          type: number
+        trendMention:
+          format: float
+          nullable: true
+          type: number
+        avgLinkPosition:
+          format: float
+          nullable: true
+          type: number
+        trendLink:
+          format: float
+          nullable: true
+          type: number
+        shareOfVoice:
+          format: float
+          nullable: true
+          type: number
+        trendShareOfVoice:
+          format: float
+          nullable: true
+          type: number
+        positivityIndex:
+          nullable: true
+          type: integer
+        trendPositivity:
+          nullable: true
+          type: integer
+        sentimentPositive:
+          type: integer
+        sentimentNeutral:
+          type: integer
+        sentimentNegative:
+          type: integer
+        mentionCount:
+          type: integer
+        mentionTypeCounts:
+          $ref: "#/components/schemas/MentionTypeCounts"
+      required:
+      - country
+      - engine
+      - mentionCount
+      - mentionTypeCounts
+      - queryText
+      - sentimentNegative
+      - sentimentNeutral
+      - sentimentPositive
+      - trackedQueryId
+      type: object
+    TrackedQueryMoversResponse:
+      example:
+        rows:
+        - trackedQueryId: trackedQueryId
+          queryText: queryText
+          engine: engine
+          country: country
+          avgSerpPosition: 0.8008282
+          trendSerp: 6.0274563
+          avgShoppingPosition: 1.4658129
+          trendShopping: 5.962134
+          avgMentionPosition: 5.637377
+          trendMention: 2.302136
+          avgLinkPosition: 7.0614014
+          trendLink: 9.301444
+          shareOfVoice: 3.6160767
+          trendShareOfVoice: 2.027123
+          positivityIndex: 4
+          trendPositivity: 7
+          sentimentPositive: 1
+          sentimentNeutral: 1
+          sentimentNegative: 1
+          mentionCount: 6
+          mentionTypeCounts:
+            recommendation: 6
+            comparison: 6
+            listing: 5
+            example: 6
+            reference: 3
+        - trackedQueryId: trackedQueryId
+          queryText: queryText
+          engine: engine
+          country: country
+          avgSerpPosition: 0.8008282
+          trendSerp: 6.0274563
+          avgShoppingPosition: 1.4658129
+          trendShopping: 5.962134
+          avgMentionPosition: 5.637377
+          trendMention: 2.302136
+          avgLinkPosition: 7.0614014
+          trendLink: 9.301444
+          shareOfVoice: 3.6160767
+          trendShareOfVoice: 2.027123
+          positivityIndex: 4
+          trendPositivity: 7
+          sentimentPositive: 1
+          sentimentNeutral: 1
+          sentimentNegative: 1
+          mentionCount: 6
+          mentionTypeCounts:
+            recommendation: 6
+            comparison: 6
+            listing: 5
+            example: 6
+            reference: 3
+        total: 7
+        dataDirtySince: dataDirtySince
+      properties:
+        rows:
+          items:
+            $ref: "#/components/schemas/TrackedQueryMoverRow"
+          type: array
+        total:
+          type: integer
+        dataDirtySince:
+          nullable: true
+          type: string
+          default: null
+      required:
+      - rows
+      - total
+      type: object
+    TrackedQueryRankTrackingTimeSeries:
+      example:
+        points:
+        - rawDate: rawDate
+          brand:
+            serp: 0.8008282
+            shopping: 6.0274563
+            mention: 1.4658129
+            link: 5.962134
+            positivity: 5
+            shareOfVoice: 2.302136
+            mentionRate: 7
+            serpRate: 9
+          competitors:
+            key:
+              serp: 0.8008282
+              shopping: 6.0274563
+              mention: 1.4658129
+              link: 5.962134
+              positivity: 5
+              shareOfVoice: 2.302136
+              mentionRate: 7
+              serpRate: 9
+        - rawDate: rawDate
+          brand:
+            serp: 0.8008282
+            shopping: 6.0274563
+            mention: 1.4658129
+            link: 5.962134
+            positivity: 5
+            shareOfVoice: 2.302136
+            mentionRate: 7
+            serpRate: 9
+          competitors:
+            key:
+              serp: 0.8008282
+              shopping: 6.0274563
+              mention: 1.4658129
+              link: 5.962134
+              positivity: 5
+              shareOfVoice: 2.302136
+              mentionRate: 7
+              serpRate: 9
+        dataDirtySince: dataDirtySince
+      properties:
+        points:
+          items:
+            $ref: "#/components/schemas/TimeSeriesPoint"
+          type: array
+        dataDirtySince:
+          nullable: true
+          type: string
+          default: null
+      required:
+      - points
+      type: object
     EntitlementsResource:
       description: What an organization's plan allows and what it has consumed
       example:
@@ -8696,6 +10243,115 @@ components:
       - statuses
       - variantCount
       - variantIds
+      type: object
+    MentionMatchResource:
+      description: A stored mention match; no provider credentials or operational
+        metadata
+      example:
+        trackedQueryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        projectId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        engine: engine
+        aiResponseId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        competitorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        mentionPosition: 1
+        sentiment: sentiment
+        mentionType: mentionType
+        mentionTypeCondition: mentionTypeCondition
+        responseContext: responseContext
+        detectedAt: 2000-01-23T04:56:07.000+00:00
+        mentionRelation: mentionRelation
+        brandName: brandName
+        brandNameAsMentioned: brandNameAsMentioned
+      properties:
+        trackedQueryId:
+          format: uuid
+          type: string
+        projectId:
+          format: uuid
+          type: string
+        engine:
+          type: string
+        aiResponseId:
+          format: uuid
+          type: string
+        competitorId:
+          format: uuid
+          nullable: true
+          type: string
+        mentionPosition:
+          minimum: 1
+          type: integer
+        sentiment:
+          type: string
+        mentionType:
+          type: string
+        mentionTypeCondition:
+          nullable: true
+          type: string
+        responseContext:
+          type: string
+        detectedAt:
+          format: date-time
+          type: string
+        mentionRelation:
+          nullable: true
+          type: string
+        brandName:
+          nullable: true
+          type: string
+        brandNameAsMentioned:
+          nullable: true
+          type: string
+      required:
+      - aiResponseId
+      - detectedAt
+      - engine
+      - mentionPosition
+      - mentionType
+      - projectId
+      - responseContext
+      - sentiment
+      - trackedQueryId
+      type: object
+    SerpMatchResource:
+      description: A stored serp match; no provider credentials or operational metadata
+      example:
+        trackedQueryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        projectId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        engine: engine
+        searchPageId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        competitorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        position: 1
+        detectedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        trackedQueryId:
+          format: uuid
+          type: string
+        projectId:
+          format: uuid
+          type: string
+        engine:
+          type: string
+        searchPageId:
+          format: uuid
+          type: string
+        competitorId:
+          format: uuid
+          nullable: true
+          type: string
+        position:
+          minimum: 1
+          type: integer
+        detectedAt:
+          format: date-time
+          type: string
+      required:
+      - detectedAt
+      - engine
+      - position
+      - projectId
+      - searchPageId
+      - trackedQueryId
       type: object
     MeResource:
       description: The authenticated user and the API key the request was made with
@@ -10795,6 +12451,72 @@ components:
           format: date-time
           nullable: true
           type: string
+      type: object
+    searchTrackedQueryMentionMatches_200_response:
+      example:
+        items:
+        - trackedQueryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          projectId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          engine: engine
+          aiResponseId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          competitorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          mentionPosition: 1
+          sentiment: sentiment
+          mentionType: mentionType
+          mentionTypeCondition: mentionTypeCondition
+          responseContext: responseContext
+          detectedAt: 2000-01-23T04:56:07.000+00:00
+          mentionRelation: mentionRelation
+          brandName: brandName
+          brandNameAsMentioned: brandNameAsMentioned
+        - trackedQueryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          projectId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          engine: engine
+          aiResponseId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          competitorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          mentionPosition: 1
+          sentiment: sentiment
+          mentionType: mentionType
+          mentionTypeCondition: mentionTypeCondition
+          responseContext: responseContext
+          detectedAt: 2000-01-23T04:56:07.000+00:00
+          mentionRelation: mentionRelation
+          brandName: brandName
+          brandNameAsMentioned: brandNameAsMentioned
+        total: 6
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/MentionMatchResource"
+          type: array
+        total:
+          type: integer
+      type: object
+    searchTrackedQuerySerpMatches_200_response:
+      example:
+        items:
+        - trackedQueryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          projectId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          engine: engine
+          searchPageId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          competitorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          position: 1
+          detectedAt: 2000-01-23T04:56:07.000+00:00
+        - trackedQueryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          projectId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          engine: engine
+          searchPageId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          competitorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          position: 1
+          detectedAt: 2000-01-23T04:56:07.000+00:00
+        total: 6
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/SerpMatchResource"
+          type: array
+        total:
+          type: integer
       type: object
     getMeStats_200_response_organizations:
       example:

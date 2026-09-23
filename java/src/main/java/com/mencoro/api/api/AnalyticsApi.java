@@ -27,6 +27,8 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.mencoro.api.model.CitedSourcesResponse;
+import com.mencoro.api.model.CompetitorCoOccurrenceResponse;
 import com.mencoro.api.model.GetAvailableFilters200Response;
 import com.mencoro.api.model.GetMentionSamples400Response;
 import com.mencoro.api.model.GetMetricGlossary200Response;
@@ -35,6 +37,14 @@ import com.mencoro.api.model.GetShareOfVoiceFormula200Response;
 import com.mencoro.api.model.GetTrackingCoverage200Response;
 import com.mencoro.api.model.ListKeywordListings200Response;
 import java.time.LocalDate;
+import com.mencoro.api.model.ProjectMentionMixResponse;
+import com.mencoro.api.model.ProjectMentionSamplesResponse;
+import com.mencoro.api.model.ProjectRankTrackingClusterBreakdown;
+import com.mencoro.api.model.ProjectRankTrackingStats;
+import com.mencoro.api.model.ProjectRankTrackingTimeSeries;
+import com.mencoro.api.model.ProjectSentimentBreakdown;
+import com.mencoro.api.model.TrackedQueryMoversResponse;
+import com.mencoro.api.model.TrackedQueryRankTrackingTimeSeries;
 import java.util.UUID;
 
 import java.lang.reflect.Type;
@@ -305,6 +315,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -359,6 +370,7 @@ public class AnalyticsApi {
      * @param groupBy Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. (optional, default to domain)
      * @param limit Page size. A larger value is rejected, never silently reduced. (optional, default to 20)
      * @param offset Number of sources to skip. (optional, default to 0)
+     * @return CitedSourcesResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -371,8 +383,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getCitedSources(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable String groupBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
-        getCitedSourcesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+    public CitedSourcesResponse getCitedSources(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable String groupBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
+        ApiResponse<CitedSourcesResponse> localVarResp = getCitedSourcesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+        return localVarResp.getData();
     }
 
     /**
@@ -386,7 +399,7 @@ public class AnalyticsApi {
      * @param groupBy Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. (optional, default to domain)
      * @param limit Page size. A larger value is rejected, never silently reduced. (optional, default to 20)
      * @param offset Number of sources to skip. (optional, default to 0)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;CitedSourcesResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -399,9 +412,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getCitedSourcesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable String groupBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
+    public ApiResponse<CitedSourcesResponse> getCitedSourcesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable String groupBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
         okhttp3.Call localVarCall = getCitedSourcesValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<CitedSourcesResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -429,10 +443,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getCitedSourcesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable String groupBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getCitedSourcesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable String groupBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, final ApiCallback<CitedSourcesResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getCitedSourcesValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<CitedSourcesResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -511,6 +526,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -565,6 +581,7 @@ public class AnalyticsApi {
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these clusters. Each must belong to the project. (optional)
      * @param includeUngroupedQueries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @return ProjectRankTrackingClusterBreakdown
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -577,8 +594,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getClusterBreakdown(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
-        getClusterBreakdownWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    public ProjectRankTrackingClusterBreakdown getClusterBreakdown(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
+        ApiResponse<ProjectRankTrackingClusterBreakdown> localVarResp = getClusterBreakdownWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+        return localVarResp.getData();
     }
 
     /**
@@ -592,7 +610,7 @@ public class AnalyticsApi {
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these clusters. Each must belong to the project. (optional)
      * @param includeUngroupedQueries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;ProjectRankTrackingClusterBreakdown&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -605,9 +623,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getClusterBreakdownWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
+    public ApiResponse<ProjectRankTrackingClusterBreakdown> getClusterBreakdownWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
         okhttp3.Call localVarCall = getClusterBreakdownValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<ProjectRankTrackingClusterBreakdown>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -635,10 +654,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getClusterBreakdownAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getClusterBreakdownAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, final ApiCallback<ProjectRankTrackingClusterBreakdown> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getClusterBreakdownValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<ProjectRankTrackingClusterBreakdown>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -712,6 +732,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -765,6 +786,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param competitorId Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)
+     * @return CompetitorCoOccurrenceResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -777,8 +799,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getCompetitorCoOccurrence(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable UUID competitorId) throws ApiException {
-        getCompetitorCoOccurrenceWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+    public CompetitorCoOccurrenceResponse getCompetitorCoOccurrence(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable UUID competitorId) throws ApiException {
+        ApiResponse<CompetitorCoOccurrenceResponse> localVarResp = getCompetitorCoOccurrenceWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+        return localVarResp.getData();
     }
 
     /**
@@ -791,7 +814,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param competitorId Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;CompetitorCoOccurrenceResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -804,9 +827,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getCompetitorCoOccurrenceWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable UUID competitorId) throws ApiException {
+    public ApiResponse<CompetitorCoOccurrenceResponse> getCompetitorCoOccurrenceWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable UUID competitorId) throws ApiException {
         okhttp3.Call localVarCall = getCompetitorCoOccurrenceValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<CompetitorCoOccurrenceResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -833,10 +857,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getCompetitorCoOccurrenceAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable UUID competitorId, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getCompetitorCoOccurrenceAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable UUID competitorId, final ApiCallback<CompetitorCoOccurrenceResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getCompetitorCoOccurrenceValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<CompetitorCoOccurrenceResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -905,6 +930,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -957,6 +983,7 @@ public class AnalyticsApi {
      * @param dateTo Inclusive end of the window, Y-m-d. (required)
      * @param engines Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
+     * @return ProjectMentionMixResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -969,8 +996,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getMentionMix(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries) throws ApiException {
-        getMentionMixWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries);
+    public ProjectMentionMixResponse getMentionMix(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries) throws ApiException {
+        ApiResponse<ProjectMentionMixResponse> localVarResp = getMentionMixWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries);
+        return localVarResp.getData();
     }
 
     /**
@@ -982,7 +1010,7 @@ public class AnalyticsApi {
      * @param dateTo Inclusive end of the window, Y-m-d. (required)
      * @param engines Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;ProjectMentionMixResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -995,9 +1023,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getMentionMixWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries) throws ApiException {
+    public ApiResponse<ProjectMentionMixResponse> getMentionMixWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries) throws ApiException {
         okhttp3.Call localVarCall = getMentionMixValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<ProjectMentionMixResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1023,10 +1052,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getMentionMixAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getMentionMixAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, final ApiCallback<ProjectMentionMixResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getMentionMixValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<ProjectMentionMixResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -1184,6 +1214,7 @@ public class AnalyticsApi {
      * @param sortBy recent: newest first. negative: negative sentiment first, then neutral, then positive, newest first inside each. engine and country: grouped alphabetically, newest first inside each group. An unknown value is rejected, not replaced by the default. (optional, default to recent)
      * @param limit Page size. A larger value is rejected, never silently reduced. (optional, default to 20)
      * @param offset Number of matching mentions to skip before the page starts. (optional, default to 0)
+     * @return ProjectMentionSamplesResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1196,8 +1227,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getMentionSamples(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sentiment, @javax.annotation.Nullable String mentionType, @javax.annotation.Nullable UUID competitorId, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
-        getMentionSamplesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+    public ProjectMentionSamplesResponse getMentionSamples(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sentiment, @javax.annotation.Nullable String mentionType, @javax.annotation.Nullable UUID competitorId, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
+        ApiResponse<ProjectMentionSamplesResponse> localVarResp = getMentionSamplesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+        return localVarResp.getData();
     }
 
     /**
@@ -1215,7 +1247,7 @@ public class AnalyticsApi {
      * @param sortBy recent: newest first. negative: negative sentiment first, then neutral, then positive, newest first inside each. engine and country: grouped alphabetically, newest first inside each group. An unknown value is rejected, not replaced by the default. (optional, default to recent)
      * @param limit Page size. A larger value is rejected, never silently reduced. (optional, default to 20)
      * @param offset Number of matching mentions to skip before the page starts. (optional, default to 0)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;ProjectMentionSamplesResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1228,9 +1260,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getMentionSamplesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sentiment, @javax.annotation.Nullable String mentionType, @javax.annotation.Nullable UUID competitorId, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
+    public ApiResponse<ProjectMentionSamplesResponse> getMentionSamplesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sentiment, @javax.annotation.Nullable String mentionType, @javax.annotation.Nullable UUID competitorId, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
         okhttp3.Call localVarCall = getMentionSamplesValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<ProjectMentionSamplesResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1262,10 +1295,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getMentionSamplesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sentiment, @javax.annotation.Nullable String mentionType, @javax.annotation.Nullable UUID competitorId, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getMentionSamplesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sentiment, @javax.annotation.Nullable String mentionType, @javax.annotation.Nullable UUID competitorId, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, final ApiCallback<ProjectMentionSamplesResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getMentionSamplesValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<ProjectMentionSamplesResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -1608,6 +1642,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1662,6 +1697,7 @@ public class AnalyticsApi {
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these keyword clusters. Each must belong to this project. (optional)
      * @param includeUngroupedQueries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @return ProjectRankTrackingStats
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1674,8 +1710,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getProjectMetrics(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
-        getProjectMetricsWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    public ProjectRankTrackingStats getProjectMetrics(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
+        ApiResponse<ProjectRankTrackingStats> localVarResp = getProjectMetricsWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+        return localVarResp.getData();
     }
 
     /**
@@ -1689,7 +1726,7 @@ public class AnalyticsApi {
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these keyword clusters. Each must belong to this project. (optional)
      * @param includeUngroupedQueries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;ProjectRankTrackingStats&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1702,9 +1739,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getProjectMetricsWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
+    public ApiResponse<ProjectRankTrackingStats> getProjectMetricsWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
         okhttp3.Call localVarCall = getProjectMetricsValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<ProjectRankTrackingStats>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1732,10 +1770,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getProjectMetricsAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getProjectMetricsAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, final ApiCallback<ProjectRankTrackingStats> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getProjectMetricsValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<ProjectRankTrackingStats>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -1814,6 +1853,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1868,6 +1908,7 @@ public class AnalyticsApi {
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
      * @param includeUngroupedQueries  (optional, default to false)
+     * @return ProjectSentimentBreakdown
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1880,8 +1921,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getProjectSentiment(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
-        getProjectSentimentWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+    public ProjectSentimentBreakdown getProjectSentiment(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
+        ApiResponse<ProjectSentimentBreakdown> localVarResp = getProjectSentimentWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+        return localVarResp.getData();
     }
 
     /**
@@ -1895,7 +1937,7 @@ public class AnalyticsApi {
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
      * @param includeUngroupedQueries  (optional, default to false)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;ProjectSentimentBreakdown&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -1908,9 +1950,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getProjectSentimentWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
+    public ApiResponse<ProjectSentimentBreakdown> getProjectSentimentWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries) throws ApiException {
         okhttp3.Call localVarCall = getProjectSentimentValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<ProjectSentimentBreakdown>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1938,10 +1981,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getProjectSentimentAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getProjectSentimentAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, final ApiCallback<ProjectSentimentBreakdown> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getProjectSentimentValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<ProjectSentimentBreakdown>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -2030,6 +2074,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2086,6 +2131,7 @@ public class AnalyticsApi {
      * @param queryClusterIds  (optional)
      * @param includeUngroupedQueries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
      * @param competitorIds Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
+     * @return ProjectRankTrackingTimeSeries
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -2098,8 +2144,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getProjectTimeSeries(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, @javax.annotation.Nullable List<UUID> competitorIds) throws ApiException {
-        getProjectTimeSeriesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+    public ProjectRankTrackingTimeSeries getProjectTimeSeries(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, @javax.annotation.Nullable List<UUID> competitorIds) throws ApiException {
+        ApiResponse<ProjectRankTrackingTimeSeries> localVarResp = getProjectTimeSeriesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+        return localVarResp.getData();
     }
 
     /**
@@ -2115,7 +2162,7 @@ public class AnalyticsApi {
      * @param queryClusterIds  (optional)
      * @param includeUngroupedQueries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
      * @param competitorIds Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;ProjectRankTrackingTimeSeries&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -2128,9 +2175,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getProjectTimeSeriesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, @javax.annotation.Nullable List<UUID> competitorIds) throws ApiException {
+    public ApiResponse<ProjectRankTrackingTimeSeries> getProjectTimeSeriesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, @javax.annotation.Nullable List<UUID> competitorIds) throws ApiException {
         okhttp3.Call localVarCall = getProjectTimeSeriesValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<ProjectRankTrackingTimeSeries>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -2160,10 +2208,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getProjectTimeSeriesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, @javax.annotation.Nullable List<UUID> competitorIds, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getProjectTimeSeriesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable List<UUID> queryClusterIds, @javax.annotation.Nullable Boolean includeUngroupedQueries, @javax.annotation.Nullable List<UUID> competitorIds, final ApiCallback<ProjectRankTrackingTimeSeries> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getProjectTimeSeriesValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<ProjectRankTrackingTimeSeries>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -2252,6 +2301,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2308,6 +2358,7 @@ public class AnalyticsApi {
      * @param sortOrder desc for the top gainers, asc for the top losers. (optional, default to desc)
      * @param limit Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)
      * @param offset  (optional, default to 0)
+     * @return TrackedQueryMoversResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -2320,8 +2371,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getQueryMovers(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
-        getQueryMoversWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+    public TrackedQueryMoversResponse getQueryMovers(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
+        ApiResponse<TrackedQueryMoversResponse> localVarResp = getQueryMoversWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+        return localVarResp.getData();
     }
 
     /**
@@ -2337,7 +2389,7 @@ public class AnalyticsApi {
      * @param sortOrder desc for the top gainers, asc for the top losers. (optional, default to desc)
      * @param limit Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)
      * @param offset  (optional, default to 0)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;TrackedQueryMoversResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -2350,9 +2402,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getQueryMoversWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
+    public ApiResponse<TrackedQueryMoversResponse> getQueryMoversWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset) throws ApiException {
         okhttp3.Call localVarCall = getQueryMoversValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<TrackedQueryMoversResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -2382,10 +2435,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getQueryMoversAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getQueryMoversAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable List<String> engines, @javax.annotation.Nullable List<String> countries, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, final ApiCallback<TrackedQueryMoversResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getQueryMoversValidateBeforeCall(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<TrackedQueryMoversResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
@@ -2609,6 +2663,7 @@ public class AnalyticsApi {
         }
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2667,6 +2722,7 @@ public class AnalyticsApi {
      * @param dateTo Inclusive end of the window, Y-m-d. (required)
      * @param granularity Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)
      * @param competitorIds Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)
+     * @return TrackedQueryRankTrackingTimeSeries
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -2679,8 +2735,9 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization, project or tracked query the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public void getTrackedQueryTimeSeries(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<UUID> competitorIds) throws ApiException {
-        getTrackedQueryTimeSeriesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+    public TrackedQueryRankTrackingTimeSeries getTrackedQueryTimeSeries(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<UUID> competitorIds) throws ApiException {
+        ApiResponse<TrackedQueryRankTrackingTimeSeries> localVarResp = getTrackedQueryTimeSeriesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+        return localVarResp.getData();
     }
 
     /**
@@ -2693,7 +2750,7 @@ public class AnalyticsApi {
      * @param dateTo Inclusive end of the window, Y-m-d. (required)
      * @param granularity Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)
      * @param competitorIds Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)
-     * @return ApiResponse&lt;Void&gt;
+     * @return ApiResponse&lt;TrackedQueryRankTrackingTimeSeries&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -2706,9 +2763,10 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization, project or tracked query the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> getTrackedQueryTimeSeriesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<UUID> competitorIds) throws ApiException {
+    public ApiResponse<TrackedQueryRankTrackingTimeSeries> getTrackedQueryTimeSeriesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<UUID> competitorIds) throws ApiException {
         okhttp3.Call localVarCall = getTrackedQueryTimeSeriesValidateBeforeCall(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<TrackedQueryRankTrackingTimeSeries>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -2735,10 +2793,11 @@ public class AnalyticsApi {
         <tr><td> 404 </td><td> No organization, project or tracked query the caller can access under these ids </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getTrackedQueryTimeSeriesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<UUID> competitorIds, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getTrackedQueryTimeSeriesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nonnull LocalDate dateFrom, @javax.annotation.Nonnull LocalDate dateTo, @javax.annotation.Nullable String granularity, @javax.annotation.Nullable List<UUID> competitorIds, final ApiCallback<TrackedQueryRankTrackingTimeSeries> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getTrackedQueryTimeSeriesValidateBeforeCall(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<TrackedQueryRankTrackingTimeSeries>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**

@@ -24,6 +24,8 @@ Method | HTTP request | Description
 [**ReportAiResponse**](TrackedQueriesAPI.md#ReportAiResponse) | **Post** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/responses/{aiResponseId}/report | Report a problem with a captured AI answer
 [**ResumeTrackedQuery**](TrackedQueriesAPI.md#ResumeTrackedQuery) | **Put** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/resume | Resume a tracked query
 [**SearchTrackedQueries**](TrackedQueriesAPI.md#SearchTrackedQueries) | **Get** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries | Search a project&#39;s tracked queries
+[**SearchTrackedQueryMentionMatches**](TrackedQueriesAPI.md#SearchTrackedQueryMentionMatches) | **Get** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches | List stored mention matches of a tracked query
+[**SearchTrackedQuerySerpMatches**](TrackedQueriesAPI.md#SearchTrackedQuerySerpMatches) | **Get** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches | List stored serp matches of a tracked query
 
 
 
@@ -1579,6 +1581,180 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SearchTrackedQueries200Response**](SearchTrackedQueries200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, text/csv
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchTrackedQueryMentionMatches
+
+> SearchTrackedQueryMentionMatches200Response SearchTrackedQueryMentionMatches(ctx, organizationId, projectId, trackedQueryId).DateFrom(dateFrom).DateTo(dateTo).Limit(limit).Offset(offset).SortOrder(sortOrder).Execute()
+
+List stored mention matches of a tracked query
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+    "time"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+)
+
+func main() {
+	organizationId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	projectId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	trackedQueryId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	dateFrom := time.Now() // string | Inclusive UTC day; defaults to the retention floor. (optional)
+	dateTo := time.Now() // string | Inclusive UTC day. (optional)
+	limit := int32(56) // int32 |  (optional) (default to 20)
+	offset := int32(56) // int32 |  (optional) (default to 0)
+	sortOrder := "sortOrder_example" // string |  (optional) (default to "desc")
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TrackedQueriesAPI.SearchTrackedQueryMentionMatches(context.Background(), organizationId, projectId, trackedQueryId).DateFrom(dateFrom).DateTo(dateTo).Limit(limit).Offset(offset).SortOrder(sortOrder).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TrackedQueriesAPI.SearchTrackedQueryMentionMatches``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchTrackedQueryMentionMatches`: SearchTrackedQueryMentionMatches200Response
+	fmt.Fprintf(os.Stdout, "Response from `TrackedQueriesAPI.SearchTrackedQueryMentionMatches`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**organizationId** | **string** |  | 
+**projectId** | **string** |  | 
+**trackedQueryId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchTrackedQueryMentionMatchesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+ **dateFrom** | **string** | Inclusive UTC day; defaults to the retention floor. | 
+ **dateTo** | **string** | Inclusive UTC day. | 
+ **limit** | **int32** |  | [default to 20]
+ **offset** | **int32** |  | [default to 0]
+ **sortOrder** | **string** |  | [default to &quot;desc&quot;]
+
+### Return type
+
+[**SearchTrackedQueryMentionMatches200Response**](SearchTrackedQueryMentionMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, text/csv
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchTrackedQuerySerpMatches
+
+> SearchTrackedQuerySerpMatches200Response SearchTrackedQuerySerpMatches(ctx, organizationId, projectId, trackedQueryId).DateFrom(dateFrom).DateTo(dateTo).Limit(limit).Offset(offset).SortOrder(sortOrder).Execute()
+
+List stored serp matches of a tracked query
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+    "time"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+)
+
+func main() {
+	organizationId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	projectId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	trackedQueryId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	dateFrom := time.Now() // string | Inclusive UTC day; defaults to the retention floor. (optional)
+	dateTo := time.Now() // string | Inclusive UTC day. (optional)
+	limit := int32(56) // int32 |  (optional) (default to 20)
+	offset := int32(56) // int32 |  (optional) (default to 0)
+	sortOrder := "sortOrder_example" // string |  (optional) (default to "desc")
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TrackedQueriesAPI.SearchTrackedQuerySerpMatches(context.Background(), organizationId, projectId, trackedQueryId).DateFrom(dateFrom).DateTo(dateTo).Limit(limit).Offset(offset).SortOrder(sortOrder).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TrackedQueriesAPI.SearchTrackedQuerySerpMatches``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchTrackedQuerySerpMatches`: SearchTrackedQuerySerpMatches200Response
+	fmt.Fprintf(os.Stdout, "Response from `TrackedQueriesAPI.SearchTrackedQuerySerpMatches`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**organizationId** | **string** |  | 
+**projectId** | **string** |  | 
+**trackedQueryId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchTrackedQuerySerpMatchesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+ **dateFrom** | **string** | Inclusive UTC day; defaults to the retention floor. | 
+ **dateTo** | **string** | Inclusive UTC day. | 
+ **limit** | **int32** |  | [default to 20]
+ **offset** | **int32** |  | [default to 0]
+ **sortOrder** | **string** |  | [default to &quot;desc&quot;]
+
+### Return type
+
+[**SearchTrackedQuerySerpMatches200Response**](SearchTrackedQuerySerpMatches200Response.md)
 
 ### Authorization
 
