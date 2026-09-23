@@ -480,11 +480,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\CitedSourcesResponse
      */
     public function getCitedSources($organization_id, $project_id, $date_from, $date_to, $engines = null, $group_by = 'domain', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getCitedSources'][0])
     {
-        $this->getCitedSourcesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $group_by, $limit, $offset, $contentType);
+        list($response) = $this->getCitedSourcesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $group_by, $limit, $offset, $contentType);
+        return $response;
     }
 
     /**
@@ -504,7 +505,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\CitedSourcesResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getCitedSourcesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $group_by = 'domain', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getCitedSources'][0])
     {
@@ -533,9 +534,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\CitedSourcesResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\CitedSourcesResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\CitedSourcesResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -591,14 +628,27 @@ class AnalyticsApi
      */
     public function getCitedSourcesAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $group_by = 'domain', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getCitedSources'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\CitedSourcesResponse';
         $request = $this->getCitedSourcesRequest($organization_id, $project_id, $date_from, $date_to, $engines, $group_by, $limit, $offset, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -760,7 +810,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -833,11 +883,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\ProjectRankTrackingClusterBreakdown
      */
     public function getClusterBreakdown($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getClusterBreakdown'][0])
     {
-        $this->getClusterBreakdownWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
+        list($response) = $this->getClusterBreakdownWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
+        return $response;
     }
 
     /**
@@ -857,7 +908,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\ProjectRankTrackingClusterBreakdown, HTTP status code, HTTP response headers (array of strings)
      */
     public function getClusterBreakdownWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getClusterBreakdown'][0])
     {
@@ -886,9 +937,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\ProjectRankTrackingClusterBreakdown',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\ProjectRankTrackingClusterBreakdown',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\ProjectRankTrackingClusterBreakdown',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -944,14 +1031,27 @@ class AnalyticsApi
      */
     public function getClusterBreakdownAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getClusterBreakdown'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\ProjectRankTrackingClusterBreakdown';
         $request = $this->getClusterBreakdownRequest($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1104,7 +1204,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -1176,11 +1276,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\CompetitorCoOccurrenceResponse
      */
     public function getCompetitorCoOccurrence($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $competitor_id = null, string $contentType = self::contentTypes['getCompetitorCoOccurrence'][0])
     {
-        $this->getCompetitorCoOccurrenceWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $competitor_id, $contentType);
+        list($response) = $this->getCompetitorCoOccurrenceWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $competitor_id, $contentType);
+        return $response;
     }
 
     /**
@@ -1199,7 +1300,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\CompetitorCoOccurrenceResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getCompetitorCoOccurrenceWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $competitor_id = null, string $contentType = self::contentTypes['getCompetitorCoOccurrence'][0])
     {
@@ -1228,9 +1329,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\CompetitorCoOccurrenceResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\CompetitorCoOccurrenceResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\CompetitorCoOccurrenceResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -1284,14 +1421,27 @@ class AnalyticsApi
      */
     public function getCompetitorCoOccurrenceAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $competitor_id = null, string $contentType = self::contentTypes['getCompetitorCoOccurrence'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\CompetitorCoOccurrenceResponse';
         $request = $this->getCompetitorCoOccurrenceRequest($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $competitor_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1433,7 +1583,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -1504,11 +1654,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\ProjectMentionMixResponse
      */
     public function getMentionMix($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, string $contentType = self::contentTypes['getMentionMix'][0])
     {
-        $this->getMentionMixWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $contentType);
+        list($response) = $this->getMentionMixWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $contentType);
+        return $response;
     }
 
     /**
@@ -1526,7 +1677,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\ProjectMentionMixResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getMentionMixWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, string $contentType = self::contentTypes['getMentionMix'][0])
     {
@@ -1555,9 +1706,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\ProjectMentionMixResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\ProjectMentionMixResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\ProjectMentionMixResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -1609,14 +1796,27 @@ class AnalyticsApi
      */
     public function getMentionMixAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, string $contentType = self::contentTypes['getMentionMix'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\ProjectMentionMixResponse';
         $request = $this->getMentionMixRequest($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -1747,7 +1947,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -1824,11 +2024,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\ProjectMentionSamplesResponse|\Mencoro\Api\Model\GetMentionSamples400Response
      */
     public function getMentionSamples($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $sentiment = null, $mention_type = null, $competitor_id = null, $sort_by = 'recent', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getMentionSamples'][0])
     {
-        $this->getMentionSamplesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sentiment, $mention_type, $competitor_id, $sort_by, $limit, $offset, $contentType);
+        list($response) = $this->getMentionSamplesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sentiment, $mention_type, $competitor_id, $sort_by, $limit, $offset, $contentType);
+        return $response;
     }
 
     /**
@@ -1852,7 +2053,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\ProjectMentionSamplesResponse|\Mencoro\Api\Model\GetMentionSamples400Response, HTTP status code, HTTP response headers (array of strings)
      */
     public function getMentionSamplesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $sentiment = null, $mention_type = null, $competitor_id = null, $sort_by = 'recent', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getMentionSamples'][0])
     {
@@ -1881,9 +2082,51 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\ProjectMentionSamplesResponse',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\GetMentionSamples400Response',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\ProjectMentionSamplesResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\ProjectMentionSamplesResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1955,14 +2198,27 @@ class AnalyticsApi
      */
     public function getMentionSamplesAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $sentiment = null, $mention_type = null, $competitor_id = null, $sort_by = 'recent', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getMentionSamples'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\ProjectMentionSamplesResponse';
         $request = $this->getMentionSamplesRequest($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sentiment, $mention_type, $competitor_id, $sort_by, $limit, $offset, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -2765,11 +3021,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\ProjectRankTrackingStats
      */
     public function getProjectMetrics($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getProjectMetrics'][0])
     {
-        $this->getProjectMetricsWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
+        list($response) = $this->getProjectMetricsWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
+        return $response;
     }
 
     /**
@@ -2789,7 +3046,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\ProjectRankTrackingStats, HTTP status code, HTTP response headers (array of strings)
      */
     public function getProjectMetricsWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getProjectMetrics'][0])
     {
@@ -2818,9 +3075,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\ProjectRankTrackingStats',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\ProjectRankTrackingStats',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\ProjectRankTrackingStats',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -2876,14 +3169,27 @@ class AnalyticsApi
      */
     public function getProjectMetricsAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getProjectMetrics'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\ProjectRankTrackingStats';
         $request = $this->getProjectMetricsRequest($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -3036,7 +3342,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -3109,11 +3415,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\ProjectSentimentBreakdown
      */
     public function getProjectSentiment($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getProjectSentiment'][0])
     {
-        $this->getProjectSentimentWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
+        list($response) = $this->getProjectSentimentWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
+        return $response;
     }
 
     /**
@@ -3133,7 +3440,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\ProjectSentimentBreakdown, HTTP status code, HTTP response headers (array of strings)
      */
     public function getProjectSentimentWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getProjectSentiment'][0])
     {
@@ -3162,9 +3469,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\ProjectSentimentBreakdown',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\ProjectSentimentBreakdown',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\ProjectSentimentBreakdown',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -3220,14 +3563,27 @@ class AnalyticsApi
      */
     public function getProjectSentimentAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, string $contentType = self::contentTypes['getProjectSentiment'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\ProjectSentimentBreakdown';
         $request = $this->getProjectSentimentRequest($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -3380,7 +3736,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -3455,11 +3811,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\ProjectRankTrackingTimeSeries
      */
     public function getProjectTimeSeries($organization_id, $project_id, $date_from, $date_to, $granularity = 'daily', $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, $competitor_ids = null, string $contentType = self::contentTypes['getProjectTimeSeries'][0])
     {
-        $this->getProjectTimeSeriesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $granularity, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $competitor_ids, $contentType);
+        list($response) = $this->getProjectTimeSeriesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $granularity, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $competitor_ids, $contentType);
+        return $response;
     }
 
     /**
@@ -3481,7 +3838,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\ProjectRankTrackingTimeSeries, HTTP status code, HTTP response headers (array of strings)
      */
     public function getProjectTimeSeriesWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $granularity = 'daily', $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, $competitor_ids = null, string $contentType = self::contentTypes['getProjectTimeSeries'][0])
     {
@@ -3510,9 +3867,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\ProjectRankTrackingTimeSeries',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\ProjectRankTrackingTimeSeries',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\ProjectRankTrackingTimeSeries',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -3572,14 +3965,27 @@ class AnalyticsApi
      */
     public function getProjectTimeSeriesAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $granularity = 'daily', $engines = null, $countries = null, $query_cluster_ids = null, $include_ungrouped_queries = false, $competitor_ids = null, string $contentType = self::contentTypes['getProjectTimeSeries'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\ProjectRankTrackingTimeSeries';
         $request = $this->getProjectTimeSeriesRequest($organization_id, $project_id, $date_from, $date_to, $granularity, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $competitor_ids, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -3754,7 +4160,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -3829,11 +4235,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\TrackedQueryMoversResponse
      */
     public function getQueryMovers($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $sort_by = 'trend_share_of_voice', $sort_order = 'desc', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getQueryMovers'][0])
     {
-        $this->getQueryMoversWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sort_by, $sort_order, $limit, $offset, $contentType);
+        list($response) = $this->getQueryMoversWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sort_by, $sort_order, $limit, $offset, $contentType);
+        return $response;
     }
 
     /**
@@ -3855,7 +4262,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\TrackedQueryMoversResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getQueryMoversWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $sort_by = 'trend_share_of_voice', $sort_order = 'desc', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getQueryMovers'][0])
     {
@@ -3884,9 +4291,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\TrackedQueryMoversResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\TrackedQueryMoversResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\TrackedQueryMoversResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -3946,14 +4389,27 @@ class AnalyticsApi
      */
     public function getQueryMoversAsyncWithHttpInfo($organization_id, $project_id, $date_from, $date_to, $engines = null, $countries = null, $sort_by = 'trend_share_of_voice', $sort_order = 'desc', $limit = 20, $offset = 0, string $contentType = self::contentTypes['getQueryMovers'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\TrackedQueryMoversResponse';
         $request = $this->getQueryMoversRequest($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sort_by, $sort_order, $limit, $offset, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -4137,7 +4593,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -4501,11 +4957,12 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \Mencoro\Api\Model\TrackedQueryRankTrackingTimeSeries
      */
     public function getTrackedQueryTimeSeries($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity = 'daily', $competitor_ids = null, string $contentType = self::contentTypes['getTrackedQueryTimeSeries'][0])
     {
-        $this->getTrackedQueryTimeSeriesWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity, $competitor_ids, $contentType);
+        list($response) = $this->getTrackedQueryTimeSeriesWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity, $competitor_ids, $contentType);
+        return $response;
     }
 
     /**
@@ -4524,7 +4981,7 @@ class AnalyticsApi
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Mencoro\Api\Model\TrackedQueryRankTrackingTimeSeries, HTTP status code, HTTP response headers (array of strings)
      */
     public function getTrackedQueryTimeSeriesWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity = 'daily', $competitor_ids = null, string $contentType = self::contentTypes['getTrackedQueryTimeSeries'][0])
     {
@@ -4553,9 +5010,45 @@ class AnalyticsApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\TrackedQueryRankTrackingTimeSeries',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\TrackedQueryRankTrackingTimeSeries',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\TrackedQueryRankTrackingTimeSeries',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -4609,14 +5102,27 @@ class AnalyticsApi
      */
     public function getTrackedQueryTimeSeriesAsyncWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity = 'daily', $competitor_ids = null, string $contentType = self::contentTypes['getTrackedQueryTimeSeries'][0])
     {
-        $returnType = '';
+        $returnType = '\Mencoro\Api\Model\TrackedQueryRankTrackingTimeSeries';
         $request = $this->getTrackedQueryTimeSeriesRequest($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity, $competitor_ids, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -4763,7 +5269,7 @@ class AnalyticsApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );

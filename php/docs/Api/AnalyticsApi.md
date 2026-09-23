@@ -89,7 +89,7 @@ try {
 ## `getCitedSources()`
 
 ```php
-getCitedSources($organization_id, $project_id, $date_from, $date_to, $engines, $group_by, $limit, $offset)
+getCitedSources($organization_id, $project_id, $date_from, $date_to, $engines, $group_by, $limit, $offset): \Mencoro\Api\Model\CitedSourcesResponse
 ```
 
 Domains and pages the AI answers cited
@@ -123,7 +123,8 @@ $limit = 20; // int | Page size. A larger value is rejected, never silently redu
 $offset = 0; // int | Number of sources to skip.
 
 try {
-    $apiInstance->getCitedSources($organization_id, $project_id, $date_from, $date_to, $engines, $group_by, $limit, $offset);
+    $result = $apiInstance->getCitedSources($organization_id, $project_id, $date_from, $date_to, $engines, $group_by, $limit, $offset);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getCitedSources: ', $e->getMessage(), PHP_EOL;
 }
@@ -144,7 +145,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\CitedSourcesResponse**](../Model/CitedSourcesResponse.md)
 
 ### Authorization
 
@@ -153,7 +154,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -162,7 +163,7 @@ void (empty response body)
 ## `getClusterBreakdown()`
 
 ```php
-getClusterBreakdown($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries)
+getClusterBreakdown($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries): \Mencoro\Api\Model\ProjectRankTrackingClusterBreakdown
 ```
 
 Rank-tracking metrics per keyword cluster
@@ -196,7 +197,8 @@ $query_cluster_ids = array('query_cluster_ids_example'); // string[] | Restrict 
 $include_ungrouped_queries = false; // bool | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster.
 
 try {
-    $apiInstance->getClusterBreakdown($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
+    $result = $apiInstance->getClusterBreakdown($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getClusterBreakdown: ', $e->getMessage(), PHP_EOL;
 }
@@ -217,7 +219,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\ProjectRankTrackingClusterBreakdown**](../Model/ProjectRankTrackingClusterBreakdown.md)
 
 ### Authorization
 
@@ -226,7 +228,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -235,7 +237,7 @@ void (empty response body)
 ## `getCompetitorCoOccurrence()`
 
 ```php
-getCompetitorCoOccurrence($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $competitor_id)
+getCompetitorCoOccurrence($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $competitor_id): \Mencoro\Api\Model\CompetitorCoOccurrenceResponse
 ```
 
 Head-to-head record of the brand against each tracked competitor
@@ -268,7 +270,8 @@ $countries = array('countries_example'); // string[] | ISO-3166 alpha-2 codes or
 $competitor_id = 'competitor_id_example'; // string | Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids.
 
 try {
-    $apiInstance->getCompetitorCoOccurrence($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $competitor_id);
+    $result = $apiInstance->getCompetitorCoOccurrence($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $competitor_id);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getCompetitorCoOccurrence: ', $e->getMessage(), PHP_EOL;
 }
@@ -288,7 +291,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\CompetitorCoOccurrenceResponse**](../Model/CompetitorCoOccurrenceResponse.md)
 
 ### Authorization
 
@@ -297,7 +300,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -306,7 +309,7 @@ void (empty response body)
 ## `getMentionMix()`
 
 ```php
-getMentionMix($organization_id, $project_id, $date_from, $date_to, $engines, $countries)
+getMentionMix($organization_id, $project_id, $date_from, $date_to, $engines, $countries): \Mencoro\Api\Model\ProjectMentionMixResponse
 ```
 
 Composition of a project brand mentions in AI answers
@@ -338,7 +341,8 @@ $engines = array('engines_example'); // string[] | Repeatable, or comma-separate
 $countries = array('countries_example'); // string[] | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
 
 try {
-    $apiInstance->getMentionMix($organization_id, $project_id, $date_from, $date_to, $engines, $countries);
+    $result = $apiInstance->getMentionMix($organization_id, $project_id, $date_from, $date_to, $engines, $countries);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getMentionMix: ', $e->getMessage(), PHP_EOL;
 }
@@ -357,7 +361,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\ProjectMentionMixResponse**](../Model/ProjectMentionMixResponse.md)
 
 ### Authorization
 
@@ -366,7 +370,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -375,7 +379,7 @@ void (empty response body)
 ## `getMentionSamples()`
 
 ```php
-getMentionSamples($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sentiment, $mention_type, $competitor_id, $sort_by, $limit, $offset)
+getMentionSamples($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sentiment, $mention_type, $competitor_id, $sort_by, $limit, $offset): \Mencoro\Api\Model\ProjectMentionSamplesResponse
 ```
 
 Sample of the raw AI mention texts of a project
@@ -413,7 +417,8 @@ $limit = 20; // int | Page size. A larger value is rejected, never silently redu
 $offset = 0; // int | Number of matching mentions to skip before the page starts.
 
 try {
-    $apiInstance->getMentionSamples($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sentiment, $mention_type, $competitor_id, $sort_by, $limit, $offset);
+    $result = $apiInstance->getMentionSamples($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sentiment, $mention_type, $competitor_id, $sort_by, $limit, $offset);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getMentionSamples: ', $e->getMessage(), PHP_EOL;
 }
@@ -438,7 +443,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\ProjectMentionSamplesResponse**](../Model/ProjectMentionSamplesResponse.md)
 
 ### Authorization
 
@@ -573,7 +578,7 @@ try {
 ## `getProjectMetrics()`
 
 ```php
-getProjectMetrics($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries)
+getProjectMetrics($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries): \Mencoro\Api\Model\ProjectRankTrackingStats
 ```
 
 Headline visibility metrics of a project
@@ -607,7 +612,8 @@ $query_cluster_ids = array('query_cluster_ids_example'); // string[] | Restrict 
 $include_ungrouped_queries = false; // bool | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster.
 
 try {
-    $apiInstance->getProjectMetrics($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
+    $result = $apiInstance->getProjectMetrics($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getProjectMetrics: ', $e->getMessage(), PHP_EOL;
 }
@@ -628,7 +634,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\ProjectRankTrackingStats**](../Model/ProjectRankTrackingStats.md)
 
 ### Authorization
 
@@ -637,7 +643,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -646,7 +652,7 @@ void (empty response body)
 ## `getProjectSentiment()`
 
 ```php
-getProjectSentiment($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries)
+getProjectSentiment($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries): \Mencoro\Api\Model\ProjectSentimentBreakdown
 ```
 
 Sentiment breakdown of a project brand mentions
@@ -680,7 +686,8 @@ $query_cluster_ids = array('query_cluster_ids_example'); // string[]
 $include_ungrouped_queries = false; // bool
 
 try {
-    $apiInstance->getProjectSentiment($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
+    $result = $apiInstance->getProjectSentiment($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getProjectSentiment: ', $e->getMessage(), PHP_EOL;
 }
@@ -701,7 +708,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\ProjectSentimentBreakdown**](../Model/ProjectSentimentBreakdown.md)
 
 ### Authorization
 
@@ -710,7 +717,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -719,7 +726,7 @@ void (empty response body)
 ## `getProjectTimeSeries()`
 
 ```php
-getProjectTimeSeries($organization_id, $project_id, $date_from, $date_to, $granularity, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $competitor_ids)
+getProjectTimeSeries($organization_id, $project_id, $date_from, $date_to, $granularity, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $competitor_ids): \Mencoro\Api\Model\ProjectRankTrackingTimeSeries
 ```
 
 Rank-tracking metrics of a project over time
@@ -755,7 +762,8 @@ $include_ungrouped_queries = false; // bool | On its own this NARROWS the series
 $competitor_ids = array('competitor_ids_example'); // string[] | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
 
 try {
-    $apiInstance->getProjectTimeSeries($organization_id, $project_id, $date_from, $date_to, $granularity, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $competitor_ids);
+    $result = $apiInstance->getProjectTimeSeries($organization_id, $project_id, $date_from, $date_to, $granularity, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries, $competitor_ids);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getProjectTimeSeries: ', $e->getMessage(), PHP_EOL;
 }
@@ -778,7 +786,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\ProjectRankTrackingTimeSeries**](../Model/ProjectRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -787,7 +795,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -796,7 +804,7 @@ void (empty response body)
 ## `getQueryMovers()`
 
 ```php
-getQueryMovers($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sort_by, $sort_order, $limit, $offset)
+getQueryMovers($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sort_by, $sort_order, $limit, $offset): \Mencoro\Api\Model\TrackedQueryMoversResponse
 ```
 
 Tracked queries ranked by how much a metric moved
@@ -832,7 +840,8 @@ $limit = 20; // int | Page size. A value above the maximum is rejected, never cl
 $offset = 0; // int
 
 try {
-    $apiInstance->getQueryMovers($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sort_by, $sort_order, $limit, $offset);
+    $result = $apiInstance->getQueryMovers($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $sort_by, $sort_order, $limit, $offset);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getQueryMovers: ', $e->getMessage(), PHP_EOL;
 }
@@ -855,7 +864,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\TrackedQueryMoversResponse**](../Model/TrackedQueryMoversResponse.md)
 
 ### Authorization
 
@@ -864,7 +873,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -935,7 +944,7 @@ try {
 ## `getTrackedQueryTimeSeries()`
 
 ```php
-getTrackedQueryTimeSeries($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity, $competitor_ids)
+getTrackedQueryTimeSeries($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity, $competitor_ids): \Mencoro\Api\Model\TrackedQueryRankTrackingTimeSeries
 ```
 
 Rank-tracking time series of a single tracked query
@@ -968,7 +977,8 @@ $granularity = 'daily'; // string | Bucket size. Prefer weekly or monthly for lo
 $competitor_ids = array('competitor_ids_example'); // string[] | Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint.
 
 try {
-    $apiInstance->getTrackedQueryTimeSeries($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity, $competitor_ids);
+    $result = $apiInstance->getTrackedQueryTimeSeries($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $granularity, $competitor_ids);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnalyticsApi->getTrackedQueryTimeSeries: ', $e->getMessage(), PHP_EOL;
 }
@@ -988,7 +998,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\Mencoro\Api\Model\TrackedQueryRankTrackingTimeSeries**](../Model/TrackedQueryRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -997,7 +1007,7 @@ void (empty response body)
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

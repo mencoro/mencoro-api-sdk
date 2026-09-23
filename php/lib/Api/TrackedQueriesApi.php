@@ -135,6 +135,12 @@ class TrackedQueriesApi
         'searchTrackedQueries' => [
             'application/json',
         ],
+        'searchTrackedQueryMentionMatches' => [
+            'application/json',
+        ],
+        'searchTrackedQuerySerpMatches' => [
+            'application/json',
+        ],
     ];
 
     /**
@@ -6826,6 +6832,798 @@ class TrackedQueriesApi
             $resourcePath = str_replace(
                 '{projectId}',
                 ObjectSerializer::toPathValue($project_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', 'text/csv', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires Bearer authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation searchTrackedQueryMentionMatches
+     *
+     * List stored mention matches of a tracked query
+     *
+     * @param  string $organization_id organization_id (required)
+     * @param  string $project_id project_id (required)
+     * @param  string $tracked_query_id tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit limit (optional, default to 20)
+     * @param  int|null $offset offset (optional, default to 0)
+     * @param  string|null $sort_order sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQueryMentionMatches'] to see the possible values for this operation
+     *
+     * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \Mencoro\Api\Model\SearchTrackedQueryMentionMatches200Response
+     */
+    public function searchTrackedQueryMentionMatches($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQueryMentionMatches'][0])
+    {
+        list($response) = $this->searchTrackedQueryMentionMatchesWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation searchTrackedQueryMentionMatchesWithHttpInfo
+     *
+     * List stored mention matches of a tracked query
+     *
+     * @param  string $organization_id (required)
+     * @param  string $project_id (required)
+     * @param  string $tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  int|null $offset (optional, default to 0)
+     * @param  string|null $sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQueryMentionMatches'] to see the possible values for this operation
+     *
+     * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \Mencoro\Api\Model\SearchTrackedQueryMentionMatches200Response, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function searchTrackedQueryMentionMatchesWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQueryMentionMatches'][0])
+    {
+        $request = $this->searchTrackedQueryMentionMatchesRequest($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\SearchTrackedQueryMentionMatches200Response',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\SearchTrackedQueryMentionMatches200Response',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\SearchTrackedQueryMentionMatches200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation searchTrackedQueryMentionMatchesAsync
+     *
+     * List stored mention matches of a tracked query
+     *
+     * @param  string $organization_id (required)
+     * @param  string $project_id (required)
+     * @param  string $tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  int|null $offset (optional, default to 0)
+     * @param  string|null $sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQueryMentionMatches'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function searchTrackedQueryMentionMatchesAsync($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQueryMentionMatches'][0])
+    {
+        return $this->searchTrackedQueryMentionMatchesAsyncWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation searchTrackedQueryMentionMatchesAsyncWithHttpInfo
+     *
+     * List stored mention matches of a tracked query
+     *
+     * @param  string $organization_id (required)
+     * @param  string $project_id (required)
+     * @param  string $tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  int|null $offset (optional, default to 0)
+     * @param  string|null $sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQueryMentionMatches'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function searchTrackedQueryMentionMatchesAsyncWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQueryMentionMatches'][0])
+    {
+        $returnType = '\Mencoro\Api\Model\SearchTrackedQueryMentionMatches200Response';
+        $request = $this->searchTrackedQueryMentionMatchesRequest($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'searchTrackedQueryMentionMatches'
+     *
+     * @param  string $organization_id (required)
+     * @param  string $project_id (required)
+     * @param  string $tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  int|null $offset (optional, default to 0)
+     * @param  string|null $sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQueryMentionMatches'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function searchTrackedQueryMentionMatchesRequest($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQueryMentionMatches'][0])
+    {
+
+        // verify the required parameter 'organization_id' is set
+        if ($organization_id === null || (is_array($organization_id) && count($organization_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $organization_id when calling searchTrackedQueryMentionMatches'
+            );
+        }
+
+        // verify the required parameter 'project_id' is set
+        if ($project_id === null || (is_array($project_id) && count($project_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $project_id when calling searchTrackedQueryMentionMatches'
+            );
+        }
+
+        // verify the required parameter 'tracked_query_id' is set
+        if ($tracked_query_id === null || (is_array($tracked_query_id) && count($tracked_query_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tracked_query_id when calling searchTrackedQueryMentionMatches'
+            );
+        }
+
+
+
+        if ($limit !== null && $limit > 100) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling TrackedQueriesApi.searchTrackedQueryMentionMatches, must be smaller than or equal to 100.');
+        }
+        if ($limit !== null && $limit < 1) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling TrackedQueriesApi.searchTrackedQueryMentionMatches, must be bigger than or equal to 1.');
+        }
+        
+        if ($offset !== null && $offset < 0) {
+            throw new \InvalidArgumentException('invalid value for "$offset" when calling TrackedQueriesApi.searchTrackedQueryMentionMatches, must be bigger than or equal to 0.');
+        }
+        
+
+
+        $resourcePath = '/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $date_from,
+            'dateFrom', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $date_to,
+            'dateTo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $offset,
+            'offset', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $sort_order,
+            'sortOrder', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+
+        // path params
+        if ($organization_id !== null) {
+            $resourcePath = str_replace(
+                '{organizationId}',
+                ObjectSerializer::toPathValue($organization_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($project_id !== null) {
+            $resourcePath = str_replace(
+                '{projectId}',
+                ObjectSerializer::toPathValue($project_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($tracked_query_id !== null) {
+            $resourcePath = str_replace(
+                '{trackedQueryId}',
+                ObjectSerializer::toPathValue($tracked_query_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', 'text/csv', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires Bearer authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation searchTrackedQuerySerpMatches
+     *
+     * List stored serp matches of a tracked query
+     *
+     * @param  string $organization_id organization_id (required)
+     * @param  string $project_id project_id (required)
+     * @param  string $tracked_query_id tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit limit (optional, default to 20)
+     * @param  int|null $offset offset (optional, default to 0)
+     * @param  string|null $sort_order sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQuerySerpMatches'] to see the possible values for this operation
+     *
+     * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \Mencoro\Api\Model\SearchTrackedQuerySerpMatches200Response
+     */
+    public function searchTrackedQuerySerpMatches($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQuerySerpMatches'][0])
+    {
+        list($response) = $this->searchTrackedQuerySerpMatchesWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation searchTrackedQuerySerpMatchesWithHttpInfo
+     *
+     * List stored serp matches of a tracked query
+     *
+     * @param  string $organization_id (required)
+     * @param  string $project_id (required)
+     * @param  string $tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  int|null $offset (optional, default to 0)
+     * @param  string|null $sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQuerySerpMatches'] to see the possible values for this operation
+     *
+     * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \Mencoro\Api\Model\SearchTrackedQuerySerpMatches200Response, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function searchTrackedQuerySerpMatchesWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQuerySerpMatches'][0])
+    {
+        $request = $this->searchTrackedQuerySerpMatchesRequest($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Mencoro\Api\Model\SearchTrackedQuerySerpMatches200Response',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Mencoro\Api\Model\SearchTrackedQuerySerpMatches200Response',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Mencoro\Api\Model\SearchTrackedQuerySerpMatches200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation searchTrackedQuerySerpMatchesAsync
+     *
+     * List stored serp matches of a tracked query
+     *
+     * @param  string $organization_id (required)
+     * @param  string $project_id (required)
+     * @param  string $tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  int|null $offset (optional, default to 0)
+     * @param  string|null $sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQuerySerpMatches'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function searchTrackedQuerySerpMatchesAsync($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQuerySerpMatches'][0])
+    {
+        return $this->searchTrackedQuerySerpMatchesAsyncWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation searchTrackedQuerySerpMatchesAsyncWithHttpInfo
+     *
+     * List stored serp matches of a tracked query
+     *
+     * @param  string $organization_id (required)
+     * @param  string $project_id (required)
+     * @param  string $tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  int|null $offset (optional, default to 0)
+     * @param  string|null $sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQuerySerpMatches'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function searchTrackedQuerySerpMatchesAsyncWithHttpInfo($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQuerySerpMatches'][0])
+    {
+        $returnType = '\Mencoro\Api\Model\SearchTrackedQuerySerpMatches200Response';
+        $request = $this->searchTrackedQuerySerpMatchesRequest($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'searchTrackedQuerySerpMatches'
+     *
+     * @param  string $organization_id (required)
+     * @param  string $project_id (required)
+     * @param  string $tracked_query_id (required)
+     * @param  \DateTime|null $date_from Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param  \DateTime|null $date_to Inclusive UTC day. (optional)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  int|null $offset (optional, default to 0)
+     * @param  string|null $sort_order (optional, default to 'desc')
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['searchTrackedQuerySerpMatches'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function searchTrackedQuerySerpMatchesRequest($organization_id, $project_id, $tracked_query_id, $date_from = null, $date_to = null, $limit = 20, $offset = 0, $sort_order = 'desc', string $contentType = self::contentTypes['searchTrackedQuerySerpMatches'][0])
+    {
+
+        // verify the required parameter 'organization_id' is set
+        if ($organization_id === null || (is_array($organization_id) && count($organization_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $organization_id when calling searchTrackedQuerySerpMatches'
+            );
+        }
+
+        // verify the required parameter 'project_id' is set
+        if ($project_id === null || (is_array($project_id) && count($project_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $project_id when calling searchTrackedQuerySerpMatches'
+            );
+        }
+
+        // verify the required parameter 'tracked_query_id' is set
+        if ($tracked_query_id === null || (is_array($tracked_query_id) && count($tracked_query_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tracked_query_id when calling searchTrackedQuerySerpMatches'
+            );
+        }
+
+
+
+        if ($limit !== null && $limit > 100) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling TrackedQueriesApi.searchTrackedQuerySerpMatches, must be smaller than or equal to 100.');
+        }
+        if ($limit !== null && $limit < 1) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling TrackedQueriesApi.searchTrackedQuerySerpMatches, must be bigger than or equal to 1.');
+        }
+        
+        if ($offset !== null && $offset < 0) {
+            throw new \InvalidArgumentException('invalid value for "$offset" when calling TrackedQueriesApi.searchTrackedQuerySerpMatches, must be bigger than or equal to 0.');
+        }
+        
+
+
+        $resourcePath = '/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $date_from,
+            'dateFrom', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $date_to,
+            'dateTo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $offset,
+            'offset', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $sort_order,
+            'sortOrder', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+
+        // path params
+        if ($organization_id !== null) {
+            $resourcePath = str_replace(
+                '{organizationId}',
+                ObjectSerializer::toPathValue($organization_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($project_id !== null) {
+            $resourcePath = str_replace(
+                '{projectId}',
+                ObjectSerializer::toPathValue($project_id),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($tracked_query_id !== null) {
+            $resourcePath = str_replace(
+                '{trackedQueryId}',
+                ObjectSerializer::toPathValue($tracked_query_id),
                 $resourcePath
             );
         }

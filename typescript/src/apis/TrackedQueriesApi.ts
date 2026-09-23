@@ -109,6 +109,16 @@ import {
     SearchTrackedQueries200ResponseToJSON,
 } from '../models/SearchTrackedQueries200Response';
 import {
+    type SearchTrackedQueryMentionMatches200Response,
+    SearchTrackedQueryMentionMatches200ResponseFromJSON,
+    SearchTrackedQueryMentionMatches200ResponseToJSON,
+} from '../models/SearchTrackedQueryMentionMatches200Response';
+import {
+    type SearchTrackedQuerySerpMatches200Response,
+    SearchTrackedQuerySerpMatches200ResponseFromJSON,
+    SearchTrackedQuerySerpMatches200ResponseToJSON,
+} from '../models/SearchTrackedQuerySerpMatches200Response';
+import {
     type SubmittedChecksResource,
     SubmittedChecksResourceFromJSON,
     SubmittedChecksResourceToJSON,
@@ -271,6 +281,28 @@ export interface SearchTrackedQueriesRequest {
     countries?: Array<string>;
     sortBy?: SearchTrackedQueriesSortByEnum;
     sortOrder?: SearchTrackedQueriesSortOrderEnum;
+}
+
+export interface SearchTrackedQueryMentionMatchesRequest {
+    organizationId: string;
+    projectId: string;
+    trackedQueryId: string;
+    dateFrom?: Date;
+    dateTo?: Date;
+    limit?: number;
+    offset?: number;
+    sortOrder?: SearchTrackedQueryMentionMatchesSortOrderEnum;
+}
+
+export interface SearchTrackedQuerySerpMatchesRequest {
+    organizationId: string;
+    projectId: string;
+    trackedQueryId: string;
+    dateFrom?: Date;
+    dateTo?: Date;
+    limit?: number;
+    offset?: number;
+    sortOrder?: SearchTrackedQuerySerpMatchesSortOrderEnum;
 }
 
 /**
@@ -897,6 +929,82 @@ export interface TrackedQueriesApiInterface {
      * Search a project\'s tracked queries
      */
     searchTrackedQueries(requestParameters: SearchTrackedQueriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SearchTrackedQueries200Response>;
+
+    /**
+     * Creates request options for searchTrackedQueryMentionMatches without sending the request
+     * @param {string} organizationId 
+     * @param {string} projectId 
+     * @param {string} trackedQueryId 
+     * @param {Date} [dateFrom] Inclusive UTC day; defaults to the retention floor.
+     * @param {Date} [dateTo] Inclusive UTC day.
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {'asc' | 'desc'} [sortOrder] 
+     * @throws {RequiredError}
+     * @memberof TrackedQueriesApiInterface
+     */
+    searchTrackedQueryMentionMatchesRequestOpts(requestParameters: SearchTrackedQueryMentionMatchesRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * @summary List stored mention matches of a tracked query
+     * @param {string} organizationId 
+     * @param {string} projectId 
+     * @param {string} trackedQueryId 
+     * @param {Date} [dateFrom] Inclusive UTC day; defaults to the retention floor.
+     * @param {Date} [dateTo] Inclusive UTC day.
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {'asc' | 'desc'} [sortOrder] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TrackedQueriesApiInterface
+     */
+    searchTrackedQueryMentionMatchesRaw(requestParameters: SearchTrackedQueryMentionMatchesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SearchTrackedQueryMentionMatches200Response>>;
+
+    /**
+     * Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * List stored mention matches of a tracked query
+     */
+    searchTrackedQueryMentionMatches(requestParameters: SearchTrackedQueryMentionMatchesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SearchTrackedQueryMentionMatches200Response>;
+
+    /**
+     * Creates request options for searchTrackedQuerySerpMatches without sending the request
+     * @param {string} organizationId 
+     * @param {string} projectId 
+     * @param {string} trackedQueryId 
+     * @param {Date} [dateFrom] Inclusive UTC day; defaults to the retention floor.
+     * @param {Date} [dateTo] Inclusive UTC day.
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {'asc' | 'desc'} [sortOrder] 
+     * @throws {RequiredError}
+     * @memberof TrackedQueriesApiInterface
+     */
+    searchTrackedQuerySerpMatchesRequestOpts(requestParameters: SearchTrackedQuerySerpMatchesRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * @summary List stored serp matches of a tracked query
+     * @param {string} organizationId 
+     * @param {string} projectId 
+     * @param {string} trackedQueryId 
+     * @param {Date} [dateFrom] Inclusive UTC day; defaults to the retention floor.
+     * @param {Date} [dateTo] Inclusive UTC day.
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {'asc' | 'desc'} [sortOrder] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TrackedQueriesApiInterface
+     */
+    searchTrackedQuerySerpMatchesRaw(requestParameters: SearchTrackedQuerySerpMatchesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SearchTrackedQuerySerpMatches200Response>>;
+
+    /**
+     * Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * List stored serp matches of a tracked query
+     */
+    searchTrackedQuerySerpMatches(requestParameters: SearchTrackedQuerySerpMatchesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SearchTrackedQuerySerpMatches200Response>;
 
 }
 
@@ -2600,6 +2708,188 @@ export class TrackedQueriesApi extends runtime.BaseAPI implements TrackedQueries
         return await response.value();
     }
 
+    /**
+     * Creates request options for searchTrackedQueryMentionMatches without sending the request
+     */
+    async searchTrackedQueryMentionMatchesRequestOpts(requestParameters: SearchTrackedQueryMentionMatchesRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['organizationId'] == null) {
+            throw new runtime.RequiredError(
+                'organizationId',
+                'Required parameter "organizationId" was null or undefined when calling searchTrackedQueryMentionMatches().'
+            );
+        }
+
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling searchTrackedQueryMentionMatches().'
+            );
+        }
+
+        if (requestParameters['trackedQueryId'] == null) {
+            throw new runtime.RequiredError(
+                'trackedQueryId',
+                'Required parameter "trackedQueryId" was null or undefined when calling searchTrackedQueryMentionMatches().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['dateFrom'] != null) {
+            queryParameters['dateFrom'] = (requestParameters['dateFrom'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['dateTo'] != null) {
+            queryParameters['dateTo'] = (requestParameters['dateTo'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['sortOrder'] != null) {
+            queryParameters['sortOrder'] = requestParameters['sortOrder'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("ApiKey", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches`;
+        urlPath = urlPath.replace('{organizationId}', encodeURIComponent(String(requestParameters['organizationId'])));
+        urlPath = urlPath.replace('{projectId}', encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace('{trackedQueryId}', encodeURIComponent(String(requestParameters['trackedQueryId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * List stored mention matches of a tracked query
+     */
+    async searchTrackedQueryMentionMatchesRaw(requestParameters: SearchTrackedQueryMentionMatchesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SearchTrackedQueryMentionMatches200Response>> {
+        const requestOptions = await this.searchTrackedQueryMentionMatchesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SearchTrackedQueryMentionMatches200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * List stored mention matches of a tracked query
+     */
+    async searchTrackedQueryMentionMatches(requestParameters: SearchTrackedQueryMentionMatchesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SearchTrackedQueryMentionMatches200Response> {
+        const response = await this.searchTrackedQueryMentionMatchesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for searchTrackedQuerySerpMatches without sending the request
+     */
+    async searchTrackedQuerySerpMatchesRequestOpts(requestParameters: SearchTrackedQuerySerpMatchesRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['organizationId'] == null) {
+            throw new runtime.RequiredError(
+                'organizationId',
+                'Required parameter "organizationId" was null or undefined when calling searchTrackedQuerySerpMatches().'
+            );
+        }
+
+        if (requestParameters['projectId'] == null) {
+            throw new runtime.RequiredError(
+                'projectId',
+                'Required parameter "projectId" was null or undefined when calling searchTrackedQuerySerpMatches().'
+            );
+        }
+
+        if (requestParameters['trackedQueryId'] == null) {
+            throw new runtime.RequiredError(
+                'trackedQueryId',
+                'Required parameter "trackedQueryId" was null or undefined when calling searchTrackedQuerySerpMatches().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['dateFrom'] != null) {
+            queryParameters['dateFrom'] = (requestParameters['dateFrom'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['dateTo'] != null) {
+            queryParameters['dateTo'] = (requestParameters['dateTo'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['sortOrder'] != null) {
+            queryParameters['sortOrder'] = requestParameters['sortOrder'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("ApiKey", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches`;
+        urlPath = urlPath.replace('{organizationId}', encodeURIComponent(String(requestParameters['organizationId'])));
+        urlPath = urlPath.replace('{projectId}', encodeURIComponent(String(requestParameters['projectId'])));
+        urlPath = urlPath.replace('{trackedQueryId}', encodeURIComponent(String(requestParameters['trackedQueryId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * List stored serp matches of a tracked query
+     */
+    async searchTrackedQuerySerpMatchesRaw(requestParameters: SearchTrackedQuerySerpMatchesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SearchTrackedQuerySerpMatches200Response>> {
+        const requestOptions = await this.searchTrackedQuerySerpMatchesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SearchTrackedQuerySerpMatches200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * List stored serp matches of a tracked query
+     */
+    async searchTrackedQuerySerpMatches(requestParameters: SearchTrackedQuerySerpMatchesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SearchTrackedQuerySerpMatches200Response> {
+        const response = await this.searchTrackedQuerySerpMatchesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
 }
 
 /**
@@ -2652,3 +2942,19 @@ export const SearchTrackedQueriesSortOrderEnum = {
     Desc: 'desc'
 } as const;
 export type SearchTrackedQueriesSortOrderEnum = typeof SearchTrackedQueriesSortOrderEnum[keyof typeof SearchTrackedQueriesSortOrderEnum];
+/**
+ * @export
+ */
+export const SearchTrackedQueryMentionMatchesSortOrderEnum = {
+    Asc: 'asc',
+    Desc: 'desc'
+} as const;
+export type SearchTrackedQueryMentionMatchesSortOrderEnum = typeof SearchTrackedQueryMentionMatchesSortOrderEnum[keyof typeof SearchTrackedQueryMentionMatchesSortOrderEnum];
+/**
+ * @export
+ */
+export const SearchTrackedQuerySerpMatchesSortOrderEnum = {
+    Asc: 'asc',
+    Desc: 'desc'
+} as const;
+export type SearchTrackedQuerySerpMatchesSortOrderEnum = typeof SearchTrackedQuerySerpMatchesSortOrderEnum[keyof typeof SearchTrackedQuerySerpMatchesSortOrderEnum];

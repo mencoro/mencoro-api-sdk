@@ -96,7 +96,7 @@ public class Example {
 
 <a id="getCitedSources"></a>
 # **getCitedSources**
-> getCitedSources(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset)
+> CitedSourcesResponse getCitedSources(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset)
 
 Domains and pages the AI answers cited
 
@@ -131,7 +131,8 @@ public class Example {
     Integer limit = 20; // Integer | Page size. A larger value is rejected, never silently reduced.
     Integer offset = 0; // Integer | Number of sources to skip.
     try {
-      apiInstance.getCitedSources(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+      CitedSourcesResponse result = apiInstance.getCitedSources(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getCitedSources");
       System.err.println("Status code: " + e.getCode());
@@ -158,7 +159,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**CitedSourcesResponse**](CitedSourcesResponse.md)
 
 ### Authorization
 
@@ -167,7 +168,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -180,7 +181,7 @@ null (empty response body)
 
 <a id="getClusterBreakdown"></a>
 # **getClusterBreakdown**
-> getClusterBreakdown(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
+> ProjectRankTrackingClusterBreakdown getClusterBreakdown(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
 
 Rank-tracking metrics per keyword cluster
 
@@ -215,7 +216,8 @@ public class Example {
     List<UUID> queryClusterIds = Arrays.asList(); // List<UUID> | Restrict to these clusters. Each must belong to the project.
     Boolean includeUngroupedQueries = false; // Boolean | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster.
     try {
-      apiInstance.getClusterBreakdown(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+      ProjectRankTrackingClusterBreakdown result = apiInstance.getClusterBreakdown(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getClusterBreakdown");
       System.err.println("Status code: " + e.getCode());
@@ -242,7 +244,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**ProjectRankTrackingClusterBreakdown**](ProjectRankTrackingClusterBreakdown.md)
 
 ### Authorization
 
@@ -251,7 +253,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -264,7 +266,7 @@ null (empty response body)
 
 <a id="getCompetitorCoOccurrence"></a>
 # **getCompetitorCoOccurrence**
-> getCompetitorCoOccurrence(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId)
+> CompetitorCoOccurrenceResponse getCompetitorCoOccurrence(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId)
 
 Head-to-head record of the brand against each tracked competitor
 
@@ -298,7 +300,8 @@ public class Example {
     List<String> countries = Arrays.asList(); // List<String> | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     UUID competitorId = UUID.randomUUID(); // UUID | Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids.
     try {
-      apiInstance.getCompetitorCoOccurrence(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+      CompetitorCoOccurrenceResponse result = apiInstance.getCompetitorCoOccurrence(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getCompetitorCoOccurrence");
       System.err.println("Status code: " + e.getCode());
@@ -324,7 +327,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**CompetitorCoOccurrenceResponse**](CompetitorCoOccurrenceResponse.md)
 
 ### Authorization
 
@@ -333,7 +336,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -346,7 +349,7 @@ null (empty response body)
 
 <a id="getMentionMix"></a>
 # **getMentionMix**
-> getMentionMix(organizationId, projectId, dateFrom, dateTo, engines, countries)
+> ProjectMentionMixResponse getMentionMix(organizationId, projectId, dateFrom, dateTo, engines, countries)
 
 Composition of a project brand mentions in AI answers
 
@@ -379,7 +382,8 @@ public class Example {
     List<String> engines = Arrays.asList(); // List<String> | Repeatable, or comma-separated. Non-AI engines contribute no mentions.
     List<String> countries = Arrays.asList(); // List<String> | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     try {
-      apiInstance.getMentionMix(organizationId, projectId, dateFrom, dateTo, engines, countries);
+      ProjectMentionMixResponse result = apiInstance.getMentionMix(organizationId, projectId, dateFrom, dateTo, engines, countries);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getMentionMix");
       System.err.println("Status code: " + e.getCode());
@@ -404,7 +408,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**ProjectMentionMixResponse**](ProjectMentionMixResponse.md)
 
 ### Authorization
 
@@ -413,7 +417,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -426,7 +430,7 @@ null (empty response body)
 
 <a id="getMentionSamples"></a>
 # **getMentionSamples**
-> getMentionSamples(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset)
+> ProjectMentionSamplesResponse getMentionSamples(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset)
 
 Sample of the raw AI mention texts of a project
 
@@ -465,7 +469,8 @@ public class Example {
     Integer limit = 20; // Integer | Page size. A larger value is rejected, never silently reduced.
     Integer offset = 0; // Integer | Number of matching mentions to skip before the page starts.
     try {
-      apiInstance.getMentionSamples(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+      ProjectMentionSamplesResponse result = apiInstance.getMentionSamples(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getMentionSamples");
       System.err.println("Status code: " + e.getCode());
@@ -496,7 +501,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**ProjectMentionSamplesResponse**](ProjectMentionSamplesResponse.md)
 
 ### Authorization
 
@@ -653,7 +658,7 @@ public class Example {
 
 <a id="getProjectMetrics"></a>
 # **getProjectMetrics**
-> getProjectMetrics(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
+> ProjectRankTrackingStats getProjectMetrics(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
 
 Headline visibility metrics of a project
 
@@ -688,7 +693,8 @@ public class Example {
     List<UUID> queryClusterIds = Arrays.asList(); // List<UUID> | Restrict to these keyword clusters. Each must belong to this project.
     Boolean includeUngroupedQueries = false; // Boolean | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster.
     try {
-      apiInstance.getProjectMetrics(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+      ProjectRankTrackingStats result = apiInstance.getProjectMetrics(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getProjectMetrics");
       System.err.println("Status code: " + e.getCode());
@@ -715,7 +721,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**ProjectRankTrackingStats**](ProjectRankTrackingStats.md)
 
 ### Authorization
 
@@ -724,7 +730,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -737,7 +743,7 @@ null (empty response body)
 
 <a id="getProjectSentiment"></a>
 # **getProjectSentiment**
-> getProjectSentiment(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
+> ProjectSentimentBreakdown getProjectSentiment(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
 
 Sentiment breakdown of a project brand mentions
 
@@ -772,7 +778,8 @@ public class Example {
     List<UUID> queryClusterIds = Arrays.asList(); // List<UUID> | 
     Boolean includeUngroupedQueries = false; // Boolean | 
     try {
-      apiInstance.getProjectSentiment(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+      ProjectSentimentBreakdown result = apiInstance.getProjectSentiment(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getProjectSentiment");
       System.err.println("Status code: " + e.getCode());
@@ -799,7 +806,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**ProjectSentimentBreakdown**](ProjectSentimentBreakdown.md)
 
 ### Authorization
 
@@ -808,7 +815,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -821,7 +828,7 @@ null (empty response body)
 
 <a id="getProjectTimeSeries"></a>
 # **getProjectTimeSeries**
-> getProjectTimeSeries(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds)
+> ProjectRankTrackingTimeSeries getProjectTimeSeries(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds)
 
 Rank-tracking metrics of a project over time
 
@@ -858,7 +865,8 @@ public class Example {
     Boolean includeUngroupedQueries = false; // Boolean | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them.
     List<UUID> competitorIds = Arrays.asList(); // List<UUID> | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
     try {
-      apiInstance.getProjectTimeSeries(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+      ProjectRankTrackingTimeSeries result = apiInstance.getProjectTimeSeries(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getProjectTimeSeries");
       System.err.println("Status code: " + e.getCode());
@@ -887,7 +895,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**ProjectRankTrackingTimeSeries**](ProjectRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -896,7 +904,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -909,7 +917,7 @@ null (empty response body)
 
 <a id="getQueryMovers"></a>
 # **getQueryMovers**
-> getQueryMovers(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset)
+> TrackedQueryMoversResponse getQueryMovers(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset)
 
 Tracked queries ranked by how much a metric moved
 
@@ -946,7 +954,8 @@ public class Example {
     Integer limit = 20; // Integer | Page size. A value above the maximum is rejected, never clamped.
     Integer offset = 0; // Integer | 
     try {
-      apiInstance.getQueryMovers(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+      TrackedQueryMoversResponse result = apiInstance.getQueryMovers(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getQueryMovers");
       System.err.println("Status code: " + e.getCode());
@@ -975,7 +984,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**TrackedQueryMoversResponse**](TrackedQueryMoversResponse.md)
 
 ### Authorization
 
@@ -984,7 +993,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -1070,7 +1079,7 @@ public class Example {
 
 <a id="getTrackedQueryTimeSeries"></a>
 # **getTrackedQueryTimeSeries**
-> getTrackedQueryTimeSeries(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds)
+> TrackedQueryRankTrackingTimeSeries getTrackedQueryTimeSeries(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds)
 
 Rank-tracking time series of a single tracked query
 
@@ -1104,7 +1113,8 @@ public class Example {
     String granularity = "daily"; // String | Bucket size. Prefer weekly or monthly for long windows.
     List<UUID> competitorIds = Arrays.asList(); // List<UUID> | Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint.
     try {
-      apiInstance.getTrackedQueryTimeSeries(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+      TrackedQueryRankTrackingTimeSeries result = apiInstance.getTrackedQueryTimeSeries(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+      System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnalyticsApi#getTrackedQueryTimeSeries");
       System.err.println("Status code: " + e.getCode());
@@ -1130,7 +1140,7 @@ public class Example {
 
 ### Return type
 
-null (empty response body)
+[**TrackedQueryRankTrackingTimeSeries**](TrackedQueryRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -1139,7 +1149,7 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |

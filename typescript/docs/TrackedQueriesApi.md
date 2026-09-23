@@ -24,6 +24,8 @@ All URIs are relative to *https://api.mencoro.com*
 | [**reportAiResponse**](TrackedQueriesApi.md#reportairesponseoperation) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/responses/{aiResponseId}/report | Report a problem with a captured AI answer |
 | [**resumeTrackedQuery**](TrackedQueriesApi.md#resumetrackedquery) | **PUT** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/resume | Resume a tracked query |
 | [**searchTrackedQueries**](TrackedQueriesApi.md#searchtrackedqueries) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries | Search a project\&#39;s tracked queries |
+| [**searchTrackedQueryMentionMatches**](TrackedQueriesApi.md#searchtrackedquerymentionmatches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches | List stored mention matches of a tracked query |
+| [**searchTrackedQuerySerpMatches**](TrackedQueriesApi.md#searchtrackedqueryserpmatches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches | List stored serp matches of a tracked query |
 
 
 
@@ -1748,6 +1750,198 @@ example().catch(console.error);
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## searchTrackedQueryMentionMatches
+
+> SearchTrackedQueryMentionMatches200Response searchTrackedQueryMentionMatches(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder)
+
+List stored mention matches of a tracked query
+
+Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  TrackedQueriesApi,
+} from '@mencoro/api';
+import type { SearchTrackedQueryMentionMatchesRequest } from '@mencoro/api';
+
+async function example() {
+  console.log("🚀 Testing @mencoro/api SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: ApiKey
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new TrackedQueriesApi(config);
+
+  const body = {
+    // string
+    organizationId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    projectId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    trackedQueryId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // Date | Inclusive UTC day; defaults to the retention floor. (optional)
+    dateFrom: 2013-10-20,
+    // Date | Inclusive UTC day. (optional)
+    dateTo: 2013-10-20,
+    // number (optional)
+    limit: 56,
+    // number (optional)
+    offset: 56,
+    // 'asc' | 'desc' (optional)
+    sortOrder: sortOrder_example,
+  } satisfies SearchTrackedQueryMentionMatchesRequest;
+
+  try {
+    const data = await api.searchTrackedQueryMentionMatches(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | `string` |  | [Defaults to `undefined`] |
+| **projectId** | `string` |  | [Defaults to `undefined`] |
+| **trackedQueryId** | `string` |  | [Defaults to `undefined`] |
+| **dateFrom** | `Date` | Inclusive UTC day; defaults to the retention floor. | [Optional] [Defaults to `undefined`] |
+| **dateTo** | `Date` | Inclusive UTC day. | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `20`] |
+| **offset** | `number` |  | [Optional] [Defaults to `0`] |
+| **sortOrder** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
+
+### Return type
+
+[**SearchTrackedQueryMentionMatches200Response**](SearchTrackedQueryMentionMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`, `text/csv`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Stored matches and total under the same filters |  -  |
+| **400** | Invalid or unsupported query parameters |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | Organization, project or tracked query is not accessible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## searchTrackedQuerySerpMatches
+
+> SearchTrackedQuerySerpMatches200Response searchTrackedQuerySerpMatches(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder)
+
+List stored serp matches of a tracked query
+
+Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  TrackedQueriesApi,
+} from '@mencoro/api';
+import type { SearchTrackedQuerySerpMatchesRequest } from '@mencoro/api';
+
+async function example() {
+  console.log("🚀 Testing @mencoro/api SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: ApiKey
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new TrackedQueriesApi(config);
+
+  const body = {
+    // string
+    organizationId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    projectId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    trackedQueryId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // Date | Inclusive UTC day; defaults to the retention floor. (optional)
+    dateFrom: 2013-10-20,
+    // Date | Inclusive UTC day. (optional)
+    dateTo: 2013-10-20,
+    // number (optional)
+    limit: 56,
+    // number (optional)
+    offset: 56,
+    // 'asc' | 'desc' (optional)
+    sortOrder: sortOrder_example,
+  } satisfies SearchTrackedQuerySerpMatchesRequest;
+
+  try {
+    const data = await api.searchTrackedQuerySerpMatches(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | `string` |  | [Defaults to `undefined`] |
+| **projectId** | `string` |  | [Defaults to `undefined`] |
+| **trackedQueryId** | `string` |  | [Defaults to `undefined`] |
+| **dateFrom** | `Date` | Inclusive UTC day; defaults to the retention floor. | [Optional] [Defaults to `undefined`] |
+| **dateTo** | `Date` | Inclusive UTC day. | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `20`] |
+| **offset** | `number` |  | [Optional] [Defaults to `0`] |
+| **sortOrder** | `asc`, `desc` |  | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |
+
+### Return type
+
+[**SearchTrackedQuerySerpMatches200Response**](SearchTrackedQuerySerpMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`, `text/csv`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Stored matches and total under the same filters |  -  |
+| **400** | Invalid or unsupported query parameters |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | Organization, project or tracked query is not accessible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

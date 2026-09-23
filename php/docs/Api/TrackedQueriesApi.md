@@ -26,6 +26,8 @@ All URIs are relative to https://api.mencoro.com, except if the operation define
 | [**reportAiResponse()**](TrackedQueriesApi.md#reportAiResponse) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/responses/{aiResponseId}/report | Report a problem with a captured AI answer |
 | [**resumeTrackedQuery()**](TrackedQueriesApi.md#resumeTrackedQuery) | **PUT** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/resume | Resume a tracked query |
 | [**searchTrackedQueries()**](TrackedQueriesApi.md#searchTrackedQueries) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries | Search a project&#39;s tracked queries |
+| [**searchTrackedQueryMentionMatches()**](TrackedQueriesApi.md#searchTrackedQueryMentionMatches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches | List stored mention matches of a tracked query |
+| [**searchTrackedQuerySerpMatches()**](TrackedQueriesApi.md#searchTrackedQuerySerpMatches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches | List stored serp matches of a tracked query |
 
 
 ## `addClustersToTrackedQuery()`
@@ -1352,6 +1354,154 @@ try {
 ### Return type
 
 [**\Mencoro\Api\Model\SearchTrackedQueries200Response**](../Model/SearchTrackedQueries200Response.md)
+
+### Authorization
+
+[ApiKey](../../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`, `text/csv`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `searchTrackedQueryMentionMatches()`
+
+```php
+searchTrackedQueryMentionMatches($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order): \Mencoro\Api\Model\SearchTrackedQueryMentionMatches200Response
+```
+
+List stored mention matches of a tracked query
+
+Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: ApiKey
+$config = Mencoro\Api\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Mencoro\Api\Api\TrackedQueriesApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$organization_id = 'organization_id_example'; // string
+$project_id = 'project_id_example'; // string
+$tracked_query_id = 'tracked_query_id_example'; // string
+$date_from = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Inclusive UTC day; defaults to the retention floor.
+$date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Inclusive UTC day.
+$limit = 20; // int
+$offset = 0; // int
+$sort_order = 'desc'; // string
+
+try {
+    $result = $apiInstance->searchTrackedQueryMentionMatches($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling TrackedQueriesApi->searchTrackedQueryMentionMatches: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **organization_id** | **string**|  | |
+| **project_id** | **string**|  | |
+| **tracked_query_id** | **string**|  | |
+| **date_from** | **\DateTime**| Inclusive UTC day; defaults to the retention floor. | [optional] |
+| **date_to** | **\DateTime**| Inclusive UTC day. | [optional] |
+| **limit** | **int**|  | [optional] [default to 20] |
+| **offset** | **int**|  | [optional] [default to 0] |
+| **sort_order** | **string**|  | [optional] [default to &#39;desc&#39;] |
+
+### Return type
+
+[**\Mencoro\Api\Model\SearchTrackedQueryMentionMatches200Response**](../Model/SearchTrackedQueryMentionMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`, `text/csv`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `searchTrackedQuerySerpMatches()`
+
+```php
+searchTrackedQuerySerpMatches($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order): \Mencoro\Api\Model\SearchTrackedQuerySerpMatches200Response
+```
+
+List stored serp matches of a tracked query
+
+Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: ApiKey
+$config = Mencoro\Api\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Mencoro\Api\Api\TrackedQueriesApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$organization_id = 'organization_id_example'; // string
+$project_id = 'project_id_example'; // string
+$tracked_query_id = 'tracked_query_id_example'; // string
+$date_from = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Inclusive UTC day; defaults to the retention floor.
+$date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Inclusive UTC day.
+$limit = 20; // int
+$offset = 0; // int
+$sort_order = 'desc'; // string
+
+try {
+    $result = $apiInstance->searchTrackedQuerySerpMatches($organization_id, $project_id, $tracked_query_id, $date_from, $date_to, $limit, $offset, $sort_order);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling TrackedQueriesApi->searchTrackedQuerySerpMatches: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **organization_id** | **string**|  | |
+| **project_id** | **string**|  | |
+| **tracked_query_id** | **string**|  | |
+| **date_from** | **\DateTime**| Inclusive UTC day; defaults to the retention floor. | [optional] |
+| **date_to** | **\DateTime**| Inclusive UTC day. | [optional] |
+| **limit** | **int**|  | [optional] [default to 20] |
+| **offset** | **int**|  | [optional] [default to 0] |
+| **sort_order** | **string**|  | [optional] [default to &#39;desc&#39;] |
+
+### Return type
+
+[**\Mencoro\Api\Model\SearchTrackedQuerySerpMatches200Response**](../Model/SearchTrackedQuerySerpMatches200Response.md)
 
 ### Authorization
 

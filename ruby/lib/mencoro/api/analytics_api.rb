@@ -99,10 +99,10 @@ module Mencoro
     # @option opts [String] :group_by Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. (default to 'domain')
     # @option opts [Integer] :limit Page size. A larger value is rejected, never silently reduced. (default to 20)
     # @option opts [Integer] :offset Number of sources to skip. (default to 0)
-    # @return [nil]
+    # @return [CitedSourcesResponse]
     def get_cited_sources(organization_id, project_id, date_from, date_to, opts = {})
-      get_cited_sources_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_cited_sources_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Domains and pages the AI answers cited
@@ -116,7 +116,7 @@ module Mencoro
     # @option opts [String] :group_by Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. (default to 'domain')
     # @option opts [Integer] :limit Page size. A larger value is rejected, never silently reduced. (default to 20)
     # @option opts [Integer] :offset Number of sources to skip. (default to 0)
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(CitedSourcesResponse, Integer, Hash)>] CitedSourcesResponse data, response status code and response headers
     def get_cited_sources_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_cited_sources ...'
@@ -171,6 +171,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -179,7 +181,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'CitedSourcesResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -212,10 +214,10 @@ module Mencoro
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to these clusters. Each must belong to the project.
     # @option opts [Boolean] :include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (default to false)
-    # @return [nil]
+    # @return [ProjectRankTrackingClusterBreakdown]
     def get_cluster_breakdown(organization_id, project_id, date_from, date_to, opts = {})
-      get_cluster_breakdown_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_cluster_breakdown_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Rank-tracking metrics per keyword cluster
@@ -229,7 +231,7 @@ module Mencoro
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to these clusters. Each must belong to the project.
     # @option opts [Boolean] :include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (default to false)
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(ProjectRankTrackingClusterBreakdown, Integer, Hash)>] ProjectRankTrackingClusterBreakdown data, response status code and response headers
     def get_cluster_breakdown_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_cluster_breakdown ...'
@@ -268,6 +270,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -276,7 +280,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'ProjectRankTrackingClusterBreakdown'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -308,10 +312,10 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [String] :competitor_id Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids.
-    # @return [nil]
+    # @return [CompetitorCoOccurrenceResponse]
     def get_competitor_co_occurrence(organization_id, project_id, date_from, date_to, opts = {})
-      get_competitor_co_occurrence_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_competitor_co_occurrence_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Head-to-head record of the brand against each tracked competitor
@@ -324,7 +328,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [String] :competitor_id Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids.
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(CompetitorCoOccurrenceResponse, Integer, Hash)>] CompetitorCoOccurrenceResponse data, response status code and response headers
     def get_competitor_co_occurrence_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_competitor_co_occurrence ...'
@@ -362,6 +366,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -370,7 +376,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'CompetitorCoOccurrenceResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -401,10 +407,10 @@ module Mencoro
     # @param [Hash] opts the optional parameters
     # @option opts [Array<String>] :engines Repeatable, or comma-separated. Non-AI engines contribute no mentions.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
-    # @return [nil]
+    # @return [ProjectMentionMixResponse]
     def get_mention_mix(organization_id, project_id, date_from, date_to, opts = {})
-      get_mention_mix_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_mention_mix_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Composition of a project brand mentions in AI answers
@@ -416,7 +422,7 @@ module Mencoro
     # @param [Hash] opts the optional parameters
     # @option opts [Array<String>] :engines Repeatable, or comma-separated. Non-AI engines contribute no mentions.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(ProjectMentionMixResponse, Integer, Hash)>] ProjectMentionMixResponse data, response status code and response headers
     def get_mention_mix_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_mention_mix ...'
@@ -453,6 +459,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -461,7 +469,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'ProjectMentionMixResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -498,10 +506,10 @@ module Mencoro
     # @option opts [String] :sort_by recent: newest first. negative: negative sentiment first, then neutral, then positive, newest first inside each. engine and country: grouped alphabetically, newest first inside each group. An unknown value is rejected, not replaced by the default. (default to 'recent')
     # @option opts [Integer] :limit Page size. A larger value is rejected, never silently reduced. (default to 20)
     # @option opts [Integer] :offset Number of matching mentions to skip before the page starts. (default to 0)
-    # @return [nil]
+    # @return [ProjectMentionSamplesResponse]
     def get_mention_samples(organization_id, project_id, date_from, date_to, opts = {})
-      get_mention_samples_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_mention_samples_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Sample of the raw AI mention texts of a project
@@ -519,7 +527,7 @@ module Mencoro
     # @option opts [String] :sort_by recent: newest first. negative: negative sentiment first, then neutral, then positive, newest first inside each. engine and country: grouped alphabetically, newest first inside each group. An unknown value is rejected, not replaced by the default. (default to 'recent')
     # @option opts [Integer] :limit Page size. A larger value is rejected, never silently reduced. (default to 20)
     # @option opts [Integer] :offset Number of matching mentions to skip before the page starts. (default to 0)
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(ProjectMentionSamplesResponse, Integer, Hash)>] ProjectMentionSamplesResponse data, response status code and response headers
     def get_mention_samples_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_mention_samples ...'
@@ -596,7 +604,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'ProjectMentionSamplesResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -749,10 +757,10 @@ module Mencoro
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to these keyword clusters. Each must belong to this project.
     # @option opts [Boolean] :include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (default to false)
-    # @return [nil]
+    # @return [ProjectRankTrackingStats]
     def get_project_metrics(organization_id, project_id, date_from, date_to, opts = {})
-      get_project_metrics_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_project_metrics_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Headline visibility metrics of a project
@@ -766,7 +774,7 @@ module Mencoro
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to these keyword clusters. Each must belong to this project.
     # @option opts [Boolean] :include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (default to false)
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(ProjectRankTrackingStats, Integer, Hash)>] ProjectRankTrackingStats data, response status code and response headers
     def get_project_metrics_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_project_metrics ...'
@@ -805,6 +813,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -813,7 +823,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'ProjectRankTrackingStats'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -846,10 +856,10 @@ module Mencoro
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids 
     # @option opts [Boolean] :include_ungrouped_queries  (default to false)
-    # @return [nil]
+    # @return [ProjectSentimentBreakdown]
     def get_project_sentiment(organization_id, project_id, date_from, date_to, opts = {})
-      get_project_sentiment_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_project_sentiment_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Sentiment breakdown of a project brand mentions
@@ -863,7 +873,7 @@ module Mencoro
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids 
     # @option opts [Boolean] :include_ungrouped_queries  (default to false)
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(ProjectSentimentBreakdown, Integer, Hash)>] ProjectSentimentBreakdown data, response status code and response headers
     def get_project_sentiment_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_project_sentiment ...'
@@ -902,6 +912,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -910,7 +922,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'ProjectSentimentBreakdown'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -945,10 +957,10 @@ module Mencoro
     # @option opts [Array<String>] :query_cluster_ids 
     # @option opts [Boolean] :include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (default to false)
     # @option opts [Array<String>] :competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
-    # @return [nil]
+    # @return [ProjectRankTrackingTimeSeries]
     def get_project_time_series(organization_id, project_id, date_from, date_to, opts = {})
-      get_project_time_series_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_project_time_series_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Rank-tracking metrics of a project over time
@@ -964,7 +976,7 @@ module Mencoro
     # @option opts [Array<String>] :query_cluster_ids 
     # @option opts [Boolean] :include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (default to false)
     # @option opts [Array<String>] :competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(ProjectRankTrackingTimeSeries, Integer, Hash)>] ProjectRankTrackingTimeSeries data, response status code and response headers
     def get_project_time_series_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_project_time_series ...'
@@ -1009,6 +1021,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1017,7 +1031,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'ProjectRankTrackingTimeSeries'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -1052,10 +1066,10 @@ module Mencoro
     # @option opts [String] :sort_order desc for the top gainers, asc for the top losers. (default to 'desc')
     # @option opts [Integer] :limit Page size. A value above the maximum is rejected, never clamped. (default to 20)
     # @option opts [Integer] :offset  (default to 0)
-    # @return [nil]
+    # @return [TrackedQueryMoversResponse]
     def get_query_movers(organization_id, project_id, date_from, date_to, opts = {})
-      get_query_movers_with_http_info(organization_id, project_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_query_movers_with_http_info(organization_id, project_id, date_from, date_to, opts)
+      data
     end
 
     # Tracked queries ranked by how much a metric moved
@@ -1071,7 +1085,7 @@ module Mencoro
     # @option opts [String] :sort_order desc for the top gainers, asc for the top losers. (default to 'desc')
     # @option opts [Integer] :limit Page size. A value above the maximum is rejected, never clamped. (default to 20)
     # @option opts [Integer] :offset  (default to 0)
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(TrackedQueryMoversResponse, Integer, Hash)>] TrackedQueryMoversResponse data, response status code and response headers
     def get_query_movers_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_query_movers ...'
@@ -1132,6 +1146,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1140,7 +1156,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'TrackedQueryMoversResponse'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']
@@ -1241,10 +1257,10 @@ module Mencoro
     # @param [Hash] opts the optional parameters
     # @option opts [String] :granularity Bucket size. Prefer weekly or monthly for long windows. (default to 'daily')
     # @option opts [Array<String>] :competitor_ids Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint.
-    # @return [nil]
+    # @return [TrackedQueryRankTrackingTimeSeries]
     def get_tracked_query_time_series(organization_id, project_id, tracked_query_id, date_from, date_to, opts = {})
-      get_tracked_query_time_series_with_http_info(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
-      nil
+      data, _status_code, _headers = get_tracked_query_time_series_with_http_info(organization_id, project_id, tracked_query_id, date_from, date_to, opts)
+      data
     end
 
     # Rank-tracking time series of a single tracked query
@@ -1257,7 +1273,7 @@ module Mencoro
     # @param [Hash] opts the optional parameters
     # @option opts [String] :granularity Bucket size. Prefer weekly or monthly for long windows. (default to 'daily')
     # @option opts [Array<String>] :competitor_ids Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint.
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    # @return [Array<(TrackedQueryRankTrackingTimeSeries, Integer, Hash)>] TrackedQueryRankTrackingTimeSeries data, response status code and response headers
     def get_tracked_query_time_series_with_http_info(organization_id, project_id, tracked_query_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnalyticsApi.get_tracked_query_time_series ...'
@@ -1298,6 +1314,8 @@ module Mencoro
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -1306,7 +1324,7 @@ module Mencoro
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'TrackedQueryRankTrackingTimeSeries'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey']

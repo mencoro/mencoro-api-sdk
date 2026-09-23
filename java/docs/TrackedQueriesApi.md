@@ -24,6 +24,8 @@ All URIs are relative to *https://api.mencoro.com*
 | [**reportAiResponse**](TrackedQueriesApi.md#reportAiResponse) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/responses/{aiResponseId}/report | Report a problem with a captured AI answer |
 | [**resumeTrackedQuery**](TrackedQueriesApi.md#resumeTrackedQuery) | **PUT** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/resume | Resume a tracked query |
 | [**searchTrackedQueries**](TrackedQueriesApi.md#searchTrackedQueries) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries | Search a project&#39;s tracked queries |
+| [**searchTrackedQueryMentionMatches**](TrackedQueriesApi.md#searchTrackedQueryMentionMatches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches | List stored mention matches of a tracked query |
+| [**searchTrackedQuerySerpMatches**](TrackedQueriesApi.md#searchTrackedQuerySerpMatches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches | List stored serp matches of a tracked query |
 
 
 <a id="addClustersToTrackedQuery"></a>
@@ -1601,4 +1603,174 @@ public class Example {
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
+
+<a id="searchTrackedQueryMentionMatches"></a>
+# **searchTrackedQueryMentionMatches**
+> SearchTrackedQueryMentionMatches200Response searchTrackedQueryMentionMatches(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder)
+
+List stored mention matches of a tracked query
+
+Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+```java
+// Import classes:
+import com.mencoro.api.ApiClient;
+import com.mencoro.api.ApiException;
+import com.mencoro.api.Configuration;
+import com.mencoro.api.auth.*;
+import com.mencoro.api.models.*;
+import com.mencoro.api.api.TrackedQueriesApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.mencoro.com");
+    
+    // Configure HTTP bearer authorization: ApiKey
+    HttpBearerAuth ApiKey = (HttpBearerAuth) defaultClient.getAuthentication("ApiKey");
+    ApiKey.setBearerToken("BEARER TOKEN");
+
+    TrackedQueriesApi apiInstance = new TrackedQueriesApi(defaultClient);
+    UUID organizationId = UUID.randomUUID(); // UUID | 
+    UUID projectId = UUID.randomUUID(); // UUID | 
+    UUID trackedQueryId = UUID.randomUUID(); // UUID | 
+    LocalDate dateFrom = LocalDate.now(); // LocalDate | Inclusive UTC day; defaults to the retention floor.
+    LocalDate dateTo = LocalDate.now(); // LocalDate | Inclusive UTC day.
+    Integer limit = 20; // Integer | 
+    Integer offset = 0; // Integer | 
+    String sortOrder = "asc"; // String | 
+    try {
+      SearchTrackedQueryMentionMatches200Response result = apiInstance.searchTrackedQueryMentionMatches(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling TrackedQueriesApi#searchTrackedQueryMentionMatches");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | **UUID**|  | |
+| **projectId** | **UUID**|  | |
+| **trackedQueryId** | **UUID**|  | |
+| **dateFrom** | **LocalDate**| Inclusive UTC day; defaults to the retention floor. | [optional] |
+| **dateTo** | **LocalDate**| Inclusive UTC day. | [optional] |
+| **limit** | **Integer**|  | [optional] [default to 20] |
+| **offset** | **Integer**|  | [optional] [default to 0] |
+| **sortOrder** | **String**|  | [optional] [default to desc] [enum: asc, desc] |
+
+### Return type
+
+[**SearchTrackedQueryMentionMatches200Response**](SearchTrackedQueryMentionMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/csv
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Stored matches and total under the same filters |  -  |
+| **400** | Invalid or unsupported query parameters |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | Organization, project or tracked query is not accessible |  -  |
+
+<a id="searchTrackedQuerySerpMatches"></a>
+# **searchTrackedQuerySerpMatches**
+> SearchTrackedQuerySerpMatches200Response searchTrackedQuerySerpMatches(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder)
+
+List stored serp matches of a tracked query
+
+Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+```java
+// Import classes:
+import com.mencoro.api.ApiClient;
+import com.mencoro.api.ApiException;
+import com.mencoro.api.Configuration;
+import com.mencoro.api.auth.*;
+import com.mencoro.api.models.*;
+import com.mencoro.api.api.TrackedQueriesApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.mencoro.com");
+    
+    // Configure HTTP bearer authorization: ApiKey
+    HttpBearerAuth ApiKey = (HttpBearerAuth) defaultClient.getAuthentication("ApiKey");
+    ApiKey.setBearerToken("BEARER TOKEN");
+
+    TrackedQueriesApi apiInstance = new TrackedQueriesApi(defaultClient);
+    UUID organizationId = UUID.randomUUID(); // UUID | 
+    UUID projectId = UUID.randomUUID(); // UUID | 
+    UUID trackedQueryId = UUID.randomUUID(); // UUID | 
+    LocalDate dateFrom = LocalDate.now(); // LocalDate | Inclusive UTC day; defaults to the retention floor.
+    LocalDate dateTo = LocalDate.now(); // LocalDate | Inclusive UTC day.
+    Integer limit = 20; // Integer | 
+    Integer offset = 0; // Integer | 
+    String sortOrder = "asc"; // String | 
+    try {
+      SearchTrackedQuerySerpMatches200Response result = apiInstance.searchTrackedQuerySerpMatches(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling TrackedQueriesApi#searchTrackedQuerySerpMatches");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | **UUID**|  | |
+| **projectId** | **UUID**|  | |
+| **trackedQueryId** | **UUID**|  | |
+| **dateFrom** | **LocalDate**| Inclusive UTC day; defaults to the retention floor. | [optional] |
+| **dateTo** | **LocalDate**| Inclusive UTC day. | [optional] |
+| **limit** | **Integer**|  | [optional] [default to 20] |
+| **offset** | **Integer**|  | [optional] [default to 0] |
+| **sortOrder** | **String**|  | [optional] [default to desc] [enum: asc, desc] |
+
+### Return type
+
+[**SearchTrackedQuerySerpMatches200Response**](SearchTrackedQuerySerpMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/csv
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Stored matches and total under the same filters |  -  |
+| **400** | Invalid or unsupported query parameters |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | Organization, project or tracked query is not accessible |  -  |
 

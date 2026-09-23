@@ -84,6 +84,22 @@ func Test_mencoro_ClustersAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test ClustersAPIService GetQueryCluster", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var organizationId string
+		var projectId string
+		var clusterId string
+
+		resp, httpRes, err := apiClient.ClustersAPI.GetQueryCluster(context.Background(), organizationId, projectId, clusterId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test ClustersAPIService RenameQueryCluster", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

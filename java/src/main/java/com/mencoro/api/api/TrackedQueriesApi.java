@@ -44,8 +44,11 @@ import com.mencoro.api.model.BulkRemoveClustersFromTrackedQueriesRequest;
 import com.mencoro.api.model.ChangeTrackedQueryCheckFrequencyRequestData;
 import com.mencoro.api.model.ChangeTrackedQueryPassesRequestData;
 import com.mencoro.api.model.ClusterMembershipRequestData;
+import java.time.LocalDate;
 import com.mencoro.api.model.ReportAiResponseRequest;
 import com.mencoro.api.model.SearchTrackedQueries200Response;
+import com.mencoro.api.model.SearchTrackedQueryMentionMatches200Response;
+import com.mencoro.api.model.SearchTrackedQuerySerpMatches200Response;
 import com.mencoro.api.model.SubmittedChecksResource;
 import com.mencoro.api.model.TrackedQueryCountResource;
 import com.mencoro.api.model.TrackedQueryDetailResource;
@@ -3764,6 +3767,414 @@ public class TrackedQueriesApi {
 
         okhttp3.Call localVarCall = searchTrackedQueriesValidateBeforeCall(organizationId, projectId, limit, offset, search, status, engines, countries, sortBy, sortOrder, _callback);
         Type localVarReturnType = new TypeToken<SearchTrackedQueries200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for searchTrackedQueryMentionMatches
+     * @param organizationId  (required)
+     * @param projectId  (required)
+     * @param trackedQueryId  (required)
+     * @param dateFrom Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param dateTo Inclusive UTC day. (optional)
+     * @param limit  (optional, default to 20)
+     * @param offset  (optional, default to 0)
+     * @param sortOrder  (optional, default to desc)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Stored matches and total under the same filters </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid or unsupported query parameters </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Organization, project or tracked query is not accessible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call searchTrackedQueryMentionMatchesCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches"
+            .replace("{" + "organizationId" + "}", localVarApiClient.escapeString(organizationId.toString()))
+            .replace("{" + "projectId" + "}", localVarApiClient.escapeString(projectId.toString()))
+            .replace("{" + "trackedQueryId" + "}", localVarApiClient.escapeString(trackedQueryId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (dateFrom != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("dateFrom", dateFrom));
+        }
+
+        if (dateTo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("dateTo", dateTo));
+        }
+
+        if (limit != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("limit", limit));
+        }
+
+        if (offset != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("offset", offset));
+        }
+
+        if (sortOrder != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sortOrder", sortOrder));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json",
+            "text/csv"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKey" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call searchTrackedQueryMentionMatchesValidateBeforeCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'organizationId' is set
+        if (organizationId == null) {
+            throw new ApiException("Missing the required parameter 'organizationId' when calling searchTrackedQueryMentionMatches(Async)");
+        }
+
+        // verify the required parameter 'projectId' is set
+        if (projectId == null) {
+            throw new ApiException("Missing the required parameter 'projectId' when calling searchTrackedQueryMentionMatches(Async)");
+        }
+
+        // verify the required parameter 'trackedQueryId' is set
+        if (trackedQueryId == null) {
+            throw new ApiException("Missing the required parameter 'trackedQueryId' when calling searchTrackedQueryMentionMatches(Async)");
+        }
+
+        return searchTrackedQueryMentionMatchesCall(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder, _callback);
+
+    }
+
+    /**
+     * List stored mention matches of a tracked query
+     * Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * @param organizationId  (required)
+     * @param projectId  (required)
+     * @param trackedQueryId  (required)
+     * @param dateFrom Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param dateTo Inclusive UTC day. (optional)
+     * @param limit  (optional, default to 20)
+     * @param offset  (optional, default to 0)
+     * @param sortOrder  (optional, default to desc)
+     * @return SearchTrackedQueryMentionMatches200Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Stored matches and total under the same filters </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid or unsupported query parameters </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Organization, project or tracked query is not accessible </td><td>  -  </td></tr>
+     </table>
+     */
+    public SearchTrackedQueryMentionMatches200Response searchTrackedQueryMentionMatches(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder) throws ApiException {
+        ApiResponse<SearchTrackedQueryMentionMatches200Response> localVarResp = searchTrackedQueryMentionMatchesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+        return localVarResp.getData();
+    }
+
+    /**
+     * List stored mention matches of a tracked query
+     * Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * @param organizationId  (required)
+     * @param projectId  (required)
+     * @param trackedQueryId  (required)
+     * @param dateFrom Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param dateTo Inclusive UTC day. (optional)
+     * @param limit  (optional, default to 20)
+     * @param offset  (optional, default to 0)
+     * @param sortOrder  (optional, default to desc)
+     * @return ApiResponse&lt;SearchTrackedQueryMentionMatches200Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Stored matches and total under the same filters </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid or unsupported query parameters </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Organization, project or tracked query is not accessible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<SearchTrackedQueryMentionMatches200Response> searchTrackedQueryMentionMatchesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder) throws ApiException {
+        okhttp3.Call localVarCall = searchTrackedQueryMentionMatchesValidateBeforeCall(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder, null);
+        Type localVarReturnType = new TypeToken<SearchTrackedQueryMentionMatches200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * List stored mention matches of a tracked query (asynchronously)
+     * Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * @param organizationId  (required)
+     * @param projectId  (required)
+     * @param trackedQueryId  (required)
+     * @param dateFrom Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param dateTo Inclusive UTC day. (optional)
+     * @param limit  (optional, default to 20)
+     * @param offset  (optional, default to 0)
+     * @param sortOrder  (optional, default to desc)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Stored matches and total under the same filters </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid or unsupported query parameters </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Organization, project or tracked query is not accessible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call searchTrackedQueryMentionMatchesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder, final ApiCallback<SearchTrackedQueryMentionMatches200Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = searchTrackedQueryMentionMatchesValidateBeforeCall(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder, _callback);
+        Type localVarReturnType = new TypeToken<SearchTrackedQueryMentionMatches200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for searchTrackedQuerySerpMatches
+     * @param organizationId  (required)
+     * @param projectId  (required)
+     * @param trackedQueryId  (required)
+     * @param dateFrom Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param dateTo Inclusive UTC day. (optional)
+     * @param limit  (optional, default to 20)
+     * @param offset  (optional, default to 0)
+     * @param sortOrder  (optional, default to desc)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Stored matches and total under the same filters </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid or unsupported query parameters </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Organization, project or tracked query is not accessible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call searchTrackedQuerySerpMatchesCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches"
+            .replace("{" + "organizationId" + "}", localVarApiClient.escapeString(organizationId.toString()))
+            .replace("{" + "projectId" + "}", localVarApiClient.escapeString(projectId.toString()))
+            .replace("{" + "trackedQueryId" + "}", localVarApiClient.escapeString(trackedQueryId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (dateFrom != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("dateFrom", dateFrom));
+        }
+
+        if (dateTo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("dateTo", dateTo));
+        }
+
+        if (limit != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("limit", limit));
+        }
+
+        if (offset != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("offset", offset));
+        }
+
+        if (sortOrder != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sortOrder", sortOrder));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json",
+            "text/csv"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "ApiKey" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call searchTrackedQuerySerpMatchesValidateBeforeCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'organizationId' is set
+        if (organizationId == null) {
+            throw new ApiException("Missing the required parameter 'organizationId' when calling searchTrackedQuerySerpMatches(Async)");
+        }
+
+        // verify the required parameter 'projectId' is set
+        if (projectId == null) {
+            throw new ApiException("Missing the required parameter 'projectId' when calling searchTrackedQuerySerpMatches(Async)");
+        }
+
+        // verify the required parameter 'trackedQueryId' is set
+        if (trackedQueryId == null) {
+            throw new ApiException("Missing the required parameter 'trackedQueryId' when calling searchTrackedQuerySerpMatches(Async)");
+        }
+
+        return searchTrackedQuerySerpMatchesCall(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder, _callback);
+
+    }
+
+    /**
+     * List stored serp matches of a tracked query
+     * Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * @param organizationId  (required)
+     * @param projectId  (required)
+     * @param trackedQueryId  (required)
+     * @param dateFrom Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param dateTo Inclusive UTC day. (optional)
+     * @param limit  (optional, default to 20)
+     * @param offset  (optional, default to 0)
+     * @param sortOrder  (optional, default to desc)
+     * @return SearchTrackedQuerySerpMatches200Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Stored matches and total under the same filters </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid or unsupported query parameters </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Organization, project or tracked query is not accessible </td><td>  -  </td></tr>
+     </table>
+     */
+    public SearchTrackedQuerySerpMatches200Response searchTrackedQuerySerpMatches(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder) throws ApiException {
+        ApiResponse<SearchTrackedQuerySerpMatches200Response> localVarResp = searchTrackedQuerySerpMatchesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+        return localVarResp.getData();
+    }
+
+    /**
+     * List stored serp matches of a tracked query
+     * Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * @param organizationId  (required)
+     * @param projectId  (required)
+     * @param trackedQueryId  (required)
+     * @param dateFrom Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param dateTo Inclusive UTC day. (optional)
+     * @param limit  (optional, default to 20)
+     * @param offset  (optional, default to 0)
+     * @param sortOrder  (optional, default to desc)
+     * @return ApiResponse&lt;SearchTrackedQuerySerpMatches200Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Stored matches and total under the same filters </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid or unsupported query parameters </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Organization, project or tracked query is not accessible </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<SearchTrackedQuerySerpMatches200Response> searchTrackedQuerySerpMatchesWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder) throws ApiException {
+        okhttp3.Call localVarCall = searchTrackedQuerySerpMatchesValidateBeforeCall(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder, null);
+        Type localVarReturnType = new TypeToken<SearchTrackedQuerySerpMatches200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * List stored serp matches of a tracked query (asynchronously)
+     * Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+     * @param organizationId  (required)
+     * @param projectId  (required)
+     * @param trackedQueryId  (required)
+     * @param dateFrom Inclusive UTC day; defaults to the retention floor. (optional)
+     * @param dateTo Inclusive UTC day. (optional)
+     * @param limit  (optional, default to 20)
+     * @param offset  (optional, default to 0)
+     * @param sortOrder  (optional, default to desc)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Stored matches and total under the same filters </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Invalid or unsupported query parameters </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Organization, project or tracked query is not accessible </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call searchTrackedQuerySerpMatchesAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID projectId, @javax.annotation.Nonnull UUID trackedQueryId, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable Integer offset, @javax.annotation.Nullable String sortOrder, final ApiCallback<SearchTrackedQuerySerpMatches200Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = searchTrackedQuerySerpMatchesValidateBeforeCall(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder, _callback);
+        Type localVarReturnType = new TypeToken<SearchTrackedQuerySerpMatches200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

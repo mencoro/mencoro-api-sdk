@@ -24,6 +24,8 @@ All URIs are relative to *https://api.mencoro.com*
 | [**report_ai_response**](TrackedQueriesApi.md#report_ai_response) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/responses/{aiResponseId}/report | Report a problem with a captured AI answer |
 | [**resume_tracked_query**](TrackedQueriesApi.md#resume_tracked_query) | **PUT** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/resume | Resume a tracked query |
 | [**search_tracked_queries**](TrackedQueriesApi.md#search_tracked_queries) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries | Search a project&#39;s tracked queries |
+| [**search_tracked_query_mention_matches**](TrackedQueriesApi.md#search_tracked_query_mention_matches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches | List stored mention matches of a tracked query |
+| [**search_tracked_query_serp_matches**](TrackedQueriesApi.md#search_tracked_query_serp_matches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches | List stored serp matches of a tracked query |
 
 
 ## add_clusters_to_tracked_query
@@ -1537,6 +1539,176 @@ end
 ### Return type
 
 [**SearchTrackedQueries200Response**](SearchTrackedQueries200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, text/csv
+
+
+## search_tracked_query_mention_matches
+
+> <SearchTrackedQueryMentionMatches200Response> search_tracked_query_mention_matches(organization_id, project_id, tracked_query_id, opts)
+
+List stored mention matches of a tracked query
+
+Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Examples
+
+```ruby
+require 'time'
+require 'mencoro'
+# setup authorization
+Mencoro.configure do |config|
+  # Configure Bearer authorization: ApiKey
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = Mencoro::TrackedQueriesApi.new
+organization_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+project_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+tracked_query_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+opts = {
+  date_from: Date.parse('2013-10-20'), # Date | Inclusive UTC day; defaults to the retention floor.
+  date_to: Date.parse('2013-10-20'), # Date | Inclusive UTC day.
+  limit: 56, # Integer | 
+  offset: 56, # Integer | 
+  sort_order: 'asc' # String | 
+}
+
+begin
+  # List stored mention matches of a tracked query
+  result = api_instance.search_tracked_query_mention_matches(organization_id, project_id, tracked_query_id, opts)
+  p result
+rescue Mencoro::ApiError => e
+  puts "Error when calling TrackedQueriesApi->search_tracked_query_mention_matches: #{e}"
+end
+```
+
+#### Using the search_tracked_query_mention_matches_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<SearchTrackedQueryMentionMatches200Response>, Integer, Hash)> search_tracked_query_mention_matches_with_http_info(organization_id, project_id, tracked_query_id, opts)
+
+```ruby
+begin
+  # List stored mention matches of a tracked query
+  data, status_code, headers = api_instance.search_tracked_query_mention_matches_with_http_info(organization_id, project_id, tracked_query_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <SearchTrackedQueryMentionMatches200Response>
+rescue Mencoro::ApiError => e
+  puts "Error when calling TrackedQueriesApi->search_tracked_query_mention_matches_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **organization_id** | **String** |  |  |
+| **project_id** | **String** |  |  |
+| **tracked_query_id** | **String** |  |  |
+| **date_from** | **Date** | Inclusive UTC day; defaults to the retention floor. | [optional] |
+| **date_to** | **Date** | Inclusive UTC day. | [optional] |
+| **limit** | **Integer** |  | [optional][default to 20] |
+| **offset** | **Integer** |  | [optional][default to 0] |
+| **sort_order** | **String** |  | [optional][default to &#39;desc&#39;] |
+
+### Return type
+
+[**SearchTrackedQueryMentionMatches200Response**](SearchTrackedQueryMentionMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, text/csv
+
+
+## search_tracked_query_serp_matches
+
+> <SearchTrackedQuerySerpMatches200Response> search_tracked_query_serp_matches(organization_id, project_id, tracked_query_id, opts)
+
+List stored serp matches of a tracked query
+
+Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Examples
+
+```ruby
+require 'time'
+require 'mencoro'
+# setup authorization
+Mencoro.configure do |config|
+  # Configure Bearer authorization: ApiKey
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = Mencoro::TrackedQueriesApi.new
+organization_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+project_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+tracked_query_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+opts = {
+  date_from: Date.parse('2013-10-20'), # Date | Inclusive UTC day; defaults to the retention floor.
+  date_to: Date.parse('2013-10-20'), # Date | Inclusive UTC day.
+  limit: 56, # Integer | 
+  offset: 56, # Integer | 
+  sort_order: 'asc' # String | 
+}
+
+begin
+  # List stored serp matches of a tracked query
+  result = api_instance.search_tracked_query_serp_matches(organization_id, project_id, tracked_query_id, opts)
+  p result
+rescue Mencoro::ApiError => e
+  puts "Error when calling TrackedQueriesApi->search_tracked_query_serp_matches: #{e}"
+end
+```
+
+#### Using the search_tracked_query_serp_matches_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<SearchTrackedQuerySerpMatches200Response>, Integer, Hash)> search_tracked_query_serp_matches_with_http_info(organization_id, project_id, tracked_query_id, opts)
+
+```ruby
+begin
+  # List stored serp matches of a tracked query
+  data, status_code, headers = api_instance.search_tracked_query_serp_matches_with_http_info(organization_id, project_id, tracked_query_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <SearchTrackedQuerySerpMatches200Response>
+rescue Mencoro::ApiError => e
+  puts "Error when calling TrackedQueriesApi->search_tracked_query_serp_matches_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **organization_id** | **String** |  |  |
+| **project_id** | **String** |  |  |
+| **tracked_query_id** | **String** |  |  |
+| **date_from** | **Date** | Inclusive UTC day; defaults to the retention floor. | [optional] |
+| **date_to** | **Date** | Inclusive UTC day. | [optional] |
+| **limit** | **Integer** |  | [optional][default to 20] |
+| **offset** | **Integer** |  | [optional][default to 0] |
+| **sort_order** | **String** |  | [optional][default to &#39;desc&#39;] |
+
+### Return type
+
+[**SearchTrackedQuerySerpMatches200Response**](SearchTrackedQuerySerpMatches200Response.md)
 
 ### Authorization
 

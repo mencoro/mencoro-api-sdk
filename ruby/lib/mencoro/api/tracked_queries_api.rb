@@ -1788,5 +1788,217 @@ module Mencoro
       end
       return data, status_code, headers
     end
+
+    # List stored mention matches of a tracked query
+    # Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+    # @param organization_id [String] 
+    # @param project_id [String] 
+    # @param tracked_query_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [Date] :date_from Inclusive UTC day; defaults to the retention floor.
+    # @option opts [Date] :date_to Inclusive UTC day.
+    # @option opts [Integer] :limit  (default to 20)
+    # @option opts [Integer] :offset  (default to 0)
+    # @option opts [String] :sort_order  (default to 'desc')
+    # @return [SearchTrackedQueryMentionMatches200Response]
+    def search_tracked_query_mention_matches(organization_id, project_id, tracked_query_id, opts = {})
+      data, _status_code, _headers = search_tracked_query_mention_matches_with_http_info(organization_id, project_id, tracked_query_id, opts)
+      data
+    end
+
+    # List stored mention matches of a tracked query
+    # Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+    # @param organization_id [String] 
+    # @param project_id [String] 
+    # @param tracked_query_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [Date] :date_from Inclusive UTC day; defaults to the retention floor.
+    # @option opts [Date] :date_to Inclusive UTC day.
+    # @option opts [Integer] :limit  (default to 20)
+    # @option opts [Integer] :offset  (default to 0)
+    # @option opts [String] :sort_order  (default to 'desc')
+    # @return [Array<(SearchTrackedQueryMentionMatches200Response, Integer, Hash)>] SearchTrackedQueryMentionMatches200Response data, response status code and response headers
+    def search_tracked_query_mention_matches_with_http_info(organization_id, project_id, tracked_query_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TrackedQueriesApi.search_tracked_query_mention_matches ...'
+      end
+      # verify the required parameter 'organization_id' is set
+      if @api_client.config.client_side_validation && organization_id.nil?
+        fail ArgumentError, "Missing the required parameter 'organization_id' when calling TrackedQueriesApi.search_tracked_query_mention_matches"
+      end
+      # verify the required parameter 'project_id' is set
+      if @api_client.config.client_side_validation && project_id.nil?
+        fail ArgumentError, "Missing the required parameter 'project_id' when calling TrackedQueriesApi.search_tracked_query_mention_matches"
+      end
+      # verify the required parameter 'tracked_query_id' is set
+      if @api_client.config.client_side_validation && tracked_query_id.nil?
+        fail ArgumentError, "Missing the required parameter 'tracked_query_id' when calling TrackedQueriesApi.search_tracked_query_mention_matches"
+      end
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling TrackedQueriesApi.search_tracked_query_mention_matches, must be smaller than or equal to 100.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling TrackedQueriesApi.search_tracked_query_mention_matches, must be greater than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'offset'].nil? && opts[:'offset'] < 0
+        fail ArgumentError, 'invalid value for "opts[:"offset"]" when calling TrackedQueriesApi.search_tracked_query_mention_matches, must be greater than or equal to 0.'
+      end
+
+      allowable_values = ["asc", "desc"]
+      if @api_client.config.client_side_validation && opts[:'sort_order'] && !allowable_values.include?(opts[:'sort_order'])
+        fail ArgumentError, "invalid value for \"sort_order\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches'.sub('{organizationId}', CGI.escape(organization_id.to_s)).sub('{projectId}', CGI.escape(project_id.to_s)).sub('{trackedQueryId}', CGI.escape(tracked_query_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'dateFrom'] = opts[:'date_from'] if !opts[:'date_from'].nil?
+      query_params[:'dateTo'] = opts[:'date_to'] if !opts[:'date_to'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+      query_params[:'offset'] = opts[:'offset'] if !opts[:'offset'].nil?
+      query_params[:'sortOrder'] = opts[:'sort_order'] if !opts[:'sort_order'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/csv']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'SearchTrackedQueryMentionMatches200Response'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKey']
+
+      new_options = opts.merge(
+        :operation => :"TrackedQueriesApi.search_tracked_query_mention_matches",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TrackedQueriesApi#search_tracked_query_mention_matches\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # List stored serp matches of a tracked query
+    # Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+    # @param organization_id [String] 
+    # @param project_id [String] 
+    # @param tracked_query_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [Date] :date_from Inclusive UTC day; defaults to the retention floor.
+    # @option opts [Date] :date_to Inclusive UTC day.
+    # @option opts [Integer] :limit  (default to 20)
+    # @option opts [Integer] :offset  (default to 0)
+    # @option opts [String] :sort_order  (default to 'desc')
+    # @return [SearchTrackedQuerySerpMatches200Response]
+    def search_tracked_query_serp_matches(organization_id, project_id, tracked_query_id, opts = {})
+      data, _status_code, _headers = search_tracked_query_serp_matches_with_http_info(organization_id, project_id, tracked_query_id, opts)
+      data
+    end
+
+    # List stored serp matches of a tracked query
+    # Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+    # @param organization_id [String] 
+    # @param project_id [String] 
+    # @param tracked_query_id [String] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [Date] :date_from Inclusive UTC day; defaults to the retention floor.
+    # @option opts [Date] :date_to Inclusive UTC day.
+    # @option opts [Integer] :limit  (default to 20)
+    # @option opts [Integer] :offset  (default to 0)
+    # @option opts [String] :sort_order  (default to 'desc')
+    # @return [Array<(SearchTrackedQuerySerpMatches200Response, Integer, Hash)>] SearchTrackedQuerySerpMatches200Response data, response status code and response headers
+    def search_tracked_query_serp_matches_with_http_info(organization_id, project_id, tracked_query_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TrackedQueriesApi.search_tracked_query_serp_matches ...'
+      end
+      # verify the required parameter 'organization_id' is set
+      if @api_client.config.client_side_validation && organization_id.nil?
+        fail ArgumentError, "Missing the required parameter 'organization_id' when calling TrackedQueriesApi.search_tracked_query_serp_matches"
+      end
+      # verify the required parameter 'project_id' is set
+      if @api_client.config.client_side_validation && project_id.nil?
+        fail ArgumentError, "Missing the required parameter 'project_id' when calling TrackedQueriesApi.search_tracked_query_serp_matches"
+      end
+      # verify the required parameter 'tracked_query_id' is set
+      if @api_client.config.client_side_validation && tracked_query_id.nil?
+        fail ArgumentError, "Missing the required parameter 'tracked_query_id' when calling TrackedQueriesApi.search_tracked_query_serp_matches"
+      end
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling TrackedQueriesApi.search_tracked_query_serp_matches, must be smaller than or equal to 100.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] < 1
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling TrackedQueriesApi.search_tracked_query_serp_matches, must be greater than or equal to 1.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'offset'].nil? && opts[:'offset'] < 0
+        fail ArgumentError, 'invalid value for "opts[:"offset"]" when calling TrackedQueriesApi.search_tracked_query_serp_matches, must be greater than or equal to 0.'
+      end
+
+      allowable_values = ["asc", "desc"]
+      if @api_client.config.client_side_validation && opts[:'sort_order'] && !allowable_values.include?(opts[:'sort_order'])
+        fail ArgumentError, "invalid value for \"sort_order\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches'.sub('{organizationId}', CGI.escape(organization_id.to_s)).sub('{projectId}', CGI.escape(project_id.to_s)).sub('{trackedQueryId}', CGI.escape(tracked_query_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'dateFrom'] = opts[:'date_from'] if !opts[:'date_from'].nil?
+      query_params[:'dateTo'] = opts[:'date_to'] if !opts[:'date_to'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+      query_params[:'offset'] = opts[:'offset'] if !opts[:'offset'].nil?
+      query_params[:'sortOrder'] = opts[:'sort_order'] if !opts[:'sort_order'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/csv']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'SearchTrackedQuerySerpMatches200Response'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKey']
+
+      new_options = opts.merge(
+        :operation => :"TrackedQueriesApi.search_tracked_query_serp_matches",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TrackedQueriesApi#search_tracked_query_serp_matches\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
   end
 end

@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 
 ## GetCitedSources
 
-> GetCitedSources(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).GroupBy(groupBy).Limit(limit).Offset(offset).Execute()
+> CitedSourcesResponse GetCitedSources(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).GroupBy(groupBy).Limit(limit).Offset(offset).Execute()
 
 Domains and pages the AI answers cited
 
@@ -129,11 +129,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetCitedSources(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).GroupBy(groupBy).Limit(limit).Offset(offset).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetCitedSources(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).GroupBy(groupBy).Limit(limit).Offset(offset).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetCitedSources``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetCitedSources`: CitedSourcesResponse
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetCitedSources`: %v\n", resp)
 }
 ```
 
@@ -164,7 +166,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**CitedSourcesResponse**](CitedSourcesResponse.md)
 
 ### Authorization
 
@@ -173,7 +175,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -182,7 +184,7 @@ Name | Type | Description  | Notes
 
 ## GetClusterBreakdown
 
-> GetClusterBreakdown(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
+> ProjectRankTrackingClusterBreakdown GetClusterBreakdown(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
 
 Rank-tracking metrics per keyword cluster
 
@@ -213,11 +215,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetClusterBreakdown(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetClusterBreakdown(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetClusterBreakdown``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetClusterBreakdown`: ProjectRankTrackingClusterBreakdown
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetClusterBreakdown`: %v\n", resp)
 }
 ```
 
@@ -248,7 +252,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**ProjectRankTrackingClusterBreakdown**](ProjectRankTrackingClusterBreakdown.md)
 
 ### Authorization
 
@@ -257,7 +261,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -266,7 +270,7 @@ Name | Type | Description  | Notes
 
 ## GetCompetitorCoOccurrence
 
-> GetCompetitorCoOccurrence(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).CompetitorId(competitorId).Execute()
+> CompetitorCoOccurrenceResponse GetCompetitorCoOccurrence(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).CompetitorId(competitorId).Execute()
 
 Head-to-head record of the brand against each tracked competitor
 
@@ -296,11 +300,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetCompetitorCoOccurrence(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).CompetitorId(competitorId).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetCompetitorCoOccurrence(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).CompetitorId(competitorId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetCompetitorCoOccurrence``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetCompetitorCoOccurrence`: CompetitorCoOccurrenceResponse
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetCompetitorCoOccurrence`: %v\n", resp)
 }
 ```
 
@@ -330,7 +336,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**CompetitorCoOccurrenceResponse**](CompetitorCoOccurrenceResponse.md)
 
 ### Authorization
 
@@ -339,7 +345,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -348,7 +354,7 @@ Name | Type | Description  | Notes
 
 ## GetMentionMix
 
-> GetMentionMix(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).Execute()
+> ProjectMentionMixResponse GetMentionMix(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).Execute()
 
 Composition of a project brand mentions in AI answers
 
@@ -377,11 +383,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetMentionMix(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetMentionMix(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetMentionMix``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetMentionMix`: ProjectMentionMixResponse
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetMentionMix`: %v\n", resp)
 }
 ```
 
@@ -410,7 +418,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**ProjectMentionMixResponse**](ProjectMentionMixResponse.md)
 
 ### Authorization
 
@@ -419,7 +427,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -428,7 +436,7 @@ Name | Type | Description  | Notes
 
 ## GetMentionSamples
 
-> GetMentionSamples(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).Sentiment(sentiment).MentionType(mentionType).CompetitorId(competitorId).SortBy(sortBy).Limit(limit).Offset(offset).Execute()
+> ProjectMentionSamplesResponse GetMentionSamples(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).Sentiment(sentiment).MentionType(mentionType).CompetitorId(competitorId).SortBy(sortBy).Limit(limit).Offset(offset).Execute()
 
 Sample of the raw AI mention texts of a project
 
@@ -463,11 +471,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetMentionSamples(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).Sentiment(sentiment).MentionType(mentionType).CompetitorId(competitorId).SortBy(sortBy).Limit(limit).Offset(offset).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetMentionSamples(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).Sentiment(sentiment).MentionType(mentionType).CompetitorId(competitorId).SortBy(sortBy).Limit(limit).Offset(offset).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetMentionSamples``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetMentionSamples`: ProjectMentionSamplesResponse
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetMentionSamples`: %v\n", resp)
 }
 ```
 
@@ -502,7 +512,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**ProjectMentionSamplesResponse**](ProjectMentionSamplesResponse.md)
 
 ### Authorization
 
@@ -651,7 +661,7 @@ Name | Type | Description  | Notes
 
 ## GetProjectMetrics
 
-> GetProjectMetrics(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
+> ProjectRankTrackingStats GetProjectMetrics(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
 
 Headline visibility metrics of a project
 
@@ -682,11 +692,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetProjectMetrics(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetProjectMetrics(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetProjectMetrics``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetProjectMetrics`: ProjectRankTrackingStats
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetProjectMetrics`: %v\n", resp)
 }
 ```
 
@@ -717,7 +729,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**ProjectRankTrackingStats**](ProjectRankTrackingStats.md)
 
 ### Authorization
 
@@ -726,7 +738,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -735,7 +747,7 @@ Name | Type | Description  | Notes
 
 ## GetProjectSentiment
 
-> GetProjectSentiment(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
+> ProjectSentimentBreakdown GetProjectSentiment(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
 
 Sentiment breakdown of a project brand mentions
 
@@ -766,11 +778,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetProjectSentiment(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetProjectSentiment(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetProjectSentiment``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetProjectSentiment`: ProjectSentimentBreakdown
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetProjectSentiment`: %v\n", resp)
 }
 ```
 
@@ -801,7 +815,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**ProjectSentimentBreakdown**](ProjectSentimentBreakdown.md)
 
 ### Authorization
 
@@ -810,7 +824,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -819,7 +833,7 @@ Name | Type | Description  | Notes
 
 ## GetProjectTimeSeries
 
-> GetProjectTimeSeries(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Granularity(granularity).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).CompetitorIds(competitorIds).Execute()
+> ProjectRankTrackingTimeSeries GetProjectTimeSeries(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Granularity(granularity).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).CompetitorIds(competitorIds).Execute()
 
 Rank-tracking metrics of a project over time
 
@@ -852,11 +866,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetProjectTimeSeries(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Granularity(granularity).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).CompetitorIds(competitorIds).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetProjectTimeSeries(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Granularity(granularity).Engines(engines).Countries(countries).QueryClusterIds(queryClusterIds).IncludeUngroupedQueries(includeUngroupedQueries).CompetitorIds(competitorIds).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetProjectTimeSeries``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetProjectTimeSeries`: ProjectRankTrackingTimeSeries
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetProjectTimeSeries`: %v\n", resp)
 }
 ```
 
@@ -889,7 +905,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**ProjectRankTrackingTimeSeries**](ProjectRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -898,7 +914,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -907,7 +923,7 @@ Name | Type | Description  | Notes
 
 ## GetQueryMovers
 
-> GetQueryMovers(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).SortBy(sortBy).SortOrder(sortOrder).Limit(limit).Offset(offset).Execute()
+> TrackedQueryMoversResponse GetQueryMovers(ctx, organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).SortBy(sortBy).SortOrder(sortOrder).Limit(limit).Offset(offset).Execute()
 
 Tracked queries ranked by how much a metric moved
 
@@ -940,11 +956,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetQueryMovers(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).SortBy(sortBy).SortOrder(sortOrder).Limit(limit).Offset(offset).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetQueryMovers(context.Background(), organizationId, projectId).DateFrom(dateFrom).DateTo(dateTo).Engines(engines).Countries(countries).SortBy(sortBy).SortOrder(sortOrder).Limit(limit).Offset(offset).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetQueryMovers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetQueryMovers`: TrackedQueryMoversResponse
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetQueryMovers`: %v\n", resp)
 }
 ```
 
@@ -977,7 +995,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**TrackedQueryMoversResponse**](TrackedQueryMoversResponse.md)
 
 ### Authorization
 
@@ -986,7 +1004,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -1068,7 +1086,7 @@ Name | Type | Description  | Notes
 
 ## GetTrackedQueryTimeSeries
 
-> GetTrackedQueryTimeSeries(ctx, organizationId, projectId, trackedQueryId).DateFrom(dateFrom).DateTo(dateTo).Granularity(granularity).CompetitorIds(competitorIds).Execute()
+> TrackedQueryRankTrackingTimeSeries GetTrackedQueryTimeSeries(ctx, organizationId, projectId, trackedQueryId).DateFrom(dateFrom).DateTo(dateTo).Granularity(granularity).CompetitorIds(competitorIds).Execute()
 
 Rank-tracking time series of a single tracked query
 
@@ -1098,11 +1116,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AnalyticsAPI.GetTrackedQueryTimeSeries(context.Background(), organizationId, projectId, trackedQueryId).DateFrom(dateFrom).DateTo(dateTo).Granularity(granularity).CompetitorIds(competitorIds).Execute()
+	resp, r, err := apiClient.AnalyticsAPI.GetTrackedQueryTimeSeries(context.Background(), organizationId, projectId, trackedQueryId).DateFrom(dateFrom).DateTo(dateTo).Granularity(granularity).CompetitorIds(competitorIds).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AnalyticsAPI.GetTrackedQueryTimeSeries``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetTrackedQueryTimeSeries`: TrackedQueryRankTrackingTimeSeries
+	fmt.Fprintf(os.Stdout, "Response from `AnalyticsAPI.GetTrackedQueryTimeSeries`: %v\n", resp)
 }
 ```
 
@@ -1133,7 +1153,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**TrackedQueryRankTrackingTimeSeries**](TrackedQueryRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -1142,7 +1162,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

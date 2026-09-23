@@ -24,6 +24,8 @@ All URIs are relative to *https://api.mencoro.com*
 | [**ReportAiResponse**](TrackedQueriesApi.md#reportairesponse) | **POST** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/responses/{aiResponseId}/report | Report a problem with a captured AI answer |
 | [**ResumeTrackedQuery**](TrackedQueriesApi.md#resumetrackedquery) | **PUT** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/resume | Resume a tracked query |
 | [**SearchTrackedQueries**](TrackedQueriesApi.md#searchtrackedqueries) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries | Search a project&#39;s tracked queries |
+| [**SearchTrackedQueryMentionMatches**](TrackedQueriesApi.md#searchtrackedquerymentionmatches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/mention-matches | List stored mention matches of a tracked query |
+| [**SearchTrackedQuerySerpMatches**](TrackedQueriesApi.md#searchtrackedqueryserpmatches) | **GET** /api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/serp-matches | List stored serp matches of a tracked query |
 
 <a id="addclusterstotrackedquery"></a>
 # **AddClustersToTrackedQuery**
@@ -2218,6 +2220,238 @@ catch (ApiException e)
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="searchtrackedquerymentionmatches"></a>
+# **SearchTrackedQueryMentionMatches**
+> SearchTrackedQueryMentionMatches200Response SearchTrackedQueryMentionMatches (Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = null, DateOnly? dateTo = null, int? limit = null, int? offset = null, string? sortOrder = null)
+
+List stored mention matches of a tracked query
+
+Minimum role: viewer. Text mentions across own brand and tracked or untracked competitors. Citation-only rows are excluded before pagination. Read mentionRelation to distinguish own brand from untracked competitors; a null competitorId alone does not classify the mention. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Mencoro.Api.Api;
+using Mencoro.Api.Client;
+using Mencoro.Api.Model;
+
+namespace Example
+{
+    public class SearchTrackedQueryMentionMatchesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.mencoro.com";
+            // Configure Bearer token for authorization: ApiKey
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new TrackedQueriesApi(httpClient, config, httpClientHandler);
+            var organizationId = "organizationId_example";  // Guid | 
+            var projectId = "projectId_example";  // Guid | 
+            var trackedQueryId = "trackedQueryId_example";  // Guid | 
+            var dateFrom = DateOnly.Parse("2013-10-20");  // DateOnly? | Inclusive UTC day; defaults to the retention floor. (optional) 
+            var dateTo = DateOnly.Parse("2013-10-20");  // DateOnly? | Inclusive UTC day. (optional) 
+            var limit = 20;  // int? |  (optional)  (default to 20)
+            var offset = 0;  // int? |  (optional)  (default to 0)
+            var sortOrder = "asc";  // string? |  (optional)  (default to desc)
+
+            try
+            {
+                // List stored mention matches of a tracked query
+                SearchTrackedQueryMentionMatches200Response result = apiInstance.SearchTrackedQueryMentionMatches(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling TrackedQueriesApi.SearchTrackedQueryMentionMatches: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the SearchTrackedQueryMentionMatchesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List stored mention matches of a tracked query
+    ApiResponse<SearchTrackedQueryMentionMatches200Response> response = apiInstance.SearchTrackedQueryMentionMatchesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling TrackedQueriesApi.SearchTrackedQueryMentionMatchesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **organizationId** | **Guid** |  |  |
+| **projectId** | **Guid** |  |  |
+| **trackedQueryId** | **Guid** |  |  |
+| **dateFrom** | **DateOnly?** | Inclusive UTC day; defaults to the retention floor. | [optional]  |
+| **dateTo** | **DateOnly?** | Inclusive UTC day. | [optional]  |
+| **limit** | **int?** |  | [optional] [default to 20] |
+| **offset** | **int?** |  | [optional] [default to 0] |
+| **sortOrder** | **string?** |  | [optional] [default to desc] |
+
+### Return type
+
+[**SearchTrackedQueryMentionMatches200Response**](SearchTrackedQueryMentionMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/csv
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Stored matches and total under the same filters |  -  |
+| **400** | Invalid or unsupported query parameters |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | Organization, project or tracked query is not accessible |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="searchtrackedqueryserpmatches"></a>
+# **SearchTrackedQuerySerpMatches**
+> SearchTrackedQuerySerpMatches200Response SearchTrackedQuerySerpMatches (Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly? dateFrom = null, DateOnly? dateTo = null, int? limit = null, int? offset = null, string? sortOrder = null)
+
+List stored serp matches of a tracked query
+
+Minimum role: viewer. Stored organic-search matches with the competitor attribution and position recorded at detection time. A null competitorId identifies the own-brand match. These are historical matches, not a reclassification using the current brand profile. Newest first by detection time, with an id tie-break. Dates cover whole UTC days. Only the retained 16-month window is readable, including when dateFrom is omitted. Unknown filters are rejected. The total counts all matching rows before pagination. Send Accept: text/csv for the same bounded page and filters as CSV, with formula-safe cells and no total.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Mencoro.Api.Api;
+using Mencoro.Api.Client;
+using Mencoro.Api.Model;
+
+namespace Example
+{
+    public class SearchTrackedQuerySerpMatchesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.mencoro.com";
+            // Configure Bearer token for authorization: ApiKey
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new TrackedQueriesApi(httpClient, config, httpClientHandler);
+            var organizationId = "organizationId_example";  // Guid | 
+            var projectId = "projectId_example";  // Guid | 
+            var trackedQueryId = "trackedQueryId_example";  // Guid | 
+            var dateFrom = DateOnly.Parse("2013-10-20");  // DateOnly? | Inclusive UTC day; defaults to the retention floor. (optional) 
+            var dateTo = DateOnly.Parse("2013-10-20");  // DateOnly? | Inclusive UTC day. (optional) 
+            var limit = 20;  // int? |  (optional)  (default to 20)
+            var offset = 0;  // int? |  (optional)  (default to 0)
+            var sortOrder = "asc";  // string? |  (optional)  (default to desc)
+
+            try
+            {
+                // List stored serp matches of a tracked query
+                SearchTrackedQuerySerpMatches200Response result = apiInstance.SearchTrackedQuerySerpMatches(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling TrackedQueriesApi.SearchTrackedQuerySerpMatches: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the SearchTrackedQuerySerpMatchesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List stored serp matches of a tracked query
+    ApiResponse<SearchTrackedQuerySerpMatches200Response> response = apiInstance.SearchTrackedQuerySerpMatchesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, limit, offset, sortOrder);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling TrackedQueriesApi.SearchTrackedQuerySerpMatchesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **organizationId** | **Guid** |  |  |
+| **projectId** | **Guid** |  |  |
+| **trackedQueryId** | **Guid** |  |  |
+| **dateFrom** | **DateOnly?** | Inclusive UTC day; defaults to the retention floor. | [optional]  |
+| **dateTo** | **DateOnly?** | Inclusive UTC day. | [optional]  |
+| **limit** | **int?** |  | [optional] [default to 20] |
+| **offset** | **int?** |  | [optional] [default to 0] |
+| **sortOrder** | **string?** |  | [optional] [default to desc] |
+
+### Return type
+
+[**SearchTrackedQuerySerpMatches200Response**](SearchTrackedQuerySerpMatches200Response.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/csv
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Stored matches and total under the same filters |  -  |
+| **400** | Invalid or unsupported query parameters |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the read capability |  -  |
+| **404** | Organization, project or tracked query is not accessible |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -102,7 +102,7 @@ example().catch(console.error);
 
 ## getCitedSources
 
-> getCitedSources(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset)
+> CitedSourcesResponse getCitedSources(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset)
 
 Domains and pages the AI answers cited
 
@@ -172,7 +172,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**CitedSourcesResponse**](CitedSourcesResponse.md)
 
 ### Authorization
 
@@ -181,7 +181,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
@@ -198,7 +198,7 @@ example().catch(console.error);
 
 ## getClusterBreakdown
 
-> getClusterBreakdown(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
+> ProjectRankTrackingClusterBreakdown getClusterBreakdown(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
 
 Rank-tracking metrics per keyword cluster
 
@@ -268,7 +268,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**ProjectRankTrackingClusterBreakdown**](ProjectRankTrackingClusterBreakdown.md)
 
 ### Authorization
 
@@ -277,7 +277,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
@@ -294,7 +294,7 @@ example().catch(console.error);
 
 ## getCompetitorCoOccurrence
 
-> getCompetitorCoOccurrence(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId)
+> CompetitorCoOccurrenceResponse getCompetitorCoOccurrence(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId)
 
 Head-to-head record of the brand against each tracked competitor
 
@@ -361,7 +361,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**CompetitorCoOccurrenceResponse**](CompetitorCoOccurrenceResponse.md)
 
 ### Authorization
 
@@ -370,7 +370,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
@@ -387,7 +387,7 @@ example().catch(console.error);
 
 ## getMentionMix
 
-> getMentionMix(organizationId, projectId, dateFrom, dateTo, engines, countries)
+> ProjectMentionMixResponse getMentionMix(organizationId, projectId, dateFrom, dateTo, engines, countries)
 
 Composition of a project brand mentions in AI answers
 
@@ -451,7 +451,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**ProjectMentionMixResponse**](ProjectMentionMixResponse.md)
 
 ### Authorization
 
@@ -460,7 +460,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
@@ -477,7 +477,7 @@ example().catch(console.error);
 
 ## getMentionSamples
 
-> getMentionSamples(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset)
+> ProjectMentionSamplesResponse getMentionSamples(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset)
 
 Sample of the raw AI mention texts of a project
 
@@ -559,7 +559,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**ProjectMentionSamplesResponse**](ProjectMentionSamplesResponse.md)
 
 ### Authorization
 
@@ -724,7 +724,7 @@ example().catch(console.error);
 
 ## getProjectMetrics
 
-> getProjectMetrics(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
+> ProjectRankTrackingStats getProjectMetrics(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
 
 Headline visibility metrics of a project
 
@@ -794,7 +794,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**ProjectRankTrackingStats**](ProjectRankTrackingStats.md)
 
 ### Authorization
 
@@ -803,7 +803,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
@@ -820,7 +820,7 @@ example().catch(console.error);
 
 ## getProjectSentiment
 
-> getProjectSentiment(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
+> ProjectSentimentBreakdown getProjectSentiment(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries)
 
 Sentiment breakdown of a project brand mentions
 
@@ -890,7 +890,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**ProjectSentimentBreakdown**](ProjectSentimentBreakdown.md)
 
 ### Authorization
 
@@ -899,7 +899,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
@@ -916,7 +916,7 @@ example().catch(console.error);
 
 ## getProjectTimeSeries
 
-> getProjectTimeSeries(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds)
+> ProjectRankTrackingTimeSeries getProjectTimeSeries(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds)
 
 Rank-tracking metrics of a project over time
 
@@ -992,7 +992,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**ProjectRankTrackingTimeSeries**](ProjectRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -1001,7 +1001,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
@@ -1018,7 +1018,7 @@ example().catch(console.error);
 
 ## getQueryMovers
 
-> getQueryMovers(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset)
+> TrackedQueryMoversResponse getQueryMovers(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset)
 
 Tracked queries ranked by how much a metric moved
 
@@ -1094,7 +1094,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**TrackedQueryMoversResponse**](TrackedQueryMoversResponse.md)
 
 ### Authorization
 
@@ -1103,7 +1103,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
@@ -1198,7 +1198,7 @@ example().catch(console.error);
 
 ## getTrackedQueryTimeSeries
 
-> getTrackedQueryTimeSeries(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds)
+> TrackedQueryRankTrackingTimeSeries getTrackedQueryTimeSeries(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds)
 
 Rank-tracking time series of a single tracked query
 
@@ -1265,7 +1265,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**TrackedQueryRankTrackingTimeSeries**](TrackedQueryRankTrackingTimeSeries.md)
 
 ### Authorization
 
@@ -1274,7 +1274,7 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details

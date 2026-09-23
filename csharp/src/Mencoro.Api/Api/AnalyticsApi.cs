@@ -66,8 +66,8 @@ namespace Mencoro.Api.Api
         /// <param name="groupBy">Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. (optional, default to domain)</param>
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of sources to skip. (optional, default to 0)</param>
-        /// <returns></returns>
-        void GetCitedSources(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default);
+        /// <returns>CitedSourcesResponse</returns>
+        CitedSourcesResponse GetCitedSources(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default);
 
         /// <summary>
         /// Domains and pages the AI answers cited
@@ -84,8 +84,8 @@ namespace Mencoro.Api.Api
         /// <param name="groupBy">Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. (optional, default to domain)</param>
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of sources to skip. (optional, default to 0)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetCitedSourcesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default);
+        /// <returns>ApiResponse of CitedSourcesResponse</returns>
+        ApiResponse<CitedSourcesResponse> GetCitedSourcesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default);
         /// <summary>
         /// Rank-tracking metrics per keyword cluster
         /// </summary>
@@ -101,8 +101,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
         /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
-        /// <returns></returns>
-        void GetClusterBreakdown(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
+        /// <returns>ProjectRankTrackingClusterBreakdown</returns>
+        ProjectRankTrackingClusterBreakdown GetClusterBreakdown(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
 
         /// <summary>
         /// Rank-tracking metrics per keyword cluster
@@ -119,8 +119,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
         /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetClusterBreakdownWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
+        /// <returns>ApiResponse of ProjectRankTrackingClusterBreakdown</returns>
+        ApiResponse<ProjectRankTrackingClusterBreakdown> GetClusterBreakdownWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
         /// <summary>
         /// Head-to-head record of the brand against each tracked competitor
         /// </summary>
@@ -135,8 +135,8 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="competitorId">Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)</param>
-        /// <returns></returns>
-        void GetCompetitorCoOccurrence(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default);
+        /// <returns>CompetitorCoOccurrenceResponse</returns>
+        CompetitorCoOccurrenceResponse GetCompetitorCoOccurrence(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default);
 
         /// <summary>
         /// Head-to-head record of the brand against each tracked competitor
@@ -152,8 +152,8 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="competitorId">Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetCompetitorCoOccurrenceWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default);
+        /// <returns>ApiResponse of CompetitorCoOccurrenceResponse</returns>
+        ApiResponse<CompetitorCoOccurrenceResponse> GetCompetitorCoOccurrenceWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default);
         /// <summary>
         /// Composition of a project brand mentions in AI answers
         /// </summary>
@@ -167,8 +167,8 @@ namespace Mencoro.Api.Api
         /// <param name="dateTo">Inclusive end of the window, Y-m-d.</param>
         /// <param name="engines">Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
-        /// <returns></returns>
-        void GetMentionMix(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default);
+        /// <returns>ProjectMentionMixResponse</returns>
+        ProjectMentionMixResponse GetMentionMix(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default);
 
         /// <summary>
         /// Composition of a project brand mentions in AI answers
@@ -183,8 +183,8 @@ namespace Mencoro.Api.Api
         /// <param name="dateTo">Inclusive end of the window, Y-m-d.</param>
         /// <param name="engines">Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetMentionMixWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default);
+        /// <returns>ApiResponse of ProjectMentionMixResponse</returns>
+        ApiResponse<ProjectMentionMixResponse> GetMentionMixWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default);
         /// <summary>
         /// Sample of the raw AI mention texts of a project
         /// </summary>
@@ -204,8 +204,8 @@ namespace Mencoro.Api.Api
         /// <param name="sortBy">recent: newest first. negative: negative sentiment first, then neutral, then positive, newest first inside each. engine and country: grouped alphabetically, newest first inside each group. An unknown value is rejected, not replaced by the default. (optional, default to recent)</param>
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of matching mentions to skip before the page starts. (optional, default to 0)</param>
-        /// <returns></returns>
-        void GetMentionSamples(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default);
+        /// <returns>ProjectMentionSamplesResponse</returns>
+        ProjectMentionSamplesResponse GetMentionSamples(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default);
 
         /// <summary>
         /// Sample of the raw AI mention texts of a project
@@ -226,8 +226,8 @@ namespace Mencoro.Api.Api
         /// <param name="sortBy">recent: newest first. negative: negative sentiment first, then neutral, then positive, newest first inside each. engine and country: grouped alphabetically, newest first inside each group. An unknown value is rejected, not replaced by the default. (optional, default to recent)</param>
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of matching mentions to skip before the page starts. (optional, default to 0)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetMentionSamplesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default);
+        /// <returns>ApiResponse of ProjectMentionSamplesResponse</returns>
+        ApiResponse<ProjectMentionSamplesResponse> GetMentionSamplesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default);
         /// <summary>
         /// Map everyday wording to a metric and the operation that serves it
         /// </summary>
@@ -283,8 +283,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
         /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
-        /// <returns></returns>
-        void GetProjectMetrics(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
+        /// <returns>ProjectRankTrackingStats</returns>
+        ProjectRankTrackingStats GetProjectMetrics(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
 
         /// <summary>
         /// Headline visibility metrics of a project
@@ -301,8 +301,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
         /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetProjectMetricsWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
+        /// <returns>ApiResponse of ProjectRankTrackingStats</returns>
+        ApiResponse<ProjectRankTrackingStats> GetProjectMetricsWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
         /// <summary>
         /// Sentiment breakdown of a project brand mentions
         /// </summary>
@@ -318,8 +318,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
-        /// <returns></returns>
-        void GetProjectSentiment(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
+        /// <returns>ProjectSentimentBreakdown</returns>
+        ProjectSentimentBreakdown GetProjectSentiment(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
 
         /// <summary>
         /// Sentiment breakdown of a project brand mentions
@@ -336,8 +336,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetProjectSentimentWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
+        /// <returns>ApiResponse of ProjectSentimentBreakdown</returns>
+        ApiResponse<ProjectSentimentBreakdown> GetProjectSentimentWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
         /// <summary>
         /// Rank-tracking metrics of a project over time
         /// </summary>
@@ -355,8 +355,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
-        /// <returns></returns>
-        void GetProjectTimeSeries(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default);
+        /// <returns>ProjectRankTrackingTimeSeries</returns>
+        ProjectRankTrackingTimeSeries GetProjectTimeSeries(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default);
 
         /// <summary>
         /// Rank-tracking metrics of a project over time
@@ -375,8 +375,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetProjectTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default);
+        /// <returns>ApiResponse of ProjectRankTrackingTimeSeries</returns>
+        ApiResponse<ProjectRankTrackingTimeSeries> GetProjectTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default);
         /// <summary>
         /// Tracked queries ranked by how much a metric moved
         /// </summary>
@@ -394,8 +394,8 @@ namespace Mencoro.Api.Api
         /// <param name="sortOrder">desc for the top gainers, asc for the top losers. (optional, default to desc)</param>
         /// <param name="limit">Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)</param>
         /// <param name="offset"> (optional, default to 0)</param>
-        /// <returns></returns>
-        void GetQueryMovers(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default);
+        /// <returns>TrackedQueryMoversResponse</returns>
+        TrackedQueryMoversResponse GetQueryMovers(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default);
 
         /// <summary>
         /// Tracked queries ranked by how much a metric moved
@@ -414,8 +414,8 @@ namespace Mencoro.Api.Api
         /// <param name="sortOrder">desc for the top gainers, asc for the top losers. (optional, default to desc)</param>
         /// <param name="limit">Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)</param>
         /// <param name="offset"> (optional, default to 0)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetQueryMoversWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default);
+        /// <returns>ApiResponse of TrackedQueryMoversResponse</returns>
+        ApiResponse<TrackedQueryMoversResponse> GetQueryMoversWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default);
         /// <summary>
         /// The constants behind the Share of Voice score
         /// </summary>
@@ -453,8 +453,8 @@ namespace Mencoro.Api.Api
         /// <param name="dateTo">Inclusive end of the window, Y-m-d.</param>
         /// <param name="granularity">Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)</param>
         /// <param name="competitorIds">Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)</param>
-        /// <returns></returns>
-        void GetTrackedQueryTimeSeries(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default);
+        /// <returns>TrackedQueryRankTrackingTimeSeries</returns>
+        TrackedQueryRankTrackingTimeSeries GetTrackedQueryTimeSeries(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default);
 
         /// <summary>
         /// Rank-tracking time series of a single tracked query
@@ -470,8 +470,8 @@ namespace Mencoro.Api.Api
         /// <param name="dateTo">Inclusive end of the window, Y-m-d.</param>
         /// <param name="granularity">Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)</param>
         /// <param name="competitorIds">Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GetTrackedQueryTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default);
+        /// <returns>ApiResponse of TrackedQueryRankTrackingTimeSeries</returns>
+        ApiResponse<TrackedQueryRankTrackingTimeSeries> GetTrackedQueryTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default);
         /// <summary>
         /// Coverage and staleness of a project tracked queries
         /// </summary>
@@ -596,8 +596,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of sources to skip. (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetCitedSourcesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of CitedSourcesResponse</returns>
+        System.Threading.Tasks.Task<CitedSourcesResponse> GetCitedSourcesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Domains and pages the AI answers cited
@@ -615,8 +615,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of sources to skip. (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetCitedSourcesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (CitedSourcesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CitedSourcesResponse>> GetCitedSourcesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Rank-tracking metrics per keyword cluster
         /// </summary>
@@ -633,8 +633,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
         /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetClusterBreakdownAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ProjectRankTrackingClusterBreakdown</returns>
+        System.Threading.Tasks.Task<ProjectRankTrackingClusterBreakdown> GetClusterBreakdownAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Rank-tracking metrics per keyword cluster
@@ -652,8 +652,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
         /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetClusterBreakdownWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (ProjectRankTrackingClusterBreakdown)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ProjectRankTrackingClusterBreakdown>> GetClusterBreakdownWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Head-to-head record of the brand against each tracked competitor
         /// </summary>
@@ -669,8 +669,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="competitorId">Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetCompetitorCoOccurrenceAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of CompetitorCoOccurrenceResponse</returns>
+        System.Threading.Tasks.Task<CompetitorCoOccurrenceResponse> GetCompetitorCoOccurrenceAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Head-to-head record of the brand against each tracked competitor
@@ -687,8 +687,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="competitorId">Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetCompetitorCoOccurrenceWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (CompetitorCoOccurrenceResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<CompetitorCoOccurrenceResponse>> GetCompetitorCoOccurrenceWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Composition of a project brand mentions in AI answers
         /// </summary>
@@ -703,8 +703,8 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetMentionMixAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ProjectMentionMixResponse</returns>
+        System.Threading.Tasks.Task<ProjectMentionMixResponse> GetMentionMixAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Composition of a project brand mentions in AI answers
@@ -720,8 +720,8 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetMentionMixWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (ProjectMentionMixResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ProjectMentionMixResponse>> GetMentionMixWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Sample of the raw AI mention texts of a project
         /// </summary>
@@ -742,8 +742,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of matching mentions to skip before the page starts. (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetMentionSamplesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ProjectMentionSamplesResponse</returns>
+        System.Threading.Tasks.Task<ProjectMentionSamplesResponse> GetMentionSamplesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sample of the raw AI mention texts of a project
@@ -765,8 +765,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of matching mentions to skip before the page starts. (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetMentionSamplesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (ProjectMentionSamplesResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ProjectMentionSamplesResponse>> GetMentionSamplesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Map everyday wording to a metric and the operation that serves it
         /// </summary>
@@ -827,8 +827,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
         /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetProjectMetricsAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ProjectRankTrackingStats</returns>
+        System.Threading.Tasks.Task<ProjectRankTrackingStats> GetProjectMetricsAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Headline visibility metrics of a project
@@ -846,8 +846,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
         /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetProjectMetricsWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (ProjectRankTrackingStats)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ProjectRankTrackingStats>> GetProjectMetricsWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Sentiment breakdown of a project brand mentions
         /// </summary>
@@ -864,8 +864,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetProjectSentimentAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ProjectSentimentBreakdown</returns>
+        System.Threading.Tasks.Task<ProjectSentimentBreakdown> GetProjectSentimentAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sentiment breakdown of a project brand mentions
@@ -883,8 +883,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetProjectSentimentWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (ProjectSentimentBreakdown)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ProjectSentimentBreakdown>> GetProjectSentimentWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Rank-tracking metrics of a project over time
         /// </summary>
@@ -903,8 +903,8 @@ namespace Mencoro.Api.Api
         /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetProjectTimeSeriesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ProjectRankTrackingTimeSeries</returns>
+        System.Threading.Tasks.Task<ProjectRankTrackingTimeSeries> GetProjectTimeSeriesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Rank-tracking metrics of a project over time
@@ -924,8 +924,8 @@ namespace Mencoro.Api.Api
         /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetProjectTimeSeriesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (ProjectRankTrackingTimeSeries)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ProjectRankTrackingTimeSeries>> GetProjectTimeSeriesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Tracked queries ranked by how much a metric moved
         /// </summary>
@@ -944,8 +944,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)</param>
         /// <param name="offset"> (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetQueryMoversAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of TrackedQueryMoversResponse</returns>
+        System.Threading.Tasks.Task<TrackedQueryMoversResponse> GetQueryMoversAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Tracked queries ranked by how much a metric moved
@@ -965,8 +965,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)</param>
         /// <param name="offset"> (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetQueryMoversWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (TrackedQueryMoversResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<TrackedQueryMoversResponse>> GetQueryMoversWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// The constants behind the Share of Voice score
         /// </summary>
@@ -1007,8 +1007,8 @@ namespace Mencoro.Api.Api
         /// <param name="granularity">Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)</param>
         /// <param name="competitorIds">Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task GetTrackedQueryTimeSeriesAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of TrackedQueryRankTrackingTimeSeries</returns>
+        System.Threading.Tasks.Task<TrackedQueryRankTrackingTimeSeries> GetTrackedQueryTimeSeriesAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Rank-tracking time series of a single tracked query
@@ -1025,8 +1025,8 @@ namespace Mencoro.Api.Api
         /// <param name="granularity">Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)</param>
         /// <param name="competitorIds">Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> GetTrackedQueryTimeSeriesWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (TrackedQueryRankTrackingTimeSeries)</returns>
+        System.Threading.Tasks.Task<ApiResponse<TrackedQueryRankTrackingTimeSeries>> GetTrackedQueryTimeSeriesWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Coverage and staleness of a project tracked queries
         /// </summary>
@@ -1455,10 +1455,11 @@ namespace Mencoro.Api.Api
         /// <param name="groupBy">Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. (optional, default to domain)</param>
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of sources to skip. (optional, default to 0)</param>
-        /// <returns></returns>
-        public void GetCitedSources(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default)
+        /// <returns>CitedSourcesResponse</returns>
+        public CitedSourcesResponse GetCitedSources(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default)
         {
-            GetCitedSourcesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+            Mencoro.Api.Client.ApiResponse<CitedSourcesResponse> localVarResponse = GetCitedSourcesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1473,8 +1474,8 @@ namespace Mencoro.Api.Api
         /// <param name="groupBy">Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. (optional, default to domain)</param>
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of sources to skip. (optional, default to 0)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetCitedSourcesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default)
+        /// <returns>ApiResponse of CitedSourcesResponse</returns>
+        public Mencoro.Api.Client.ApiResponse<CitedSourcesResponse> GetCitedSourcesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -1483,6 +1484,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1520,7 +1522,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/cited-sources", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<CitedSourcesResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/cited-sources", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1544,10 +1546,11 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of sources to skip. (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetCitedSourcesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of CitedSourcesResponse</returns>
+        public async System.Threading.Tasks.Task<CitedSourcesResponse> GetCitedSourcesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetCitedSourcesWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<CitedSourcesResponse> localVarResponse = await GetCitedSourcesWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, groupBy, limit, offset, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1563,8 +1566,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of sources to skip. (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetCitedSourcesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (CitedSourcesResponse)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<CitedSourcesResponse>> GetCitedSourcesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, string? groupBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -1574,6 +1577,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -1613,7 +1617,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/cited-sources", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<CitedSourcesResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/cited-sources", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1636,10 +1640,11 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
         /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
-        /// <returns></returns>
-        public void GetClusterBreakdown(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
+        /// <returns>ProjectRankTrackingClusterBreakdown</returns>
+        public ProjectRankTrackingClusterBreakdown GetClusterBreakdown(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
-            GetClusterBreakdownWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+            Mencoro.Api.Client.ApiResponse<ProjectRankTrackingClusterBreakdown> localVarResponse = GetClusterBreakdownWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1654,8 +1659,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
         /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetClusterBreakdownWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
+        /// <returns>ApiResponse of ProjectRankTrackingClusterBreakdown</returns>
+        public Mencoro.Api.Client.ApiResponse<ProjectRankTrackingClusterBreakdown> GetClusterBreakdownWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -1664,6 +1669,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1701,7 +1707,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/clusters", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<ProjectRankTrackingClusterBreakdown>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/clusters", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1725,10 +1731,11 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
         /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetClusterBreakdownAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ProjectRankTrackingClusterBreakdown</returns>
+        public async System.Threading.Tasks.Task<ProjectRankTrackingClusterBreakdown> GetClusterBreakdownAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetClusterBreakdownWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<ProjectRankTrackingClusterBreakdown> localVarResponse = await GetClusterBreakdownWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1744,8 +1751,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
         /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetClusterBreakdownWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (ProjectRankTrackingClusterBreakdown)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectRankTrackingClusterBreakdown>> GetClusterBreakdownWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -1755,6 +1762,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -1794,7 +1802,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/clusters", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ProjectRankTrackingClusterBreakdown>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/clusters", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1816,10 +1824,11 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="competitorId">Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)</param>
-        /// <returns></returns>
-        public void GetCompetitorCoOccurrence(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default)
+        /// <returns>CompetitorCoOccurrenceResponse</returns>
+        public CompetitorCoOccurrenceResponse GetCompetitorCoOccurrence(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default)
         {
-            GetCompetitorCoOccurrenceWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+            Mencoro.Api.Client.ApiResponse<CompetitorCoOccurrenceResponse> localVarResponse = GetCompetitorCoOccurrenceWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1833,8 +1842,8 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="competitorId">Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetCompetitorCoOccurrenceWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default)
+        /// <returns>ApiResponse of CompetitorCoOccurrenceResponse</returns>
+        public Mencoro.Api.Client.ApiResponse<CompetitorCoOccurrenceResponse> GetCompetitorCoOccurrenceWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -1843,6 +1852,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -1876,7 +1886,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/co-occurrence", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<CompetitorCoOccurrenceResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/co-occurrence", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1899,10 +1909,11 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="competitorId">Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetCompetitorCoOccurrenceAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of CompetitorCoOccurrenceResponse</returns>
+        public async System.Threading.Tasks.Task<CompetitorCoOccurrenceResponse> GetCompetitorCoOccurrenceAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetCompetitorCoOccurrenceWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<CompetitorCoOccurrenceResponse> localVarResponse = await GetCompetitorCoOccurrenceWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, competitorId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1917,8 +1928,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="competitorId">Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetCompetitorCoOccurrenceWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (CompetitorCoOccurrenceResponse)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<CompetitorCoOccurrenceResponse>> GetCompetitorCoOccurrenceWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, Guid? competitorId = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -1928,6 +1939,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -1963,7 +1975,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/co-occurrence", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<CompetitorCoOccurrenceResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/competitors/co-occurrence", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1984,10 +1996,11 @@ namespace Mencoro.Api.Api
         /// <param name="dateTo">Inclusive end of the window, Y-m-d.</param>
         /// <param name="engines">Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
-        /// <returns></returns>
-        public void GetMentionMix(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default)
+        /// <returns>ProjectMentionMixResponse</returns>
+        public ProjectMentionMixResponse GetMentionMix(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default)
         {
-            GetMentionMixWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries);
+            Mencoro.Api.Client.ApiResponse<ProjectMentionMixResponse> localVarResponse = GetMentionMixWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2000,8 +2013,8 @@ namespace Mencoro.Api.Api
         /// <param name="dateTo">Inclusive end of the window, Y-m-d.</param>
         /// <param name="engines">Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetMentionMixWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default)
+        /// <returns>ApiResponse of ProjectMentionMixResponse</returns>
+        public Mencoro.Api.Client.ApiResponse<ProjectMentionMixResponse> GetMentionMixWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -2010,6 +2023,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2039,7 +2053,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/mentions/mix", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<ProjectMentionMixResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/mentions/mix", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2061,10 +2075,11 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetMentionMixAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ProjectMentionMixResponse</returns>
+        public async System.Threading.Tasks.Task<ProjectMentionMixResponse> GetMentionMixAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetMentionMixWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<ProjectMentionMixResponse> localVarResponse = await GetMentionMixWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2078,8 +2093,8 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Non-AI engines contribute no mentions. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetMentionMixWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (ProjectMentionMixResponse)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectMentionMixResponse>> GetMentionMixWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -2089,6 +2104,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -2120,7 +2136,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/mentions/mix", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ProjectMentionMixResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/mentions/mix", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2147,10 +2163,11 @@ namespace Mencoro.Api.Api
         /// <param name="sortBy">recent: newest first. negative: negative sentiment first, then neutral, then positive, newest first inside each. engine and country: grouped alphabetically, newest first inside each group. An unknown value is rejected, not replaced by the default. (optional, default to recent)</param>
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of matching mentions to skip before the page starts. (optional, default to 0)</param>
-        /// <returns></returns>
-        public void GetMentionSamples(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default)
+        /// <returns>ProjectMentionSamplesResponse</returns>
+        public ProjectMentionSamplesResponse GetMentionSamples(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default)
         {
-            GetMentionSamplesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+            Mencoro.Api.Client.ApiResponse<ProjectMentionSamplesResponse> localVarResponse = GetMentionSamplesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2169,8 +2186,8 @@ namespace Mencoro.Api.Api
         /// <param name="sortBy">recent: newest first. negative: negative sentiment first, then neutral, then positive, newest first inside each. engine and country: grouped alphabetically, newest first inside each group. An unknown value is rejected, not replaced by the default. (optional, default to recent)</param>
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of matching mentions to skip before the page starts. (optional, default to 0)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetMentionSamplesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default)
+        /// <returns>ApiResponse of ProjectMentionSamplesResponse</returns>
+        public Mencoro.Api.Client.ApiResponse<ProjectMentionSamplesResponse> GetMentionSamplesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -2233,7 +2250,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/mentions", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<ProjectMentionSamplesResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/mentions", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2261,10 +2278,11 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of matching mentions to skip before the page starts. (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetMentionSamplesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ProjectMentionSamplesResponse</returns>
+        public async System.Threading.Tasks.Task<ProjectMentionSamplesResponse> GetMentionSamplesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetMentionSamplesWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<ProjectMentionSamplesResponse> localVarResponse = await GetMentionSamplesWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, sentiment, mentionType, competitorId, sortBy, limit, offset, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2284,8 +2302,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A larger value is rejected, never silently reduced. (optional, default to 20)</param>
         /// <param name="offset">Number of matching mentions to skip before the page starts. (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetMentionSamplesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (ProjectMentionSamplesResponse)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectMentionSamplesResponse>> GetMentionSamplesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sentiment = default, string? mentionType = default, Guid? competitorId = default, string? sortBy = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -2351,7 +2369,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/mentions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ProjectMentionSamplesResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/mentions", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2606,10 +2624,11 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
         /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
-        /// <returns></returns>
-        public void GetProjectMetrics(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
+        /// <returns>ProjectRankTrackingStats</returns>
+        public ProjectRankTrackingStats GetProjectMetrics(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
-            GetProjectMetricsWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+            Mencoro.Api.Client.ApiResponse<ProjectRankTrackingStats> localVarResponse = GetProjectMetricsWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2624,8 +2643,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
         /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetProjectMetricsWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
+        /// <returns>ApiResponse of ProjectRankTrackingStats</returns>
+        public Mencoro.Api.Client.ApiResponse<ProjectRankTrackingStats> GetProjectMetricsWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -2634,6 +2653,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2671,7 +2691,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<ProjectRankTrackingStats>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2695,10 +2715,11 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
         /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetProjectMetricsAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ProjectRankTrackingStats</returns>
+        public async System.Threading.Tasks.Task<ProjectRankTrackingStats> GetProjectMetricsAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetProjectMetricsWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<ProjectRankTrackingStats> localVarResponse = await GetProjectMetricsWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2714,8 +2735,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
         /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetProjectMetricsWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (ProjectRankTrackingStats)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectRankTrackingStats>> GetProjectMetricsWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -2725,6 +2746,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -2764,7 +2786,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ProjectRankTrackingStats>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2787,10 +2809,11 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
-        /// <returns></returns>
-        public void GetProjectSentiment(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
+        /// <returns>ProjectSentimentBreakdown</returns>
+        public ProjectSentimentBreakdown GetProjectSentiment(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
-            GetProjectSentimentWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+            Mencoro.Api.Client.ApiResponse<ProjectSentimentBreakdown> localVarResponse = GetProjectSentimentWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2805,8 +2828,8 @@ namespace Mencoro.Api.Api
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetProjectSentimentWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
+        /// <returns>ApiResponse of ProjectSentimentBreakdown</returns>
+        public Mencoro.Api.Client.ApiResponse<ProjectSentimentBreakdown> GetProjectSentimentWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -2815,6 +2838,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -2852,7 +2876,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/sentiment", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<ProjectSentimentBreakdown>("/api/v1/organizations/{organizationId}/projects/{projectId}/sentiment", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2876,10 +2900,11 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetProjectSentimentAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ProjectSentimentBreakdown</returns>
+        public async System.Threading.Tasks.Task<ProjectSentimentBreakdown> GetProjectSentimentAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetProjectSentimentWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<ProjectSentimentBreakdown> localVarResponse = await GetProjectSentimentWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, queryClusterIds, includeUngroupedQueries, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2895,8 +2920,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetProjectSentimentWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (ProjectSentimentBreakdown)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectSentimentBreakdown>> GetProjectSentimentWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -2906,6 +2931,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -2945,7 +2971,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/sentiment", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ProjectSentimentBreakdown>("/api/v1/organizations/{organizationId}/projects/{projectId}/sentiment", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2970,10 +2996,11 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
-        /// <returns></returns>
-        public void GetProjectTimeSeries(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default)
+        /// <returns>ProjectRankTrackingTimeSeries</returns>
+        public ProjectRankTrackingTimeSeries GetProjectTimeSeries(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default)
         {
-            GetProjectTimeSeriesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+            Mencoro.Api.Client.ApiResponse<ProjectRankTrackingTimeSeries> localVarResponse = GetProjectTimeSeriesWithHttpInfo(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -2990,8 +3017,8 @@ namespace Mencoro.Api.Api
         /// <param name="queryClusterIds"> (optional)</param>
         /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetProjectTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default)
+        /// <returns>ApiResponse of ProjectRankTrackingTimeSeries</returns>
+        public Mencoro.Api.Client.ApiResponse<ProjectRankTrackingTimeSeries> GetProjectTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -3000,6 +3027,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -3045,7 +3073,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/timeseries", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<ProjectRankTrackingTimeSeries>("/api/v1/organizations/{organizationId}/projects/{projectId}/timeseries", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -3071,10 +3099,11 @@ namespace Mencoro.Api.Api
         /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetProjectTimeSeriesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ProjectRankTrackingTimeSeries</returns>
+        public async System.Threading.Tasks.Task<ProjectRankTrackingTimeSeries> GetProjectTimeSeriesAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetProjectTimeSeriesWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<ProjectRankTrackingTimeSeries> localVarResponse = await GetProjectTimeSeriesWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, granularity, engines, countries, queryClusterIds, includeUngroupedQueries, competitorIds, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -3092,8 +3121,8 @@ namespace Mencoro.Api.Api
         /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetProjectTimeSeriesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (ProjectRankTrackingTimeSeries)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectRankTrackingTimeSeries>> GetProjectTimeSeriesWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -3103,6 +3132,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -3150,7 +3180,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/timeseries", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ProjectRankTrackingTimeSeries>("/api/v1/organizations/{organizationId}/projects/{projectId}/timeseries", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -3175,10 +3205,11 @@ namespace Mencoro.Api.Api
         /// <param name="sortOrder">desc for the top gainers, asc for the top losers. (optional, default to desc)</param>
         /// <param name="limit">Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)</param>
         /// <param name="offset"> (optional, default to 0)</param>
-        /// <returns></returns>
-        public void GetQueryMovers(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default)
+        /// <returns>TrackedQueryMoversResponse</returns>
+        public TrackedQueryMoversResponse GetQueryMovers(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default)
         {
-            GetQueryMoversWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+            Mencoro.Api.Client.ApiResponse<TrackedQueryMoversResponse> localVarResponse = GetQueryMoversWithHttpInfo(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -3195,8 +3226,8 @@ namespace Mencoro.Api.Api
         /// <param name="sortOrder">desc for the top gainers, asc for the top losers. (optional, default to desc)</param>
         /// <param name="limit">Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)</param>
         /// <param name="offset"> (optional, default to 0)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetQueryMoversWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default)
+        /// <returns>ApiResponse of TrackedQueryMoversResponse</returns>
+        public Mencoro.Api.Client.ApiResponse<TrackedQueryMoversResponse> GetQueryMoversWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -3205,6 +3236,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -3250,7 +3282,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/movers", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<TrackedQueryMoversResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/movers", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -3276,10 +3308,11 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)</param>
         /// <param name="offset"> (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetQueryMoversAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of TrackedQueryMoversResponse</returns>
+        public async System.Threading.Tasks.Task<TrackedQueryMoversResponse> GetQueryMoversAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetQueryMoversWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<TrackedQueryMoversResponse> localVarResponse = await GetQueryMoversWithHttpInfoAsync(organizationId, projectId, dateFrom, dateTo, engines, countries, sortBy, sortOrder, limit, offset, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -3297,8 +3330,8 @@ namespace Mencoro.Api.Api
         /// <param name="limit">Page size. A value above the maximum is rejected, never clamped. (optional, default to 20)</param>
         /// <param name="offset"> (optional, default to 0)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetQueryMoversWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (TrackedQueryMoversResponse)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<TrackedQueryMoversResponse>> GetQueryMoversWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, string? sortBy = default, string? sortOrder = default, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -3308,6 +3341,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -3355,7 +3389,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/movers", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<TrackedQueryMoversResponse>("/api/v1/organizations/{organizationId}/projects/{projectId}/metrics/movers", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -3502,10 +3536,11 @@ namespace Mencoro.Api.Api
         /// <param name="dateTo">Inclusive end of the window, Y-m-d.</param>
         /// <param name="granularity">Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)</param>
         /// <param name="competitorIds">Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)</param>
-        /// <returns></returns>
-        public void GetTrackedQueryTimeSeries(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default)
+        /// <returns>TrackedQueryRankTrackingTimeSeries</returns>
+        public TrackedQueryRankTrackingTimeSeries GetTrackedQueryTimeSeries(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default)
         {
-            GetTrackedQueryTimeSeriesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+            Mencoro.Api.Client.ApiResponse<TrackedQueryRankTrackingTimeSeries> localVarResponse = GetTrackedQueryTimeSeriesWithHttpInfo(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -3519,8 +3554,8 @@ namespace Mencoro.Api.Api
         /// <param name="dateTo">Inclusive end of the window, Y-m-d.</param>
         /// <param name="granularity">Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)</param>
         /// <param name="competitorIds">Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Mencoro.Api.Client.ApiResponse<Object> GetTrackedQueryTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default)
+        /// <returns>ApiResponse of TrackedQueryRankTrackingTimeSeries</returns>
+        public Mencoro.Api.Client.ApiResponse<TrackedQueryRankTrackingTimeSeries> GetTrackedQueryTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default)
         {
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
 
@@ -3529,6 +3564,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -3559,7 +3595,7 @@ namespace Mencoro.Api.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/timeseries", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<TrackedQueryRankTrackingTimeSeries>("/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/timeseries", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -3582,10 +3618,11 @@ namespace Mencoro.Api.Api
         /// <param name="granularity">Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)</param>
         /// <param name="competitorIds">Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task GetTrackedQueryTimeSeriesAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of TrackedQueryRankTrackingTimeSeries</returns>
+        public async System.Threading.Tasks.Task<TrackedQueryRankTrackingTimeSeries> GetTrackedQueryTimeSeriesAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await GetTrackedQueryTimeSeriesWithHttpInfoAsync(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds, cancellationToken).ConfigureAwait(false);
+            Mencoro.Api.Client.ApiResponse<TrackedQueryRankTrackingTimeSeries> localVarResponse = await GetTrackedQueryTimeSeriesWithHttpInfoAsync(organizationId, projectId, trackedQueryId, dateFrom, dateTo, granularity, competitorIds, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -3600,8 +3637,8 @@ namespace Mencoro.Api.Api
         /// <param name="granularity">Bucket size. Prefer weekly or monthly for long windows. (optional, default to daily)</param>
         /// <param name="competitorIds">Competitors to add as extra series, repeatable or comma-separated. Valid ids come from the available-filters endpoint. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<Object>> GetTrackedQueryTimeSeriesWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (TrackedQueryRankTrackingTimeSeries)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<TrackedQueryRankTrackingTimeSeries>> GetTrackedQueryTimeSeriesWithHttpInfoAsync(Guid organizationId, Guid projectId, Guid trackedQueryId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<Guid>? competitorIds = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
@@ -3611,6 +3648,7 @@ namespace Mencoro.Api.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -3643,7 +3681,7 @@ namespace Mencoro.Api.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/timeseries", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<TrackedQueryRankTrackingTimeSeries>("/api/v1/organizations/{organizationId}/projects/{projectId}/tracked-queries/{trackedQueryId}/timeseries", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
