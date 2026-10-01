@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   # The clients are generated, so the failure this guards against is not "somebody wrote bad code"
   # but "somebody committed a regeneration they never compiled". Every language is built from the
@@ -42,10 +46,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: npm
+          cache-dependency-path: typescript/package-lock.json
       - working-directory: typescript
         run: |
-          npm install --no-audit --no-fund
-          npx tsc --noEmit -p tsconfig.json
+          # Skip prepare: build below compiles both CommonJS and ESM exactly once.
+          npm ci --ignore-scripts --no-audit --no-fund
           npm run build
       - run: node tests/analytics-responses.cjs
 
