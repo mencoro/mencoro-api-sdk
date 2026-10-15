@@ -34,13 +34,22 @@ print(sdk["config"]["packageName"])
 
 sync_contract() {
   echo "fetching ${CONTRACT_URL}"
-  curl --fail --silent --show-error "${CONTRACT_URL}" | python3 -m json.tool > openapi.json.new
+  # Written in the committed file's layout — two-space indent, UTF-8 left unescaped — so a sync
+  # changes only what the contract changed. `python3 -m json.tool` indents by four and escapes every
+  # non-ASCII character, which rewrote the whole file on each run.
+  curl --fail --silent --show-error "${CONTRACT_URL}" | python3 -c '
+import json, sys
+contract = json.loads(sys.stdin.buffer.read())
+with open(sys.argv[1], "w", encoding="utf-8") as output:
+    json.dump(contract, output, indent=2, ensure_ascii=False)
+    output.write("\n")
+' openapi.json.new
 
   local operations
   operations=$(python3 -c '
 import json
 methods = {"get", "post", "put", "patch", "delete"}
-paths = json.load(open("openapi.json.new")).get("paths", {})
+paths = json.load(open("openapi.json.new", encoding="utf-8")).get("paths", {})
 print(sum(len(methods & set(item)) for item in paths.values()))
 ')
 
@@ -164,6 +173,16 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     output_dir="${go_output}"
   fi
 
+  # The generator records every file it writes in .openapi-generator/FILES but never deletes one it
+  # no longer emits, so a schema or operation dropped from the contract leaves its model, docs and
+  # tests behind — still compiled, and referring to code that no longer exists. The list from before
+  # this run is kept so that whatever it named and this run did not can be removed afterwards.
+  previous_files=".generator-configs/${target}.FILES"
+  rm -f "${previous_files}"
+  if [[ -f "${target}/.openapi-generator/FILES" ]]; then
+    cp "${target}/.openapi-generator/FILES" "${previous_files}"
+  fi
+
   echo "==> ${target} (${generator})"
   docker run --rm \
     -u "$(id -u):$(id -g)" \
@@ -183,6 +202,41 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     cleanup_go_output
     go_output=""
   fi
+
+  # Only a path the previous list named is ever deleted: anything else in the directory — a file
+  # the generator skips because it already exists, such as most test stubs, or one it never wrote —
+  # is left alone. Directories are removed only once deleting a file has emptied them.
+  python3 -c '
+import pathlib, sys
+
+sdk = pathlib.Path(sys.argv[1]).resolve()
+previous_list = pathlib.Path(sys.argv[2])
+current_list = sdk / ".openapi-generator" / "FILES"
+if not previous_list.is_file() or not current_list.is_file():
+    sys.exit(0)
+
+
+def listed(path):
+    return {line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
+
+
+for name in sorted(listed(previous_list) - listed(current_list)):
+    relative = pathlib.PurePosixPath(name)
+    if relative.is_absolute() or ".." in relative.parts:
+        continue
+    path = sdk / relative
+    if not path.parent.resolve().is_relative_to(sdk):
+        continue
+    if not (path.is_file() or path.is_symlink()):
+        continue
+    path.unlink()
+    print(f"    removed {sys.argv[1]}/{name}")
+    directory = path.parent
+    while directory != sdk and not any(directory.iterdir()):
+        directory.rmdir()
+        directory = directory.parent
+' "${target}" "${previous_files}"
+  rm -f "${previous_files}"
 
   if [[ "${target}" == "php" ]]; then
     # Packagist reads composer.json from the repository ROOT and has no notion of a package living

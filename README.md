@@ -326,6 +326,17 @@ The fetch is opt-in because a regeneration that silently pulls a new contract tu
 rerun into a content change nobody reviewed, and the diff runs to six figures of lines across seven
 languages — the one place a surprise must not hide.
 
+`--sync` writes the contract in the committed layout (two-space indent, UTF-8 unescaped, the same
+bytes `jq .` produces), so the diff it leaves is only what the contract changed.
+
+The generator never deletes a file it no longer emits, so after each language is generated the
+script deletes every file the previous `.openapi-generator/FILES` listed and the new one does not.
+Test stubs are the exception everywhere except Go: the generator writes them only when they are
+missing and never lists them in `FILES`, so when the contract drops a schema or operation its stub
+has to be deleted by hand (`python/test/`, `php/test/`, `java/src/test/`,
+`csharp/src/Mencoro.Api.Test/`, `ruby/spec/`). Go's are regenerated and listed on every run, and
+are removed with the rest.
+
 Two corrections are applied by the generator script rather than by hand, because a hand edit would
 be discarded on the next run:
 
