@@ -1,6 +1,6 @@
 # OpenAPIClient-php
 
-Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 For more information, please visit [https://mencoro.com/contact/](https://mencoro.com/contact/).
 
@@ -177,6 +177,7 @@ Class | Method | HTTP request | Description
 - [ApplyClusteringJobOutcomeSkippedClustersInner](docs/Model/ApplyClusteringJobOutcomeSkippedClustersInner.md)
 - [ApplyClusteringJobOutcomeSuccessfulInner](docs/Model/ApplyClusteringJobOutcomeSuccessfulInner.md)
 - [AsyncJobResource](docs/Model/AsyncJobResource.md)
+- [AsyncJobResourceError](docs/Model/AsyncJobResourceError.md)
 - [BatchChangeTrackedQueryCheckFrequencyRequestData](docs/Model/BatchChangeTrackedQueryCheckFrequencyRequestData.md)
 - [BatchChangeTrackedQueryPassesRequestData](docs/Model/BatchChangeTrackedQueryPassesRequestData.md)
 - [BatchCreateQueryClustersOutcome](docs/Model/BatchCreateQueryClustersOutcome.md)

@@ -3,7 +3,7 @@
 """
     Mencoro API
 
-    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
     The version of the OpenAPI document: 1.0.0
     Contact: support@mencoro.com
@@ -42,7 +42,7 @@ class KeywordListingResource(BaseModel):
     status_summary: StrictStr = Field(description="\"mixed\" when the variants disagree; otherwise the one status they share.", alias="statusSummary")
     statuses: List[StrictStr] = Field(description="Distinct statuses across the variants.")
     check_frequencies: List[StrictStr] = Field(description="Distinct check frequencies across the variants.", alias="checkFrequencies")
-    n_passes_values: List[StrictInt] = Field(description="Distinct pass counts across the variants. A pass is one budget unit per check.", alias="nPassesValues")
+    n_passes_values: List[StrictInt] = Field(description="Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one.", alias="nPassesValues")
     last_checked_at: Optional[datetime] = Field(default=None, description="The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing.", alias="lastCheckedAt")
     avg_serp_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position in traditional search over the window. 1-based, LOWER is better.", alias="avgSerpPosition")
     trend_serp: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgSerpPosition against the previous window. Positive is better.", alias="trendSerp")
@@ -73,8 +73,8 @@ class KeywordListingResource(BaseModel):
     def engines_validate_enum(cls, value):
         """Validates the enum"""
         for i in value:
-            if i not in set(['chatgpt', 'perplexity', 'google_ai_overview', 'google_ai_mode', 'google_serp', 'google_shopping']):
-                raise ValueError("each list item must be one of ('chatgpt', 'perplexity', 'google_ai_overview', 'google_ai_mode', 'google_serp', 'google_shopping')")
+            if i not in set(['chatgpt', 'claude', 'perplexity', 'google_ai_overview', 'google_ai_mode', 'google_serp', 'google_shopping']):
+                raise ValueError("each list item must be one of ('chatgpt', 'claude', 'perplexity', 'google_ai_overview', 'google_ai_mode', 'google_serp', 'google_shopping')")
         return value
 
     @field_validator('status_summary')

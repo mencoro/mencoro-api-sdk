@@ -1,7 +1,7 @@
 /*
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -28,7 +28,7 @@ using OpenAPIDateConverter = Mencoro.Api.Client.OpenAPIDateConverter;
 namespace Mencoro.Api.Model
 {
     /// <summary>
-    /// An asynchronous job and, once it has completed, its result
+    /// An asynchronous job and, once it has completed, its result, or once it has failed, why
     /// </summary>
     [DataContract(Name = "AsyncJobResource")]
     public partial class AsyncJobResource : IValidatableObject
@@ -135,12 +135,14 @@ namespace Mencoro.Api.Model
         /// <param name="type">What the job produces, and therefore the shape of &#x60;result&#x60; (required).</param>
         /// <param name="status">A job in &#x60;pending&#x60;, &#x60;running&#x60; or &#x60;awaiting_retry&#x60; is still in flight; &#x60;completed&#x60; and &#x60;failed&#x60; are terminal. (required).</param>
         /// <param name="result">The job output, shaped by &#x60;type&#x60;. Null while the job is still in flight and for a job that failed: it means the result is not known, never that the job produced nothing..</param>
-        public AsyncJobResource(Guid jobId = default, TypeEnum type = default, StatusEnum status = default, Object result = default)
+        /// <param name="error">error.</param>
+        public AsyncJobResource(Guid jobId = default, TypeEnum type = default, StatusEnum status = default, Object result = default, AsyncJobResourceError error = default)
         {
             this.JobId = jobId;
             this.Type = type;
             this.Status = status;
             this.Result = result;
+            this.Error = error;
         }
 
         /// <summary>
@@ -157,6 +159,12 @@ namespace Mencoro.Api.Model
         public Object Result { get; set; }
 
         /// <summary>
+        /// Gets or Sets Error
+        /// </summary>
+        [DataMember(Name = "error", EmitDefaultValue = true)]
+        public AsyncJobResourceError Error { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -168,6 +176,7 @@ namespace Mencoro.Api.Model
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Result: ").Append(Result).Append("\n");
+            sb.Append("  Error: ").Append(Error).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -1,7 +1,7 @@
 =begin
 #Mencoro API
 
-#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 The version of the OpenAPI document: 1.0.0
 Contact: support@mencoro.com
@@ -317,7 +317,7 @@ module Mencoro
       return false if @id.nil?
       return false if @query_text.nil?
       return false if @engine.nil?
-      engine_validator = EnumAttributeValidator.new('String', ["chatgpt", "perplexity", "google_ai_overview", "google_ai_mode", "google_serp", "google_shopping"])
+      engine_validator = EnumAttributeValidator.new('String', ["chatgpt", "claude", "perplexity", "google_ai_overview", "google_ai_mode", "google_serp", "google_shopping"])
       return false unless engine_validator.valid?(@engine)
       return false if @country.nil?
       return false if @status.nil?
@@ -354,7 +354,7 @@ module Mencoro
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] engine Object to be assigned
     def engine=(engine)
-      validator = EnumAttributeValidator.new('String', ["chatgpt", "perplexity", "google_ai_overview", "google_ai_mode", "google_serp", "google_shopping"])
+      validator = EnumAttributeValidator.new('String', ["chatgpt", "claude", "perplexity", "google_ai_overview", "google_ai_mode", "google_serp", "google_shopping"])
       unless validator.valid?(engine)
         fail ArgumentError, "invalid value for \"engine\", must be one of #{validator.allowable_values}."
       end

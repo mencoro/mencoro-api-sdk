@@ -4,7 +4,7 @@
 """
     Mencoro API
 
-    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
     The version of the OpenAPI document: 1.0.0
     Contact: support@mencoro.com
@@ -23,6 +23,7 @@ from mencoro.models.apply_clustering_job_outcome_failed_inner import ApplyCluste
 from mencoro.models.apply_clustering_job_outcome_skipped_clusters_inner import ApplyClusteringJobOutcomeSkippedClustersInner
 from mencoro.models.apply_clustering_job_outcome_successful_inner import ApplyClusteringJobOutcomeSuccessfulInner
 from mencoro.models.async_job_resource import AsyncJobResource
+from mencoro.models.async_job_resource_error import AsyncJobResourceError
 from mencoro.models.batch_change_tracked_query_check_frequency_request_data import BatchChangeTrackedQueryCheckFrequencyRequestData
 from mencoro.models.batch_change_tracked_query_passes_request_data import BatchChangeTrackedQueryPassesRequestData
 from mencoro.models.batch_create_query_clusters_outcome import BatchCreateQueryClustersOutcome

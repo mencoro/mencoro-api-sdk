@@ -152,6 +152,7 @@ All URIs are relative to *https://api.mencoro.com*
 - [ApplyClusteringJobOutcomeSkippedClustersInner](docs/ApplyClusteringJobOutcomeSkippedClustersInner.md)
 - [ApplyClusteringJobOutcomeSuccessfulInner](docs/ApplyClusteringJobOutcomeSuccessfulInner.md)
 - [AsyncJobResource](docs/AsyncJobResource.md)
+- [AsyncJobResourceError](docs/AsyncJobResourceError.md)
 - [BatchChangeTrackedQueryCheckFrequencyRequestData](docs/BatchChangeTrackedQueryCheckFrequencyRequestData.md)
 - [BatchChangeTrackedQueryPassesRequestData](docs/BatchChangeTrackedQueryPassesRequestData.md)
 - [BatchCreateQueryClustersOutcome](docs/BatchCreateQueryClustersOutcome.md)

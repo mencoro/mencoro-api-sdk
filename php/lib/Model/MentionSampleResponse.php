@@ -13,7 +13,7 @@
 /**
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -71,7 +71,8 @@ class MentionSampleResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'query_text' => 'string',
         'country' => 'string',
         'mention_relation' => 'string',
-        'brand_name' => 'string'
+        'brand_name' => 'string',
+        'citations' => '\Mencoro\Api\Model\CitationResource[]'
     ];
 
     /**
@@ -95,7 +96,8 @@ class MentionSampleResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'query_text' => null,
         'country' => null,
         'mention_relation' => null,
-        'brand_name' => null
+        'brand_name' => null,
+        'citations' => null
     ];
 
     /**
@@ -117,7 +119,8 @@ class MentionSampleResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'query_text' => false,
         'country' => true,
         'mention_relation' => true,
-        'brand_name' => true
+        'brand_name' => true,
+        'citations' => false
     ];
 
     /**
@@ -219,7 +222,8 @@ class MentionSampleResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'query_text' => 'queryText',
         'country' => 'country',
         'mention_relation' => 'mentionRelation',
-        'brand_name' => 'brandName'
+        'brand_name' => 'brandName',
+        'citations' => 'citations'
     ];
 
     /**
@@ -241,7 +245,8 @@ class MentionSampleResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'query_text' => 'setQueryText',
         'country' => 'setCountry',
         'mention_relation' => 'setMentionRelation',
-        'brand_name' => 'setBrandName'
+        'brand_name' => 'setBrandName',
+        'citations' => 'setCitations'
     ];
 
     /**
@@ -263,7 +268,8 @@ class MentionSampleResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'query_text' => 'getQueryText',
         'country' => 'getCountry',
         'mention_relation' => 'getMentionRelation',
-        'brand_name' => 'getBrandName'
+        'brand_name' => 'getBrandName',
+        'citations' => 'getCitations'
     ];
 
     /**
@@ -337,6 +343,7 @@ class MentionSampleResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('country', $data ?? [], null);
         $this->setIfExists('mention_relation', $data ?? [], null);
         $this->setIfExists('brand_name', $data ?? [], null);
+        $this->setIfExists('citations', $data ?? [], null);
     }
 
     /**
@@ -813,6 +820,33 @@ class MentionSampleResponse implements ModelInterface, ArrayAccess, \JsonSeriali
             }
         }
         $this->container['brand_name'] = $brand_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets citations
+     *
+     * @return \Mencoro\Api\Model\CitationResource[]|null
+     */
+    public function getCitations()
+    {
+        return $this->container['citations'];
+    }
+
+    /**
+     * Sets citations
+     *
+     * @param \Mencoro\Api\Model\CitationResource[]|null $citations citations
+     *
+     * @return self
+     */
+    public function setCitations($citations)
+    {
+        if (is_null($citations)) {
+            throw new \InvalidArgumentException('non-nullable citations cannot be null');
+        }
+        $this->container['citations'] = $citations;
 
         return $this;
     }

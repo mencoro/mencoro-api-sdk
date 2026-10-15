@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * How many tracked queries a project has, and what checking them would cost in budget units
+ * How many tracked queries a project has, and what checking them would consume in checks
  * @export
  * @interface TrackedQueryCountResource
  */
@@ -26,7 +26,7 @@ export interface TrackedQueryCountResource {
      */
     count: number;
     /**
-     * Budget cost of force-checking exactly those tracked queries, in check budget units: the sum of each one's configured passes. One unit per pass, the same unit the plan allowance is counted in. Reserves nothing and debits nothing.
+     * Budget cost of force-checking exactly those tracked queries, in checks: the sum of each one's configured passes multiplied by its engine weight. Five checks per Claude pass and one check per pass for every other engine, the same currency as the plan allowance. Reserves nothing and debits nothing.
      * @type {number}
      * @memberof TrackedQueryCountResource
      */

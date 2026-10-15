@@ -1,7 +1,7 @@
 /*
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -41,7 +41,7 @@ namespace Mencoro.Api.Model
         /// <param name="status">status.</param>
         /// <param name="trackedQueryCount">trackedQueryCount.</param>
         /// <param name="shareOfVoice">0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet..</param>
-        /// <param name="mentionRate">0-100 percentage of tracked queries with a result; higher is better. Null when the project has no rank data yet..</param>
+        /// <param name="mentionRate">0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet..</param>
         /// <param name="avgMentionPosition">1-based average rank of the brand within the answer; LOWER is better. Null when the project has no rank data yet..</param>
         /// <param name="positivityIndex">0-100 sentiment score; higher is better. Null when the project has no rank data yet..</param>
         public GetOrganizationOverview200ResponseProjectsInner(Guid projectId = default, string name = default, string status = default, int trackedQueryCount = default, float? shareOfVoice = default, int? mentionRate = default, float? avgMentionPosition = default, int? positivityIndex = default)
@@ -88,9 +88,9 @@ namespace Mencoro.Api.Model
         public float? ShareOfVoice { get; set; }
 
         /// <summary>
-        /// 0-100 percentage of tracked queries with a result; higher is better. Null when the project has no rank data yet.
+        /// 0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet.
         /// </summary>
-        /// <value>0-100 percentage of tracked queries with a result; higher is better. Null when the project has no rank data yet.</value>
+        /// <value>0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet.</value>
         [DataMember(Name = "mentionRate", EmitDefaultValue = true)]
         public int? MentionRate { get; set; }
 

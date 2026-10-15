@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Type** | **string** | What the job produces, and therefore the shape of &#x60;result&#x60; | 
 **Status** | **string** | A job in &#x60;pending&#x60;, &#x60;running&#x60; or &#x60;awaiting_retry&#x60; is still in flight; &#x60;completed&#x60; and &#x60;failed&#x60; are terminal. | 
 **Result** | Pointer to **map[string]interface{}** | The job output, shaped by &#x60;type&#x60;. Null while the job is still in flight and for a job that failed: it means the result is not known, never that the job produced nothing. | [optional] 
+**Error** | Pointer to [**NullableAsyncJobResourceError**](AsyncJobResourceError.md) |  | [optional] 
 
 ## Methods
 
@@ -123,6 +124,41 @@ HasResult returns a boolean if a field has been set.
 `func (o *AsyncJobResource) UnsetResult()`
 
 UnsetResult ensures that no value is present for Result, not even an explicit nil
+### GetError
+
+`func (o *AsyncJobResource) GetError() AsyncJobResourceError`
+
+GetError returns the Error field if non-nil, zero value otherwise.
+
+### GetErrorOk
+
+`func (o *AsyncJobResource) GetErrorOk() (*AsyncJobResourceError, bool)`
+
+GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetError
+
+`func (o *AsyncJobResource) SetError(v AsyncJobResourceError)`
+
+SetError sets Error field to given value.
+
+### HasError
+
+`func (o *AsyncJobResource) HasError() bool`
+
+HasError returns a boolean if a field has been set.
+
+### SetErrorNil
+
+`func (o *AsyncJobResource) SetErrorNil(b bool)`
+
+ SetErrorNil sets the value for Error to be an explicit nil
+
+### UnsetError
+`func (o *AsyncJobResource) UnsetError()`
+
+UnsetError ensures that no value is present for Error, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

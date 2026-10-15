@@ -1,7 +1,7 @@
 =begin
 #Mencoro API
 
-#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 The version of the OpenAPI document: 1.0.0
 Contact: support@mencoro.com
@@ -62,7 +62,7 @@ module Mencoro
       if @api_client.config.client_side_validation && project_id.nil?
         fail ArgumentError, "Missing the required parameter 'project_id' when calling CapturesApi.list_ai_responses"
       end
-      allowable_values = ["chatgpt", "perplexity", "google_ai_overview", "google_ai_mode"]
+      allowable_values = ["chatgpt", "claude", "perplexity", "google_ai_overview", "google_ai_mode"]
       if @api_client.config.client_side_validation && opts[:'engines'] && !opts[:'engines'].all? { |item| allowable_values.include?(item) }
         fail ArgumentError, "invalid value for \"engines\", must include one of #{allowable_values}"
       end

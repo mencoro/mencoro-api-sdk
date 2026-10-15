@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **Country** | Pointer to **NullableString** |  | [optional] 
 **MentionRelation** | Pointer to **NullableString** | Published because &#x60;competitorId&#x60; alone cannot answer the question. Own-brand AND untracked-competitor mentions both carry a null competitor id - the confusion migration Version20260608130000 was written to end - so a reader that treats a null competitor id as \&quot;us\&quot; silently counts a rival as the brand. | [optional] 
 **BrandName** | Pointer to **NullableString** |  | [optional] 
+**Citations** | Pointer to [**[]CitationResource**](CitationResource.md) |  | [optional] [default to {}]
 
 ## Methods
 
@@ -378,6 +379,31 @@ HasBrandName returns a boolean if a field has been set.
 `func (o *MentionSampleResponse) UnsetBrandName()`
 
 UnsetBrandName ensures that no value is present for BrandName, not even an explicit nil
+### GetCitations
+
+`func (o *MentionSampleResponse) GetCitations() []CitationResource`
+
+GetCitations returns the Citations field if non-nil, zero value otherwise.
+
+### GetCitationsOk
+
+`func (o *MentionSampleResponse) GetCitationsOk() (*[]CitationResource, bool)`
+
+GetCitationsOk returns a tuple with the Citations field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCitations
+
+`func (o *MentionSampleResponse) SetCitations(v []CitationResource)`
+
+SetCitations sets Citations field to given value.
+
+### HasCitations
+
+`func (o *MentionSampleResponse) HasCitations() bool`
+
+HasCitations returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

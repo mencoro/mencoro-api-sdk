@@ -1,7 +1,7 @@
 /*
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -41,7 +41,7 @@ namespace Mencoro.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectedMonthlyChecksResource" /> class.
         /// </summary>
-        /// <param name="projectedMonthlyChecks">Checks a month of the current configuration would consume: for each ACTIVE tracked query, its runs per month (daily 30, weekly 4, monthly 1) multiplied by its nPasses, summed. Never null. (required).</param>
+        /// <param name="projectedMonthlyChecks">Checks a month of the current configuration would consume: for each ACTIVE tracked query, its runs per month (daily 30, weekly 4, monthly 1) multiplied by its nPasses and engine weight, summed. Claude uses five checks per pass; every other engine uses one. Never null. (required).</param>
         /// <param name="activeTrackedQueryCount">Active tracked queries the projection was summed over, across every project of the organization, archived projects included. Paused queries are excluded from both figures. Never null. (required).</param>
         public ProjectedMonthlyChecksResource(int projectedMonthlyChecks = default, int activeTrackedQueryCount = default)
         {
@@ -50,9 +50,9 @@ namespace Mencoro.Api.Model
         }
 
         /// <summary>
-        /// Checks a month of the current configuration would consume: for each ACTIVE tracked query, its runs per month (daily 30, weekly 4, monthly 1) multiplied by its nPasses, summed. Never null.
+        /// Checks a month of the current configuration would consume: for each ACTIVE tracked query, its runs per month (daily 30, weekly 4, monthly 1) multiplied by its nPasses and engine weight, summed. Claude uses five checks per pass; every other engine uses one. Never null.
         /// </summary>
-        /// <value>Checks a month of the current configuration would consume: for each ACTIVE tracked query, its runs per month (daily 30, weekly 4, monthly 1) multiplied by its nPasses, summed. Never null.</value>
+        /// <value>Checks a month of the current configuration would consume: for each ACTIVE tracked query, its runs per month (daily 30, weekly 4, monthly 1) multiplied by its nPasses and engine weight, summed. Claude uses five checks per pass; every other engine uses one. Never null.</value>
         /*
         <example>720</example>
         */

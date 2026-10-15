@@ -12,6 +12,7 @@ docs/ApplyClusteringJobOutcomeFailedInner.md
 docs/ApplyClusteringJobOutcomeSkippedClustersInner.md
 docs/ApplyClusteringJobOutcomeSuccessfulInner.md
 docs/AsyncJobResource.md
+docs/AsyncJobResourceError.md
 docs/BatchChangeTrackedQueryCheckFrequencyRequestData.md
 docs/BatchChangeTrackedQueryPassesRequestData.md
 docs/BatchCreateQueryClustersOutcome.md
@@ -181,6 +182,7 @@ src/models/ApplyClusteringJobOutcomeFailedInner.ts
 src/models/ApplyClusteringJobOutcomeSkippedClustersInner.ts
 src/models/ApplyClusteringJobOutcomeSuccessfulInner.ts
 src/models/AsyncJobResource.ts
+src/models/AsyncJobResourceError.ts
 src/models/BatchChangeTrackedQueryCheckFrequencyRequestData.ts
 src/models/BatchChangeTrackedQueryPassesRequestData.ts
 src/models/BatchCreateQueryClustersOutcome.ts

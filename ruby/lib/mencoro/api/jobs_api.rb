@@ -1,7 +1,7 @@
 =begin
 #Mencoro API
 
-#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 The version of the OpenAPI document: 1.0.0
 Contact: support@mencoro.com
@@ -20,7 +20,7 @@ module Mencoro
       @api_client = api_client
     end
     # Get an asynchronous job
-    # Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until `status` is terminal: `completed` or `failed`. A null `result` means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries no reason: the stored one is an internal exception message, not a published field. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
+    # Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until `status` is terminal: `completed` or `failed`. A null `result` means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries `error`: a stable `code` (`timed_out`, `provider_failed`, `submission_failed` or `internal_error`) and a fixed `message` saying what to do next; `error` is null for a job that has not failed. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
     # @param organization_id [String] 
     # @param job_id [String] Must be a job started inside the organization in the path.
     # @param [Hash] opts the optional parameters
@@ -31,7 +31,7 @@ module Mencoro
     end
 
     # Get an asynchronous job
-    # Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until &#x60;status&#x60; is terminal: &#x60;completed&#x60; or &#x60;failed&#x60;. A null &#x60;result&#x60; means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries no reason: the stored one is an internal exception message, not a published field. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
+    # Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until &#x60;status&#x60; is terminal: &#x60;completed&#x60; or &#x60;failed&#x60;. A null &#x60;result&#x60; means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries &#x60;error&#x60;: a stable &#x60;code&#x60; (&#x60;timed_out&#x60;, &#x60;provider_failed&#x60;, &#x60;submission_failed&#x60; or &#x60;internal_error&#x60;) and a fixed &#x60;message&#x60; saying what to do next; &#x60;error&#x60; is null for a job that has not failed. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
     # @param organization_id [String] 
     # @param job_id [String] Must be a job started inside the organization in the path.
     # @param [Hash] opts the optional parameters

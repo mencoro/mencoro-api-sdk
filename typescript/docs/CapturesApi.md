@@ -46,7 +46,7 @@ async function example() {
     dateTo: 2013-10-20,
     // string | Only captures of this tracked query. Must belong to the project in the path. (optional)
     trackedQueryId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // Array<'chatgpt' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode'> | Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine. (optional)
+    // Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode'> | Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine. (optional)
     engines: ...,
     // number | Page size. A larger value is rejected, never silently reduced. (optional)
     limit: 56,
@@ -78,7 +78,7 @@ example().catch(console.error);
 | **dateFrom** | `Date` | Inclusive lower bound, widened to 00:00:00 UTC of the named day. Must be inside the retention window. | [Optional] [Defaults to `undefined`] |
 | **dateTo** | `Date` | Inclusive upper bound, widened to 23:59:59 UTC of the named day. | [Optional] [Defaults to `undefined`] |
 | **trackedQueryId** | `string` | Only captures of this tracked query. Must belong to the project in the path. | [Optional] [Defaults to `undefined`] |
-| **engines** | `chatgpt`, `perplexity`, `google_ai_overview`, `google_ai_mode` | Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine. | [Optional] [Enum: chatgpt, perplexity, google_ai_overview, google_ai_mode] |
+| **engines** | `chatgpt`, `claude`, `perplexity`, `google_ai_overview`, `google_ai_mode` | Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine. | [Optional] [Enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode] |
 | **limit** | `number` | Page size. A larger value is rejected, never silently reduced. | [Optional] [Defaults to `20`] |
 | **offset** | `number` | Number of captures to skip before the page starts. | [Optional] [Defaults to `0`] |
 | **sortOrder** | `asc`, `desc` | Direction of the capture-time ordering. An unknown value is rejected, not replaced by the default. | [Optional] [Defaults to `&#39;desc&#39;`] [Enum: asc, desc] |

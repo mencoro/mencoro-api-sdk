@@ -23,6 +23,7 @@ Tracked queries to create, as a cross product of texts, engines and countries
 | Name | Value |
 |---- | -----|
 | CHATGPT | &quot;chatgpt&quot; |
+| CLAUDE | &quot;claude&quot; |
 | PERPLEXITY | &quot;perplexity&quot; |
 | GOOGLE_AI_OVERVIEW | &quot;google_ai_overview&quot; |
 | GOOGLE_AI_MODE | &quot;google_ai_mode&quot; |

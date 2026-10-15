@@ -1,6 +1,6 @@
 /*
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -19,6 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.mencoro.api.model.AsyncJobResourceError;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
@@ -48,7 +49,7 @@ import java.util.Set;
 import com.mencoro.api.JSON;
 
 /**
- * An asynchronous job and, once it has completed, its result
+ * An asynchronous job and, once it has completed, its result, or once it has failed, why
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class AsyncJobResource {
@@ -188,6 +189,11 @@ public class AsyncJobResource {
   @javax.annotation.Nullable
   private Object result;
 
+  public static final String SERIALIZED_NAME_ERROR = "error";
+  @SerializedName(SERIALIZED_NAME_ERROR)
+  @javax.annotation.Nullable
+  private AsyncJobResourceError error;
+
   public AsyncJobResource() {
   }
 
@@ -267,6 +273,25 @@ public class AsyncJobResource {
   }
 
 
+  public AsyncJobResource error(@javax.annotation.Nullable AsyncJobResourceError error) {
+    this.error = error;
+    return this;
+  }
+
+  /**
+   * Get error
+   * @return error
+   */
+  @javax.annotation.Nullable
+  public AsyncJobResourceError getError() {
+    return error;
+  }
+
+  public void setError(@javax.annotation.Nullable AsyncJobResourceError error) {
+    this.error = error;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -280,7 +305,8 @@ public class AsyncJobResource {
     return Objects.equals(this.jobId, asyncJobResource.jobId) &&
         Objects.equals(this.type, asyncJobResource.type) &&
         Objects.equals(this.status, asyncJobResource.status) &&
-        Objects.equals(this.result, asyncJobResource.result);
+        Objects.equals(this.result, asyncJobResource.result) &&
+        Objects.equals(this.error, asyncJobResource.error);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -289,7 +315,7 @@ public class AsyncJobResource {
 
   @Override
   public int hashCode() {
-    return Objects.hash(jobId, type, status, result);
+    return Objects.hash(jobId, type, status, result, error);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -307,6 +333,7 @@ public class AsyncJobResource {
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    result: ").append(toIndentedString(result)).append("\n");
+    sb.append("    error: ").append(toIndentedString(error)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -325,7 +352,7 @@ public class AsyncJobResource {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("jobId", "type", "status", "result"));
+    openapiFields = new HashSet<String>(Arrays.asList("jobId", "type", "status", "result", "error"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("jobId", "type", "status"));
@@ -372,6 +399,10 @@ public class AsyncJobResource {
       }
       // validate the required field `status`
       StatusEnum.validateJsonElement(jsonObj.get("status"));
+      // validate the optional field `error`
+      if (jsonObj.get("error") != null && !jsonObj.get("error").isJsonNull()) {
+        AsyncJobResourceError.validateJsonElement(jsonObj.get("error"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

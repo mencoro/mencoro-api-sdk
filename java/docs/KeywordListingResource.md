@@ -19,7 +19,7 @@ One keyword of a project, its variants and its metrics over the requested window
 |**statusSummary** | [**StatusSummaryEnum**](#StatusSummaryEnum) | \&quot;mixed\&quot; when the variants disagree; otherwise the one status they share. |  |
 |**statuses** | [**List&lt;StatusesEnum&gt;**](#List&lt;StatusesEnum&gt;) | Distinct statuses across the variants. |  |
 |**checkFrequencies** | [**List&lt;CheckFrequenciesEnum&gt;**](#List&lt;CheckFrequenciesEnum&gt;) | Distinct check frequencies across the variants. |  |
-|**nPassesValues** | **List&lt;Integer&gt;** | Distinct pass counts across the variants. A pass is one budget unit per check. |  |
+|**nPassesValues** | **List&lt;Integer&gt;** | Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. |  |
 |**lastCheckedAt** | **OffsetDateTime** | The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing. |  [optional] |
 |**avgSerpPosition** | **Float** | Average position in traditional search over the window. 1-based, LOWER is better. |  [optional] |
 |**trendSerp** | **Float** | Signed improvement in avgSerpPosition against the previous window. Positive is better. |  [optional] |
@@ -52,6 +52,7 @@ One keyword of a project, its variants and its metrics over the requested window
 | Name | Value |
 |---- | -----|
 | CHATGPT | &quot;chatgpt&quot; |
+| CLAUDE | &quot;claude&quot; |
 | PERPLEXITY | &quot;perplexity&quot; |
 | GOOGLE_AI_OVERVIEW | &quot;google_ai_overview&quot; |
 | GOOGLE_AI_MODE | &quot;google_ai_mode&quot; |

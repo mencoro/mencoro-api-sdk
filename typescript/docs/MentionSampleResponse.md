@@ -20,6 +20,7 @@ Name | Type
 `country` | string
 `mentionRelation` | string
 `brandName` | string
+`citations` | [Array&lt;CitationResource&gt;](CitationResource.md)
 
 ## Example
 
@@ -42,6 +43,7 @@ const example = {
   "country": null,
   "mentionRelation": null,
   "brandName": null,
+  "citations": null,
 } satisfies MentionSampleResponse
 
 console.log(example)

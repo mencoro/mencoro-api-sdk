@@ -1,7 +1,7 @@
 /*
 Mencoro API
 
-Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 API version: 1.0.0
 Contact: support@mencoro.com
@@ -45,7 +45,7 @@ type KeywordListingResource struct {
 	Statuses []string `json:"statuses"`
 	// Distinct check frequencies across the variants.
 	CheckFrequencies []string `json:"checkFrequencies"`
-	// Distinct pass counts across the variants. A pass is one budget unit per check.
+	// Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one.
 	NPassesValues []int32 `json:"nPassesValues"`
 	// The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing.
 	LastCheckedAt NullableTime `json:"lastCheckedAt,omitempty"`

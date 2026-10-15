@@ -25,6 +25,7 @@ docs/Model/ApplyClusteringJobOutcomeFailedInner.md
 docs/Model/ApplyClusteringJobOutcomeSkippedClustersInner.md
 docs/Model/ApplyClusteringJobOutcomeSuccessfulInner.md
 docs/Model/AsyncJobResource.md
+docs/Model/AsyncJobResourceError.md
 docs/Model/BatchChangeTrackedQueryCheckFrequencyRequestData.md
 docs/Model/BatchChangeTrackedQueryPassesRequestData.md
 docs/Model/BatchCreateQueryClustersOutcome.md
@@ -185,6 +186,7 @@ lib/Model/ApplyClusteringJobOutcomeFailedInner.php
 lib/Model/ApplyClusteringJobOutcomeSkippedClustersInner.php
 lib/Model/ApplyClusteringJobOutcomeSuccessfulInner.php
 lib/Model/AsyncJobResource.php
+lib/Model/AsyncJobResourceError.php
 lib/Model/BatchChangeTrackedQueryCheckFrequencyRequestData.php
 lib/Model/BatchChangeTrackedQueryPassesRequestData.php
 lib/Model/BatchCreateQueryClustersOutcome.php

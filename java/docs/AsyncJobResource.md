@@ -2,7 +2,7 @@
 
 # AsyncJobResource
 
-An asynchronous job and, once it has completed, its result
+An asynchronous job and, once it has completed, its result, or once it has failed, why
 
 ## Properties
 
@@ -12,6 +12,7 @@ An asynchronous job and, once it has completed, its result
 |**type** | [**TypeEnum**](#TypeEnum) | What the job produces, and therefore the shape of &#x60;result&#x60; |  |
 |**status** | [**StatusEnum**](#StatusEnum) | A job in &#x60;pending&#x60;, &#x60;running&#x60; or &#x60;awaiting_retry&#x60; is still in flight; &#x60;completed&#x60; and &#x60;failed&#x60; are terminal. |  |
 |**result** | **Object** | The job output, shaped by &#x60;type&#x60;. Null while the job is still in flight and for a job that failed: it means the result is not known, never that the job produced nothing. |  [optional] |
+|**error** | [**AsyncJobResourceError**](AsyncJobResourceError.md) |  |  [optional] |
 
 
 

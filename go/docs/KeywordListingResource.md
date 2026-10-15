@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **StatusSummary** | **string** | \&quot;mixed\&quot; when the variants disagree; otherwise the one status they share. | 
 **Statuses** | **[]string** | Distinct statuses across the variants. | 
 **CheckFrequencies** | **[]string** | Distinct check frequencies across the variants. | 
-**NPassesValues** | **[]int32** | Distinct pass counts across the variants. A pass is one budget unit per check. | 
+**NPassesValues** | **[]int32** | Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. | 
 **LastCheckedAt** | Pointer to **NullableTime** | The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing. | [optional] 
 **AvgSerpPosition** | Pointer to **NullableFloat32** | Average position in traditional search over the window. 1-based, LOWER is better. | [optional] 
 **TrendSerp** | Pointer to **NullableFloat32** | Signed improvement in avgSerpPosition against the previous window. Positive is better. | [optional] 

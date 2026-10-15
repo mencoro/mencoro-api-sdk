@@ -13,7 +13,7 @@
 /**
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -441,6 +441,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     }
 
     public const ENGINES_CHATGPT = 'chatgpt';
+    public const ENGINES_CLAUDE = 'claude';
     public const ENGINES_PERPLEXITY = 'perplexity';
     public const ENGINES_GOOGLE_AI_OVERVIEW = 'google_ai_overview';
     public const ENGINES_GOOGLE_AI_MODE = 'google_ai_mode';
@@ -464,6 +465,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     {
         return [
             self::ENGINES_CHATGPT,
+            self::ENGINES_CLAUDE,
             self::ENGINES_PERPLEXITY,
             self::ENGINES_GOOGLE_AI_OVERVIEW,
             self::ENGINES_GOOGLE_AI_MODE,
@@ -1012,7 +1014,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets n_passes_values
      *
-     * @param int[] $n_passes_values Distinct pass counts across the variants. A pass is one budget unit per check.
+     * @param int[] $n_passes_values Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one.
      *
      * @return self
      */

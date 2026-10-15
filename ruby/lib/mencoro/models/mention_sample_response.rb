@@ -1,7 +1,7 @@
 =begin
 #Mencoro API
 
-#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 The version of the OpenAPI document: 1.0.0
 Contact: support@mencoro.com
@@ -44,6 +44,8 @@ module Mencoro
 
     attr_accessor :brand_name
 
+    attr_accessor :citations
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -60,7 +62,8 @@ module Mencoro
         :'query_text' => :'queryText',
         :'country' => :'country',
         :'mention_relation' => :'mentionRelation',
-        :'brand_name' => :'brandName'
+        :'brand_name' => :'brandName',
+        :'citations' => :'citations'
       }
     end
 
@@ -90,7 +93,8 @@ module Mencoro
         :'query_text' => :'String',
         :'country' => :'String',
         :'mention_relation' => :'String',
-        :'brand_name' => :'String'
+        :'brand_name' => :'String',
+        :'citations' => :'Array<CitationResource>'
       }
     end
 
@@ -100,7 +104,7 @@ module Mencoro
         :'competitor_id',
         :'country',
         :'mention_relation',
-        :'brand_name'
+        :'brand_name',
       ])
     end
 
@@ -194,6 +198,12 @@ module Mencoro
 
       if attributes.key?(:'brand_name')
         self.brand_name = attributes[:'brand_name']
+      end
+
+      if attributes.key?(:'citations')
+        if (value = attributes[:'citations']).is_a?(Array)
+          self.citations = value
+        end
       end
     end
 
@@ -380,7 +390,8 @@ module Mencoro
           query_text == o.query_text &&
           country == o.country &&
           mention_relation == o.mention_relation &&
-          brand_name == o.brand_name
+          brand_name == o.brand_name &&
+          citations == o.citations
     end
 
     # @see the `==` method
@@ -392,7 +403,7 @@ module Mencoro
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, tracked_query_id, ai_response_id, engine, competitor_id, sentiment, mention_type, mention_position, text, detected_at, query_text, country, mention_relation, brand_name].hash
+      [id, tracked_query_id, ai_response_id, engine, competitor_id, sentiment, mention_type, mention_position, text, detected_at, query_text, country, mention_relation, brand_name, citations].hash
     end
 
     # Builds the object from hash

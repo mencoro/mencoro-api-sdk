@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -50,7 +50,7 @@ export interface GetOrganizationOverview200ResponseProjectsInner {
      */
     shareOfVoice?: number | null;
     /**
-     * 0-100 percentage of tracked queries with a result; higher is better. Null when the project has no rank data yet.
+     * 0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet.
      * @type {number}
      * @memberof GetOrganizationOverview200ResponseProjectsInner
      */

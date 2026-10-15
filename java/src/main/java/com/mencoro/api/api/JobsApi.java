@@ -1,6 +1,6 @@
 /*
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -84,7 +84,7 @@ public class JobsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> The job, and its result once it has completed </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> The job, with its result once it has completed or why it failed once it has failed </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or job the caller can access under these ids </td><td>  -  </td></tr>
@@ -154,7 +154,7 @@ public class JobsApi {
 
     /**
      * Get an asynchronous job
-     * Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until &#x60;status&#x60; is terminal: &#x60;completed&#x60; or &#x60;failed&#x60;. A null &#x60;result&#x60; means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries no reason: the stored one is an internal exception message, not a published field. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
+     * Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until &#x60;status&#x60; is terminal: &#x60;completed&#x60; or &#x60;failed&#x60;. A null &#x60;result&#x60; means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries &#x60;error&#x60;: a stable &#x60;code&#x60; (&#x60;timed_out&#x60;, &#x60;provider_failed&#x60;, &#x60;submission_failed&#x60; or &#x60;internal_error&#x60;) and a fixed &#x60;message&#x60; saying what to do next; &#x60;error&#x60; is null for a job that has not failed. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
      * @param organizationId  (required)
      * @param jobId Must be a job started inside the organization in the path. (required)
      * @return AsyncJobResource
@@ -163,7 +163,7 @@ public class JobsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> The job, and its result once it has completed </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> The job, with its result once it has completed or why it failed once it has failed </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or job the caller can access under these ids </td><td>  -  </td></tr>
@@ -176,7 +176,7 @@ public class JobsApi {
 
     /**
      * Get an asynchronous job
-     * Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until &#x60;status&#x60; is terminal: &#x60;completed&#x60; or &#x60;failed&#x60;. A null &#x60;result&#x60; means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries no reason: the stored one is an internal exception message, not a published field. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
+     * Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until &#x60;status&#x60; is terminal: &#x60;completed&#x60; or &#x60;failed&#x60;. A null &#x60;result&#x60; means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries &#x60;error&#x60;: a stable &#x60;code&#x60; (&#x60;timed_out&#x60;, &#x60;provider_failed&#x60;, &#x60;submission_failed&#x60; or &#x60;internal_error&#x60;) and a fixed &#x60;message&#x60; saying what to do next; &#x60;error&#x60; is null for a job that has not failed. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
      * @param organizationId  (required)
      * @param jobId Must be a job started inside the organization in the path. (required)
      * @return ApiResponse&lt;AsyncJobResource&gt;
@@ -185,7 +185,7 @@ public class JobsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> The job, and its result once it has completed </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> The job, with its result once it has completed or why it failed once it has failed </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or job the caller can access under these ids </td><td>  -  </td></tr>
@@ -199,7 +199,7 @@ public class JobsApi {
 
     /**
      * Get an asynchronous job (asynchronously)
-     * Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until &#x60;status&#x60; is terminal: &#x60;completed&#x60; or &#x60;failed&#x60;. A null &#x60;result&#x60; means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries no reason: the stored one is an internal exception message, not a published field. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
+     * Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until &#x60;status&#x60; is terminal: &#x60;completed&#x60; or &#x60;failed&#x60;. A null &#x60;result&#x60; means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries &#x60;error&#x60;: a stable &#x60;code&#x60; (&#x60;timed_out&#x60;, &#x60;provider_failed&#x60;, &#x60;submission_failed&#x60; or &#x60;internal_error&#x60;) and a fixed &#x60;message&#x60; saying what to do next; &#x60;error&#x60; is null for a job that has not failed. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
      * @param organizationId  (required)
      * @param jobId Must be a job started inside the organization in the path. (required)
      * @param _callback The callback to be executed when the API call finishes
@@ -209,7 +209,7 @@ public class JobsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> The job, and its result once it has completed </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> The job, with its result once it has completed or why it failed once it has failed </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or job the caller can access under these ids </td><td>  -  </td></tr>

@@ -13,6 +13,7 @@ docs/ApplyClusteringJobOutcomeFailedInner.md
 docs/ApplyClusteringJobOutcomeSkippedClustersInner.md
 docs/ApplyClusteringJobOutcomeSuccessfulInner.md
 docs/AsyncJobResource.md
+docs/AsyncJobResourceError.md
 docs/BatchChangeTrackedQueryCheckFrequencyRequestData.md
 docs/BatchChangeTrackedQueryPassesRequestData.md
 docs/BatchCreateQueryClustersOutcome.md
@@ -200,6 +201,7 @@ src/Mencoro.Api/Model/ApplyClusteringJobOutcomeFailedInner.cs
 src/Mencoro.Api/Model/ApplyClusteringJobOutcomeSkippedClustersInner.cs
 src/Mencoro.Api/Model/ApplyClusteringJobOutcomeSuccessfulInner.cs
 src/Mencoro.Api/Model/AsyncJobResource.cs
+src/Mencoro.Api/Model/AsyncJobResourceError.cs
 src/Mencoro.Api/Model/BatchChangeTrackedQueryCheckFrequencyRequestData.cs
 src/Mencoro.Api/Model/BatchChangeTrackedQueryPassesRequestData.cs
 src/Mencoro.Api/Model/BatchCreateQueryClustersOutcome.cs

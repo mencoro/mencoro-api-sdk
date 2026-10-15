@@ -27,6 +27,7 @@ A tracked query and how it is checked
 | Name | Value |
 |---- | -----|
 | CHATGPT | &quot;chatgpt&quot; |
+| CLAUDE | &quot;claude&quot; |
 | PERPLEXITY | &quot;perplexity&quot; |
 | GOOGLE_AI_OVERVIEW | &quot;google_ai_overview&quot; |
 | GOOGLE_AI_MODE | &quot;google_ai_mode&quot; |

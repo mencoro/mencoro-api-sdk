@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Count** | **int32** | Tracked queries in the project matching the status filter. Every status when none was sent. | 
-**CheckCost** | **int32** | Budget cost of force-checking exactly those tracked queries, in check budget units: the sum of each one&#39;s configured passes. One unit per pass, the same unit the plan allowance is counted in. Reserves nothing and debits nothing. | 
+**CheckCost** | **int32** | Budget cost of force-checking exactly those tracked queries, in checks: the sum of each one&#39;s configured passes multiplied by its engine weight. Five checks per Claude pass and one check per pass for every other engine, the same currency as the plan allowance. Reserves nothing and debits nothing. | 
 
 ## Methods
 

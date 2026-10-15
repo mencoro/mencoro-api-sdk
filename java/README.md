@@ -4,7 +4,7 @@ Mencoro API
 - API version: 1.0.0
   - Generator version: 7.24.0
 
-Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
   For more information, please visit [https://mencoro.com/contact/](https://mencoro.com/contact/)
 
@@ -222,6 +222,7 @@ Class | Method | HTTP request | Description
  - [ApplyClusteringJobOutcomeSkippedClustersInner](docs/ApplyClusteringJobOutcomeSkippedClustersInner.md)
  - [ApplyClusteringJobOutcomeSuccessfulInner](docs/ApplyClusteringJobOutcomeSuccessfulInner.md)
  - [AsyncJobResource](docs/AsyncJobResource.md)
+ - [AsyncJobResourceError](docs/AsyncJobResourceError.md)
  - [BatchChangeTrackedQueryCheckFrequencyRequestData](docs/BatchChangeTrackedQueryCheckFrequencyRequestData.md)
  - [BatchChangeTrackedQueryPassesRequestData](docs/BatchChangeTrackedQueryPassesRequestData.md)
  - [BatchCreateQueryClustersOutcome](docs/BatchCreateQueryClustersOutcome.md)

@@ -1,6 +1,6 @@
 /*
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -105,6 +105,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.ApplyClusteringJobOutcomeSkippedClustersInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.ApplyClusteringJobOutcomeSuccessfulInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.AsyncJobResource.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.AsyncJobResourceError.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.BatchChangeTrackedQueryCheckFrequencyRequestData.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.BatchChangeTrackedQueryPassesRequestData.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.BatchCreateQueryClustersOutcome.CustomTypeAdapterFactory());

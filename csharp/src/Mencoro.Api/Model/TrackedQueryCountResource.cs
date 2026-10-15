@@ -1,7 +1,7 @@
 /*
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -28,7 +28,7 @@ using OpenAPIDateConverter = Mencoro.Api.Client.OpenAPIDateConverter;
 namespace Mencoro.Api.Model
 {
     /// <summary>
-    /// How many tracked queries a project has, and what checking them would cost in budget units
+    /// How many tracked queries a project has, and what checking them would consume in checks
     /// </summary>
     [DataContract(Name = "TrackedQueryCountResource")]
     public partial class TrackedQueryCountResource : IValidatableObject
@@ -42,7 +42,7 @@ namespace Mencoro.Api.Model
         /// Initializes a new instance of the <see cref="TrackedQueryCountResource" /> class.
         /// </summary>
         /// <param name="count">Tracked queries in the project matching the status filter. Every status when none was sent. (required).</param>
-        /// <param name="checkCost">Budget cost of force-checking exactly those tracked queries, in check budget units: the sum of each one&#39;s configured passes. One unit per pass, the same unit the plan allowance is counted in. Reserves nothing and debits nothing. (required).</param>
+        /// <param name="checkCost">Budget cost of force-checking exactly those tracked queries, in checks: the sum of each one&#39;s configured passes multiplied by its engine weight. Five checks per Claude pass and one check per pass for every other engine, the same currency as the plan allowance. Reserves nothing and debits nothing. (required).</param>
         public TrackedQueryCountResource(int count = default, int checkCost = default)
         {
             this.Count = count;
@@ -60,9 +60,9 @@ namespace Mencoro.Api.Model
         public int Count { get; set; }
 
         /// <summary>
-        /// Budget cost of force-checking exactly those tracked queries, in check budget units: the sum of each one&#39;s configured passes. One unit per pass, the same unit the plan allowance is counted in. Reserves nothing and debits nothing.
+        /// Budget cost of force-checking exactly those tracked queries, in checks: the sum of each one&#39;s configured passes multiplied by its engine weight. Five checks per Claude pass and one check per pass for every other engine, the same currency as the plan allowance. Reserves nothing and debits nothing.
         /// </summary>
-        /// <value>Budget cost of force-checking exactly those tracked queries, in check budget units: the sum of each one&#39;s configured passes. One unit per pass, the same unit the plan allowance is counted in. Reserves nothing and debits nothing.</value>
+        /// <value>Budget cost of force-checking exactly those tracked queries, in checks: the sum of each one&#39;s configured passes multiplied by its engine weight. Five checks per Claude pass and one check per pass for every other engine, the same currency as the plan allowance. Reserves nothing and debits nothing.</value>
         /*
         <example>96</example>
         */

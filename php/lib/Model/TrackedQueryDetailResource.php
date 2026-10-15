@@ -13,7 +13,7 @@
 /**
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -291,6 +291,7 @@ class TrackedQueryDetailResource implements ModelInterface, ArrayAccess, \JsonSe
     }
 
     public const ENGINE_CHATGPT = 'chatgpt';
+    public const ENGINE_CLAUDE = 'claude';
     public const ENGINE_PERPLEXITY = 'perplexity';
     public const ENGINE_GOOGLE_AI_OVERVIEW = 'google_ai_overview';
     public const ENGINE_GOOGLE_AI_MODE = 'google_ai_mode';
@@ -311,6 +312,7 @@ class TrackedQueryDetailResource implements ModelInterface, ArrayAccess, \JsonSe
     {
         return [
             self::ENGINE_CHATGPT,
+            self::ENGINE_CLAUDE,
             self::ENGINE_PERPLEXITY,
             self::ENGINE_GOOGLE_AI_OVERVIEW,
             self::ENGINE_GOOGLE_AI_MODE,

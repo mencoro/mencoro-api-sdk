@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -13,8 +13,16 @@
  */
 
 import { mapValues } from '../runtime';
+import type { AsyncJobResourceError } from './AsyncJobResourceError';
+import {
+    AsyncJobResourceErrorFromJSON,
+    AsyncJobResourceErrorFromJSONTyped,
+    AsyncJobResourceErrorToJSON,
+    AsyncJobResourceErrorToJSONTyped,
+} from './AsyncJobResourceError';
+
 /**
- * An asynchronous job and, once it has completed, its result
+ * An asynchronous job and, once it has completed, its result, or once it has failed, why
  * @export
  * @interface AsyncJobResource
  */
@@ -43,6 +51,12 @@ export interface AsyncJobResource {
      * @memberof AsyncJobResource
      */
     result?: object | null;
+    /**
+     * 
+     * @type {AsyncJobResourceError}
+     * @memberof AsyncJobResource
+     */
+    error?: AsyncJobResourceError | null;
 }
 
 
@@ -95,6 +109,7 @@ export function AsyncJobResourceFromJSONTyped(json: any, ignoreDiscriminator: bo
         'type': json['type'],
         'status': json['status'],
         'result': json['result'] === undefined ? undefined : json['result'] === null ? null : json['result'],
+        'error': json['error'] === undefined ? undefined : json['error'] === null ? null : AsyncJobResourceErrorFromJSON(json['error']),
     };
 }
 
@@ -113,6 +128,7 @@ export function AsyncJobResourceToJSONTyped(value?: AsyncJobResource | null, ign
         'type': value['type'],
         'status': value['status'],
         'result': value['result'],
+        'error': AsyncJobResourceErrorToJSON(value['error']),
     };
 }
 
