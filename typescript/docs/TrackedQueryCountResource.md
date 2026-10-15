@@ -1,7 +1,7 @@
 
 # TrackedQueryCountResource
 
-How many tracked queries a project has, and what checking them would cost in budget units
+How many tracked queries a project has, and what checking them would consume in checks
 
 ## Properties
 

@@ -1,7 +1,7 @@
 /*
 Mencoro API
 
-Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 API version: 1.0.0
 Contact: support@mencoro.com
@@ -20,7 +20,7 @@ import (
 // checks if the AsyncJobResource type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &AsyncJobResource{}
 
-// AsyncJobResource An asynchronous job and, once it has completed, its result
+// AsyncJobResource An asynchronous job and, once it has completed, its result, or once it has failed, why
 type AsyncJobResource struct {
 	JobId string `json:"jobId"`
 	// What the job produces, and therefore the shape of `result`
@@ -29,6 +29,7 @@ type AsyncJobResource struct {
 	Status string `json:"status"`
 	// The job output, shaped by `type`. Null while the job is still in flight and for a job that failed: it means the result is not known, never that the job produced nothing.
 	Result map[string]interface{} `json:"result,omitempty"`
+	Error NullableAsyncJobResourceError `json:"error,omitempty"`
 }
 
 type _AsyncJobResource AsyncJobResource
@@ -158,6 +159,48 @@ func (o *AsyncJobResource) SetResult(v map[string]interface{}) {
 	o.Result = v
 }
 
+// GetError returns the Error field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *AsyncJobResource) GetError() AsyncJobResourceError {
+	if o == nil || IsNil(o.Error.Get()) {
+		var ret AsyncJobResourceError
+		return ret
+	}
+	return *o.Error.Get()
+}
+
+// GetErrorOk returns a tuple with the Error field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *AsyncJobResource) GetErrorOk() (*AsyncJobResourceError, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Error.Get(), o.Error.IsSet()
+}
+
+// HasError returns a boolean if a field has been set.
+func (o *AsyncJobResource) HasError() bool {
+	if o != nil && o.Error.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetError gets a reference to the given NullableAsyncJobResourceError and assigns it to the Error field.
+func (o *AsyncJobResource) SetError(v AsyncJobResourceError) {
+	o.Error.Set(&v)
+}
+// SetErrorNil sets the value for Error to be an explicit nil
+func (o *AsyncJobResource) SetErrorNil() {
+	o.Error.Set(nil)
+}
+
+// UnsetError ensures that no value is present for Error, not even an explicit nil
+func (o *AsyncJobResource) UnsetError() {
+	o.Error.Unset()
+}
+
 func (o AsyncJobResource) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -173,6 +216,9 @@ func (o AsyncJobResource) ToMap() (map[string]interface{}, error) {
 	toSerialize["status"] = o.Status
 	if o.Result != nil {
 		toSerialize["result"] = o.Result
+	}
+	if o.Error.IsSet() {
+		toSerialize["error"] = o.Error.Get()
 	}
 	return toSerialize, nil
 }

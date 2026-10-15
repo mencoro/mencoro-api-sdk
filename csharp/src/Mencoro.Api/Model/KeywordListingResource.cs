@@ -1,7 +1,7 @@
 /*
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -46,34 +46,40 @@ namespace Mencoro.Api.Model
             Chatgpt = 1,
 
             /// <summary>
+            /// Enum Claude for value: claude
+            /// </summary>
+            [EnumMember(Value = "claude")]
+            Claude = 2,
+
+            /// <summary>
             /// Enum Perplexity for value: perplexity
             /// </summary>
             [EnumMember(Value = "perplexity")]
-            Perplexity = 2,
+            Perplexity = 3,
 
             /// <summary>
             /// Enum GoogleAiOverview for value: google_ai_overview
             /// </summary>
             [EnumMember(Value = "google_ai_overview")]
-            GoogleAiOverview = 3,
+            GoogleAiOverview = 4,
 
             /// <summary>
             /// Enum GoogleAiMode for value: google_ai_mode
             /// </summary>
             [EnumMember(Value = "google_ai_mode")]
-            GoogleAiMode = 4,
+            GoogleAiMode = 5,
 
             /// <summary>
             /// Enum GoogleSerp for value: google_serp
             /// </summary>
             [EnumMember(Value = "google_serp")]
-            GoogleSerp = 5,
+            GoogleSerp = 6,
 
             /// <summary>
             /// Enum GoogleShopping for value: google_shopping
             /// </summary>
             [EnumMember(Value = "google_shopping")]
-            GoogleShopping = 6
+            GoogleShopping = 7
         }
 
         /// <summary>
@@ -172,7 +178,7 @@ namespace Mencoro.Api.Model
         /// <param name="statusSummary">\&quot;mixed\&quot; when the variants disagree; otherwise the one status they share. (required).</param>
         /// <param name="statuses">Distinct statuses across the variants. (required).</param>
         /// <param name="checkFrequencies">Distinct check frequencies across the variants. (required).</param>
-        /// <param name="nPassesValues">Distinct pass counts across the variants. A pass is one budget unit per check. (required).</param>
+        /// <param name="nPassesValues">Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. (required).</param>
         /// <param name="lastCheckedAt">The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing..</param>
         /// <param name="avgSerpPosition">Average position in traditional search over the window. 1-based, LOWER is better..</param>
         /// <param name="trendSerp">Signed improvement in avgSerpPosition against the previous window. Positive is better..</param>
@@ -358,9 +364,9 @@ namespace Mencoro.Api.Model
         public List<KeywordListingResource.CheckFrequenciesEnum> CheckFrequencies { get; set; }
 
         /// <summary>
-        /// Distinct pass counts across the variants. A pass is one budget unit per check.
+        /// Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one.
         /// </summary>
-        /// <value>Distinct pass counts across the variants. A pass is one budget unit per check.</value>
+        /// <value>Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one.</value>
         [DataMember(Name = "nPassesValues", IsRequired = true, EmitDefaultValue = true)]
         public List<int> NPassesValues { get; set; }
 

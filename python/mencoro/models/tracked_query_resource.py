@@ -3,7 +3,7 @@
 """
     Mencoro API
 
-    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
     The version of the OpenAPI document: 1.0.0
     Contact: support@mencoro.com
@@ -53,8 +53,8 @@ class TrackedQueryResource(BaseModel):
     @field_validator('engine')
     def engine_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['chatgpt', 'perplexity', 'google_ai_overview', 'google_ai_mode', 'google_serp', 'google_shopping']):
-            raise ValueError("must be one of enum values ('chatgpt', 'perplexity', 'google_ai_overview', 'google_ai_mode', 'google_serp', 'google_shopping')")
+        if value not in set(['chatgpt', 'claude', 'perplexity', 'google_ai_overview', 'google_ai_mode', 'google_serp', 'google_shopping']):
+            raise ValueError("must be one of enum values ('chatgpt', 'claude', 'perplexity', 'google_ai_overview', 'google_ai_mode', 'google_serp', 'google_shopping')")
         return value
 
     @field_validator('status')

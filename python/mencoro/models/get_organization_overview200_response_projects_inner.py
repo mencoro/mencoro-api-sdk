@@ -3,7 +3,7 @@
 """
     Mencoro API
 
-    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
     The version of the OpenAPI document: 1.0.0
     Contact: support@mencoro.com
@@ -34,7 +34,7 @@ class GetOrganizationOverview200ResponseProjectsInner(BaseModel):
     status: Optional[StrictStr] = None
     tracked_query_count: Optional[StrictInt] = Field(default=None, alias="trackedQueryCount")
     share_of_voice: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet.", alias="shareOfVoice")
-    mention_rate: Optional[StrictInt] = Field(default=None, description="0-100 percentage of tracked queries with a result; higher is better. Null when the project has no rank data yet.", alias="mentionRate")
+    mention_rate: Optional[StrictInt] = Field(default=None, description="0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet.", alias="mentionRate")
     avg_mention_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="1-based average rank of the brand within the answer; LOWER is better. Null when the project has no rank data yet.", alias="avgMentionPosition")
     positivity_index: Optional[StrictInt] = Field(default=None, description="0-100 sentiment score; higher is better. Null when the project has no rank data yet.", alias="positivityIndex")
     __properties: ClassVar[List[str]] = ["projectId", "name", "status", "trackedQueryCount", "shareOfVoice", "mentionRate", "avgMentionPosition", "positivityIndex"]

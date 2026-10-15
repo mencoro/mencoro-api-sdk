@@ -1,7 +1,7 @@
 """
     Mencoro API
 
-    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
     The version of the OpenAPI document: 1.0.0
     Contact: support@mencoro.com
@@ -59,7 +59,7 @@ class JobsApi:
     ) -> AsyncJobResource:
         """Get an asynchronous job
 
-        Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until `status` is terminal: `completed` or `failed`. A null `result` means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries no reason: the stored one is an internal exception message, not a published field. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
+        Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until `status` is terminal: `completed` or `failed`. A null `result` means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries `error`: a stable `code` (`timed_out`, `provider_failed`, `submission_failed` or `internal_error`) and a fixed `message` saying what to do next; `error` is null for a job that has not failed. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
 
         :param organization_id: (required)
         :type organization_id: UUID
@@ -133,7 +133,7 @@ class JobsApi:
     ) -> ApiResponse[AsyncJobResource]:
         """Get an asynchronous job
 
-        Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until `status` is terminal: `completed` or `failed`. A null `result` means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries no reason: the stored one is an internal exception message, not a published field. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
+        Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until `status` is terminal: `completed` or `failed`. A null `result` means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries `error`: a stable `code` (`timed_out`, `provider_failed`, `submission_failed` or `internal_error`) and a fixed `message` saying what to do next; `error` is null for a job that has not failed. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
 
         :param organization_id: (required)
         :type organization_id: UUID
@@ -207,7 +207,7 @@ class JobsApi:
     ) -> RESTResponseType:
         """Get an asynchronous job
 
-        Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until `status` is terminal: `completed` or `failed`. A null `result` means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries no reason: the stored one is an internal exception message, not a published field. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
+        Minimum role: manager. The status of one asynchronous job started inside this organization — geo prompt discovery, keyword discovery, query clustering, brand discovery or brand-name suggestion — and, once it has completed, its result. Poll it until `status` is terminal: `completed` or `failed`. A null `result` means the result is not known, either because the job is still in flight or because it failed; it never means the job produced an empty result. A failed job carries `error`: a stable `code` (`timed_out`, `provider_failed`, `submission_failed` or `internal_error`) and a fixed `message` saying what to do next; `error` is null for a job that has not failed. A job started by another organization, a job of a type this API does not publish, and a job id that does not exist all answer 404 alike, so the API never confirms that an inaccessible job exists.
 
         :param organization_id: (required)
         :type organization_id: UUID

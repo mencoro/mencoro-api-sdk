@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -94,7 +94,7 @@ export interface KeywordListingResource {
      */
     checkFrequencies: Array<KeywordListingResourceCheckFrequenciesEnum>;
     /**
-     * Distinct pass counts across the variants. A pass is one budget unit per check.
+     * Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one.
      * @type {Array<number>}
      * @memberof KeywordListingResource
      */
@@ -251,6 +251,7 @@ export interface KeywordListingResource {
  */
 export const KeywordListingResourceEnginesEnum = {
     Chatgpt: 'chatgpt',
+    Claude: 'claude',
     Perplexity: 'perplexity',
     GoogleAiOverview: 'google_ai_overview',
     GoogleAiMode: 'google_ai_mode',

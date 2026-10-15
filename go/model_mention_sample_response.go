@@ -1,7 +1,7 @@
 /*
 Mencoro API
 
-Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 API version: 1.0.0
 Contact: support@mencoro.com
@@ -37,6 +37,7 @@ type MentionSampleResponse struct {
 	// Published because `competitorId` alone cannot answer the question. Own-brand AND untracked-competitor mentions both carry a null competitor id - the confusion migration Version20260608130000 was written to end - so a reader that treats a null competitor id as \"us\" silently counts a rival as the brand.
 	MentionRelation NullableString `json:"mentionRelation,omitempty"`
 	BrandName NullableString `json:"brandName,omitempty"`
+	Citations []CitationResource `json:"citations,omitempty"`
 }
 
 type _MentionSampleResponse MentionSampleResponse
@@ -476,6 +477,38 @@ func (o *MentionSampleResponse) UnsetBrandName() {
 	o.BrandName.Unset()
 }
 
+// GetCitations returns the Citations field value if set, zero value otherwise.
+func (o *MentionSampleResponse) GetCitations() []CitationResource {
+	if o == nil || IsNil(o.Citations) {
+		var ret []CitationResource
+		return ret
+	}
+	return o.Citations
+}
+
+// GetCitationsOk returns a tuple with the Citations field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MentionSampleResponse) GetCitationsOk() ([]CitationResource, bool) {
+	if o == nil || IsNil(o.Citations) {
+		return nil, false
+	}
+	return o.Citations, true
+}
+
+// HasCitations returns a boolean if a field has been set.
+func (o *MentionSampleResponse) HasCitations() bool {
+	if o != nil && !IsNil(o.Citations) {
+		return true
+	}
+
+	return false
+}
+
+// SetCitations gets a reference to the given []CitationResource and assigns it to the Citations field.
+func (o *MentionSampleResponse) SetCitations(v []CitationResource) {
+	o.Citations = v
+}
+
 func (o MentionSampleResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -507,6 +540,9 @@ func (o MentionSampleResponse) ToMap() (map[string]interface{}, error) {
 	}
 	if o.BrandName.IsSet() {
 		toSerialize["brandName"] = o.BrandName.Get()
+	}
+	if !IsNil(o.Citations) {
+		toSerialize["citations"] = o.Citations
 	}
 	return toSerialize, nil
 }

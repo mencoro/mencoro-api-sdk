@@ -18,6 +18,7 @@
 | **country** | **String** |  | [optional] |
 | **mention_relation** | **String** | Published because &#x60;competitorId&#x60; alone cannot answer the question. Own-brand AND untracked-competitor mentions both carry a null competitor id - the confusion migration Version20260608130000 was written to end - so a reader that treats a null competitor id as \&quot;us\&quot; silently counts a rival as the brand. | [optional] |
 | **brand_name** | **String** |  | [optional] |
+| **citations** | [**Array&lt;CitationResource&gt;**](CitationResource.md) |  | [optional] |
 
 ## Example
 
@@ -38,7 +39,8 @@ instance = Mencoro::MentionSampleResponse.new(
   query_text: null,
   country: null,
   mention_relation: null,
-  brand_name: null
+  brand_name: null,
+  citations: null
 )
 ```
 

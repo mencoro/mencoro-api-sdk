@@ -69,7 +69,7 @@ public class Example {
 | **dateFrom** | **LocalDate**| Inclusive lower bound, widened to 00:00:00 UTC of the named day. Must be inside the retention window. | [optional] |
 | **dateTo** | **LocalDate**| Inclusive upper bound, widened to 23:59:59 UTC of the named day. | [optional] |
 | **trackedQueryId** | **UUID**| Only captures of this tracked query. Must belong to the project in the path. | [optional] |
-| **engines** | [**List&lt;String&gt;**](String.md)| Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode] |
 | **limit** | **Integer**| Page size. A larger value is rejected, never silently reduced. | [optional] [default to 20] |
 | **offset** | **Integer**| Number of captures to skip before the page starts. | [optional] [default to 0] |
 | **sortOrder** | **String**| Direction of the capture-time ordering. An unknown value is rejected, not replaced by the default. | [optional] [default to desc] [enum: asc, desc] |

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { CitationResource } from './CitationResource';
+import {
+    CitationResourceFromJSON,
+    CitationResourceFromJSONTyped,
+    CitationResourceToJSON,
+    CitationResourceToJSONTyped,
+} from './CitationResource';
+
 /**
  * 
  * @export
@@ -106,6 +114,12 @@ export interface MentionSampleResponse {
      * @memberof MentionSampleResponse
      */
     brandName?: string | null;
+    /**
+     * 
+     * @type {Array<CitationResource>}
+     * @memberof MentionSampleResponse
+     */
+    citations?: Array<CitationResource>;
 }
 
 /**
@@ -149,6 +163,7 @@ export function MentionSampleResponseFromJSONTyped(json: any, ignoreDiscriminato
         'country': json['country'] === undefined ? undefined : json['country'] === null ? null : json['country'],
         'mentionRelation': json['mentionRelation'] === undefined ? undefined : json['mentionRelation'] === null ? null : json['mentionRelation'],
         'brandName': json['brandName'] === undefined ? undefined : json['brandName'] === null ? null : json['brandName'],
+        'citations': json['citations'] == null ? undefined : ((json['citations'] as Array<any>).map(CitationResourceFromJSON)),
     };
 }
 
@@ -177,6 +192,7 @@ export function MentionSampleResponseToJSONTyped(value?: MentionSampleResponse |
         'country': value['country'],
         'mentionRelation': value['mentionRelation'],
         'brandName': value['brandName'],
+        'citations': value['citations'] == null ? undefined : ((value['citations'] as Array<any>).map(CitationResourceToJSON)),
     };
 }
 

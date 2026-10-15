@@ -13,7 +13,7 @@
 /**
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -36,7 +36,7 @@ use \Mencoro\Api\ObjectSerializer;
  * AsyncJobResource Class Doc Comment
  *
  * @category Class
- * @description An asynchronous job and, once it has completed, its result
+ * @description An asynchronous job and, once it has completed, its result, or once it has failed, why
  * @package  Mencoro\Api
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,7 +62,8 @@ class AsyncJobResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'job_id' => 'string',
         'type' => 'string',
         'status' => 'string',
-        'result' => 'object'
+        'result' => 'object',
+        'error' => '\Mencoro\Api\Model\AsyncJobResourceError'
     ];
 
     /**
@@ -76,7 +77,8 @@ class AsyncJobResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'job_id' => 'uuid',
         'type' => null,
         'status' => null,
-        'result' => null
+        'result' => null,
+        'error' => null
     ];
 
     /**
@@ -88,7 +90,8 @@ class AsyncJobResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'job_id' => false,
         'type' => false,
         'status' => false,
-        'result' => true
+        'result' => true,
+        'error' => true
     ];
 
     /**
@@ -180,7 +183,8 @@ class AsyncJobResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'job_id' => 'jobId',
         'type' => 'type',
         'status' => 'status',
-        'result' => 'result'
+        'result' => 'result',
+        'error' => 'error'
     ];
 
     /**
@@ -192,7 +196,8 @@ class AsyncJobResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'job_id' => 'setJobId',
         'type' => 'setType',
         'status' => 'setStatus',
-        'result' => 'setResult'
+        'result' => 'setResult',
+        'error' => 'setError'
     ];
 
     /**
@@ -204,7 +209,8 @@ class AsyncJobResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'job_id' => 'getJobId',
         'type' => 'getType',
         'status' => 'getStatus',
-        'result' => 'getResult'
+        'result' => 'getResult',
+        'error' => 'getError'
     ];
 
     /**
@@ -310,6 +316,7 @@ class AsyncJobResource implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('result', $data ?? [], null);
+        $this->setIfExists('error', $data ?? [], null);
     }
 
     /**
@@ -512,6 +519,40 @@ class AsyncJobResource implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['result'] = $result;
+
+        return $this;
+    }
+
+    /**
+     * Gets error
+     *
+     * @return \Mencoro\Api\Model\AsyncJobResourceError|null
+     */
+    public function getError()
+    {
+        return $this->container['error'];
+    }
+
+    /**
+     * Sets error
+     *
+     * @param \Mencoro\Api\Model\AsyncJobResourceError|null $error error
+     *
+     * @return self
+     */
+    public function setError($error)
+    {
+        if (is_null($error)) {
+            array_push($this->openAPINullablesSetToNull, 'error');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('error', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['error'] = $error;
 
         return $this;
     }

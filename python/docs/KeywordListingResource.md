@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **status_summary** | **str** | \&quot;mixed\&quot; when the variants disagree; otherwise the one status they share. | 
 **statuses** | **List[str]** | Distinct statuses across the variants. | 
 **check_frequencies** | **List[str]** | Distinct check frequencies across the variants. | 
-**n_passes_values** | **List[int]** | Distinct pass counts across the variants. A pass is one budget unit per check. | 
+**n_passes_values** | **List[int]** | Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. | 
 **last_checked_at** | **datetime** | The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing. | [optional] 
 **avg_serp_position** | **float** | Average position in traditional search over the window. 1-based, LOWER is better. | [optional] 
 **trend_serp** | **float** | Signed improvement in avgSerpPosition against the previous window. Positive is better. | [optional] 

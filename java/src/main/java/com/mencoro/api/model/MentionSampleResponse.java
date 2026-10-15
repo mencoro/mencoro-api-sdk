@@ -1,6 +1,6 @@
 /*
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -19,8 +19,11 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.mencoro.api.model.CitationResource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
@@ -120,6 +123,11 @@ public class MentionSampleResponse {
   @SerializedName(SERIALIZED_NAME_BRAND_NAME)
   @javax.annotation.Nullable
   private String brandName;
+
+  public static final String SERIALIZED_NAME_CITATIONS = "citations";
+  @SerializedName(SERIALIZED_NAME_CITATIONS)
+  @javax.annotation.Nullable
+  private List<CitationResource> citations = new ArrayList<>();
 
   public MentionSampleResponse() {
   }
@@ -390,6 +398,33 @@ public class MentionSampleResponse {
   }
 
 
+  public MentionSampleResponse citations(@javax.annotation.Nullable List<CitationResource> citations) {
+    this.citations = citations;
+    return this;
+  }
+
+  public MentionSampleResponse addCitationsItem(CitationResource citationsItem) {
+    if (this.citations == null) {
+      this.citations = new ArrayList<>();
+    }
+    this.citations.add(citationsItem);
+    return this;
+  }
+
+  /**
+   * Get citations
+   * @return citations
+   */
+  @javax.annotation.Nullable
+  public List<CitationResource> getCitations() {
+    return citations;
+  }
+
+  public void setCitations(@javax.annotation.Nullable List<CitationResource> citations) {
+    this.citations = citations;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -413,7 +448,8 @@ public class MentionSampleResponse {
         Objects.equals(this.queryText, mentionSampleResponse.queryText) &&
         Objects.equals(this.country, mentionSampleResponse.country) &&
         Objects.equals(this.mentionRelation, mentionSampleResponse.mentionRelation) &&
-        Objects.equals(this.brandName, mentionSampleResponse.brandName);
+        Objects.equals(this.brandName, mentionSampleResponse.brandName) &&
+        Objects.equals(this.citations, mentionSampleResponse.citations);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -422,7 +458,7 @@ public class MentionSampleResponse {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, trackedQueryId, aiResponseId, engine, competitorId, sentiment, mentionType, mentionPosition, text, detectedAt, queryText, country, mentionRelation, brandName);
+    return Objects.hash(id, trackedQueryId, aiResponseId, engine, competitorId, sentiment, mentionType, mentionPosition, text, detectedAt, queryText, country, mentionRelation, brandName, citations);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -450,6 +486,7 @@ public class MentionSampleResponse {
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    mentionRelation: ").append(toIndentedString(mentionRelation)).append("\n");
     sb.append("    brandName: ").append(toIndentedString(brandName)).append("\n");
+    sb.append("    citations: ").append(toIndentedString(citations)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -468,7 +505,7 @@ public class MentionSampleResponse {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "trackedQueryId", "aiResponseId", "engine", "competitorId", "sentiment", "mentionType", "mentionPosition", "text", "detectedAt", "queryText", "country", "mentionRelation", "brandName"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "trackedQueryId", "aiResponseId", "engine", "competitorId", "sentiment", "mentionType", "mentionPosition", "text", "detectedAt", "queryText", "country", "mentionRelation", "brandName", "citations"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("id", "trackedQueryId", "aiResponseId", "engine", "sentiment", "mentionType", "mentionPosition", "text", "detectedAt", "queryText"));
@@ -540,6 +577,20 @@ public class MentionSampleResponse {
       }
       if ((jsonObj.get("brandName") != null && !jsonObj.get("brandName").isJsonNull()) && !jsonObj.get("brandName").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `brandName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("brandName").toString()));
+      }
+      if (jsonObj.get("citations") != null && !jsonObj.get("citations").isJsonNull()) {
+        JsonArray jsonArraycitations = jsonObj.getAsJsonArray("citations");
+        if (jsonArraycitations != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("citations").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `citations` to be an array in the JSON string but got `%s`", jsonObj.get("citations").toString()));
+          }
+
+          // validate the optional field `citations` (array)
+          for (int i = 0; i < jsonArraycitations.size(); i++) {
+            CitationResource.validateJsonElement(jsonArraycitations.get(i));
+          };
+        }
       }
   }
 

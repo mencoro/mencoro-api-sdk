@@ -9,6 +9,7 @@ export * from './ApplyClusteringJobOutcomeFailedInner';
 export * from './ApplyClusteringJobOutcomeSkippedClustersInner';
 export * from './ApplyClusteringJobOutcomeSuccessfulInner';
 export * from './AsyncJobResource';
+export * from './AsyncJobResourceError';
 export * from './BatchChangeTrackedQueryCheckFrequencyRequestData';
 export * from './BatchChangeTrackedQueryPassesRequestData';
 export * from './BatchCreateQueryClustersOutcome';

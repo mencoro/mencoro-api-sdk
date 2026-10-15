@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -77,7 +77,7 @@ export interface CapturesApiInterface {
      * @param {Date} [dateFrom] Inclusive lower bound, widened to 00:00:00 UTC of the named day. Must be inside the retention window.
      * @param {Date} [dateTo] Inclusive upper bound, widened to 23:59:59 UTC of the named day.
      * @param {string} [trackedQueryId] Only captures of this tracked query. Must belong to the project in the path.
-     * @param {Array<'chatgpt' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode'>} [engines] Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine.
+     * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode'>} [engines] Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine.
      * @param {number} [limit] Page size. A larger value is rejected, never silently reduced.
      * @param {number} [offset] Number of captures to skip before the page starts.
      * @param {'asc' | 'desc'} [sortOrder] Direction of the capture-time ordering. An unknown value is rejected, not replaced by the default.
@@ -94,7 +94,7 @@ export interface CapturesApiInterface {
      * @param {Date} [dateFrom] Inclusive lower bound, widened to 00:00:00 UTC of the named day. Must be inside the retention window.
      * @param {Date} [dateTo] Inclusive upper bound, widened to 23:59:59 UTC of the named day.
      * @param {string} [trackedQueryId] Only captures of this tracked query. Must belong to the project in the path.
-     * @param {Array<'chatgpt' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode'>} [engines] Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine.
+     * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode'>} [engines] Only captures from these AI engines. Repeat the parameter or pass a comma-separated list. An empty filter means every engine.
      * @param {number} [limit] Page size. A larger value is rejected, never silently reduced.
      * @param {number} [offset] Number of captures to skip before the page starts.
      * @param {'asc' | 'desc'} [sortOrder] Direction of the capture-time ordering. An unknown value is rejected, not replaced by the default.
@@ -465,6 +465,7 @@ export class CapturesApi extends runtime.BaseAPI implements CapturesApiInterface
  */
 export const ListAiResponsesEnginesEnum = {
     Chatgpt: 'chatgpt',
+    Claude: 'claude',
     Perplexity: 'perplexity',
     GoogleAiOverview: 'google_ai_overview',
     GoogleAiMode: 'google_ai_mode'

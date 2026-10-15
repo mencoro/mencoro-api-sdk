@@ -100,7 +100,7 @@ public class Example {
 
 Domains and pages the AI answers cited
 
-Minimum role: viewer. The sources the answer engines drew on across a project&#39;s AI answers over a date window, ranked by how often they were cited. Per source: citationCount, the total number of citations; distinctResponseCount and distinctQueryCount, how many captured answers and tracked queries it appeared in; avgPosition, its average 1-based rank inside the answers&#39; citation lists, where LOWER is better. A null avgPosition means no citation in the window carried a position, not a rank of zero; a null domain or sampleTitle means the citation never carried one. &#x60;total&#x60; counts the distinct sources matching the window, before paging. The list is UNFILTERED by ownership: the brand&#39;s, competitors&#39; and third-party sources sit in the same ranking. Only the AI answer engines (chatgpt, perplexity, google_ai_overview, google_ai_mode) produce citations, so filtering by google_serp or google_shopping is accepted and returns nothing. Citations still behind an answer engine&#39;s redirect (a google.com/goto link, whose URL names the engine rather than the source) are excluded, so a source cited only through such links is absent from this list rather than counted as zero.
+Minimum role: viewer. The sources the answer engines drew on across a project&#39;s AI answers over a date window, ranked by how often they were cited. Per source: citationCount, the total number of citations; distinctResponseCount and distinctQueryCount, how many captured answers and tracked queries it appeared in; avgPosition, its average 1-based rank inside the answers&#39; citation lists, where LOWER is better. A null avgPosition means no citation in the window carried a position, not a rank of zero; a null domain or sampleTitle means the citation never carried one. &#x60;total&#x60; counts the distinct sources matching the window, before paging. The list is UNFILTERED by ownership: the brand&#39;s, competitors&#39; and third-party sources sit in the same ranking. Only the AI answer engines (chatgpt, claude, perplexity, google_ai_overview, google_ai_mode) produce citations, so filtering by google_serp or google_shopping is accepted and returns nothing. Citations still behind an answer engine&#39;s redirect (a google.com/goto link, whose URL names the engine rather than the source) are excluded, so a source cited only through such links is absent from this list rather than counted as zero.
 
 ### Example
 ```java
@@ -152,7 +152,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. Only the AI engines carry citations. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. Only the AI engines carry citations. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **groupBy** | **String**| Grain of the roll-up: \&quot;domain\&quot; by host, \&quot;page\&quot; by exact URL. | [optional] [default to domain] [enum: domain, page] |
 | **limit** | **Integer**| Page size. A larger value is rejected, never silently reduced. | [optional] [default to 20] |
 | **offset** | **Integer**| Number of sources to skip. | [optional] [default to 0] |
@@ -237,7 +237,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **queryClusterIds** | [**List&lt;UUID&gt;**](UUID.md)| Restrict to these clusters. Each must belong to the project. | [optional] |
 | **includeUngroupedQueries** | **Boolean**| Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. | [optional] [default to false] |
@@ -321,7 +321,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. SERP and Shopping carry no AI answer text, so they contribute no co-occurrence. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **competitorId** | **UUID**| Restricts the answer to a single tracked competitor. Omit it for every tracked competitor. The available-filters endpoint lists the valid ids. | [optional] |
 
@@ -353,7 +353,7 @@ public class Example {
 
 Composition of a project brand mentions in AI answers
 
-Minimum role: viewer. Counts of the project brand&#39;s own text mentions in AI answers over a date window, grouped three ways: byType (recommendation, comparison, listing, example, reference), byTone (positive, neutral, negative) and byQualifier (direct, conditional — a conditional mention is one the answer hedged with a condition). These are the inputs behind the Share of Voice weighted score. Every bucket is always present and is a plain count, never null: a zero means no mention of that kind was found in the window. The three groupings count the same mentions, so each one sums to the same total. Only the project brand is counted, never a competitor, and only mentions inside the answer text — a citation of the brand&#39;s URL is not a mention here. Only AI answer engines produce mentions, so restricting engines to google_serp or google_shopping alone returns all zeros. For the positive/neutral/negative split per engine and per competitor use the sentiment endpoint.
+Minimum role: viewer. Counts of the project brand&#39;s own text mentions in AI answers over a date window, grouped three ways: byType (recommendation, comparison, listing, example, reference), byTone (positive, neutral, negative) and byQualifier (direct, conditional — a conditional mention is one the answer hedged with a condition). Every bucket is always present and is a plain count, never null: a zero means no mention of that kind was found in the window. The three groupings count the same mentions, so each one sums to the same total. Only the project brand is counted: tracked competitors, untracked competitors and unrelated brands are all excluded (mentions stored before the relation was recorded count as the brand, as they do in Share of Voice). Only mentions inside the answer text are counted — a citation of the brand&#39;s URL is not a mention here. Each count is a raw number of stored mentions: when a query runs several passes a day, every pass adds its own. The counts therefore show the composition of the brand&#39;s mentions but are not the inputs of the Share of Voice score, which averages each check over its passes and also weights cited links. Only AI answer engines produce mentions, so restricting engines to google_serp or google_shopping alone returns all zeros. For the positive/neutral/negative split per engine and per competitor use the sentiment endpoint.
 
 ### Example
 ```java
@@ -403,7 +403,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. Non-AI engines contribute no mentions. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. Non-AI engines contribute no mentions. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 
 ### Return type
@@ -434,7 +434,7 @@ public class Example {
 
 Sample of the raw AI mention texts of a project
 
-Minimum role: viewer. A paginated page of the individual mention texts behind the aggregate numbers, for qualitative review and for checking sentiment labels by eye. Each sample carries the mention text, the engine and country it was seen in, the tracked query that produced it, its sentiment and mention type, and mentionPosition — a 1-based rank inside the answer where LOWER is better, always present. &#x60;total&#x60; counts every mention matching the filters, not the size of the page returned. Only mentions inside the answer text are returned: a citation of the brand URL is not a mention here, and only AI answer engines produce mentions, so restricting engines to google_serp or google_shopping alone returns an empty page rather than an error. Two fields carry a \&quot;not known\&quot; rather than a zero: country is null and queryText is empty when the tracked query behind the mention has since been deleted, and competitorId is null when the mention row stores no competitor id — which is NOT an assertion that the mention is about your own brand, since an untracked competitor also stores none. Read mentionRelation instead: &#x60;own&#x60; and &#x60;tracked-competitor&#x60; are what the scraper resolved to a configured entity, &#x60;untracked-competitor&#x60; is a rival the project does not track, and null means the row predates the field. brandName carries the mentioned brand, and is the only way to name an untracked competitor, which has no competitor id to resolve one from. Omitting the competitorId filter returns exactly the rows with no competitor id stored — that is, own-brand AND untracked-competitor mentions together, not every competitor; pass a competitor UUID to restrict the page to that competitor, and use mentionRelation to separate the rest. For the aggregate positive/neutral/negative split use the sentiment endpoint, and for weighted mention-type counts the mention mix endpoint.
+Minimum role: viewer. A paginated page of the individual mention texts behind the aggregate numbers, for qualitative review and for checking sentiment labels by eye. Each sample carries the mention text, the engine and country it was seen in, the tracked query that produced it, its sentiment and mention type, and mentionPosition — a 1-based rank inside the answer where LOWER is better, always present. &#x60;total&#x60; counts every mention matching the filters, not the size of the page returned. Only mentions inside the answer text are returned: a citation of the brand URL is not a mention here, and only AI answer engines produce mentions, so restricting engines to google_serp or google_shopping alone returns an empty page rather than an error. Two fields carry a \&quot;not known\&quot; rather than a zero: country is null and queryText is empty when the tracked query behind the mention has since been deleted, and competitorId is null when the mention row stores no competitor id — which is NOT an assertion that the mention is about your own brand, since an untracked competitor also stores none. Read mentionRelation instead: &#x60;own&#x60; and &#x60;tracked-competitor&#x60; are what the scraper resolved to a configured entity, &#x60;untracked-competitor&#x60; is a rival the project does not track, and null means the row predates the field. brandName carries the mentioned brand, and is the only way to name an untracked competitor, which has no competitor id to resolve one from. Omitting the competitorId filter returns exactly the rows with no competitor id stored — that is, own-brand AND untracked-competitor mentions together, not every competitor; pass a competitor UUID to restrict the page to that competitor, and use mentionRelation to separate the rest. For the aggregate positive/neutral/negative split use the sentiment endpoint, and for the brand&#39;s own mention counts by type, tone and qualifier the mention mix endpoint.
 
 ### Example
 ```java
@@ -490,7 +490,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. Non-AI engines contribute no mentions. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. Non-AI engines contribute no mentions. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **sentiment** | **String**| Restrict to one sentiment label. Omit for every sentiment. | [optional] [enum: positive, neutral, negative] |
 | **mentionType** | **String**| Restrict to one mention type. Omit for every type. | [optional] [enum: recommendation, comparison, listing, example, reference] |
@@ -662,7 +662,7 @@ public class Example {
 
 Headline visibility metrics of a project
 
-Minimum role: viewer. The project overview over a date window: share of voice (own and per competitor), mention / SERP / shopping rates, average and best positions, position stability, the sentiment split and the position-distribution buckets. Positions are 1-based, so a LOWER number is better; rates, the positivity index and share of voice are percentages from 0 to 100, where HIGHER is better. Every &#x60;trend*&#x60; field is the signed change against the immediately preceding window of the same length: negative means an improved position, positive means an improved rate or score. A null metric means \&quot;not known yet\&quot;, never zero: a scalar is null when the window holds no checks at all, and a &#x60;trend*&#x60; field is null when there is no earlier window to compare against. The counters (&#x60;mentionCount&#x60;, &#x60;*TrackedQueryCount&#x60;, &#x60;*QueriesWithResult&#x60;, &#x60;sentiment*&#x60; and &#x60;mentionTypeCounts&#x60;) are genuine zeros instead, so an empty window reads as zero counts with null rates. &#x60;dataDirtySince&#x60; is non-null while a recalculation is pending, meaning the figures may still move for dates from then on.
+Minimum role: viewer. The project overview over a date window: share of voice (own and per competitor), mention / SERP / shopping rates, average positions, position stability, the sentiment split and the position-distribution buckets. Positions are 1-based, so a LOWER number is better; rates, the positivity index and share of voice are percentages from 0 to 100, where HIGHER is better. Every &#x60;trend*&#x60; field is the signed change against the immediately preceding window of the same length, signed so that POSITIVE always means improved: for a position or a stability spread a positive trend means the number went down, for a rate or score it means the number went up. A null metric means \&quot;not known yet\&quot;, never zero: a scalar is null when the window holds no checks at all, and a &#x60;trend*&#x60; field is null when there is no earlier window to compare against. The counters (&#x60;mentionCount&#x60;, &#x60;*TrackedQueryCount&#x60;, &#x60;*QueriesWithResult&#x60;, &#x60;sentiment*&#x60; and &#x60;mentionTypeCounts&#x60;) are genuine zeros instead, so an empty window reads as zero counts with null rates. &#x60;dataDirtySince&#x60; is non-null while a recalculation is pending, meaning the figures may still move for dates from then on.
 
 ### Example
 ```java
@@ -714,7 +714,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **queryClusterIds** | [**List&lt;UUID&gt;**](UUID.md)| Restrict to these keyword clusters. Each must belong to this project. | [optional] |
 | **includeUngroupedQueries** | **Boolean**| Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. | [optional] [default to false] |
@@ -799,7 +799,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **queryClusterIds** | [**List&lt;UUID&gt;**](UUID.md)|  | [optional] |
 | **includeUngroupedQueries** | **Boolean**|  | [optional] [default to false] |
@@ -887,7 +887,7 @@ public class Example {
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
 | **granularity** | **String**| Bucket size of each point. | [optional] [default to daily] [enum: daily, weekly, monthly] |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **queryClusterIds** | [**List&lt;UUID&gt;**](UUID.md)|  | [optional] |
 | **includeUngroupedQueries** | **Boolean**| On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. | [optional] [default to false] |
@@ -975,7 +975,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. The comparison window is the equally long stretch immediately before it. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **sortBy** | **String**| Which trend delta ranks the rows. Positions improve as they fall, so a positive delta is always an improvement whichever key you pick. An unknown value is rejected, not replaced by the default. | [optional] [default to trend_share_of_voice] [enum: trend_serp, trend_shopping, trend_mention, trend_link, trend_share_of_voice] |
 | **sortOrder** | **String**| desc for the top gainers, asc for the top losers. | [optional] [default to desc] [enum: asc, desc] |
@@ -1010,7 +1010,7 @@ public class Example {
 
 The constants behind the Share of Voice score
 
-Minimum role: viewer. Static reference data, the same for every project: the weights and multipliers that turn individual brand mentions into a Share of Voice score. Each mention is worth &#x60;mentionTypeWeights[type] * sentimentMultipliers[tone] * (conditional ? conditionalMultiplier : directMultiplier)&#x60;, and a competitor&#39;s Share of Voice is its share of the summed weights of every brand in the window, as a percentage. mentionTypeWeights is keyed by mention type (recommendation, comparison, listing, example, reference) and sentimentMultipliers by tone (positive, neutral, negative); a negative mention is discounted, not discarded, because it still evidences presence. A conditional mention is one the answer hedged with a condition (\&quot;if you need X\&quot;). Use this to explain a score, not to recompute one: the counts it applies to come from the mention mix endpoint. Every value is always present and is never null.
+Minimum role: viewer. Static reference data, the same for every project: the weights and multipliers that turn individual brand mentions into a Share of Voice score. Each mention is worth &#x60;mentionTypeWeights[type] * sentimentMultipliers[tone] * (conditional ? conditionalMultiplier : directMultiplier)&#x60;, and a competitor&#39;s Share of Voice is its share of the summed weights of every brand in the window, as a percentage. mentionTypeWeights is keyed by mention type (recommendation, comparison, listing, example, reference) and sentimentMultipliers by tone (positive, neutral, negative); a negative mention is discounted, not discarded, because it still evidences presence. A conditional mention is one the answer hedged with a condition (\&quot;if you need X\&quot;). Use this to explain a score, not to recompute one: the score averages each check over its passes and also weights cited links, so applying these constants to the raw counts of the mention mix endpoint does not reproduce it. Every value is always present and is never null.
 
 ### Example
 ```java
@@ -1083,7 +1083,7 @@ public class Example {
 
 Rank-tracking time series of a single tracked query
 
-Minimum role: viewer. One point per bucket over the date window, each carrying the brand metrics and one same-shaped entry per requested competitor. Positions (serp, shopping, mention, link) are 1-based, so a LOWER number is better; positivity, shareOfVoice, mentionRate and serpRate are percentages from 0 to 100, where higher is better. Every metric is nullable, and a null means nothing was captured for that entity in that bucket — it is not a zero: a null shareOfVoice means no measurement, a shareOfVoice of 0 means measured and never mentioned. The tracked query fixes its own engine and country, so no engine or country filter is accepted. A non-null dataDirtySince is a timestamp warning that tracked queries were deleted from the project and historical buckets may still include their contributions until the nightly refresh rebuilds them.
+Minimum role: viewer. One point per bucket over the date window, each carrying the brand metrics and one same-shaped entry per requested competitor. Positions (serp, shopping, mention, link) are 1-based, so a LOWER number is better; positivity, shareOfVoice, mentionRate and serpRate are percentages from 0 to 100, where higher is better. Every metric is nullable, and a null means nothing was captured for that entity in that bucket — it is not a zero. A bucket appears only when something was matched for the query in it; when only competitors were, the brand&#39;s metrics are all null, so a brand that was not mentioned reads as a null shareOfVoice, not as 0. shareOfVoice is also null, even with the brand mentioned, when no tracked competitor carried any mention weight on any day of the bucket: it is a share against tracked competitors, and a weekly or monthly value averages only the days where it could be computed. The tracked query fixes its own engine and country, so no engine or country filter is accepted. A non-null dataDirtySince is a timestamp warning that tracked queries were deleted from the project and historical buckets may still include their contributions until the nightly refresh rebuilds them.
 
 ### Example
 ```java
@@ -1299,7 +1299,7 @@ public class Example {
 | **projectId** | **UUID**|  | |
 | **dateFrom** | **LocalDate**| Inclusive start of the window, Y-m-d. Must fall inside the data retention window. | |
 | **dateTo** | **LocalDate**| Inclusive end of the window, Y-m-d. The trend compares against the equally long window ending the day before dateFrom. | |
-| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. Narrows which variants count towards each row. | [optional] [enum: chatgpt, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
+| **engines** | [**List&lt;String&gt;**](String.md)| Repeatable, or comma-separated. Narrows which variants count towards each row. | [optional] [enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | [**List&lt;String&gt;**](String.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **queryClusterIds** | [**List&lt;UUID&gt;**](UUID.md)| Restrict to keywords with a variant in these clusters. Each must belong to the project. | [optional] |
 | **includeUngroupedQueries** | **Boolean**| Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. | [optional] [default to false] |

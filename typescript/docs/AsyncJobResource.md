@@ -1,7 +1,7 @@
 
 # AsyncJobResource
 
-An asynchronous job and, once it has completed, its result
+An asynchronous job and, once it has completed, its result, or once it has failed, why
 
 ## Properties
 
@@ -11,6 +11,7 @@ Name | Type
 `type` | string
 `status` | string
 `result` | object
+`error` | [AsyncJobResourceError](AsyncJobResourceError.md)
 
 ## Example
 
@@ -23,6 +24,7 @@ const example = {
   "type": null,
   "status": null,
   "result": null,
+  "error": null,
 } satisfies AsyncJobResource
 
 console.log(example)

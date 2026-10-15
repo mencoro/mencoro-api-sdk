@@ -1,6 +1,6 @@
 /*
  * Mencoro API
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -71,6 +71,8 @@ public class TrackedQueryResource {
   @JsonAdapter(EngineEnum.Adapter.class)
   public enum EngineEnum {
     CHATGPT("chatgpt"),
+    
+    CLAUDE("claude"),
     
     PERPLEXITY("perplexity"),
     

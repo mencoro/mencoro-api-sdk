@@ -1,7 +1,7 @@
 =begin
 #Mencoro API
 
-#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 The version of the OpenAPI document: 1.0.0
 Contact: support@mencoro.com
@@ -14,7 +14,7 @@ require 'date'
 require 'time'
 
 module Mencoro
-  # An asynchronous job and, once it has completed, its result
+  # An asynchronous job and, once it has completed, its result, or once it has failed, why
   class AsyncJobResource < ApiModelBase
     attr_accessor :job_id
 
@@ -26,6 +26,8 @@ module Mencoro
 
     # The job output, shaped by `type`. Null while the job is still in flight and for a job that failed: it means the result is not known, never that the job produced nothing.
     attr_accessor :result
+
+    attr_accessor :error
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -55,7 +57,8 @@ module Mencoro
         :'job_id' => :'jobId',
         :'type' => :'type',
         :'status' => :'status',
-        :'result' => :'result'
+        :'result' => :'result',
+        :'error' => :'error'
       }
     end
 
@@ -75,14 +78,16 @@ module Mencoro
         :'job_id' => :'String',
         :'type' => :'String',
         :'status' => :'String',
-        :'result' => :'Object'
+        :'result' => :'Object',
+        :'error' => :'AsyncJobResourceError'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'result'
+        :'result',
+        :'error'
       ])
     end
 
@@ -122,6 +127,10 @@ module Mencoro
 
       if attributes.key?(:'result')
         self.result = attributes[:'result']
+      end
+
+      if attributes.key?(:'error')
+        self.error = attributes[:'error']
       end
     end
 
@@ -197,7 +206,8 @@ module Mencoro
           job_id == o.job_id &&
           type == o.type &&
           status == o.status &&
-          result == o.result
+          result == o.result &&
+          error == o.error
     end
 
     # @see the `==` method
@@ -209,7 +219,7 @@ module Mencoro
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [job_id, type, status, result].hash
+      [job_id, type, status, result, error].hash
     end
 
     # Builds the object from hash

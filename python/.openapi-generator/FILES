@@ -14,6 +14,7 @@ docs/ApplyClusteringJobOutcomeFailedInner.md
 docs/ApplyClusteringJobOutcomeSkippedClustersInner.md
 docs/ApplyClusteringJobOutcomeSuccessfulInner.md
 docs/AsyncJobResource.md
+docs/AsyncJobResourceError.md
 docs/BatchChangeTrackedQueryCheckFrequencyRequestData.md
 docs/BatchChangeTrackedQueryPassesRequestData.md
 docs/BatchCreateQueryClustersOutcome.md
@@ -188,6 +189,7 @@ mencoro/models/apply_clustering_job_outcome_failed_inner.py
 mencoro/models/apply_clustering_job_outcome_skipped_clusters_inner.py
 mencoro/models/apply_clustering_job_outcome_successful_inner.py
 mencoro/models/async_job_resource.py
+mencoro/models/async_job_resource_error.py
 mencoro/models/batch_change_tracked_query_check_frequency_request_data.py
 mencoro/models/batch_change_tracked_query_passes_request_data.py
 mencoro/models/batch_create_query_clusters_outcome.py

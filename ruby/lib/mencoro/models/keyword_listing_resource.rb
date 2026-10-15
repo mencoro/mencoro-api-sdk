@@ -1,7 +1,7 @@
 =begin
 #Mencoro API
 
-#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+#Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
 The version of the OpenAPI document: 1.0.0
 Contact: support@mencoro.com
@@ -49,7 +49,7 @@ module Mencoro
     # Distinct check frequencies across the variants.
     attr_accessor :check_frequencies
 
-    # Distinct pass counts across the variants. A pass is one budget unit per check.
+    # Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one.
     attr_accessor :n_passes_values
 
     # The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing.

@@ -9,7 +9,7 @@
 | **status** | **String** |  | [optional] |
 | **tracked_query_count** | **Integer** |  | [optional] |
 | **share_of_voice** | **Float** | 0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet. | [optional] |
-| **mention_rate** | **Integer** | 0-100 percentage of tracked queries with a result; higher is better. Null when the project has no rank data yet. | [optional] |
+| **mention_rate** | **Integer** | 0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet. | [optional] |
 | **avg_mention_position** | **Float** | 1-based average rank of the brand within the answer; LOWER is better. Null when the project has no rank data yet. | [optional] |
 | **positivity_index** | **Integer** | 0-100 sentiment score; higher is better. Null when the project has no rank data yet. | [optional] |
 

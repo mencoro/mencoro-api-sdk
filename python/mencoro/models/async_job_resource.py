@@ -3,7 +3,7 @@
 """
     Mencoro API
 
-    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
     The version of the OpenAPI document: 1.0.0
     Contact: support@mencoro.com
@@ -21,19 +21,21 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from mencoro.models.async_job_resource_error import AsyncJobResourceError
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class AsyncJobResource(BaseModel):
     """
-    An asynchronous job and, once it has completed, its result
+    An asynchronous job and, once it has completed, its result, or once it has failed, why
     """ # noqa: E501
     job_id: UUID = Field(alias="jobId")
     type: StrictStr = Field(description="What the job produces, and therefore the shape of `result`")
     status: StrictStr = Field(description="A job in `pending`, `running` or `awaiting_retry` is still in flight; `completed` and `failed` are terminal.")
     result: Optional[Dict[str, Any]] = Field(default=None, description="The job output, shaped by `type`. Null while the job is still in flight and for a job that failed: it means the result is not known, never that the job produced nothing.")
-    __properties: ClassVar[List[str]] = ["jobId", "type", "status", "result"]
+    error: Optional[AsyncJobResourceError] = None
+    __properties: ClassVar[List[str]] = ["jobId", "type", "status", "result", "error"]
 
     @field_validator('type')
     def type_validate_enum(cls, value):
@@ -88,10 +90,18 @@ class AsyncJobResource(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of error
+        if self.error:
+            _dict['error'] = self.error.to_dict()
         # set to None if result (nullable) is None
         # and model_fields_set contains the field
         if self.result is None and "result" in self.model_fields_set:
             _dict['result'] = None
+
+        # set to None if error (nullable) is None
+        # and model_fields_set contains the field
+        if self.error is None and "error" in self.model_fields_set:
+            _dict['error'] = None
 
         return _dict
 
@@ -108,7 +118,8 @@ class AsyncJobResource(BaseModel):
             "jobId": obj.get("jobId"),
             "type": obj.get("type"),
             "status": obj.get("status"),
-            "result": obj.get("result")
+            "result": obj.get("result"),
+            "error": AsyncJobResourceError.from_dict(obj["error"]) if obj.get("error") is not None else None
         })
         return _obj
 

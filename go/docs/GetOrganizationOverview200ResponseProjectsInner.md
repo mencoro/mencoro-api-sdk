@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Status** | Pointer to **string** |  | [optional] 
 **TrackedQueryCount** | Pointer to **int32** |  | [optional] 
 **ShareOfVoice** | Pointer to **NullableFloat32** | 0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet. | [optional] 
-**MentionRate** | Pointer to **NullableInt32** | 0-100 percentage of tracked queries with a result; higher is better. Null when the project has no rank data yet. | [optional] 
+**MentionRate** | Pointer to **NullableInt32** | 0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet. | [optional] 
 **AvgMentionPosition** | Pointer to **NullableFloat32** | 1-based average rank of the brand within the answer; LOWER is better. Null when the project has no rank data yet. | [optional] 
 **PositivityIndex** | Pointer to **NullableInt32** | 0-100 sentiment score; higher is better. Null when the project has no rank data yet. | [optional] 
 

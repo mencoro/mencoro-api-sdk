@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **StatusSummary** | **string** | \&quot;mixed\&quot; when the variants disagree; otherwise the one status they share. | 
 **Statuses** | **List&lt;KeywordListingResource.StatusesEnum&gt;** | Distinct statuses across the variants. | 
 **CheckFrequencies** | **List&lt;KeywordListingResource.CheckFrequenciesEnum&gt;** | Distinct check frequencies across the variants. | 
-**NPassesValues** | **List&lt;int&gt;** | Distinct pass counts across the variants. A pass is one budget unit per check. | 
+**NPassesValues** | **List&lt;int&gt;** | Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. | 
 **LastCheckedAt** | **DateTime?** | The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing. | [optional] 
 **AvgSerpPosition** | **float?** | Average position in traditional search over the window. 1-based, LOWER is better. | [optional] 
 **TrendSerp** | **float?** | Signed improvement in avgSerpPosition against the previous window. Positive is better. | [optional] 

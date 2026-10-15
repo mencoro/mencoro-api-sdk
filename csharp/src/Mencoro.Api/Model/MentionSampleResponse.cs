@@ -1,7 +1,7 @@
 /*
  * Mencoro API
  *
- * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+ * Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@mencoro.com
@@ -55,7 +55,8 @@ namespace Mencoro.Api.Model
         /// <param name="country">country.</param>
         /// <param name="mentionRelation">Published because &#x60;competitorId&#x60; alone cannot answer the question. Own-brand AND untracked-competitor mentions both carry a null competitor id - the confusion migration Version20260608130000 was written to end - so a reader that treats a null competitor id as \&quot;us\&quot; silently counts a rival as the brand..</param>
         /// <param name="brandName">brandName.</param>
-        public MentionSampleResponse(string id = default, string trackedQueryId = default, string aiResponseId = default, string engine = default, string competitorId = default, string sentiment = default, string mentionType = default, int mentionPosition = default, string text = default, string detectedAt = default, string queryText = default, string country = default, string mentionRelation = default, string brandName = default)
+        /// <param name="citations">citations.</param>
+        public MentionSampleResponse(string id = default, string trackedQueryId = default, string aiResponseId = default, string engine = default, string competitorId = default, string sentiment = default, string mentionType = default, int mentionPosition = default, string text = default, string detectedAt = default, string queryText = default, string country = default, string mentionRelation = default, string brandName = default, List<CitationResource> citations = default)
         {
             // to ensure "id" is required (not null)
             if (id == null)
@@ -116,6 +117,7 @@ namespace Mencoro.Api.Model
             this.Country = country;
             this.MentionRelation = mentionRelation;
             this.BrandName = brandName;
+            this.Citations = citations;
         }
 
         /// <summary>
@@ -204,6 +206,12 @@ namespace Mencoro.Api.Model
         public string BrandName { get; set; }
 
         /// <summary>
+        /// Gets or Sets Citations
+        /// </summary>
+        [DataMember(Name = "citations", EmitDefaultValue = false)]
+        public List<CitationResource> Citations { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -225,6 +233,7 @@ namespace Mencoro.Api.Model
             sb.Append("  Country: ").Append(Country).Append("\n");
             sb.Append("  MentionRelation: ").Append(MentionRelation).Append("\n");
             sb.Append("  BrandName: ").Append(BrandName).Append("\n");
+            sb.Append("  Citations: ").Append(Citations).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

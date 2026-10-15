@@ -3,7 +3,7 @@
 """
     Mencoro API
 
-    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`.
+    Public API for Mencoro customers. Authenticate with an API key: `Authorization: Bearer mencoro_sk_...`. Every write operation requires an `Idempotency-Key` header: a retry carrying the same key and body within 30 days is answered from the stored result without running again; after 30 days the key is forgotten and a retry runs as a new operation.
 
     The version of the OpenAPI document: 1.0.0
     Contact: support@mencoro.com
@@ -20,6 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from mencoro.models.citation_resource import CitationResource
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -42,7 +43,8 @@ class MentionSampleResponse(BaseModel):
     country: Optional[StrictStr] = None
     mention_relation: Optional[StrictStr] = Field(default=None, description="Published because `competitorId` alone cannot answer the question. Own-brand AND untracked-competitor mentions both carry a null competitor id - the confusion migration Version20260608130000 was written to end - so a reader that treats a null competitor id as \"us\" silently counts a rival as the brand.", alias="mentionRelation")
     brand_name: Optional[StrictStr] = Field(default=None, alias="brandName")
-    __properties: ClassVar[List[str]] = ["id", "trackedQueryId", "aiResponseId", "engine", "competitorId", "sentiment", "mentionType", "mentionPosition", "text", "detectedAt", "queryText", "country", "mentionRelation", "brandName"]
+    citations: Optional[List[CitationResource]] = None
+    __properties: ClassVar[List[str]] = ["id", "trackedQueryId", "aiResponseId", "engine", "competitorId", "sentiment", "mentionType", "mentionPosition", "text", "detectedAt", "queryText", "country", "mentionRelation", "brandName", "citations"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -83,6 +85,13 @@ class MentionSampleResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in citations (list)
+        _items = []
+        if self.citations:
+            for _item_citations in self.citations:
+                if _item_citations:
+                    _items.append(_item_citations.to_dict())
+            _dict['citations'] = _items
         # set to None if competitor_id (nullable) is None
         # and model_fields_set contains the field
         if self.competitor_id is None and "competitor_id" in self.model_fields_set:
@@ -128,7 +137,8 @@ class MentionSampleResponse(BaseModel):
             "queryText": obj.get("queryText"),
             "country": obj.get("country"),
             "mentionRelation": obj.get("mentionRelation"),
-            "brandName": obj.get("brandName")
+            "brandName": obj.get("brandName"),
+            "citations": [CitationResource.from_dict(_item) for _item in obj["citations"]] if obj.get("citations") is not None else None
         })
         return _obj
 
