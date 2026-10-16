@@ -203,26 +203,74 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     go_output=""
   fi
 
-  # Only a path the previous list named is ever deleted: anything else in the directory — a file
-  # the generator skips because it already exists, such as most test stubs, or one it never wrote —
-  # is left alone. Directories are removed only once deleting a file has emptied them.
+  # Only a path the previous list named is ever deleted: a file it never named — one somebody added,
+  # or one the generator never wrote — is left alone. Directories are removed only once deleting a
+  # file has emptied them.
+  #
+  # FILES is not a complete inventory of the client, though. The generator writes a test stub and
+  # .openapi-generator-ignore only when they are missing, and lists them only on the run that writes
+  # them: a stub added in one run drops out of the next run's list without having been dropped from
+  # the contract. Deleting it then would recreate it the run after, and the tree would never settle.
+  # So nothing under the SDK's testStubDir in sdks.json is deleted, nor the ignore file itself, and
+  # neither is a path the ignore file now names — the generator stopped writing it because somebody
+  # took it over by hand, not because the contract dropped it. Go needs no testStubDir: it is
+  # generated into an empty directory, so its stubs are written and listed on every run.
   python3 -c '
-import pathlib, sys
+import fnmatch, json, pathlib, sys
 
-sdk = pathlib.Path(sys.argv[1]).resolve()
+target = sys.argv[1]
+sdk = pathlib.Path(target).resolve()
 previous_list = pathlib.Path(sys.argv[2])
 current_list = sdk / ".openapi-generator" / "FILES"
 if not previous_list.is_file() or not current_list.is_file():
     sys.exit(0)
+
+manifest = next(s for s in json.load(open("sdks.json"))["sdks"] if s["dir"] == target)
+stub_parts = pathlib.PurePosixPath(manifest["testStubDir"]).parts if "testStubDir" in manifest else None
+
+ignore_file = sdk / ".openapi-generator-ignore"
+ignore_patterns = []
+if ignore_file.is_file():
+    for line in ignore_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        # A negation only narrows what the patterns before it cover; skipping it keeps more files.
+        if line and not line.startswith(("#", "!")):
+            ignore_patterns.append(line)
 
 
 def listed(path):
     return {line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
 
 
+def matches(path, pattern):
+    # A pattern without a slash names a file or directory at any depth, as in .gitignore.
+    name = path.name if "/" not in pattern else str(path)
+    candidates = {pattern, pattern.replace("**/", "")}
+    return any(name == candidate or fnmatch.fnmatchcase(name, candidate) for candidate in candidates)
+
+
+def ignored(relative):
+    # Matched generously: a pattern that could name the path keeps it, since deleting a file somebody
+    # maintains by hand loses work and keeping one costs nothing.
+    for pattern in ignore_patterns:
+        pattern = pattern.lstrip("/")
+        if pattern.endswith("/"):
+            if any(matches(parent, pattern.rstrip("/")) for parent in relative.parents if parent.parts):
+                return True
+        elif matches(relative, pattern):
+            return True
+    return False
+
+
 for name in sorted(listed(previous_list) - listed(current_list)):
     relative = pathlib.PurePosixPath(name)
     if relative.is_absolute() or ".." in relative.parts:
+        continue
+    if relative == pathlib.PurePosixPath(".openapi-generator-ignore"):
+        continue
+    if stub_parts and relative.parts[:len(stub_parts)] == stub_parts:
+        continue
+    if ignored(relative):
         continue
     path = sdk / relative
     if not path.parent.resolve().is_relative_to(sdk):
@@ -230,7 +278,7 @@ for name in sorted(listed(previous_list) - listed(current_list)):
     if not (path.is_file() or path.is_symlink()):
         continue
     path.unlink()
-    print(f"    removed {sys.argv[1]}/{name}")
+    print(f"    removed {target}/{name}")
     directory = path.parent
     while directory != sdk and not any(directory.iterdir()):
         directory.rmdir()

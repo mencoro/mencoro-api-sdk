@@ -104,16 +104,23 @@ FAKE_GENERATOR = (
     "import os, pathlib, sys\n"
     "if 'generate' not in sys.argv: sys.exit(0)\n"
     "output = pathlib.Path(sys.argv[sys.argv.index('-o') + 1].removeprefix('/local/'))\n"
-    "status = int(os.environ['FAKE_GENERATOR_STATUS'])\n"
-    "if status: sys.exit(status)\n"
     "names = [name for name in os.environ['FAKE_GENERATOR_FILES'].split(',') if name]\n"
     "for name in names:\n"
     "    path = output / name\n"
     "    path.parent.mkdir(parents=True, exist_ok=True)\n"
     "    path.write_text('generated github.com/mencoro/mencoro-api-sdk/mencoro')\n"
+    # Written only when missing and listed only on the run that writes it, as the real generator
+    # treats test stubs and .openapi-generator-ignore.
+    "for name in os.environ.get('FAKE_GENERATOR_ONCE', '').split(','):\n"
+    "    if name and not (output / name).exists():\n"
+    "        (output / name).parent.mkdir(parents=True, exist_ok=True)\n"
+    "        (output / name).write_text('written once')\n"
+    "        names.append(name)\n"
     "listing = output / '.openapi-generator/FILES'\n"
     "listing.parent.mkdir(parents=True, exist_ok=True)\n"
     "listing.write_text(''.join(name + '\\n' for name in names))\n"
+    # A failure is reported after part of the output, including a new list, has been written.
+    "sys.exit(int(os.environ['FAKE_GENERATOR_STATUS']))\n"
 )
 
 
@@ -126,6 +133,12 @@ class OrphanedFileTest(unittest.TestCase):
         self.root = Path(directory.name)
         for name in ("generate.sh", "sdks.json"):
             shutil.copyfile(ROOT / name, self.root / name)
+        # The per-language fixes that run after pruning edit real generated manifests, which the
+        # fake generator does not write.
+        scripts = self.root / "scripts"
+        scripts.mkdir()
+        for name in ("license.py", "java-pom-publish.py", "php-root-manifest.py"):
+            (scripts / name).write_text("")
         commands = self.root / "bin"
         commands.mkdir()
         docker = commands / "docker"
@@ -143,7 +156,7 @@ class OrphanedFileTest(unittest.TestCase):
             listing.parent.mkdir(parents=True, exist_ok=True)
             listing.write_text("".join(f"{name}\n" for name in listed))
 
-    def generate(self, sdk, emitted, status=0):
+    def generate(self, sdk, emitted, status=0, once=()):
         return subprocess.run(
             ["bash", "generate.sh", sdk],
             cwd=self.root,
@@ -151,6 +164,7 @@ class OrphanedFileTest(unittest.TestCase):
                 **os.environ,
                 "PATH": self.path,
                 "FAKE_GENERATOR_FILES": ",".join(emitted),
+                "FAKE_GENERATOR_ONCE": ",".join(once),
                 "FAKE_GENERATOR_STATUS": str(status),
             },
             capture_output=True,
@@ -193,6 +207,9 @@ class OrphanedFileTest(unittest.TestCase):
         self.previous_run("typescript", listed=["README.md", "docs/Removed.md"])
         result = self.generate("typescript", ["README.md"], status=42)
         self.assertEqual(42, result.returncode)
+        # The failed run did write a list without docs/Removed.md, so only refusing to prune after a
+        # failure keeps the file.
+        self.assertEqual("README.md\n", (self.root / "typescript/.openapi-generator/FILES").read_text())
         self.assertTrue((self.root / "typescript/docs/Removed.md").exists())
         self.assertNotIn("removed", result.stdout)
 
@@ -242,6 +259,87 @@ class OrphanedFileTest(unittest.TestCase):
         result = self.generate("typescript", ["README.md"])
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         self.assertNotIn("removed", result.stdout)
+
+    def tree(self, sdk):
+        client = self.root / sdk
+        return {str(path.relative_to(client)): path.read_text() for path in client.rglob("*") if path.is_file()}
+
+    def test_a_test_stub_written_only_when_missing_survives_every_later_run(self):
+        # Where each generator puts its test stubs. Go writes them only when missing too, but it is
+        # generated into an empty directory, so its stubs are written and listed on every run.
+        stubs = {
+            "python": "test/test_added_resource.py",
+            "php": "test/Model/AddedResourceTest.php",
+            "java": "src/test/java/com/mencoro/api/model/AddedResourceTest.java",
+            "csharp": "src/Mencoro.Api.Test/Model/AddedResourceTests.cs",
+            "ruby": "spec/models/added_resource_spec.rb",
+            "go": "test/api_added_test.go",
+        }
+        for sdk, stub in stubs.items():
+            with self.subTest(sdk=sdk):
+                self.previous_run(sdk, listed=["README.md"])
+                trees = []
+                for run in (1, 2, 3):
+                    result = self.generate(sdk, ["README.md"], once=[stub, ".openapi-generator-ignore"])
+                    self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                    self.assertNotIn("removed", result.stdout, f"run {run}")
+                    self.assertTrue((self.root / sdk / stub).is_file(), f"run {run} kept the stub")
+                    trees.append(self.tree(sdk))
+                self.assertEqual(set(trees[0]), set(trees[1]), "the second run changes no file set")
+                self.assertEqual(trees[1], trees[2], "the third run changes nothing at all")
+
+    def test_the_ignore_file_written_only_when_missing_is_never_removed(self):
+        self.previous_run("typescript", listed=["README.md"])
+        for run in (1, 2, 3):
+            result = self.generate("typescript", ["README.md"], once=[".openapi-generator-ignore"])
+            self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+            self.assertTrue((self.root / "typescript/.openapi-generator-ignore").is_file(), f"run {run}")
+        self.assertNotIn("removed", result.stdout)
+
+    def test_the_test_stub_dir_protects_only_paths_inside_it(self):
+        self.previous_run(
+            "python",
+            listed=["README.md", "test/test_removed.py", "test-requirements.txt", "testing/Removed.md", "docs/Removed.md"],
+        )
+        result = self.generate("python", ["README.md"])
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        client = self.root / "python"
+        self.assertEqual("previous test/test_removed.py", (client / "test/test_removed.py").read_text())
+        for name in ("test-requirements.txt", "testing/Removed.md", "docs/Removed.md"):
+            self.assertFalse((client / name).exists(), f"{name} shares a prefix, not the directory")
+
+    def test_each_test_stub_dir_holds_its_committed_stubs(self):
+        for sdk in json.loads((ROOT / "sdks.json").read_text(encoding="utf-8"))["sdks"]:
+            if "testStubDir" in sdk:
+                with self.subTest(sdk=sdk["dir"]):
+                    stub_dir = ROOT / sdk["dir"] / sdk["testStubDir"]
+                    self.assertTrue(stub_dir.is_dir(), stub_dir)
+                    self.assertTrue(any(path.is_file() for path in stub_dir.rglob("*")), stub_dir)
+
+    def test_a_path_the_ignore_file_now_names_keeps_its_hand_edits(self):
+        patterns = ["docs/Custom.md", "/docs/Custom.md", "docs/*.md", "docs/**", "docs/", "Custom.md", "**/Custom.md", "*.md"]
+        for pattern in patterns:
+            with self.subTest(pattern=pattern):
+                shutil.rmtree(self.root / "typescript", ignore_errors=True)
+                self.previous_run("typescript", listed=["README.md", "docs/Custom.md"])
+                (self.root / "typescript/docs/Custom.md").write_text("edited by hand")
+                (self.root / "typescript/.openapi-generator-ignore").write_text(
+                    f"# OpenAPI Generator Ignore\n\n{pattern}\n"
+                )
+                result = self.generate("typescript", ["README.md"])
+                self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+                self.assertEqual("edited by hand", (self.root / "typescript/docs/Custom.md").read_text())
+                self.assertNotIn("removed", result.stdout)
+
+    def test_comments_blank_lines_negations_and_other_patterns_do_not_keep_an_orphan(self):
+        self.previous_run("typescript", listed=["README.md", "docs/Removed.md"])
+        (self.root / "typescript/.openapi-generator-ignore").write_text(
+            "# docs/Removed.md\n\n   \n!docs/Removed.md\ndocs/Other.md\nRemoved.txt\nother/\n"
+        )
+        result = self.generate("typescript", ["README.md"])
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertIn("removed typescript/docs/Removed.md", result.stdout)
+        self.assertFalse((self.root / "typescript/docs/Removed.md").exists())
 
 
 class ContractSyncTest(unittest.TestCase):
@@ -296,10 +394,19 @@ class ContractSyncTest(unittest.TestCase):
         self.assertEqual(1, len(changed), changed)
         self.assertIn(f'"version": "{version}-changed"', changed[0][1])
 
-    def test_the_committed_contract_uses_raw_utf8(self):
-        # Without a non-ASCII character in the contract, the test above would not tell an escaped
-        # layout from a raw one.
-        self.assertFalse((ROOT / "openapi.json").read_bytes().decode("utf-8").isascii())
+    def test_non_ascii_text_is_written_unescaped(self):
+        contract = {
+            "openapi": "3.0.0",
+            "info": {"title": "Señal de marca — ñandú ✓", "version": "1"},
+            "paths": {f"/projects/{number}": {"get": {"summary": "Visibilidad en búsqueda"}} for number in range(50)},
+        }
+        served = json.dumps(contract, ensure_ascii=True, separators=(",", ":")).encode()
+        self.assertTrue(served.isascii())
+        result, written, leftover = self.sync(served)
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertEqual((json.dumps(contract, indent=2, ensure_ascii=False) + "\n").encode(), written)
+        self.assertIn("Señal de marca — ñandú ✓".encode(), written)
+        self.assertFalse(leftover)
 
     def test_a_contract_that_lost_its_operations_is_refused(self):
         committed = (ROOT / "openapi.json").read_bytes()
