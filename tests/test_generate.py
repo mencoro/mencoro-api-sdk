@@ -331,6 +331,15 @@ class OrphanedFileTest(unittest.TestCase):
                 self.assertEqual("edited by hand", (self.root / "typescript/docs/Custom.md").read_text())
                 self.assertNotIn("removed", result.stdout)
 
+    def test_a_double_star_pattern_also_keeps_a_path_at_the_root(self):
+        self.previous_run("typescript", listed=["README.md", "Custom.md"])
+        (self.root / "typescript/Custom.md").write_text("edited by hand")
+        (self.root / "typescript/.openapi-generator-ignore").write_text("**/Custom.md\n")
+        result = self.generate("typescript", ["README.md"])
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertEqual("edited by hand", (self.root / "typescript/Custom.md").read_text())
+        self.assertNotIn("removed", result.stdout)
+
     def test_comments_blank_lines_negations_and_other_patterns_do_not_keep_an_orphan(self):
         self.previous_run("typescript", listed=["README.md", "docs/Removed.md"])
         (self.root / "typescript/.openapi-generator-ignore").write_text(

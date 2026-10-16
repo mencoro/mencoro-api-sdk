@@ -344,7 +344,9 @@ contract dropped them:
   (`python/test/`, `php/test/`, `java/src/test/`, `csharp/src/Mencoro.Api.Test/`, `ruby/spec/`), so
   when the contract drops a schema or operation its stub has to be deleted by hand. Go is generated
   into an empty directory, so its stubs are written and listed on every run and are removed with
-  the rest; TypeScript has none.
+  the rest; TypeScript has none. For the same reason, after a contract change that adds a schema or
+  operation, run the script twice before committing: the first run lists the new stubs in
+  `.openapi-generator/FILES` and the second drops them again, which is the list CI expects.
 - **`.openapi-generator-ignore`**, which the generator likewise writes only when it is missing.
 - **Any path the target's `.openapi-generator-ignore` names**: the generator stopped writing it
   because it is now maintained by hand.
