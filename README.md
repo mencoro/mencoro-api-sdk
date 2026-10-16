@@ -326,6 +326,31 @@ The fetch is opt-in because a regeneration that silently pulls a new contract tu
 rerun into a content change nobody reviewed, and the diff runs to six figures of lines across seven
 languages — the one place a surprise must not hide.
 
+`--sync` writes the contract in the layout of the committed `openapi.json` — two-space indent, UTF-8
+left unescaped, a trailing newline — so the diff it leaves is only what the contract changed. For
+today's contract that is byte for byte what `jq .` produces. It is written with Python's `json`
+module, which would differ from `jq` in two cases the contract does not contain: U+007F (DEL) is
+written raw where `jq` escapes it, and a number literal is rewritten in Python's form (`1e3` becomes
+`1000.0`, `1.50` becomes `1.5`).
+
+The generator never deletes a file it no longer emits, so after each language is generated the
+script deletes every file the previous `.openapi-generator/FILES` listed and the new one does not.
+Three kinds of listed path are kept, because their absence from the new list does not mean the
+contract dropped them:
+
+- **Test stubs**, except Go's. The generator writes a stub only when it is missing and lists it only
+  on the run that writes it, so a stub added in one run is gone from the next run's list. Nothing
+  under the directory named by the SDK's `testStubDir` in [`sdks.json`](sdks.json) is deleted
+  (`python/test/`, `php/test/`, `java/src/test/`, `csharp/src/Mencoro.Api.Test/`, `ruby/spec/`), so
+  when the contract drops a schema or operation its stub has to be deleted by hand. Go is generated
+  into an empty directory, so its stubs are written and listed on every run and are removed with
+  the rest; TypeScript has none. For the same reason, after a contract change that adds a schema or
+  operation, run the script twice before committing: the first run lists the new stubs in
+  `.openapi-generator/FILES` and the second drops them again, which is the list CI expects.
+- **`.openapi-generator-ignore`**, which the generator likewise writes only when it is missing.
+- **Any path the target's `.openapi-generator-ignore` names**: the generator stopped writing it
+  because it is now maintained by hand.
+
 Two corrections are applied by the generator script rather than by hand, because a hand edit would
 be discarded on the next run:
 

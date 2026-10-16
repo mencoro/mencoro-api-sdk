@@ -34,13 +34,22 @@ print(sdk["config"]["packageName"])
 
 sync_contract() {
   echo "fetching ${CONTRACT_URL}"
-  curl --fail --silent --show-error "${CONTRACT_URL}" | python3 -m json.tool > openapi.json.new
+  # Written in the committed file's layout — two-space indent, UTF-8 left unescaped — so a sync
+  # changes only what the contract changed. `python3 -m json.tool` indents by four and escapes every
+  # non-ASCII character, which rewrote the whole file on each run.
+  curl --fail --silent --show-error "${CONTRACT_URL}" | python3 -c '
+import json, sys
+contract = json.loads(sys.stdin.buffer.read())
+with open(sys.argv[1], "w", encoding="utf-8") as output:
+    json.dump(contract, output, indent=2, ensure_ascii=False)
+    output.write("\n")
+' openapi.json.new
 
   local operations
   operations=$(python3 -c '
 import json
 methods = {"get", "post", "put", "patch", "delete"}
-paths = json.load(open("openapi.json.new")).get("paths", {})
+paths = json.load(open("openapi.json.new", encoding="utf-8")).get("paths", {})
 print(sum(len(methods & set(item)) for item in paths.values()))
 ')
 
@@ -164,6 +173,16 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     output_dir="${go_output}"
   fi
 
+  # The generator records every file it writes in .openapi-generator/FILES but never deletes one it
+  # no longer emits, so a schema or operation dropped from the contract leaves its model, docs and
+  # tests behind — still compiled, and referring to code that no longer exists. The list from before
+  # this run is kept so that whatever it named and this run did not can be removed afterwards.
+  previous_files=".generator-configs/${target}.FILES"
+  rm -f "${previous_files}"
+  if [[ -f "${target}/.openapi-generator/FILES" ]]; then
+    cp "${target}/.openapi-generator/FILES" "${previous_files}"
+  fi
+
   echo "==> ${target} (${generator})"
   docker run --rm \
     -u "$(id -u):$(id -g)" \
@@ -183,6 +202,89 @@ for source, renamed in sdk.get('nameMappings', {}).items():
     cleanup_go_output
     go_output=""
   fi
+
+  # Only a path the previous list named is ever deleted: a file it never named — one somebody added,
+  # or one the generator never wrote — is left alone. Directories are removed only once deleting a
+  # file has emptied them.
+  #
+  # FILES is not a complete inventory of the client, though. The generator writes a test stub and
+  # .openapi-generator-ignore only when they are missing, and lists them only on the run that writes
+  # them: a stub added in one run drops out of the next run's list without having been dropped from
+  # the contract. Deleting it then would recreate it the run after, and the tree would never settle.
+  # So nothing under the SDK's testStubDir in sdks.json is deleted, nor the ignore file itself, and
+  # neither is a path the ignore file now names — the generator stopped writing it because somebody
+  # took it over by hand, not because the contract dropped it. Go needs no testStubDir: it is
+  # generated into an empty directory, so its stubs are written and listed on every run.
+  python3 -c '
+import fnmatch, json, pathlib, sys
+
+target = sys.argv[1]
+sdk = pathlib.Path(target).resolve()
+previous_list = pathlib.Path(sys.argv[2])
+current_list = sdk / ".openapi-generator" / "FILES"
+if not previous_list.is_file() or not current_list.is_file():
+    sys.exit(0)
+
+manifest = next(s for s in json.load(open("sdks.json"))["sdks"] if s["dir"] == target)
+stub_parts = pathlib.PurePosixPath(manifest["testStubDir"]).parts if "testStubDir" in manifest else None
+
+ignore_file = sdk / ".openapi-generator-ignore"
+ignore_patterns = []
+if ignore_file.is_file():
+    for line in ignore_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        # A negation only narrows what the patterns before it cover; skipping it keeps more files.
+        if line and not line.startswith(("#", "!")):
+            ignore_patterns.append(line)
+
+
+def listed(path):
+    return {line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
+
+
+def matches(path, pattern):
+    # A pattern without a slash names a file or directory at any depth, as in .gitignore.
+    name = path.name if "/" not in pattern else str(path)
+    candidates = {pattern, pattern.replace("**/", "")}
+    return any(name == candidate or fnmatch.fnmatchcase(name, candidate) for candidate in candidates)
+
+
+def ignored(relative):
+    # Matched generously: a pattern that could name the path keeps it, since deleting a file somebody
+    # maintains by hand loses work and keeping one costs nothing.
+    for pattern in ignore_patterns:
+        pattern = pattern.lstrip("/")
+        if pattern.endswith("/"):
+            if any(matches(parent, pattern.rstrip("/")) for parent in relative.parents if parent.parts):
+                return True
+        elif matches(relative, pattern):
+            return True
+    return False
+
+
+for name in sorted(listed(previous_list) - listed(current_list)):
+    relative = pathlib.PurePosixPath(name)
+    if relative.is_absolute() or ".." in relative.parts:
+        continue
+    if relative == pathlib.PurePosixPath(".openapi-generator-ignore"):
+        continue
+    if stub_parts and relative.parts[:len(stub_parts)] == stub_parts:
+        continue
+    if ignored(relative):
+        continue
+    path = sdk / relative
+    if not path.parent.resolve().is_relative_to(sdk):
+        continue
+    if not (path.is_file() or path.is_symlink()):
+        continue
+    path.unlink()
+    print(f"    removed {target}/{name}")
+    directory = path.parent
+    while directory != sdk and not any(directory.iterdir()):
+        directory.rmdir()
+        directory = directory.parent
+' "${target}" "${previous_files}"
+  rm -f "${previous_files}"
 
   if [[ "${target}" == "php" ]]; then
     # Packagist reads composer.json from the repository ROOT and has no notion of a package living

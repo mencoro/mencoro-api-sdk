@@ -67,9 +67,12 @@ jobs:
       - name: The committed clients must match the contract
         run: |
           ./generate.sh
-          if ! git diff --quiet; then
-            echo "::error::regenerating produced a diff — refusing to publish sources nobody built"
-            git diff --stat
+          # `git status`, not `git diff`, so a file the generator emits for the first time, which is
+          # untracked, also stops the release.
+          changes=$(git status --porcelain)
+          if [[ -n "${changes}" ]]; then
+            echo "::error::regenerating changed the tree — refusing to publish sources nobody built"
+            echo "${changes}"
             exit 1
           fi
 

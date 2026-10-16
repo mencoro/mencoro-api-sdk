@@ -11,6 +11,7 @@
       "dir": "python",
       "generator": "python",
       "label": "Python 3.9+",
+      "testStubDir": "test",
       "config": {
         "packageName": "mencoro",
         "projectName": "mencoro",
@@ -32,6 +33,7 @@
       "dir": "php",
       "generator": "php",
       "label": "PHP 8.1+",
+      "testStubDir": "test",
       "config": {
         "invokerPackage": "Mencoro\\Api"
       },
@@ -53,6 +55,7 @@
       "dir": "java",
       "generator": "java",
       "label": "Java 11+",
+      "testStubDir": "src/test",
       "config": {
         "library": "okhttp-gson",
         "groupId": "com.mencoro",
@@ -75,6 +78,7 @@
       "dir": "csharp",
       "generator": "csharp",
       "label": ".NET 8",
+      "testStubDir": "src/Mencoro.Api.Test",
       "config": {
         "packageName": "Mencoro.Api",
         "targetFramework": "net8.0",
@@ -85,6 +89,7 @@
       "dir": "ruby",
       "generator": "ruby",
       "label": "Ruby 3.0+",
+      "testStubDir": "spec",
       "config": {
         "gemName": "mencoro",
         "moduleName": "Mencoro",

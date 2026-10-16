@@ -130,10 +130,14 @@ jobs:
       - uses: actions/checkout@v4
       - run: python3 -m unittest discover -s tests -p "test_*.py"
       - run: ./generate.sh
+      # `git status`, not `git diff`: a file the generator emits for the first time is untracked, and
+      # `git diff` does not report untracked files. A file it no longer emits is deleted by the script
+      # and shows up here as a deletion.
       - run: |
-          if ! git diff --quiet; then
-            echo "::error::regenerating produced a diff — the committed clients do not match openapi.json"
-            git diff --stat
+          changes=$(git status --porcelain)
+          if [[ -n "${changes}" ]]; then
+            echo "::error::regenerating changed the tree — the committed clients do not match openapi.json"
+            echo "${changes}"
             exit 1
           fi
           echo "generated sources match openapi.json"
