@@ -101,7 +101,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = 'mencoro-php/1.0.1';
+    protected $userAgent = 'mencoro-php/2.0.0';
 
     /**
      * Debug switch (default set to false)

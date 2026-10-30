@@ -1,6 +1,6 @@
 [project]
 name = "mencoro"
-version = "1.0.1"
+version = "2.0.0"
 description = "Mencoro API"
 authors = [
   {name = "Mencoro Support",email = "support@mencoro.com"},

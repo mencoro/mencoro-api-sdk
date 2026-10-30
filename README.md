@@ -172,6 +172,38 @@ var me = new AccountApi(config).GetMe();
 ```
 </details>
 
+## Changes in 2.0.0
+
+**Some code written for 1.0.1 breaks.** Reading responses with Python, PHP, Java or Ruby needs no
+change:
+
+- **TypeScript:** `@mencoro/api` now declares Node 22 or newer. Browsers are not affected.
+- **Go:** the module moves to `github.com/mencoro/mencoro-api-sdk/go/v2`, because Go requires a
+  second major version to carry `/v2`. Update every import and run
+  `go get github.com/mencoro/mencoro-api-sdk/go/v2@v2.0.0`. The package is still `mencoro`, and the
+  old path stays at 1.0.1.
+- **Models built by hand.** `projectAccessMode` and `projectIds` are now required on
+  `InvitationResource`, `CreateInvitation201Response` and `MemberResource`, and `carriedPositions`
+  on `KeywordListingResource`. Their Go and C# constructors gain those parameters, and a TypeScript
+  literal or Python model of those types has to set them.
+- **Nullable counts.** `invitations.pending` and `members.total` of `getOrganizationStats` are null
+  for a member restricted to selected projects. The Go fields become `NullableInt32`, the C# ones
+  `int?` and the TypeScript ones `number | null`.
+
+The contract also gains, without breaking anything:
+
+- **Project access per member.** `setMemberProjectAccess` restricts a member to selected projects
+  and `createInvitation` takes an optional `projectAccess`. A restricted member sees narrower lists
+  and aggregates, null plan and budget fields on the subscription, and a `404` on `createProject`
+  and `startBrandNameSuggestionJob`.
+- **Carried positions.** `carriedPositions` on a keyword listing says when a position figure
+  includes a measurement from before the window. The matching `trend*` field is then null.
+- **Tracked queries by engine family.** `getOrganizationOverview` adds `aiTrackedQueryCount`,
+  `serpTrackedQueryCount` and `shoppingTrackedQueryCount` per project.
+- **Cluster filters.** The contract now documents that a `queryClusterIds` or
+  `includeUngroupedQueries` selection matching no tracked query answers `400`, and that
+  `includeUngroupedQueries` sent alone keeps only the tracked queries in no cluster.
+
 ## Conventions
 
 These hold in every language. The per-language docs cover the signatures; this is what the contract
