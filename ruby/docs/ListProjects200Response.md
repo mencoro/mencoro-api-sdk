@@ -5,7 +5,7 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **items** | [**Array&lt;ProjectResource&gt;**](ProjectResource.md) |  | [optional] |
-| **total** | **Integer** | Every project matching the filters, not the size of this page. | [optional] |
+| **total** | **Integer** | Every project matching the filters that the caller can access, not the size of this page. | [optional] |
 
 ## Example
 

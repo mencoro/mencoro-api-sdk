@@ -194,7 +194,7 @@ example().catch(console.error);
 
 Create a project and the brand monitoring profile its checks run against
 
-Minimum role: manager, in an active organization. Requires the \&quot;write\&quot; capability. Creates the project, the brand monitoring profile holding the domains and brand names to watch, and one competitor per entry of &#x60;competitors&#x60;, in a single call. The project id is minted by the server; a caller-supplied id is rejected as an unknown field. What is NOT done: no tracked queries are created, no check is run and no scraping is scheduled — a new project has nothing collected against it until tracked queries are added. Each website entry may be a full URL or a bare domain: a URL is reduced to its host with any leading \&quot;www.\&quot; removed, so \&quot;https://www.acme.com/pricing\&quot; is stored as \&quot;acme.com\&quot;. Duplicate domains and duplicate brand names are collapsed, exactly as the stored value objects do. Send an Idempotency-Key: a retry with the same key and the same body returns this same project instead of creating a second one.
+Minimum role: manager, in an active organization, with access to every project of it: a member restricted to selected projects is refused as a role below the minimum is. Requires the \&quot;write\&quot; capability. Creates the project, the brand monitoring profile holding the domains and brand names to watch, and one competitor per entry of &#x60;competitors&#x60;, in a single call. The project id is minted by the server; a caller-supplied id is rejected as an unknown field. What is NOT done: no tracked queries are created, no check is run and no scraping is scheduled — a new project has nothing collected against it until tracked queries are added. Each website entry may be a full URL or a bare domain: a URL is reduced to its host with any leading \&quot;www.\&quot; removed, so \&quot;https://www.acme.com/pricing\&quot; is stored as \&quot;acme.com\&quot;. Duplicate domains and duplicate brand names are collapsed, exactly as the stored value objects do. Send an Idempotency-Key: a retry with the same key and the same body returns this same project instead of creating a second one.
 
 ### Example
 
@@ -264,7 +264,7 @@ example().catch(console.error);
 | **400** | The body or the Idempotency-Key was rejected; &#x60;details&#x60; names every field at fault |  -  |
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the write capability |  -  |
-| **404** | No organization the caller can access under this id |  -  |
+| **404** | No organization the caller can access under this id, or the caller is restricted to selected projects of it |  -  |
 | **409** | The organization is archived, the idempotency key was already used for a different request, or a previous attempt with it ended without a known outcome |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -681,7 +681,7 @@ example().catch(console.error);
 
 List an organization\&#39;s projects
 
-Minimum role: viewer. Metrics come from the same read model the application uses, so the figures match what the product shows. A null metric means \&quot;not known yet\&quot;, never zero.Send &#x60;Accept: text/csv&#x60; to receive the same page as a CSV download instead of JSON: same filters, same authorization, same page window and the same maximum of 100 rows — it is this page in another format, not a bulk export, so a whole collection is still read by paging. The CSV carries no &#x60;total&#x60;, because a table whose every row is a record has nowhere to put one; read it from the JSON representation of the same request. A list-valued field is joined into one cell with &#x60;; &#x60; as a display projection — parse the JSON if you need the structure. Cells beginning with &#x60;&#x3D;&#x60;, &#x60;+&#x60;, &#x60;-&#x60; or &#x60;@&#x60; are prefixed with an apostrophe so a spreadsheet treats them as text rather than running them as formulas.
+Minimum role: viewer. Metrics come from the same read model the application uses, so the figures match what the product shows. A null metric means \&quot;not known yet\&quot;, never zero. For a member restricted to selected projects, the list and &#x60;total&#x60; cover those projects only. Send &#x60;Accept: text/csv&#x60; to receive the same page as a CSV download instead of JSON: same filters, same authorization, same page window and the same maximum of 100 rows — it is this page in another format, not a bulk export, so a whole collection is still read by paging. The CSV carries no &#x60;total&#x60;, because a table whose every row is a record has nowhere to put one; read it from the JSON representation of the same request. A list-valued field is joined into one cell with &#x60;; &#x60; as a display projection — parse the JSON if you need the structure. Cells beginning with &#x60;&#x3D;&#x60;, &#x60;+&#x60;, &#x60;-&#x60; or &#x60;@&#x60; are prefixed with an apostrophe so a spreadsheet treats them as text rather than running them as formulas.
 
 ### Example
 

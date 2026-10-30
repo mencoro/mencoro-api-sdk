@@ -146,6 +146,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.CreateInvitation200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.CreateInvitation201Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.CreateInvitationRequest.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.CreateInvitationRequestProjectAccess.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.CreateOrganization201Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.CreateOrganizationRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.CreateProjectRequest.CustomTypeAdapterFactory());
@@ -176,6 +177,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.GetTrackingCoverage200ResponseSampleInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.InvitationResource.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.KeywordListingResource.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.KeywordListingResourceCarriedPositions.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.KeywordListingResourceCarriedPositionsSerp.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.KeywordListingResourceMentionTypeCounts.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.ListAiResponses200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.ListCompetitors200Response.CustomTypeAdapterFactory());
@@ -219,6 +222,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.SearchTrackedQueryMentionMatches200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.SearchTrackedQuerySerpMatches200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.SerpMatchResource.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.SetMemberProjectAccessRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.ShoppingOfferResource.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.ShoppingSnapshotResource.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.mencoro.api.model.StartBrandDiscoveryJobRequest.CustomTypeAdapterFactory());

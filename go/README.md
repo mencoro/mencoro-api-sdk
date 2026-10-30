@@ -113,6 +113,7 @@ Class | Method | HTTP request | Description
 *MembersAPI* | [**GetMember**](docs/MembersAPI.md#getmember) | **Get** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership
 *MembersAPI* | [**ListMembers**](docs/MembersAPI.md#listmembers) | **Get** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members
 *MembersAPI* | [**ReactivateMember**](docs/MembersAPI.md#reactivatemember) | **Post** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member
+*MembersAPI* | [**SetMemberProjectAccess**](docs/MembersAPI.md#setmemberprojectaccess) | **Put** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches
 *MembersAPI* | [**SuspendMember**](docs/MembersAPI.md#suspendmember) | **Post** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member
 *OrganizationOperationsAPI* | [**PreviewOrganizationOperation**](docs/OrganizationOperationsAPI.md#previeworganizationoperation) | **Post** /api/v1/organization-operation-previews | Preview an organization operation and obtain a confirmation
 *OrganizationsAPI* | [**ArchiveOrganization**](docs/OrganizationsAPI.md#archiveorganization) | **Post** /api/v1/organizations/{organizationId}/archive | Archive an organization
@@ -216,6 +217,7 @@ Class | Method | HTTP request | Description
  - [CreateInvitation200Response](docs/CreateInvitation200Response.md)
  - [CreateInvitation201Response](docs/CreateInvitation201Response.md)
  - [CreateInvitationRequest](docs/CreateInvitationRequest.md)
+ - [CreateInvitationRequestProjectAccess](docs/CreateInvitationRequestProjectAccess.md)
  - [CreateOrganization201Response](docs/CreateOrganization201Response.md)
  - [CreateOrganizationRequest](docs/CreateOrganizationRequest.md)
  - [CreateProjectRequest](docs/CreateProjectRequest.md)
@@ -246,6 +248,8 @@ Class | Method | HTTP request | Description
  - [GetTrackingCoverage200ResponseSampleInner](docs/GetTrackingCoverage200ResponseSampleInner.md)
  - [InvitationResource](docs/InvitationResource.md)
  - [KeywordListingResource](docs/KeywordListingResource.md)
+ - [KeywordListingResourceCarriedPositions](docs/KeywordListingResourceCarriedPositions.md)
+ - [KeywordListingResourceCarriedPositionsSerp](docs/KeywordListingResourceCarriedPositionsSerp.md)
  - [KeywordListingResourceMentionTypeCounts](docs/KeywordListingResourceMentionTypeCounts.md)
  - [ListAiResponses200Response](docs/ListAiResponses200Response.md)
  - [ListCompetitors200Response](docs/ListCompetitors200Response.md)
@@ -289,6 +293,7 @@ Class | Method | HTTP request | Description
  - [SearchTrackedQueryMentionMatches200Response](docs/SearchTrackedQueryMentionMatches200Response.md)
  - [SearchTrackedQuerySerpMatches200Response](docs/SearchTrackedQuerySerpMatches200Response.md)
  - [SerpMatchResource](docs/SerpMatchResource.md)
+ - [SetMemberProjectAccessRequest](docs/SetMemberProjectAccessRequest.md)
  - [ShoppingOfferResource](docs/ShoppingOfferResource.md)
  - [ShoppingSnapshotResource](docs/ShoppingSnapshotResource.md)
  - [StartBrandDiscoveryJobRequest](docs/StartBrandDiscoveryJobRequest.md)

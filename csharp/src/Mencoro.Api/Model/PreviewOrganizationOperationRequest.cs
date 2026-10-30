@@ -82,16 +82,22 @@ namespace Mencoro.Api.Model
             ReactivateMember = 7,
 
             /// <summary>
+            /// Enum SetMemberProjectAccess for value: setMemberProjectAccess
+            /// </summary>
+            [EnumMember(Value = "setMemberProjectAccess")]
+            SetMemberProjectAccess = 8,
+
+            /// <summary>
             /// Enum CreateInvitation for value: createInvitation
             /// </summary>
             [EnumMember(Value = "createInvitation")]
-            CreateInvitation = 8,
+            CreateInvitation = 9,
 
             /// <summary>
             /// Enum CancelInvitation for value: cancelInvitation
             /// </summary>
             [EnumMember(Value = "cancelInvitation")]
-            CancelInvitation = 9
+            CancelInvitation = 10
         }
 
 

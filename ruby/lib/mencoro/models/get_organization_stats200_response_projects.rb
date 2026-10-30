@@ -15,7 +15,7 @@ require 'time'
 
 module Mencoro
   class GetOrganizationStats200ResponseProjects < ApiModelBase
-    # Every project in the organization, archived ones included.
+    # Every project of the organization the caller can access, archived ones included.
     attr_accessor :total
 
     # Projects that are not archived; never greater than `total`.

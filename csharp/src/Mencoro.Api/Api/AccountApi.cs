@@ -51,7 +51,7 @@ namespace Mencoro.Api.Api
         /// Counts across everything the key can reach
         /// </summary>
         /// <remarks>
-        /// Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        /// Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
         /// </remarks>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetMeStats200Response</returns>
@@ -61,7 +61,7 @@ namespace Mencoro.Api.Api
         /// Counts across everything the key can reach
         /// </summary>
         /// <remarks>
-        /// Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        /// Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
         /// </remarks>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetMeStats200Response</returns>
@@ -100,7 +100,7 @@ namespace Mencoro.Api.Api
         /// Counts across everything the key can reach
         /// </summary>
         /// <remarks>
-        /// Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        /// Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
         /// </remarks>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -111,7 +111,7 @@ namespace Mencoro.Api.Api
         /// Counts across everything the key can reach
         /// </summary>
         /// <remarks>
-        /// Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        /// Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
         /// </remarks>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -444,7 +444,7 @@ namespace Mencoro.Api.Api
         }
 
         /// <summary>
-        /// Counts across everything the key can reach Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        /// Counts across everything the key can reach Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
         /// </summary>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>GetMeStats200Response</returns>
@@ -455,7 +455,7 @@ namespace Mencoro.Api.Api
         }
 
         /// <summary>
-        /// Counts across everything the key can reach Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        /// Counts across everything the key can reach Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
         /// </summary>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of GetMeStats200Response</returns>
@@ -498,7 +498,7 @@ namespace Mencoro.Api.Api
         }
 
         /// <summary>
-        /// Counts across everything the key can reach Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        /// Counts across everything the key can reach Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
         /// </summary>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -510,7 +510,7 @@ namespace Mencoro.Api.Api
         }
 
         /// <summary>
-        /// Counts across everything the key can reach Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        /// Counts across everything the key can reach Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
         /// </summary>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>

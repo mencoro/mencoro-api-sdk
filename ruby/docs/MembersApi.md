@@ -8,6 +8,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**get_member**](MembersApi.md#get_member) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership |
 | [**list_members**](MembersApi.md#list_members) | **GET** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members |
 | [**reactivate_member**](MembersApi.md#reactivate_member) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member |
+| [**set_member_project_access**](MembersApi.md#set_member_project_access) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches |
 | [**suspend_member**](MembersApi.md#suspend_member) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member |
 
 
@@ -312,6 +313,83 @@ end
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## set_member_project_access
+
+> <MemberResource> set_member_project_access(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request)
+
+Set which projects a member reaches
+
+Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member's next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member's access at preview time, so another change in between invalidates it.
+
+### Examples
+
+```ruby
+require 'time'
+require 'mencoro'
+# setup authorization
+Mencoro.configure do |config|
+  # Configure Bearer authorization: ApiKey
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = Mencoro::MembersApi.new
+organization_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+member_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+x_mencoro_confirmation = 'x_mencoro_confirmation_example' # String | 
+idempotency_key = 'idempotency_key_example' # String | 
+set_member_project_access_request = Mencoro::SetMemberProjectAccessRequest.new({mode: 'all'}) # SetMemberProjectAccessRequest | 
+
+begin
+  # Set which projects a member reaches
+  result = api_instance.set_member_project_access(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request)
+  p result
+rescue Mencoro::ApiError => e
+  puts "Error when calling MembersApi->set_member_project_access: #{e}"
+end
+```
+
+#### Using the set_member_project_access_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<MemberResource>, Integer, Hash)> set_member_project_access_with_http_info(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request)
+
+```ruby
+begin
+  # Set which projects a member reaches
+  data, status_code, headers = api_instance.set_member_project_access_with_http_info(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <MemberResource>
+rescue Mencoro::ApiError => e
+  puts "Error when calling MembersApi->set_member_project_access_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **organization_id** | **String** |  |  |
+| **member_id** | **String** |  |  |
+| **x_mencoro_confirmation** | **String** |  |  |
+| **idempotency_key** | **String** |  |  |
+| **set_member_project_access_request** | [**SetMemberProjectAccessRequest**](SetMemberProjectAccessRequest.md) |  |  |
+
+### Return type
+
+[**MemberResource**](MemberResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 

@@ -55,6 +55,18 @@ export interface MemberResource {
      * @memberof MemberResource
      */
     joinedAt: Date;
+    /**
+     * Which projects of the organization the member reaches: every project, or only projectIds
+     * @type {MemberResourceProjectAccessModeEnum}
+     * @memberof MemberResource
+     */
+    projectAccessMode: MemberResourceProjectAccessModeEnum;
+    /**
+     * The projects a selected access reaches; empty when the mode is all
+     * @type {Array<string>}
+     * @memberof MemberResource
+     */
+    projectIds: Array<string>;
 }
 
 
@@ -77,6 +89,15 @@ export const MemberResourceStateEnum = {
 } as const;
 export type MemberResourceStateEnum = typeof MemberResourceStateEnum[keyof typeof MemberResourceStateEnum];
 
+/**
+ * @export
+ */
+export const MemberResourceProjectAccessModeEnum = {
+    All: 'all',
+    Selected: 'selected'
+} as const;
+export type MemberResourceProjectAccessModeEnum = typeof MemberResourceProjectAccessModeEnum[keyof typeof MemberResourceProjectAccessModeEnum];
+
 
 /**
  * Check if a given object implements the MemberResource interface.
@@ -88,6 +109,8 @@ export function instanceOfMemberResource(value: object): value is MemberResource
     if (!('state' in value) || value['state'] === undefined) return false;
     if (!('isActive' in value) || value['isActive'] === undefined) return false;
     if (!('joinedAt' in value) || value['joinedAt'] === undefined) return false;
+    if (!('projectAccessMode' in value) || value['projectAccessMode'] === undefined) return false;
+    if (!('projectIds' in value) || value['projectIds'] === undefined) return false;
     return true;
 }
 
@@ -107,6 +130,8 @@ export function MemberResourceFromJSONTyped(json: any, ignoreDiscriminator: bool
         'state': json['state'],
         'isActive': json['isActive'],
         'joinedAt': (new Date(json['joinedAt'])),
+        'projectAccessMode': json['projectAccessMode'],
+        'projectIds': json['projectIds'],
     };
 }
 
@@ -127,6 +152,8 @@ export function MemberResourceToJSONTyped(value?: MemberResource | null, ignoreD
         'state': value['state'],
         'isActive': value['isActive'],
         'joinedAt': value['joinedAt'].toISOString(),
+        'projectAccessMode': value['projectAccessMode'],
+        'projectIds': value['projectIds'],
     };
 }
 

@@ -20,7 +20,7 @@ var _ MappedNullable = &GetMeStats200ResponseProjects{}
 
 // GetMeStats200ResponseProjects struct for GetMeStats200ResponseProjects
 type GetMeStats200ResponseProjects struct {
-	// Projects across those organizations, archived ones included.
+	// Projects across those organizations the owner can access, archived ones included.
 	Total *int32 `json:"total,omitempty"`
 	// How many of those are active; the remainder are archived.
 	Active *int32 `json:"active,omitempty"`

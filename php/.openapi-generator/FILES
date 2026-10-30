@@ -66,6 +66,7 @@ docs/Model/CreateCompetitorRequest.md
 docs/Model/CreateInvitation200Response.md
 docs/Model/CreateInvitation201Response.md
 docs/Model/CreateInvitationRequest.md
+docs/Model/CreateInvitationRequestProjectAccess.md
 docs/Model/CreateOrganization201Response.md
 docs/Model/CreateOrganizationRequest.md
 docs/Model/CreateProjectRequest.md
@@ -96,6 +97,8 @@ docs/Model/GetTrackingCoverage200Response.md
 docs/Model/GetTrackingCoverage200ResponseSampleInner.md
 docs/Model/InvitationResource.md
 docs/Model/KeywordListingResource.md
+docs/Model/KeywordListingResourceCarriedPositions.md
+docs/Model/KeywordListingResourceCarriedPositionsSerp.md
 docs/Model/KeywordListingResourceMentionTypeCounts.md
 docs/Model/ListAiResponses200Response.md
 docs/Model/ListCompetitors200Response.md
@@ -139,6 +142,7 @@ docs/Model/SearchTrackedQueries200Response.md
 docs/Model/SearchTrackedQueryMentionMatches200Response.md
 docs/Model/SearchTrackedQuerySerpMatches200Response.md
 docs/Model/SerpMatchResource.md
+docs/Model/SetMemberProjectAccessRequest.md
 docs/Model/ShoppingOfferResource.md
 docs/Model/ShoppingSnapshotResource.md
 docs/Model/StartBrandDiscoveryJobRequest.md
@@ -227,6 +231,7 @@ lib/Model/CreateCompetitorRequest.php
 lib/Model/CreateInvitation200Response.php
 lib/Model/CreateInvitation201Response.php
 lib/Model/CreateInvitationRequest.php
+lib/Model/CreateInvitationRequestProjectAccess.php
 lib/Model/CreateOrganization201Response.php
 lib/Model/CreateOrganizationRequest.php
 lib/Model/CreateProjectRequest.php
@@ -257,6 +262,8 @@ lib/Model/GetTrackingCoverage200Response.php
 lib/Model/GetTrackingCoverage200ResponseSampleInner.php
 lib/Model/InvitationResource.php
 lib/Model/KeywordListingResource.php
+lib/Model/KeywordListingResourceCarriedPositions.php
+lib/Model/KeywordListingResourceCarriedPositionsSerp.php
 lib/Model/KeywordListingResourceMentionTypeCounts.php
 lib/Model/ListAiResponses200Response.php
 lib/Model/ListCompetitors200Response.php
@@ -301,6 +308,7 @@ lib/Model/SearchTrackedQueries200Response.php
 lib/Model/SearchTrackedQueryMentionMatches200Response.php
 lib/Model/SearchTrackedQuerySerpMatches200Response.php
 lib/Model/SerpMatchResource.php
+lib/Model/SetMemberProjectAccessRequest.php
 lib/Model/ShoppingOfferResource.php
 lib/Model/ShoppingSnapshotResource.php
 lib/Model/StartBrandDiscoveryJobRequest.php

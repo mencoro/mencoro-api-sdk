@@ -17,7 +17,7 @@ module Mencoro
   class ListProjects200Response < ApiModelBase
     attr_accessor :items
 
-    # Every project matching the filters, not the size of this page.
+    # Every project matching the filters that the caller can access, not the size of this page.
     attr_accessor :total
 
     # Attribute mapping from ruby-style variable name to JSON key.

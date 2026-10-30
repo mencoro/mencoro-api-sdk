@@ -78,7 +78,7 @@ class GetOrganizationStats200ResponseMembers implements ModelInterface, ArrayAcc
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'total' => false
+        'total' => true
     ];
 
     /**
@@ -307,16 +307,23 @@ class GetOrganizationStats200ResponseMembers implements ModelInterface, ArrayAcc
     /**
      * Sets total
      *
-     * @param int|null $total Active memberships. Suspended members are excluded.
+     * @param int|null $total Active memberships. Suspended members are excluded. Null for a member restricted to selected projects.
      *
      * @return self
      */
     public function setTotal($total)
     {
         if (is_null($total)) {
-            throw new \InvalidArgumentException('non-nullable total cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'total');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('total', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        if (($total < 0)) {
+        if (!is_null($total) && ($total < 0)) {
             throw new \InvalidArgumentException('invalid value for $total when calling GetOrganizationStats200ResponseMembers., must be bigger than or equal to 0.');
         }
 

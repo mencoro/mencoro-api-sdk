@@ -245,7 +245,7 @@ with mencoro.ApiClient(configuration) as api_client:
     engines = ['engines_example'] # List[str] | Repeatable, or comma-separated. (optional)
     countries = ['countries_example'] # List[str] | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
     query_cluster_ids = None # List[UUID] | Restrict to these clusters. Each must belong to the project. (optional)
-    include_ungrouped_queries = False # bool | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional) (default to False)
+    include_ungrouped_queries = False # bool | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional) (default to False)
 
     try:
         # Rank-tracking metrics per keyword cluster
@@ -270,7 +270,7 @@ Name | Type | Description  | Notes
  **engines** | [**List[str]**](str.md)| Repeatable, or comma-separated. | [optional] 
  **countries** | [**List[str]**](str.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] 
  **query_cluster_ids** | [**List[UUID]**](UUID.md)| Restrict to these clusters. Each must belong to the project. | [optional] 
- **include_ungrouped_queries** | **bool**| Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. | [optional] [default to False]
+ **include_ungrouped_queries** | **bool**| Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. | [optional] [default to False]
 
 ### Return type
 
@@ -291,7 +291,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | One row per keyword cluster, plus the ungrouped bucket where it applies |  -  |
 **401** | Missing or invalid API key |  -  |
-**400** | A filter was rejected; the details name the field |  -  |
+**400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 **403** | The key lacks the read capability |  -  |
 **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -668,7 +668,7 @@ This endpoint does not need any parameter.
 
 Snapshot rank-health board across an organization active projects
 
-Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
 
 ### Example
 
@@ -788,7 +788,7 @@ with mencoro.ApiClient(configuration) as api_client:
     engines = ['engines_example'] # List[str] | Repeatable, or comma-separated. (optional)
     countries = ['countries_example'] # List[str] | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
     query_cluster_ids = None # List[UUID] | Restrict to these keyword clusters. Each must belong to this project. (optional)
-    include_ungrouped_queries = False # bool | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional) (default to False)
+    include_ungrouped_queries = False # bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional) (default to False)
 
     try:
         # Headline visibility metrics of a project
@@ -813,7 +813,7 @@ Name | Type | Description  | Notes
  **engines** | [**List[str]**](str.md)| Repeatable, or comma-separated. | [optional] 
  **countries** | [**List[str]**](str.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] 
  **query_cluster_ids** | [**List[UUID]**](UUID.md)| Restrict to these keyword clusters. Each must belong to this project. | [optional] 
- **include_ungrouped_queries** | **bool**| Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. | [optional] [default to False]
+ **include_ungrouped_queries** | **bool**| Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to False]
 
 ### Return type
 
@@ -834,7 +834,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions |  -  |
 **401** | Missing or invalid API key |  -  |
-**400** | A filter was rejected; the details name the field |  -  |
+**400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 **403** | The key lacks the read capability |  -  |
 **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -884,7 +884,7 @@ with mencoro.ApiClient(configuration) as api_client:
     engines = ['engines_example'] # List[str] | Repeatable, or comma-separated. (optional)
     countries = ['countries_example'] # List[str] | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
     query_cluster_ids = None # List[UUID] |  (optional)
-    include_ungrouped_queries = False # bool |  (optional) (default to False)
+    include_ungrouped_queries = False # bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional) (default to False)
 
     try:
         # Sentiment breakdown of a project brand mentions
@@ -909,7 +909,7 @@ Name | Type | Description  | Notes
  **engines** | [**List[str]**](str.md)| Repeatable, or comma-separated. | [optional] 
  **countries** | [**List[str]**](str.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] 
  **query_cluster_ids** | [**List[UUID]**](UUID.md)|  | [optional] 
- **include_ungrouped_queries** | **bool**|  | [optional] [default to False]
+ **include_ungrouped_queries** | **bool**| Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to False]
 
 ### Return type
 
@@ -930,7 +930,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Sentiment per engine and per competitor |  -  |
 **401** | Missing or invalid API key |  -  |
-**400** | A filter was rejected; the details name the field |  -  |
+**400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 **403** | The key lacks the read capability |  -  |
 **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -981,7 +981,7 @@ with mencoro.ApiClient(configuration) as api_client:
     engines = ['engines_example'] # List[str] | Repeatable, or comma-separated. (optional)
     countries = ['countries_example'] # List[str] | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
     query_cluster_ids = None # List[UUID] |  (optional)
-    include_ungrouped_queries = False # bool | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional) (default to False)
+    include_ungrouped_queries = False # bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional) (default to False)
     competitor_ids = None # List[UUID] | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
 
     try:
@@ -1008,7 +1008,7 @@ Name | Type | Description  | Notes
  **engines** | [**List[str]**](str.md)| Repeatable, or comma-separated. | [optional] 
  **countries** | [**List[str]**](str.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] 
  **query_cluster_ids** | [**List[UUID]**](UUID.md)|  | [optional] 
- **include_ungrouped_queries** | **bool**| On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. | [optional] [default to False]
+ **include_ungrouped_queries** | **bool**| Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to False]
  **competitor_ids** | [**List[UUID]**](UUID.md)| Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. | [optional] 
 
 ### Return type
@@ -1030,7 +1030,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending |  -  |
 **401** | Missing or invalid API key |  -  |
-**400** | A filter was rejected; the details name the field |  -  |
+**400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 **403** | The key lacks the read capability |  -  |
 **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -1442,7 +1442,7 @@ with mencoro.ApiClient(configuration) as api_client:
     engines = ['engines_example'] # List[str] | Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
     countries = ['countries_example'] # List[str] | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
     query_cluster_ids = None # List[UUID] | Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-    include_ungrouped_queries = False # bool | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional) (default to False)
+    include_ungrouped_queries = False # bool | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional) (default to False)
     status = 'status_example' # str | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \"mixed\". (optional)
     check_frequencies = ['check_frequencies_example'] # List[str] | Repeatable, or comma-separated. (optional)
     n_passes = [56] # List[int] | Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -1475,7 +1475,7 @@ Name | Type | Description  | Notes
  **engines** | [**List[str]**](str.md)| Repeatable, or comma-separated. Narrows which variants count towards each row. | [optional] 
  **countries** | [**List[str]**](str.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] 
  **query_cluster_ids** | [**List[UUID]**](UUID.md)| Restrict to keywords with a variant in these clusters. Each must belong to the project. | [optional] 
- **include_ungrouped_queries** | **bool**| Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. | [optional] [default to False]
+ **include_ungrouped_queries** | **bool**| Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. | [optional] [default to False]
  **status** | **str**| Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. | [optional] 
  **check_frequencies** | [**List[str]**](str.md)| Repeatable, or comma-separated. | [optional] 
  **n_passes** | [**List[int]**](int.md)| Repeatable, or comma-separated. Restrict to variants configured with these pass counts. | [optional] 
@@ -1503,7 +1503,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A page of keywords, the totals behind it, and whether the metrics are pending recalculation |  -  |
-**400** | A filter, sort key or page bound was rejected; the details name the field |  -  |
+**400** | A filter, sort key or page bound was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 **401** | Missing or invalid API key |  -  |
 **403** | The key lacks the read capability |  -  |
 **404** | No organization or project the caller can access under these ids |  -  |

@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Email** | Pointer to **string** |  | [optional] 
 **Role** | Pointer to **string** |  | [optional] [default to "viewer"]
+**ProjectAccess** | Pointer to [**NullableCreateInvitationRequestProjectAccess**](CreateInvitationRequestProjectAccess.md) |  | [optional] 
 
 ## Methods
 
@@ -76,6 +77,41 @@ SetRole sets Role field to given value.
 
 HasRole returns a boolean if a field has been set.
 
+### GetProjectAccess
+
+`func (o *CreateInvitationRequest) GetProjectAccess() CreateInvitationRequestProjectAccess`
+
+GetProjectAccess returns the ProjectAccess field if non-nil, zero value otherwise.
+
+### GetProjectAccessOk
+
+`func (o *CreateInvitationRequest) GetProjectAccessOk() (*CreateInvitationRequestProjectAccess, bool)`
+
+GetProjectAccessOk returns a tuple with the ProjectAccess field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectAccess
+
+`func (o *CreateInvitationRequest) SetProjectAccess(v CreateInvitationRequestProjectAccess)`
+
+SetProjectAccess sets ProjectAccess field to given value.
+
+### HasProjectAccess
+
+`func (o *CreateInvitationRequest) HasProjectAccess() bool`
+
+HasProjectAccess returns a boolean if a field has been set.
+
+### SetProjectAccessNil
+
+`func (o *CreateInvitationRequest) SetProjectAccessNil(b bool)`
+
+ SetProjectAccessNil sets the value for ProjectAccess to be an explicit nil
+
+### UnsetProjectAccess
+`func (o *CreateInvitationRequest) UnsetProjectAccess()`
+
+UnsetProjectAccess ensures that no value is present for ProjectAccess, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

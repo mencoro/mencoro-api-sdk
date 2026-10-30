@@ -56,6 +56,7 @@ docs/CreateCompetitorRequest.md
 docs/CreateInvitation200Response.md
 docs/CreateInvitation201Response.md
 docs/CreateInvitationRequest.md
+docs/CreateInvitationRequestProjectAccess.md
 docs/CreateOrganization201Response.md
 docs/CreateOrganizationRequest.md
 docs/CreateProjectRequest.md
@@ -89,6 +90,8 @@ docs/InvitationResource.md
 docs/InvitationsApi.md
 docs/JobsApi.md
 docs/KeywordListingResource.md
+docs/KeywordListingResourceCarriedPositions.md
+docs/KeywordListingResourceCarriedPositionsSerp.md
 docs/KeywordListingResourceMentionTypeCounts.md
 docs/ListAiResponses200Response.md
 docs/ListCompetitors200Response.md
@@ -136,6 +139,7 @@ docs/SearchTrackedQueries200Response.md
 docs/SearchTrackedQueryMentionMatches200Response.md
 docs/SearchTrackedQuerySerpMatches200Response.md
 docs/SerpMatchResource.md
+docs/SetMemberProjectAccessRequest.md
 docs/ShoppingOfferResource.md
 docs/ShoppingSnapshotResource.md
 docs/StartBrandDiscoveryJobRequest.md
@@ -223,6 +227,7 @@ src/models/CreateCompetitorRequest.ts
 src/models/CreateInvitation200Response.ts
 src/models/CreateInvitation201Response.ts
 src/models/CreateInvitationRequest.ts
+src/models/CreateInvitationRequestProjectAccess.ts
 src/models/CreateOrganization201Response.ts
 src/models/CreateOrganizationRequest.ts
 src/models/CreateProjectRequest.ts
@@ -253,6 +258,8 @@ src/models/GetTrackingCoverage200Response.ts
 src/models/GetTrackingCoverage200ResponseSampleInner.ts
 src/models/InvitationResource.ts
 src/models/KeywordListingResource.ts
+src/models/KeywordListingResourceCarriedPositions.ts
+src/models/KeywordListingResourceCarriedPositionsSerp.ts
 src/models/KeywordListingResourceMentionTypeCounts.ts
 src/models/ListAiResponses200Response.ts
 src/models/ListCompetitors200Response.ts
@@ -296,6 +303,7 @@ src/models/SearchTrackedQueries200Response.ts
 src/models/SearchTrackedQueryMentionMatches200Response.ts
 src/models/SearchTrackedQuerySerpMatches200Response.ts
 src/models/SerpMatchResource.ts
+src/models/SetMemberProjectAccessRequest.ts
 src/models/ShoppingOfferResource.ts
 src/models/ShoppingSnapshotResource.ts
 src/models/StartBrandDiscoveryJobRequest.ts

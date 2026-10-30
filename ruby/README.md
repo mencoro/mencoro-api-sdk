@@ -127,6 +127,7 @@ Class | Method | HTTP request | Description
 *Mencoro::MembersApi* | [**get_member**](docs/MembersApi.md#get_member) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership
 *Mencoro::MembersApi* | [**list_members**](docs/MembersApi.md#list_members) | **GET** /api/v1/organizations/{organizationId}/members | List an organization's members
 *Mencoro::MembersApi* | [**reactivate_member**](docs/MembersApi.md#reactivate_member) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member
+*Mencoro::MembersApi* | [**set_member_project_access**](docs/MembersApi.md#set_member_project_access) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches
 *Mencoro::MembersApi* | [**suspend_member**](docs/MembersApi.md#suspend_member) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member
 *Mencoro::OrganizationOperationsApi* | [**preview_organization_operation**](docs/OrganizationOperationsApi.md#preview_organization_operation) | **POST** /api/v1/organization-operation-previews | Preview an organization operation and obtain a confirmation
 *Mencoro::OrganizationsApi* | [**archive_organization**](docs/OrganizationsApi.md#archive_organization) | **POST** /api/v1/organizations/{organizationId}/archive | Archive an organization
@@ -230,6 +231,7 @@ Class | Method | HTTP request | Description
  - [Mencoro::CreateInvitation200Response](docs/CreateInvitation200Response.md)
  - [Mencoro::CreateInvitation201Response](docs/CreateInvitation201Response.md)
  - [Mencoro::CreateInvitationRequest](docs/CreateInvitationRequest.md)
+ - [Mencoro::CreateInvitationRequestProjectAccess](docs/CreateInvitationRequestProjectAccess.md)
  - [Mencoro::CreateOrganization201Response](docs/CreateOrganization201Response.md)
  - [Mencoro::CreateOrganizationRequest](docs/CreateOrganizationRequest.md)
  - [Mencoro::CreateProjectRequest](docs/CreateProjectRequest.md)
@@ -260,6 +262,8 @@ Class | Method | HTTP request | Description
  - [Mencoro::GetTrackingCoverage200ResponseSampleInner](docs/GetTrackingCoverage200ResponseSampleInner.md)
  - [Mencoro::InvitationResource](docs/InvitationResource.md)
  - [Mencoro::KeywordListingResource](docs/KeywordListingResource.md)
+ - [Mencoro::KeywordListingResourceCarriedPositions](docs/KeywordListingResourceCarriedPositions.md)
+ - [Mencoro::KeywordListingResourceCarriedPositionsSerp](docs/KeywordListingResourceCarriedPositionsSerp.md)
  - [Mencoro::KeywordListingResourceMentionTypeCounts](docs/KeywordListingResourceMentionTypeCounts.md)
  - [Mencoro::ListAiResponses200Response](docs/ListAiResponses200Response.md)
  - [Mencoro::ListCompetitors200Response](docs/ListCompetitors200Response.md)
@@ -303,6 +307,7 @@ Class | Method | HTTP request | Description
  - [Mencoro::SearchTrackedQueryMentionMatches200Response](docs/SearchTrackedQueryMentionMatches200Response.md)
  - [Mencoro::SearchTrackedQuerySerpMatches200Response](docs/SearchTrackedQuerySerpMatches200Response.md)
  - [Mencoro::SerpMatchResource](docs/SerpMatchResource.md)
+ - [Mencoro::SetMemberProjectAccessRequest](docs/SetMemberProjectAccessRequest.md)
  - [Mencoro::ShoppingOfferResource](docs/ShoppingOfferResource.md)
  - [Mencoro::ShoppingSnapshotResource](docs/ShoppingSnapshotResource.md)
  - [Mencoro::StartBrandDiscoveryJobRequest](docs/StartBrandDiscoveryJobRequest.md)

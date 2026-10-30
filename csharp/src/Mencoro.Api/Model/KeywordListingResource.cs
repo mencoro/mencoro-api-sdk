@@ -180,14 +180,14 @@ namespace Mencoro.Api.Model
         /// <param name="checkFrequencies">Distinct check frequencies across the variants. (required).</param>
         /// <param name="nPassesValues">Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. (required).</param>
         /// <param name="lastCheckedAt">The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing..</param>
-        /// <param name="avgSerpPosition">Average position in traditional search over the window. 1-based, LOWER is better..</param>
-        /// <param name="trendSerp">Signed improvement in avgSerpPosition against the previous window. Positive is better..</param>
-        /// <param name="avgShoppingPosition">Average position in shopping results over the window. 1-based, LOWER is better..</param>
-        /// <param name="trendShopping">Signed improvement in avgShoppingPosition. Positive is better..</param>
-        /// <param name="avgMentionPosition">Average position of the brand mention inside the AI answer. 1-based, LOWER is better..</param>
-        /// <param name="trendMention">Signed improvement in avgMentionPosition. Positive is better..</param>
-        /// <param name="avgLinkPosition">Average position of a cited link to the brand. 1-based, LOWER is better..</param>
-        /// <param name="trendLink">Signed improvement in avgLinkPosition. Positive is better..</param>
+        /// <param name="avgSerpPosition">Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions..</param>
+        /// <param name="trendSerp">Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set..</param>
+        /// <param name="avgShoppingPosition">Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions..</param>
+        /// <param name="trendShopping">Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set..</param>
+        /// <param name="avgMentionPosition">Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions..</param>
+        /// <param name="trendMention">Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set..</param>
+        /// <param name="avgLinkPosition">Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions..</param>
+        /// <param name="trendLink">Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set..</param>
         /// <param name="mentionPositionStability">Day-to-day spread of the mention position (a standard deviation): LOWER means steadier..</param>
         /// <param name="trendStability">Signed improvement in mentionPositionStability. Positive means steadier than the previous window..</param>
         /// <param name="positivityIndex">0-100 weighted sentiment score of the mentions; HIGHER is better. Null when there were no mentions to score..</param>
@@ -203,7 +203,8 @@ namespace Mencoro.Api.Model
         /// <param name="sentimentNegative">Negative brand mentions counted in the window. (required).</param>
         /// <param name="avgMentionCount">Mentions per AI engine per day with a capture, over the window. Not a total: the window total is not part of this contract..</param>
         /// <param name="mentionTypeCounts">mentionTypeCounts (required).</param>
-        public KeywordListingResource(string keyword = default, string keywordNormalized = default, int variantCount = default, List<Guid> variantIds = default, List<EnginesEnum> engines = default, List<string> countries = default, List<Guid> queryClusterIds = default, bool hasUnclusteredVariant = default, StatusSummaryEnum statusSummary = default, List<StatusesEnum> statuses = default, List<CheckFrequenciesEnum> checkFrequencies = default, List<int> nPassesValues = default, DateTime? lastCheckedAt = default, float? avgSerpPosition = default, float? trendSerp = default, float? avgShoppingPosition = default, float? trendShopping = default, float? avgMentionPosition = default, float? trendMention = default, float? avgLinkPosition = default, float? trendLink = default, float? mentionPositionStability = default, float? trendStability = default, int? positivityIndex = default, int? trendPositivity = default, int? mentionRate = default, int? trendMentionRate = default, int? serpRate = default, int? trendSerpRate = default, float? shareOfVoice = default, float? trendShareOfVoice = default, int sentimentPositive = default, int sentimentNeutral = default, int sentimentNegative = default, float? avgMentionCount = default, KeywordListingResourceMentionTypeCounts mentionTypeCounts = default)
+        /// <param name="carriedPositions">carriedPositions (required).</param>
+        public KeywordListingResource(string keyword = default, string keywordNormalized = default, int variantCount = default, List<Guid> variantIds = default, List<EnginesEnum> engines = default, List<string> countries = default, List<Guid> queryClusterIds = default, bool hasUnclusteredVariant = default, StatusSummaryEnum statusSummary = default, List<StatusesEnum> statuses = default, List<CheckFrequenciesEnum> checkFrequencies = default, List<int> nPassesValues = default, DateTime? lastCheckedAt = default, float? avgSerpPosition = default, float? trendSerp = default, float? avgShoppingPosition = default, float? trendShopping = default, float? avgMentionPosition = default, float? trendMention = default, float? avgLinkPosition = default, float? trendLink = default, float? mentionPositionStability = default, float? trendStability = default, int? positivityIndex = default, int? trendPositivity = default, int? mentionRate = default, int? trendMentionRate = default, int? serpRate = default, int? trendSerpRate = default, float? shareOfVoice = default, float? trendShareOfVoice = default, int sentimentPositive = default, int sentimentNeutral = default, int sentimentNegative = default, float? avgMentionCount = default, KeywordListingResourceMentionTypeCounts mentionTypeCounts = default, KeywordListingResourceCarriedPositions carriedPositions = default)
         {
             // to ensure "keyword" is required (not null)
             if (keyword == null)
@@ -271,6 +272,12 @@ namespace Mencoro.Api.Model
                 throw new ArgumentNullException("mentionTypeCounts is a required property for KeywordListingResource and cannot be null");
             }
             this.MentionTypeCounts = mentionTypeCounts;
+            // to ensure "carriedPositions" is required (not null)
+            if (carriedPositions == null)
+            {
+                throw new ArgumentNullException("carriedPositions is a required property for KeywordListingResource and cannot be null");
+            }
+            this.CarriedPositions = carriedPositions;
             this.LastCheckedAt = lastCheckedAt;
             this.AvgSerpPosition = avgSerpPosition;
             this.TrendSerp = trendSerp;
@@ -378,58 +385,58 @@ namespace Mencoro.Api.Model
         public DateTime? LastCheckedAt { get; set; }
 
         /// <summary>
-        /// Average position in traditional search over the window. 1-based, LOWER is better.
+        /// Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
         /// </summary>
-        /// <value>Average position in traditional search over the window. 1-based, LOWER is better.</value>
+        /// <value>Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.</value>
         [DataMember(Name = "avgSerpPosition", EmitDefaultValue = true)]
         public float? AvgSerpPosition { get; set; }
 
         /// <summary>
-        /// Signed improvement in avgSerpPosition against the previous window. Positive is better.
+        /// Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set.
         /// </summary>
-        /// <value>Signed improvement in avgSerpPosition against the previous window. Positive is better.</value>
+        /// <value>Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set.</value>
         [DataMember(Name = "trendSerp", EmitDefaultValue = true)]
         public float? TrendSerp { get; set; }
 
         /// <summary>
-        /// Average position in shopping results over the window. 1-based, LOWER is better.
+        /// Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
         /// </summary>
-        /// <value>Average position in shopping results over the window. 1-based, LOWER is better.</value>
+        /// <value>Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.</value>
         [DataMember(Name = "avgShoppingPosition", EmitDefaultValue = true)]
         public float? AvgShoppingPosition { get; set; }
 
         /// <summary>
-        /// Signed improvement in avgShoppingPosition. Positive is better.
+        /// Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set.
         /// </summary>
-        /// <value>Signed improvement in avgShoppingPosition. Positive is better.</value>
+        /// <value>Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set.</value>
         [DataMember(Name = "trendShopping", EmitDefaultValue = true)]
         public float? TrendShopping { get; set; }
 
         /// <summary>
-        /// Average position of the brand mention inside the AI answer. 1-based, LOWER is better.
+        /// Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
         /// </summary>
-        /// <value>Average position of the brand mention inside the AI answer. 1-based, LOWER is better.</value>
+        /// <value>Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.</value>
         [DataMember(Name = "avgMentionPosition", EmitDefaultValue = true)]
         public float? AvgMentionPosition { get; set; }
 
         /// <summary>
-        /// Signed improvement in avgMentionPosition. Positive is better.
+        /// Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set.
         /// </summary>
-        /// <value>Signed improvement in avgMentionPosition. Positive is better.</value>
+        /// <value>Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set.</value>
         [DataMember(Name = "trendMention", EmitDefaultValue = true)]
         public float? TrendMention { get; set; }
 
         /// <summary>
-        /// Average position of a cited link to the brand. 1-based, LOWER is better.
+        /// Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
         /// </summary>
-        /// <value>Average position of a cited link to the brand. 1-based, LOWER is better.</value>
+        /// <value>Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.</value>
         [DataMember(Name = "avgLinkPosition", EmitDefaultValue = true)]
         public float? AvgLinkPosition { get; set; }
 
         /// <summary>
-        /// Signed improvement in avgLinkPosition. Positive is better.
+        /// Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set.
         /// </summary>
-        /// <value>Signed improvement in avgLinkPosition. Positive is better.</value>
+        /// <value>Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set.</value>
         [DataMember(Name = "trendLink", EmitDefaultValue = true)]
         public float? TrendLink { get; set; }
 
@@ -538,6 +545,12 @@ namespace Mencoro.Api.Model
         public KeywordListingResourceMentionTypeCounts MentionTypeCounts { get; set; }
 
         /// <summary>
+        /// Gets or Sets CarriedPositions
+        /// </summary>
+        [DataMember(Name = "carriedPositions", IsRequired = true, EmitDefaultValue = true)]
+        public KeywordListingResourceCarriedPositions CarriedPositions { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -581,6 +594,7 @@ namespace Mencoro.Api.Model
             sb.Append("  SentimentNegative: ").Append(SentimentNegative).Append("\n");
             sb.Append("  AvgMentionCount: ").Append(AvgMentionCount).Append("\n");
             sb.Append("  MentionTypeCounts: ").Append(MentionTypeCounts).Append("\n");
+            sb.Append("  CarriedPositions: ").Append(CarriedPositions).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

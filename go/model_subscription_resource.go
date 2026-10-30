@@ -21,7 +21,7 @@ import (
 // checks if the SubscriptionResource type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SubscriptionResource{}
 
-// SubscriptionResource The current subscription contract of an organization
+// SubscriptionResource The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
 type SubscriptionResource struct {
 	// Contract state. \"none\" when the organization has never held a subscription.
 	Status string `json:"status"`
@@ -45,7 +45,7 @@ type SubscriptionResource struct {
 	ScheduledToCancelAt NullableTime `json:"scheduledToCancelAt,omitempty"`
 	// When paid access ends after a cancellation. Null when the subscription is not cancelled.
 	GracePeriodEndsAt NullableTime `json:"gracePeriodEndsAt,omitempty"`
-	// Why the subscription is currently inactive. Null for an active subscription, and meaningless once \"cancelledAt\" is set - the cancellation supersedes it.
+	// Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \"cancelledAt\" is set - the cancellation supersedes it.
 	DeactivationReason NullableString `json:"deactivationReason,omitempty"`
 	// Whether the organization may use paid features right now: active, or cancelled but still inside its paid grace window.
 	IsEntitled bool `json:"isEntitled"`

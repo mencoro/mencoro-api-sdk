@@ -11,13 +11,15 @@ Name | Type | Description | Notes
 **CreatedAt** | **time.Time** |  | 
 **ExpiresAt** | **time.Time** |  | 
 **AcceptedAt** | Pointer to **NullableTime** |  | [optional] 
+**ProjectAccessMode** | **string** | Which projects of the organization the invitee reaches on accepting: every project, or only projectIds | 
+**ProjectIds** | **[]string** | The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing | 
 **Created** | Pointer to **bool** | Always true on a 201. | [optional] 
 
 ## Methods
 
 ### NewCreateInvitation201Response
 
-`func NewCreateInvitation201Response(id string, email string, role string, state string, createdAt time.Time, expiresAt time.Time, ) *CreateInvitation201Response`
+`func NewCreateInvitation201Response(id string, email string, role string, state string, createdAt time.Time, expiresAt time.Time, projectAccessMode string, projectIds []string, ) *CreateInvitation201Response`
 
 NewCreateInvitation201Response instantiates a new CreateInvitation201Response object
 This constructor will assign default values to properties that have it defined,
@@ -187,6 +189,46 @@ HasAcceptedAt returns a boolean if a field has been set.
 `func (o *CreateInvitation201Response) UnsetAcceptedAt()`
 
 UnsetAcceptedAt ensures that no value is present for AcceptedAt, not even an explicit nil
+### GetProjectAccessMode
+
+`func (o *CreateInvitation201Response) GetProjectAccessMode() string`
+
+GetProjectAccessMode returns the ProjectAccessMode field if non-nil, zero value otherwise.
+
+### GetProjectAccessModeOk
+
+`func (o *CreateInvitation201Response) GetProjectAccessModeOk() (*string, bool)`
+
+GetProjectAccessModeOk returns a tuple with the ProjectAccessMode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectAccessMode
+
+`func (o *CreateInvitation201Response) SetProjectAccessMode(v string)`
+
+SetProjectAccessMode sets ProjectAccessMode field to given value.
+
+
+### GetProjectIds
+
+`func (o *CreateInvitation201Response) GetProjectIds() []string`
+
+GetProjectIds returns the ProjectIds field if non-nil, zero value otherwise.
+
+### GetProjectIdsOk
+
+`func (o *CreateInvitation201Response) GetProjectIdsOk() (*[]string, bool)`
+
+GetProjectIdsOk returns a tuple with the ProjectIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectIds
+
+`func (o *CreateInvitation201Response) SetProjectIds(v []string)`
+
+SetProjectIds sets ProjectIds field to given value.
+
+
 ### GetCreated
 
 `func (o *CreateInvitation201Response) GetCreated() bool`

@@ -8,6 +8,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**getMember**](MembersApi.md#getmember) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership |
 | [**listMembers**](MembersApi.md#listmembers) | **GET** /api/v1/organizations/{organizationId}/members | List an organization\&#39;s members |
 | [**reactivateMember**](MembersApi.md#reactivatemember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member |
+| [**setMemberProjectAccess**](MembersApi.md#setmemberprojectaccessoperation) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches |
 | [**suspendMember**](MembersApi.md#suspendmember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member |
 
 
@@ -347,6 +348,95 @@ example().catch(console.error);
 | **403** | The key lacks the organization:manage capability |  -  |
 | **404** | No organization or membership the caller can access under these ids |  -  |
 | **409** | The confirmation is invalid, expired, already used, or its effects changed; or the member is already active |  -  |
+| **428** | No confirmation was sent; preview the operation first |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## setMemberProjectAccess
+
+> MemberResource setMemberProjectAccess(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest)
+
+Set which projects a member reaches
+
+Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member\&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member\&#39;s access at preview time, so another change in between invalidates it.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  MembersApi,
+} from '@mencoro/api';
+import type { SetMemberProjectAccessOperationRequest } from '@mencoro/api';
+
+async function example() {
+  console.log("🚀 Testing @mencoro/api SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: ApiKey
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new MembersApi(config);
+
+  const body = {
+    // string
+    organizationId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    memberId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    xMencoroConfirmation: xMencoroConfirmation_example,
+    // string
+    idempotencyKey: idempotencyKey_example,
+    // SetMemberProjectAccessRequest
+    setMemberProjectAccessRequest: ...,
+  } satisfies SetMemberProjectAccessOperationRequest;
+
+  try {
+    const data = await api.setMemberProjectAccess(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | `string` |  | [Defaults to `undefined`] |
+| **memberId** | `string` |  | [Defaults to `undefined`] |
+| **xMencoroConfirmation** | `string` |  | [Defaults to `undefined`] |
+| **idempotencyKey** | `string` |  | [Defaults to `undefined`] |
+| **setMemberProjectAccessRequest** | [SetMemberProjectAccessRequest](SetMemberProjectAccessRequest.md) |  | |
+
+### Return type
+
+[**MemberResource**](MemberResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The membership with its new access |  -  |
+| **400** | The access is invalid: a selection that is empty, lists more than 500 projects, or names a project that is not the organization\&#39;s |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the organization:manage capability |  -  |
+| **404** | No organization or membership the caller can access under these ids |  -  |
+| **409** | The confirmation is invalid, expired, already used, or its effects changed; the organization is archived; the member is suspended; or the member is an owner, who always reaches every project |  -  |
 | **428** | No confirmation was sent; preview the operation first |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

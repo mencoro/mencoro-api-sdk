@@ -38,11 +38,29 @@ export interface GetOrganizationOverview200ResponseProjectsInner {
      */
     status?: string;
     /**
-     * 
+     * Configured tracked queries of the project, paused ones included.
      * @type {number}
      * @memberof GetOrganizationOverview200ResponseProjectsInner
      */
     trackedQueryCount?: number;
+    /**
+     * How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode).
+     * @type {number}
+     * @memberof GetOrganizationOverview200ResponseProjectsInner
+     */
+    aiTrackedQueryCount?: number;
+    /**
+     * How many of trackedQueryCount run on classic Google SERP.
+     * @type {number}
+     * @memberof GetOrganizationOverview200ResponseProjectsInner
+     */
+    serpTrackedQueryCount?: number;
+    /**
+     * How many of trackedQueryCount run on Google Shopping.
+     * @type {number}
+     * @memberof GetOrganizationOverview200ResponseProjectsInner
+     */
+    shoppingTrackedQueryCount?: number;
     /**
      * 0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet.
      * @type {number}
@@ -90,6 +108,9 @@ export function GetOrganizationOverview200ResponseProjectsInnerFromJSONTyped(jso
         'name': json['name'] == null ? undefined : json['name'],
         'status': json['status'] == null ? undefined : json['status'],
         'trackedQueryCount': json['trackedQueryCount'] == null ? undefined : json['trackedQueryCount'],
+        'aiTrackedQueryCount': json['aiTrackedQueryCount'] == null ? undefined : json['aiTrackedQueryCount'],
+        'serpTrackedQueryCount': json['serpTrackedQueryCount'] == null ? undefined : json['serpTrackedQueryCount'],
+        'shoppingTrackedQueryCount': json['shoppingTrackedQueryCount'] == null ? undefined : json['shoppingTrackedQueryCount'],
         'shareOfVoice': json['shareOfVoice'] === undefined ? undefined : json['shareOfVoice'] === null ? null : json['shareOfVoice'],
         'mentionRate': json['mentionRate'] === undefined ? undefined : json['mentionRate'] === null ? null : json['mentionRate'],
         'avgMentionPosition': json['avgMentionPosition'] === undefined ? undefined : json['avgMentionPosition'] === null ? null : json['avgMentionPosition'],
@@ -112,6 +133,9 @@ export function GetOrganizationOverview200ResponseProjectsInnerToJSONTyped(value
         'name': value['name'],
         'status': value['status'],
         'trackedQueryCount': value['trackedQueryCount'],
+        'aiTrackedQueryCount': value['aiTrackedQueryCount'],
+        'serpTrackedQueryCount': value['serpTrackedQueryCount'],
+        'shoppingTrackedQueryCount': value['shoppingTrackedQueryCount'],
         'shareOfVoice': value['shareOfVoice'],
         'mentionRate': value['mentionRate'],
         'avgMentionPosition': value['avgMentionPosition'],

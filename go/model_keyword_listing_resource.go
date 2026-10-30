@@ -49,21 +49,21 @@ type KeywordListingResource struct {
 	NPassesValues []int32 `json:"nPassesValues"`
 	// The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing.
 	LastCheckedAt NullableTime `json:"lastCheckedAt,omitempty"`
-	// Average position in traditional search over the window. 1-based, LOWER is better.
+	// Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
 	AvgSerpPosition NullableFloat32 `json:"avgSerpPosition,omitempty"`
-	// Signed improvement in avgSerpPosition against the previous window. Positive is better.
+	// Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set.
 	TrendSerp NullableFloat32 `json:"trendSerp,omitempty"`
-	// Average position in shopping results over the window. 1-based, LOWER is better.
+	// Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
 	AvgShoppingPosition NullableFloat32 `json:"avgShoppingPosition,omitempty"`
-	// Signed improvement in avgShoppingPosition. Positive is better.
+	// Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set.
 	TrendShopping NullableFloat32 `json:"trendShopping,omitempty"`
-	// Average position of the brand mention inside the AI answer. 1-based, LOWER is better.
+	// Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
 	AvgMentionPosition NullableFloat32 `json:"avgMentionPosition,omitempty"`
-	// Signed improvement in avgMentionPosition. Positive is better.
+	// Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set.
 	TrendMention NullableFloat32 `json:"trendMention,omitempty"`
-	// Average position of a cited link to the brand. 1-based, LOWER is better.
+	// Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
 	AvgLinkPosition NullableFloat32 `json:"avgLinkPosition,omitempty"`
-	// Signed improvement in avgLinkPosition. Positive is better.
+	// Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set.
 	TrendLink NullableFloat32 `json:"trendLink,omitempty"`
 	// Day-to-day spread of the mention position (a standard deviation): LOWER means steadier.
 	MentionPositionStability NullableFloat32 `json:"mentionPositionStability,omitempty"`
@@ -94,6 +94,7 @@ type KeywordListingResource struct {
 	// Mentions per AI engine per day with a capture, over the window. Not a total: the window total is not part of this contract.
 	AvgMentionCount NullableFloat32 `json:"avgMentionCount,omitempty"`
 	MentionTypeCounts KeywordListingResourceMentionTypeCounts `json:"mentionTypeCounts"`
+	CarriedPositions KeywordListingResourceCarriedPositions `json:"carriedPositions"`
 }
 
 type _KeywordListingResource KeywordListingResource
@@ -102,7 +103,7 @@ type _KeywordListingResource KeywordListingResource
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKeywordListingResource(keyword string, keywordNormalized string, variantCount int32, variantIds []string, engines []string, countries []string, queryClusterIds []string, hasUnclusteredVariant bool, statusSummary string, statuses []string, checkFrequencies []string, nPassesValues []int32, sentimentPositive int32, sentimentNeutral int32, sentimentNegative int32, mentionTypeCounts KeywordListingResourceMentionTypeCounts) *KeywordListingResource {
+func NewKeywordListingResource(keyword string, keywordNormalized string, variantCount int32, variantIds []string, engines []string, countries []string, queryClusterIds []string, hasUnclusteredVariant bool, statusSummary string, statuses []string, checkFrequencies []string, nPassesValues []int32, sentimentPositive int32, sentimentNeutral int32, sentimentNegative int32, mentionTypeCounts KeywordListingResourceMentionTypeCounts, carriedPositions KeywordListingResourceCarriedPositions) *KeywordListingResource {
 	this := KeywordListingResource{}
 	this.Keyword = keyword
 	this.KeywordNormalized = keywordNormalized
@@ -120,6 +121,7 @@ func NewKeywordListingResource(keyword string, keywordNormalized string, variant
 	this.SentimentNeutral = sentimentNeutral
 	this.SentimentNegative = sentimentNegative
 	this.MentionTypeCounts = mentionTypeCounts
+	this.CarriedPositions = carriedPositions
 	return &this
 }
 
@@ -1355,6 +1357,30 @@ func (o *KeywordListingResource) SetMentionTypeCounts(v KeywordListingResourceMe
 	o.MentionTypeCounts = v
 }
 
+// GetCarriedPositions returns the CarriedPositions field value
+func (o *KeywordListingResource) GetCarriedPositions() KeywordListingResourceCarriedPositions {
+	if o == nil {
+		var ret KeywordListingResourceCarriedPositions
+		return ret
+	}
+
+	return o.CarriedPositions
+}
+
+// GetCarriedPositionsOk returns a tuple with the CarriedPositions field value
+// and a boolean to check if the value has been set.
+func (o *KeywordListingResource) GetCarriedPositionsOk() (*KeywordListingResourceCarriedPositions, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CarriedPositions, true
+}
+
+// SetCarriedPositions sets field value
+func (o *KeywordListingResource) SetCarriedPositions(v KeywordListingResourceCarriedPositions) {
+	o.CarriedPositions = v
+}
+
 func (o KeywordListingResource) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -1441,6 +1467,7 @@ func (o KeywordListingResource) ToMap() (map[string]interface{}, error) {
 		toSerialize["avgMentionCount"] = o.AvgMentionCount.Get()
 	}
 	toSerialize["mentionTypeCounts"] = o.MentionTypeCounts
+	toSerialize["carriedPositions"] = o.CarriedPositions
 	return toSerialize, nil
 }
 
@@ -1465,6 +1492,7 @@ func (o *KeywordListingResource) UnmarshalJSON(data []byte) (err error) {
 		"sentimentNeutral",
 		"sentimentNegative",
 		"mentionTypeCounts",
+		"carriedPositions",
 	}
 
 	allProperties := make(map[string]interface{})

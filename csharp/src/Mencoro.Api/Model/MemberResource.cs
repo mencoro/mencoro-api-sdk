@@ -90,6 +90,33 @@ namespace Mencoro.Api.Model
         [DataMember(Name = "state", IsRequired = true, EmitDefaultValue = true)]
         public StateEnum State { get; set; }
         /// <summary>
+        /// Which projects of the organization the member reaches: every project, or only projectIds
+        /// </summary>
+        /// <value>Which projects of the organization the member reaches: every project, or only projectIds</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ProjectAccessModeEnum
+        {
+            /// <summary>
+            /// Enum All for value: all
+            /// </summary>
+            [EnumMember(Value = "all")]
+            All = 1,
+
+            /// <summary>
+            /// Enum Selected for value: selected
+            /// </summary>
+            [EnumMember(Value = "selected")]
+            Selected = 2
+        }
+
+
+        /// <summary>
+        /// Which projects of the organization the member reaches: every project, or only projectIds
+        /// </summary>
+        /// <value>Which projects of the organization the member reaches: every project, or only projectIds</value>
+        [DataMember(Name = "projectAccessMode", IsRequired = true, EmitDefaultValue = true)]
+        public ProjectAccessModeEnum ProjectAccessMode { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="MemberResource" /> class.
         /// </summary>
         [JsonConstructorAttribute]
@@ -103,7 +130,9 @@ namespace Mencoro.Api.Model
         /// <param name="state">state (required).</param>
         /// <param name="isActive">isActive (required).</param>
         /// <param name="joinedAt">joinedAt (required).</param>
-        public MemberResource(Guid id = default, Guid userId = default, RoleEnum role = default, StateEnum state = default, bool isActive = default, DateTime joinedAt = default)
+        /// <param name="projectAccessMode">Which projects of the organization the member reaches: every project, or only projectIds (required).</param>
+        /// <param name="projectIds">The projects a selected access reaches; empty when the mode is all (required).</param>
+        public MemberResource(Guid id = default, Guid userId = default, RoleEnum role = default, StateEnum state = default, bool isActive = default, DateTime joinedAt = default, ProjectAccessModeEnum projectAccessMode = default, List<Guid> projectIds = default)
         {
             this.Id = id;
             this.UserId = userId;
@@ -111,6 +140,13 @@ namespace Mencoro.Api.Model
             this.State = state;
             this.IsActive = isActive;
             this.JoinedAt = joinedAt;
+            this.ProjectAccessMode = projectAccessMode;
+            // to ensure "projectIds" is required (not null)
+            if (projectIds == null)
+            {
+                throw new ArgumentNullException("projectIds is a required property for MemberResource and cannot be null");
+            }
+            this.ProjectIds = projectIds;
         }
 
         /// <summary>
@@ -139,6 +175,13 @@ namespace Mencoro.Api.Model
         public DateTime JoinedAt { get; set; }
 
         /// <summary>
+        /// The projects a selected access reaches; empty when the mode is all
+        /// </summary>
+        /// <value>The projects a selected access reaches; empty when the mode is all</value>
+        [DataMember(Name = "projectIds", IsRequired = true, EmitDefaultValue = true)]
+        public List<Guid> ProjectIds { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -152,6 +195,8 @@ namespace Mencoro.Api.Model
             sb.Append("  State: ").Append(State).Append("\n");
             sb.Append("  IsActive: ").Append(IsActive).Append("\n");
             sb.Append("  JoinedAt: ").Append(JoinedAt).Append("\n");
+            sb.Append("  ProjectAccessMode: ").Append(ProjectAccessMode).Append("\n");
+            sb.Append("  ProjectIds: ").Append(ProjectIds).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

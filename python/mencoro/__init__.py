@@ -91,6 +91,7 @@ __all__ = [
     "CreateInvitation200Response",
     "CreateInvitation201Response",
     "CreateInvitationRequest",
+    "CreateInvitationRequestProjectAccess",
     "CreateOrganization201Response",
     "CreateOrganizationRequest",
     "CreateProjectRequest",
@@ -121,6 +122,8 @@ __all__ = [
     "GetTrackingCoverage200ResponseSampleInner",
     "InvitationResource",
     "KeywordListingResource",
+    "KeywordListingResourceCarriedPositions",
+    "KeywordListingResourceCarriedPositionsSerp",
     "KeywordListingResourceMentionTypeCounts",
     "ListAiResponses200Response",
     "ListCompetitors200Response",
@@ -164,6 +167,7 @@ __all__ = [
     "SearchTrackedQueryMentionMatches200Response",
     "SearchTrackedQuerySerpMatches200Response",
     "SerpMatchResource",
+    "SetMemberProjectAccessRequest",
     "ShoppingOfferResource",
     "ShoppingSnapshotResource",
     "StartBrandDiscoveryJobRequest",
@@ -263,6 +267,7 @@ from mencoro.models.create_competitor_request import CreateCompetitorRequest as 
 from mencoro.models.create_invitation200_response import CreateInvitation200Response as CreateInvitation200Response
 from mencoro.models.create_invitation201_response import CreateInvitation201Response as CreateInvitation201Response
 from mencoro.models.create_invitation_request import CreateInvitationRequest as CreateInvitationRequest
+from mencoro.models.create_invitation_request_project_access import CreateInvitationRequestProjectAccess as CreateInvitationRequestProjectAccess
 from mencoro.models.create_organization201_response import CreateOrganization201Response as CreateOrganization201Response
 from mencoro.models.create_organization_request import CreateOrganizationRequest as CreateOrganizationRequest
 from mencoro.models.create_project_request import CreateProjectRequest as CreateProjectRequest
@@ -293,6 +298,8 @@ from mencoro.models.get_tracking_coverage200_response import GetTrackingCoverage
 from mencoro.models.get_tracking_coverage200_response_sample_inner import GetTrackingCoverage200ResponseSampleInner as GetTrackingCoverage200ResponseSampleInner
 from mencoro.models.invitation_resource import InvitationResource as InvitationResource
 from mencoro.models.keyword_listing_resource import KeywordListingResource as KeywordListingResource
+from mencoro.models.keyword_listing_resource_carried_positions import KeywordListingResourceCarriedPositions as KeywordListingResourceCarriedPositions
+from mencoro.models.keyword_listing_resource_carried_positions_serp import KeywordListingResourceCarriedPositionsSerp as KeywordListingResourceCarriedPositionsSerp
 from mencoro.models.keyword_listing_resource_mention_type_counts import KeywordListingResourceMentionTypeCounts as KeywordListingResourceMentionTypeCounts
 from mencoro.models.list_ai_responses200_response import ListAiResponses200Response as ListAiResponses200Response
 from mencoro.models.list_competitors200_response import ListCompetitors200Response as ListCompetitors200Response
@@ -336,6 +343,7 @@ from mencoro.models.search_tracked_queries200_response import SearchTrackedQueri
 from mencoro.models.search_tracked_query_mention_matches200_response import SearchTrackedQueryMentionMatches200Response as SearchTrackedQueryMentionMatches200Response
 from mencoro.models.search_tracked_query_serp_matches200_response import SearchTrackedQuerySerpMatches200Response as SearchTrackedQuerySerpMatches200Response
 from mencoro.models.serp_match_resource import SerpMatchResource as SerpMatchResource
+from mencoro.models.set_member_project_access_request import SetMemberProjectAccessRequest as SetMemberProjectAccessRequest
 from mencoro.models.shopping_offer_resource import ShoppingOfferResource as ShoppingOfferResource
 from mencoro.models.shopping_snapshot_resource import ShoppingSnapshotResource as ShoppingSnapshotResource
 from mencoro.models.start_brand_discovery_job_request import StartBrandDiscoveryJobRequest as StartBrandDiscoveryJobRequest

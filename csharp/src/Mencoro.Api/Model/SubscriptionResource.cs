@@ -28,7 +28,7 @@ using OpenAPIDateConverter = Mencoro.Api.Client.OpenAPIDateConverter;
 namespace Mencoro.Api.Model
 {
     /// <summary>
-    /// The current subscription contract of an organization
+    /// The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
     /// </summary>
     [DataContract(Name = "SubscriptionResource")]
     public partial class SubscriptionResource : IValidatableObject
@@ -94,9 +94,9 @@ namespace Mencoro.Api.Model
         [DataMember(Name = "billingCycleType", EmitDefaultValue = true)]
         public BillingCycleTypeEnum? BillingCycleType { get; set; }
         /// <summary>
-        /// Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.
+        /// Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.
         /// </summary>
-        /// <value>Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.</value>
+        /// <value>Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum DeactivationReasonEnum
         {
@@ -127,9 +127,9 @@ namespace Mencoro.Api.Model
 
 
         /// <summary>
-        /// Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.
+        /// Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.
         /// </summary>
-        /// <value>Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.</value>
+        /// <value>Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.</value>
         [DataMember(Name = "deactivationReason", EmitDefaultValue = true)]
         public DeactivationReasonEnum? DeactivationReason { get; set; }
         /// <summary>
@@ -151,7 +151,7 @@ namespace Mencoro.Api.Model
         /// <param name="cancelledAt">When the subscription was terminally cancelled. Null while it has not been..</param>
         /// <param name="scheduledToCancelAt">When a scheduled cancellation takes effect, while the subscription is still running. Null when none is scheduled..</param>
         /// <param name="gracePeriodEndsAt">When paid access ends after a cancellation. Null when the subscription is not cancelled..</param>
-        /// <param name="deactivationReason">Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it..</param>
+        /// <param name="deactivationReason">Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it..</param>
         /// <param name="isEntitled">Whether the organization may use paid features right now: active, or cancelled but still inside its paid grace window. (required).</param>
         public SubscriptionResource(StatusEnum status = default, string tierCode = default, BillingCycleTypeEnum? billingCycleType = default, DateTime? billingCycleAnchor = default, int? checkBudget = default, int? checksConsumed = default, int? checksAvailable = default, DateTime? nextResetAt = default, DateTime? cancelledAt = default, DateTime? scheduledToCancelAt = default, DateTime? gracePeriodEndsAt = default, DeactivationReasonEnum? deactivationReason = default, bool isEntitled = default)
         {

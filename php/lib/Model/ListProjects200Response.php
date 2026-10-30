@@ -337,7 +337,7 @@ class ListProjects200Response implements ModelInterface, ArrayAccess, \JsonSeria
     /**
      * Sets total
      *
-     * @param int|null $total Every project matching the filters, not the size of this page.
+     * @param int|null $total Every project matching the filters that the caller can access, not the size of this page.
      *
      * @return self
      */

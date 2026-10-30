@@ -1,7 +1,7 @@
 
 # SubscriptionResource
 
-The current subscription contract of an organization
+The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
 
 ## Properties
 

@@ -71,6 +71,8 @@ public class PreviewOrganizationOperationRequest {
     
     REACTIVATE_MEMBER("reactivateMember"),
     
+    SET_MEMBER_PROJECT_ACCESS("setMemberProjectAccess"),
+    
     CREATE_INVITATION("createInvitation"),
     
     CANCEL_INVITATION("cancelInvitation");

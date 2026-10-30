@@ -17,14 +17,14 @@ Name | Type | Description | Notes
 **CheckFrequencies** | **[]string** | Distinct check frequencies across the variants. | 
 **NPassesValues** | **[]int32** | Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. | 
 **LastCheckedAt** | Pointer to **NullableTime** | The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing. | [optional] 
-**AvgSerpPosition** | Pointer to **NullableFloat32** | Average position in traditional search over the window. 1-based, LOWER is better. | [optional] 
-**TrendSerp** | Pointer to **NullableFloat32** | Signed improvement in avgSerpPosition against the previous window. Positive is better. | [optional] 
-**AvgShoppingPosition** | Pointer to **NullableFloat32** | Average position in shopping results over the window. 1-based, LOWER is better. | [optional] 
-**TrendShopping** | Pointer to **NullableFloat32** | Signed improvement in avgShoppingPosition. Positive is better. | [optional] 
-**AvgMentionPosition** | Pointer to **NullableFloat32** | Average position of the brand mention inside the AI answer. 1-based, LOWER is better. | [optional] 
-**TrendMention** | Pointer to **NullableFloat32** | Signed improvement in avgMentionPosition. Positive is better. | [optional] 
-**AvgLinkPosition** | Pointer to **NullableFloat32** | Average position of a cited link to the brand. 1-based, LOWER is better. | [optional] 
-**TrendLink** | Pointer to **NullableFloat32** | Signed improvement in avgLinkPosition. Positive is better. | [optional] 
+**AvgSerpPosition** | Pointer to **NullableFloat32** | Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] 
+**TrendSerp** | Pointer to **NullableFloat32** | Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set. | [optional] 
+**AvgShoppingPosition** | Pointer to **NullableFloat32** | Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] 
+**TrendShopping** | Pointer to **NullableFloat32** | Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set. | [optional] 
+**AvgMentionPosition** | Pointer to **NullableFloat32** | Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] 
+**TrendMention** | Pointer to **NullableFloat32** | Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set. | [optional] 
+**AvgLinkPosition** | Pointer to **NullableFloat32** | Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] 
+**TrendLink** | Pointer to **NullableFloat32** | Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set. | [optional] 
 **MentionPositionStability** | Pointer to **NullableFloat32** | Day-to-day spread of the mention position (a standard deviation): LOWER means steadier. | [optional] 
 **TrendStability** | Pointer to **NullableFloat32** | Signed improvement in mentionPositionStability. Positive means steadier than the previous window. | [optional] 
 **PositivityIndex** | Pointer to **NullableInt32** | 0-100 weighted sentiment score of the mentions; HIGHER is better. Null when there were no mentions to score. | [optional] 
@@ -40,12 +40,13 @@ Name | Type | Description | Notes
 **SentimentNegative** | **int32** | Negative brand mentions counted in the window. | 
 **AvgMentionCount** | Pointer to **NullableFloat32** | Mentions per AI engine per day with a capture, over the window. Not a total: the window total is not part of this contract. | [optional] 
 **MentionTypeCounts** | [**KeywordListingResourceMentionTypeCounts**](KeywordListingResourceMentionTypeCounts.md) |  | 
+**CarriedPositions** | [**KeywordListingResourceCarriedPositions**](KeywordListingResourceCarriedPositions.md) |  | 
 
 ## Methods
 
 ### NewKeywordListingResource
 
-`func NewKeywordListingResource(keyword string, keywordNormalized string, variantCount int32, variantIds []string, engines []string, countries []string, queryClusterIds []string, hasUnclusteredVariant bool, statusSummary string, statuses []string, checkFrequencies []string, nPassesValues []int32, sentimentPositive int32, sentimentNeutral int32, sentimentNegative int32, mentionTypeCounts KeywordListingResourceMentionTypeCounts, ) *KeywordListingResource`
+`func NewKeywordListingResource(keyword string, keywordNormalized string, variantCount int32, variantIds []string, engines []string, countries []string, queryClusterIds []string, hasUnclusteredVariant bool, statusSummary string, statuses []string, checkFrequencies []string, nPassesValues []int32, sentimentPositive int32, sentimentNeutral int32, sentimentNegative int32, mentionTypeCounts KeywordListingResourceMentionTypeCounts, carriedPositions KeywordListingResourceCarriedPositions, ) *KeywordListingResource`
 
 NewKeywordListingResource instantiates a new KeywordListingResource object
 This constructor will assign default values to properties that have it defined,
@@ -1078,6 +1079,26 @@ and a boolean to check if the value has been set.
 `func (o *KeywordListingResource) SetMentionTypeCounts(v KeywordListingResourceMentionTypeCounts)`
 
 SetMentionTypeCounts sets MentionTypeCounts field to given value.
+
+
+### GetCarriedPositions
+
+`func (o *KeywordListingResource) GetCarriedPositions() KeywordListingResourceCarriedPositions`
+
+GetCarriedPositions returns the CarriedPositions field if non-nil, zero value otherwise.
+
+### GetCarriedPositionsOk
+
+`func (o *KeywordListingResource) GetCarriedPositionsOk() (*KeywordListingResourceCarriedPositions, bool)`
+
+GetCarriedPositionsOk returns a tuple with the CarriedPositions field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCarriedPositions
+
+`func (o *KeywordListingResource) SetCarriedPositions(v KeywordListingResourceCarriedPositions)`
+
+SetCarriedPositions sets CarriedPositions field to given value.
 
 
 

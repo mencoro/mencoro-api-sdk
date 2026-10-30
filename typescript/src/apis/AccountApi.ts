@@ -61,7 +61,7 @@ export interface AccountApiInterface {
     getMeStatsRequestOpts(): Promise<runtime.RequestOpts>;
 
     /**
-     * Aggregate counts over every organization the key\'s owner is an active member of, narrowed to the key\'s scope — the same set /api/v1/organizations pages through. `organizations.total` is that set\'s size; `projects.total` and `projects.active` count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+     * Aggregate counts over every organization the key\'s owner is an active member of, narrowed to the key\'s scope — the same set /api/v1/organizations pages through. `organizations.total` is that set\'s size; `projects.total` and `projects.active` count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
      * @summary Counts across everything the key can reach
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -70,7 +70,7 @@ export interface AccountApiInterface {
     getMeStatsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMeStats200Response>>;
 
     /**
-     * Aggregate counts over every organization the key\'s owner is an active member of, narrowed to the key\'s scope — the same set /api/v1/organizations pages through. `organizations.total` is that set\'s size; `projects.total` and `projects.active` count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+     * Aggregate counts over every organization the key\'s owner is an active member of, narrowed to the key\'s scope — the same set /api/v1/organizations pages through. `organizations.total` is that set\'s size; `projects.total` and `projects.active` count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
      * Counts across everything the key can reach
      */
     getMeStats(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMeStats200Response>;
@@ -157,7 +157,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     }
 
     /**
-     * Aggregate counts over every organization the key\'s owner is an active member of, narrowed to the key\'s scope — the same set /api/v1/organizations pages through. `organizations.total` is that set\'s size; `projects.total` and `projects.active` count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+     * Aggregate counts over every organization the key\'s owner is an active member of, narrowed to the key\'s scope — the same set /api/v1/organizations pages through. `organizations.total` is that set\'s size; `projects.total` and `projects.active` count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
      * Counts across everything the key can reach
      */
     async getMeStatsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMeStats200Response>> {
@@ -168,7 +168,7 @@ export class AccountApi extends runtime.BaseAPI implements AccountApiInterface {
     }
 
     /**
-     * Aggregate counts over every organization the key\'s owner is an active member of, narrowed to the key\'s scope — the same set /api/v1/organizations pages through. `organizations.total` is that set\'s size; `projects.total` and `projects.active` count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+     * Aggregate counts over every organization the key\'s owner is an active member of, narrowed to the key\'s scope — the same set /api/v1/organizations pages through. `organizations.total` is that set\'s size; `projects.total` and `projects.active` count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
      * Counts across everything the key can reach
      */
     async getMeStats(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetMeStats200Response> {

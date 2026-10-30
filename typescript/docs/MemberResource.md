@@ -13,6 +13,8 @@ Name | Type
 `state` | string
 `isActive` | boolean
 `joinedAt` | Date
+`projectAccessMode` | string
+`projectIds` | Array&lt;string&gt;
 
 ## Example
 
@@ -27,6 +29,8 @@ const example = {
   "state": null,
   "isActive": null,
   "joinedAt": null,
+  "projectAccessMode": null,
+  "projectIds": null,
 } satisfies MemberResource
 
 console.log(example)

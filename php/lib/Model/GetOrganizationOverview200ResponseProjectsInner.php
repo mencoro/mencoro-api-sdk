@@ -62,6 +62,9 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
         'name' => 'string',
         'status' => 'string',
         'tracked_query_count' => 'int',
+        'ai_tracked_query_count' => 'int',
+        'serp_tracked_query_count' => 'int',
+        'shopping_tracked_query_count' => 'int',
         'share_of_voice' => 'float',
         'mention_rate' => 'int',
         'avg_mention_position' => 'float',
@@ -80,6 +83,9 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
         'name' => null,
         'status' => null,
         'tracked_query_count' => null,
+        'ai_tracked_query_count' => null,
+        'serp_tracked_query_count' => null,
+        'shopping_tracked_query_count' => null,
         'share_of_voice' => 'float',
         'mention_rate' => null,
         'avg_mention_position' => 'float',
@@ -96,6 +102,9 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
         'name' => false,
         'status' => false,
         'tracked_query_count' => false,
+        'ai_tracked_query_count' => false,
+        'serp_tracked_query_count' => false,
+        'shopping_tracked_query_count' => false,
         'share_of_voice' => true,
         'mention_rate' => true,
         'avg_mention_position' => true,
@@ -192,6 +201,9 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
         'name' => 'name',
         'status' => 'status',
         'tracked_query_count' => 'trackedQueryCount',
+        'ai_tracked_query_count' => 'aiTrackedQueryCount',
+        'serp_tracked_query_count' => 'serpTrackedQueryCount',
+        'shopping_tracked_query_count' => 'shoppingTrackedQueryCount',
         'share_of_voice' => 'shareOfVoice',
         'mention_rate' => 'mentionRate',
         'avg_mention_position' => 'avgMentionPosition',
@@ -208,6 +220,9 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
         'name' => 'setName',
         'status' => 'setStatus',
         'tracked_query_count' => 'setTrackedQueryCount',
+        'ai_tracked_query_count' => 'setAiTrackedQueryCount',
+        'serp_tracked_query_count' => 'setSerpTrackedQueryCount',
+        'shopping_tracked_query_count' => 'setShoppingTrackedQueryCount',
         'share_of_voice' => 'setShareOfVoice',
         'mention_rate' => 'setMentionRate',
         'avg_mention_position' => 'setAvgMentionPosition',
@@ -224,6 +239,9 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
         'name' => 'getName',
         'status' => 'getStatus',
         'tracked_query_count' => 'getTrackedQueryCount',
+        'ai_tracked_query_count' => 'getAiTrackedQueryCount',
+        'serp_tracked_query_count' => 'getSerpTrackedQueryCount',
+        'shopping_tracked_query_count' => 'getShoppingTrackedQueryCount',
         'share_of_voice' => 'getShareOfVoice',
         'mention_rate' => 'getMentionRate',
         'avg_mention_position' => 'getAvgMentionPosition',
@@ -291,6 +309,9 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('tracked_query_count', $data ?? [], null);
+        $this->setIfExists('ai_tracked_query_count', $data ?? [], null);
+        $this->setIfExists('serp_tracked_query_count', $data ?? [], null);
+        $this->setIfExists('shopping_tracked_query_count', $data ?? [], null);
         $this->setIfExists('share_of_voice', $data ?? [], null);
         $this->setIfExists('mention_rate', $data ?? [], null);
         $this->setIfExists('avg_mention_position', $data ?? [], null);
@@ -433,7 +454,7 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
     /**
      * Sets tracked_query_count
      *
-     * @param int|null $tracked_query_count tracked_query_count
+     * @param int|null $tracked_query_count Configured tracked queries of the project, paused ones included.
      *
      * @return self
      */
@@ -443,6 +464,87 @@ class GetOrganizationOverview200ResponseProjectsInner implements ModelInterface,
             throw new \InvalidArgumentException('non-nullable tracked_query_count cannot be null');
         }
         $this->container['tracked_query_count'] = $tracked_query_count;
+
+        return $this;
+    }
+
+    /**
+     * Gets ai_tracked_query_count
+     *
+     * @return int|null
+     */
+    public function getAiTrackedQueryCount()
+    {
+        return $this->container['ai_tracked_query_count'];
+    }
+
+    /**
+     * Sets ai_tracked_query_count
+     *
+     * @param int|null $ai_tracked_query_count How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode).
+     *
+     * @return self
+     */
+    public function setAiTrackedQueryCount($ai_tracked_query_count)
+    {
+        if (is_null($ai_tracked_query_count)) {
+            throw new \InvalidArgumentException('non-nullable ai_tracked_query_count cannot be null');
+        }
+        $this->container['ai_tracked_query_count'] = $ai_tracked_query_count;
+
+        return $this;
+    }
+
+    /**
+     * Gets serp_tracked_query_count
+     *
+     * @return int|null
+     */
+    public function getSerpTrackedQueryCount()
+    {
+        return $this->container['serp_tracked_query_count'];
+    }
+
+    /**
+     * Sets serp_tracked_query_count
+     *
+     * @param int|null $serp_tracked_query_count How many of trackedQueryCount run on classic Google SERP.
+     *
+     * @return self
+     */
+    public function setSerpTrackedQueryCount($serp_tracked_query_count)
+    {
+        if (is_null($serp_tracked_query_count)) {
+            throw new \InvalidArgumentException('non-nullable serp_tracked_query_count cannot be null');
+        }
+        $this->container['serp_tracked_query_count'] = $serp_tracked_query_count;
+
+        return $this;
+    }
+
+    /**
+     * Gets shopping_tracked_query_count
+     *
+     * @return int|null
+     */
+    public function getShoppingTrackedQueryCount()
+    {
+        return $this->container['shopping_tracked_query_count'];
+    }
+
+    /**
+     * Sets shopping_tracked_query_count
+     *
+     * @param int|null $shopping_tracked_query_count How many of trackedQueryCount run on Google Shopping.
+     *
+     * @return self
+     */
+    public function setShoppingTrackedQueryCount($shopping_tracked_query_count)
+    {
+        if (is_null($shopping_tracked_query_count)) {
+            throw new \InvalidArgumentException('non-nullable shopping_tracked_query_count cannot be null');
+        }
+        $this->container['shopping_tracked_query_count'] = $shopping_tracked_query_count;
 
         return $this;
     }

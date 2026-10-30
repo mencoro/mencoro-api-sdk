@@ -345,7 +345,7 @@ class GetOrganizationOverview200ResponseAggregate implements ModelInterface, Arr
     /**
      * Sets project_count
      *
-     * @param int|null $project_count Active projects in the organization, the length of `projects`.
+     * @param int|null $project_count Active projects of the organization the caller can access, the length of `projects`.
      *
      * @return self
      */

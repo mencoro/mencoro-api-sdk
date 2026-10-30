@@ -21,7 +21,17 @@ module Mencoro
 
     attr_accessor :status
 
+    # Configured tracked queries of the project, paused ones included.
     attr_accessor :tracked_query_count
+
+    # How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode).
+    attr_accessor :ai_tracked_query_count
+
+    # How many of trackedQueryCount run on classic Google SERP.
+    attr_accessor :serp_tracked_query_count
+
+    # How many of trackedQueryCount run on Google Shopping.
+    attr_accessor :shopping_tracked_query_count
 
     # 0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet.
     attr_accessor :share_of_voice
@@ -42,6 +52,9 @@ module Mencoro
         :'name' => :'name',
         :'status' => :'status',
         :'tracked_query_count' => :'trackedQueryCount',
+        :'ai_tracked_query_count' => :'aiTrackedQueryCount',
+        :'serp_tracked_query_count' => :'serpTrackedQueryCount',
+        :'shopping_tracked_query_count' => :'shoppingTrackedQueryCount',
         :'share_of_voice' => :'shareOfVoice',
         :'mention_rate' => :'mentionRate',
         :'avg_mention_position' => :'avgMentionPosition',
@@ -66,6 +79,9 @@ module Mencoro
         :'name' => :'String',
         :'status' => :'String',
         :'tracked_query_count' => :'Integer',
+        :'ai_tracked_query_count' => :'Integer',
+        :'serp_tracked_query_count' => :'Integer',
+        :'shopping_tracked_query_count' => :'Integer',
         :'share_of_voice' => :'Float',
         :'mention_rate' => :'Integer',
         :'avg_mention_position' => :'Float',
@@ -115,6 +131,18 @@ module Mencoro
         self.tracked_query_count = attributes[:'tracked_query_count']
       end
 
+      if attributes.key?(:'ai_tracked_query_count')
+        self.ai_tracked_query_count = attributes[:'ai_tracked_query_count']
+      end
+
+      if attributes.key?(:'serp_tracked_query_count')
+        self.serp_tracked_query_count = attributes[:'serp_tracked_query_count']
+      end
+
+      if attributes.key?(:'shopping_tracked_query_count')
+        self.shopping_tracked_query_count = attributes[:'shopping_tracked_query_count']
+      end
+
       if attributes.key?(:'share_of_voice')
         self.share_of_voice = attributes[:'share_of_voice']
       end
@@ -156,6 +184,9 @@ module Mencoro
           name == o.name &&
           status == o.status &&
           tracked_query_count == o.tracked_query_count &&
+          ai_tracked_query_count == o.ai_tracked_query_count &&
+          serp_tracked_query_count == o.serp_tracked_query_count &&
+          shopping_tracked_query_count == o.shopping_tracked_query_count &&
           share_of_voice == o.share_of_voice &&
           mention_rate == o.mention_rate &&
           avg_mention_position == o.avg_mention_position &&
@@ -171,7 +202,7 @@ module Mencoro
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [project_id, name, status, tracked_query_count, share_of_voice, mention_rate, avg_mention_position, positivity_index].hash
+      [project_id, name, status, tracked_query_count, ai_tracked_query_count, serp_tracked_query_count, shopping_tracked_query_count, share_of_voice, mention_rate, avg_mention_position, positivity_index].hash
     end
 
     # Builds the object from hash

@@ -34,7 +34,7 @@ export interface ListProjects200Response {
      */
     items?: Array<ProjectResource>;
     /**
-     * Every project matching the filters, not the size of this page.
+     * Every project matching the filters that the caller can access, not the size of this page.
      * @type {number}
      * @memberof ListProjects200Response
      */

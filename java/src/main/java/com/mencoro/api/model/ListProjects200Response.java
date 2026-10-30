@@ -99,7 +99,7 @@ public class ListProjects200Response {
   }
 
   /**
-   * Every project matching the filters, not the size of this page.
+   * Every project matching the filters that the caller can access, not the size of this page.
    * @return total
    */
   @javax.annotation.Nullable

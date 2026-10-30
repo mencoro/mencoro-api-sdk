@@ -273,7 +273,7 @@ public class DiscoveryApi {
         <tr><td> 400 </td><td> The body is not a JSON object, names an unknown field, or fails validation; or the Idempotency-Key header is missing </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the write capability </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> No organization the caller can access under this id </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization the caller can access under this id, or the caller is restricted to selected projects of it </td><td>  -  </td></tr>
         <tr><td> 409 </td><td> The organization is archived, or the Idempotency-Key was already used for a different request, or a previous attempt with it ended without a known outcome </td><td>  -  </td></tr>
         <tr><td> 429 </td><td> The organization exceeded ten suggestion starts per minute, or the key exceeded its request budget </td><td>  -  </td></tr>
      </table>
@@ -352,7 +352,7 @@ public class DiscoveryApi {
 
     /**
      * Start a brand-name alias suggestion job
-     * Minimum role: manager. Starts a background, web-search-grounded job that suggests alias spellings for one entity - a brand, a project or a competitor - described entirely by the body, and answers 202 with the job to poll; it never returns suggestions inline. The entity need not exist: nothing is looked up, nothing is attached and nothing is saved, so the suggestions are the caller&#39;s to apply. Names sent in &#x60;enteredBrandNames&#x60; are excluded from the result. The organization must be active; no subscription is required, matching the application behaviour this mirrors. Ten starts per minute per organization, counted across every key of every member; a retry carrying an Idempotency-Key already answered is served from the record and does not count.
+     * Minimum role: manager, with access to every project of the organization: the job names no project, so a member restricted to selected projects is refused as a role below the minimum is. Starts a background, web-search-grounded job that suggests alias spellings for one entity - a brand, a project or a competitor - described entirely by the body, and answers 202 with the job to poll; it never returns suggestions inline. The entity need not exist: nothing is looked up, nothing is attached and nothing is saved, so the suggestions are the caller&#39;s to apply. Names sent in &#x60;enteredBrandNames&#x60; are excluded from the result. The organization must be active; no subscription is required, matching the application behaviour this mirrors. Ten starts per minute per organization, counted across every key of every member; a retry carrying an Idempotency-Key already answered is served from the record and does not count.
      * @param organizationId  (required)
      * @param idempotencyKey Repeat it to retry a start whose response was lost; the same key returns the same job instead of starting a second one. (required)
      * @param startBrandNameSuggestionJobRequest  (required)
@@ -366,7 +366,7 @@ public class DiscoveryApi {
         <tr><td> 400 </td><td> The body is not a JSON object, names an unknown field, or fails validation; or the Idempotency-Key header is missing </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the write capability </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> No organization the caller can access under this id </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization the caller can access under this id, or the caller is restricted to selected projects of it </td><td>  -  </td></tr>
         <tr><td> 409 </td><td> The organization is archived, or the Idempotency-Key was already used for a different request, or a previous attempt with it ended without a known outcome </td><td>  -  </td></tr>
         <tr><td> 429 </td><td> The organization exceeded ten suggestion starts per minute, or the key exceeded its request budget </td><td>  -  </td></tr>
      </table>
@@ -378,7 +378,7 @@ public class DiscoveryApi {
 
     /**
      * Start a brand-name alias suggestion job
-     * Minimum role: manager. Starts a background, web-search-grounded job that suggests alias spellings for one entity - a brand, a project or a competitor - described entirely by the body, and answers 202 with the job to poll; it never returns suggestions inline. The entity need not exist: nothing is looked up, nothing is attached and nothing is saved, so the suggestions are the caller&#39;s to apply. Names sent in &#x60;enteredBrandNames&#x60; are excluded from the result. The organization must be active; no subscription is required, matching the application behaviour this mirrors. Ten starts per minute per organization, counted across every key of every member; a retry carrying an Idempotency-Key already answered is served from the record and does not count.
+     * Minimum role: manager, with access to every project of the organization: the job names no project, so a member restricted to selected projects is refused as a role below the minimum is. Starts a background, web-search-grounded job that suggests alias spellings for one entity - a brand, a project or a competitor - described entirely by the body, and answers 202 with the job to poll; it never returns suggestions inline. The entity need not exist: nothing is looked up, nothing is attached and nothing is saved, so the suggestions are the caller&#39;s to apply. Names sent in &#x60;enteredBrandNames&#x60; are excluded from the result. The organization must be active; no subscription is required, matching the application behaviour this mirrors. Ten starts per minute per organization, counted across every key of every member; a retry carrying an Idempotency-Key already answered is served from the record and does not count.
      * @param organizationId  (required)
      * @param idempotencyKey Repeat it to retry a start whose response was lost; the same key returns the same job instead of starting a second one. (required)
      * @param startBrandNameSuggestionJobRequest  (required)
@@ -392,7 +392,7 @@ public class DiscoveryApi {
         <tr><td> 400 </td><td> The body is not a JSON object, names an unknown field, or fails validation; or the Idempotency-Key header is missing </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the write capability </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> No organization the caller can access under this id </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization the caller can access under this id, or the caller is restricted to selected projects of it </td><td>  -  </td></tr>
         <tr><td> 409 </td><td> The organization is archived, or the Idempotency-Key was already used for a different request, or a previous attempt with it ended without a known outcome </td><td>  -  </td></tr>
         <tr><td> 429 </td><td> The organization exceeded ten suggestion starts per minute, or the key exceeded its request budget </td><td>  -  </td></tr>
      </table>
@@ -405,7 +405,7 @@ public class DiscoveryApi {
 
     /**
      * Start a brand-name alias suggestion job (asynchronously)
-     * Minimum role: manager. Starts a background, web-search-grounded job that suggests alias spellings for one entity - a brand, a project or a competitor - described entirely by the body, and answers 202 with the job to poll; it never returns suggestions inline. The entity need not exist: nothing is looked up, nothing is attached and nothing is saved, so the suggestions are the caller&#39;s to apply. Names sent in &#x60;enteredBrandNames&#x60; are excluded from the result. The organization must be active; no subscription is required, matching the application behaviour this mirrors. Ten starts per minute per organization, counted across every key of every member; a retry carrying an Idempotency-Key already answered is served from the record and does not count.
+     * Minimum role: manager, with access to every project of the organization: the job names no project, so a member restricted to selected projects is refused as a role below the minimum is. Starts a background, web-search-grounded job that suggests alias spellings for one entity - a brand, a project or a competitor - described entirely by the body, and answers 202 with the job to poll; it never returns suggestions inline. The entity need not exist: nothing is looked up, nothing is attached and nothing is saved, so the suggestions are the caller&#39;s to apply. Names sent in &#x60;enteredBrandNames&#x60; are excluded from the result. The organization must be active; no subscription is required, matching the application behaviour this mirrors. Ten starts per minute per organization, counted across every key of every member; a retry carrying an Idempotency-Key already answered is served from the record and does not count.
      * @param organizationId  (required)
      * @param idempotencyKey Repeat it to retry a start whose response was lost; the same key returns the same job instead of starting a second one. (required)
      * @param startBrandNameSuggestionJobRequest  (required)
@@ -420,7 +420,7 @@ public class DiscoveryApi {
         <tr><td> 400 </td><td> The body is not a JSON object, names an unknown field, or fails validation; or the Idempotency-Key header is missing </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the write capability </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> No organization the caller can access under this id </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization the caller can access under this id, or the caller is restricted to selected projects of it </td><td>  -  </td></tr>
         <tr><td> 409 </td><td> The organization is archived, or the Idempotency-Key was already used for a different request, or a previous attempt with it ended without a known outcome </td><td>  -  </td></tr>
         <tr><td> 429 </td><td> The organization exceeded ten suggestion starts per minute, or the key exceeded its request budget </td><td>  -  </td></tr>
      </table>

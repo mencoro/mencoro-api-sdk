@@ -14,6 +14,8 @@ A membership of an organization
 |**state** | [**StateEnum**](#StateEnum) |  |  |
 |**isActive** | **Boolean** |  |  |
 |**joinedAt** | **OffsetDateTime** |  |  |
+|**projectAccessMode** | [**ProjectAccessModeEnum**](#ProjectAccessModeEnum) | Which projects of the organization the member reaches: every project, or only projectIds |  |
+|**projectIds** | **List&lt;UUID&gt;** | The projects a selected access reaches; empty when the mode is all |  |
 
 
 
@@ -33,6 +35,15 @@ A membership of an organization
 |---- | -----|
 | ACTIVE | &quot;active&quot; |
 | SUSPENDED | &quot;suspended&quot; |
+
+
+
+## Enum: ProjectAccessModeEnum
+
+| Name | Value |
+|---- | -----|
+| ALL | &quot;all&quot; |
+| SELECTED | &quot;selected&quot; |
 
 
 

@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **CancelledAt** | Pointer to **NullableTime** | When the subscription was terminally cancelled. Null while it has not been. | [optional] 
 **ScheduledToCancelAt** | Pointer to **NullableTime** | When a scheduled cancellation takes effect, while the subscription is still running. Null when none is scheduled. | [optional] 
 **GracePeriodEndsAt** | Pointer to **NullableTime** | When paid access ends after a cancellation. Null when the subscription is not cancelled. | [optional] 
-**DeactivationReason** | Pointer to **NullableString** | Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it. | [optional] 
+**DeactivationReason** | Pointer to **NullableString** | Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it. | [optional] 
 **IsEntitled** | **bool** | Whether the organization may use paid features right now: active, or cancelled but still inside its paid grace window. | 
 
 ## Methods

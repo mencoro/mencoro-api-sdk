@@ -61,6 +61,18 @@ export interface InvitationResource {
      * @memberof InvitationResource
      */
     acceptedAt?: Date | null;
+    /**
+     * Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+     * @type {InvitationResourceProjectAccessModeEnum}
+     * @memberof InvitationResource
+     */
+    projectAccessMode: InvitationResourceProjectAccessModeEnum;
+    /**
+     * The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing
+     * @type {Array<string>}
+     * @memberof InvitationResource
+     */
+    projectIds: Array<string>;
 }
 
 
@@ -86,6 +98,15 @@ export const InvitationResourceStateEnum = {
 } as const;
 export type InvitationResourceStateEnum = typeof InvitationResourceStateEnum[keyof typeof InvitationResourceStateEnum];
 
+/**
+ * @export
+ */
+export const InvitationResourceProjectAccessModeEnum = {
+    All: 'all',
+    Selected: 'selected'
+} as const;
+export type InvitationResourceProjectAccessModeEnum = typeof InvitationResourceProjectAccessModeEnum[keyof typeof InvitationResourceProjectAccessModeEnum];
+
 
 /**
  * Check if a given object implements the InvitationResource interface.
@@ -97,6 +118,8 @@ export function instanceOfInvitationResource(value: object): value is Invitation
     if (!('state' in value) || value['state'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('expiresAt' in value) || value['expiresAt'] === undefined) return false;
+    if (!('projectAccessMode' in value) || value['projectAccessMode'] === undefined) return false;
+    if (!('projectIds' in value) || value['projectIds'] === undefined) return false;
     return true;
 }
 
@@ -117,6 +140,8 @@ export function InvitationResourceFromJSONTyped(json: any, ignoreDiscriminator: 
         'createdAt': (new Date(json['createdAt'])),
         'expiresAt': (new Date(json['expiresAt'])),
         'acceptedAt': json['acceptedAt'] === undefined ? undefined : json['acceptedAt'] === null ? null : (new Date(json['acceptedAt'])),
+        'projectAccessMode': json['projectAccessMode'],
+        'projectIds': json['projectIds'],
     };
 }
 
@@ -138,6 +163,8 @@ export function InvitationResourceToJSONTyped(value?: InvitationResource | null,
         'createdAt': value['createdAt'].toISOString(),
         'expiresAt': value['expiresAt'].toISOString(),
         'acceptedAt': value['acceptedAt'] == null ? value['acceptedAt'] : value['acceptedAt'].toISOString(),
+        'projectAccessMode': value['projectAccessMode'],
+        'projectIds': value['projectIds'],
     };
 }
 

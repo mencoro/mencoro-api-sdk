@@ -15,7 +15,7 @@ require 'time'
 
 module Mencoro
   class GetOrganizationStats200ResponseInvitations < ApiModelBase
-    # Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded.
+    # Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects.
     attr_accessor :pending
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -45,6 +45,7 @@ module Mencoro
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'pending'
       ])
     end
 
@@ -92,11 +93,7 @@ module Mencoro
     # Custom attribute writer method with validation
     # @param [Object] pending Value to be assigned
     def pending=(pending)
-      if pending.nil?
-        fail ArgumentError, 'pending cannot be nil'
-      end
-
-      if pending < 0
+      if !pending.nil? && pending < 0
         fail ArgumentError, 'invalid value for "pending", must be greater than or equal to 0.'
       end
 

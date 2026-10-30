@@ -12,6 +12,8 @@ Name | Type | Description | Notes
 **state** | **str** |  | 
 **is_active** | **bool** |  | 
 **joined_at** | **datetime** |  | 
+**project_access_mode** | **str** | Which projects of the organization the member reaches: every project, or only projectIds | 
+**project_ids** | **List[UUID]** | The projects a selected access reaches; empty when the mode is all | 
 
 ## Example
 

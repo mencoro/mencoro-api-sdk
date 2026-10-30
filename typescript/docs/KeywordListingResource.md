@@ -43,6 +43,7 @@ Name | Type
 `sentimentNegative` | number
 `avgMentionCount` | number
 `mentionTypeCounts` | [KeywordListingResourceMentionTypeCounts](KeywordListingResourceMentionTypeCounts.md)
+`carriedPositions` | [KeywordListingResourceCarriedPositions](KeywordListingResourceCarriedPositions.md)
 
 ## Example
 
@@ -87,6 +88,7 @@ const example = {
   "sentimentNegative": null,
   "avgMentionCount": null,
   "mentionTypeCounts": null,
+  "carriedPositions": null,
 } satisfies KeywordListingResource
 
 console.log(example)

@@ -367,6 +367,100 @@ module Mencoro
       return data, status_code, headers
     end
 
+    # Set which projects a member reaches
+    # Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member's next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member's access at preview time, so another change in between invalidates it.
+    # @param organization_id [String] 
+    # @param member_id [String] 
+    # @param x_mencoro_confirmation [String] 
+    # @param idempotency_key [String] 
+    # @param set_member_project_access_request [SetMemberProjectAccessRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [MemberResource]
+    def set_member_project_access(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request, opts = {})
+      data, _status_code, _headers = set_member_project_access_with_http_info(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request, opts)
+      data
+    end
+
+    # Set which projects a member reaches
+    # Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+    # @param organization_id [String] 
+    # @param member_id [String] 
+    # @param x_mencoro_confirmation [String] 
+    # @param idempotency_key [String] 
+    # @param set_member_project_access_request [SetMemberProjectAccessRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(MemberResource, Integer, Hash)>] MemberResource data, response status code and response headers
+    def set_member_project_access_with_http_info(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: MembersApi.set_member_project_access ...'
+      end
+      # verify the required parameter 'organization_id' is set
+      if @api_client.config.client_side_validation && organization_id.nil?
+        fail ArgumentError, "Missing the required parameter 'organization_id' when calling MembersApi.set_member_project_access"
+      end
+      # verify the required parameter 'member_id' is set
+      if @api_client.config.client_side_validation && member_id.nil?
+        fail ArgumentError, "Missing the required parameter 'member_id' when calling MembersApi.set_member_project_access"
+      end
+      # verify the required parameter 'x_mencoro_confirmation' is set
+      if @api_client.config.client_side_validation && x_mencoro_confirmation.nil?
+        fail ArgumentError, "Missing the required parameter 'x_mencoro_confirmation' when calling MembersApi.set_member_project_access"
+      end
+      # verify the required parameter 'idempotency_key' is set
+      if @api_client.config.client_side_validation && idempotency_key.nil?
+        fail ArgumentError, "Missing the required parameter 'idempotency_key' when calling MembersApi.set_member_project_access"
+      end
+      # verify the required parameter 'set_member_project_access_request' is set
+      if @api_client.config.client_side_validation && set_member_project_access_request.nil?
+        fail ArgumentError, "Missing the required parameter 'set_member_project_access_request' when calling MembersApi.set_member_project_access"
+      end
+      # resource path
+      local_var_path = '/api/v1/organizations/{organizationId}/members/{memberId}/project-access'.sub('{organizationId}', CGI.escape(organization_id.to_s)).sub('{memberId}', CGI.escape(member_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+      header_params[:'X-Mencoro-Confirmation'] = x_mencoro_confirmation
+      header_params[:'Idempotency-Key'] = idempotency_key
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(set_member_project_access_request)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'MemberResource'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKey']
+
+      new_options = opts.merge(
+        :operation => :"MembersApi.set_member_project_access",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: MembersApi#set_member_project_access\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Suspend a member
     # Minimum role: owner. The member loses access on their very next request, including through any API key they own that is scoped to this organization. The last active owner cannot be suspended.
     # @param organization_id [String] 

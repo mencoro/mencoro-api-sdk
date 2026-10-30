@@ -89,7 +89,7 @@ public class ProjectedMonthlyChecksResource {
   }
 
   /**
-   * Active tracked queries the projection was summed over, across every project of the organization, archived projects included. Paused queries are excluded from both figures. Never null.
+   * Active tracked queries the projection was summed over, across every project of the organization the caller can access, archived projects included. Paused queries are excluded from both figures. Never null.
    * minimum: 0
    * @return activeTrackedQueryCount
    */

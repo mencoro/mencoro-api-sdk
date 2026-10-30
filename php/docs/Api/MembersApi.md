@@ -10,6 +10,7 @@ All URIs are relative to https://api.mencoro.com, except if the operation define
 | [**getMember()**](MembersApi.md#getMember) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership |
 | [**listMembers()**](MembersApi.md#listMembers) | **GET** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members |
 | [**reactivateMember()**](MembersApi.md#reactivateMember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member |
+| [**setMemberProjectAccess()**](MembersApi.md#setMemberProjectAccess) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches |
 | [**suspendMember()**](MembersApi.md#suspendMember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member |
 
 
@@ -273,6 +274,74 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `setMemberProjectAccess()`
+
+```php
+setMemberProjectAccess($organization_id, $member_id, $x_mencoro_confirmation, $idempotency_key, $set_member_project_access_request): \Mencoro\Api\Model\MemberResource
+```
+
+Set which projects a member reaches
+
+Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member's next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member's access at preview time, so another change in between invalidates it.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: ApiKey
+$config = Mencoro\Api\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Mencoro\Api\Api\MembersApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$organization_id = 'organization_id_example'; // string
+$member_id = 'member_id_example'; // string
+$x_mencoro_confirmation = 'x_mencoro_confirmation_example'; // string
+$idempotency_key = 'idempotency_key_example'; // string
+$set_member_project_access_request = new \Mencoro\Api\Model\SetMemberProjectAccessRequest(); // \Mencoro\Api\Model\SetMemberProjectAccessRequest
+
+try {
+    $result = $apiInstance->setMemberProjectAccess($organization_id, $member_id, $x_mencoro_confirmation, $idempotency_key, $set_member_project_access_request);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling MembersApi->setMemberProjectAccess: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **organization_id** | **string**|  | |
+| **member_id** | **string**|  | |
+| **x_mencoro_confirmation** | **string**|  | |
+| **idempotency_key** | **string**|  | |
+| **set_member_project_access_request** | [**\Mencoro\Api\Model\SetMemberProjectAccessRequest**](../Model/SetMemberProjectAccessRequest.md)|  | |
+
+### Return type
+
+[**\Mencoro\Api\Model\MemberResource**](../Model/MemberResource.md)
+
+### Authorization
+
+[ApiKey](../../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)

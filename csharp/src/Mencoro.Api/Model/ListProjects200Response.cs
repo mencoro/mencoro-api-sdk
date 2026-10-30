@@ -37,7 +37,7 @@ namespace Mencoro.Api.Model
         /// Initializes a new instance of the <see cref="ListProjects200Response" /> class.
         /// </summary>
         /// <param name="items">items.</param>
-        /// <param name="total">Every project matching the filters, not the size of this page..</param>
+        /// <param name="total">Every project matching the filters that the caller can access, not the size of this page..</param>
         public ListProjects200Response(List<ProjectResource> items = default, int total = default)
         {
             this.Items = items;
@@ -51,9 +51,9 @@ namespace Mencoro.Api.Model
         public List<ProjectResource> Items { get; set; }
 
         /// <summary>
-        /// Every project matching the filters, not the size of this page.
+        /// Every project matching the filters that the caller can access, not the size of this page.
         /// </summary>
-        /// <value>Every project matching the filters, not the size of this page.</value>
+        /// <value>Every project matching the filters that the caller can access, not the size of this page.</value>
         [DataMember(Name = "total", EmitDefaultValue = false)]
         public int Total { get; set; }
 

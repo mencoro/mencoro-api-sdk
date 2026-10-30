@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { CreateInvitationRequestProjectAccess } from './CreateInvitationRequestProjectAccess';
+import {
+    CreateInvitationRequestProjectAccessFromJSON,
+    CreateInvitationRequestProjectAccessFromJSONTyped,
+    CreateInvitationRequestProjectAccessToJSON,
+    CreateInvitationRequestProjectAccessToJSONTyped,
+} from './CreateInvitationRequestProjectAccess';
+
 /**
  * 
  * @export
@@ -31,6 +39,12 @@ export interface CreateInvitationRequest {
      * @memberof CreateInvitationRequest
      */
     role?: CreateInvitationRequestRoleEnum;
+    /**
+     * 
+     * @type {CreateInvitationRequestProjectAccess}
+     * @memberof CreateInvitationRequest
+     */
+    projectAccess?: CreateInvitationRequestProjectAccess | null;
 }
 
 
@@ -64,6 +78,7 @@ export function CreateInvitationRequestFromJSONTyped(json: any, ignoreDiscrimina
         
         'email': json['email'] == null ? undefined : json['email'],
         'role': json['role'] == null ? undefined : json['role'],
+        'projectAccess': json['projectAccess'] === undefined ? undefined : json['projectAccess'] === null ? null : CreateInvitationRequestProjectAccessFromJSON(json['projectAccess']),
     };
 }
 
@@ -80,6 +95,7 @@ export function CreateInvitationRequestToJSONTyped(value?: CreateInvitationReque
         
         'email': value['email'],
         'role': value['role'],
+        'projectAccess': CreateInvitationRequestProjectAccessToJSON(value['projectAccess']),
     };
 }
 

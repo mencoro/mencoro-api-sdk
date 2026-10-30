@@ -1001,8 +1001,10 @@ paths:
             type: string
           type: array
         style: form
-      - description: "Sent alone, returns only the ungrouped bucket rather than adding\
-          \ it to every cluster."
+      - description: "Sent alone, returns only the ungrouped row: the tracked queries\
+          \ that belong to no cluster (refused if there are none). Sent with queryClusterIds,\
+          \ adds that row to those clusters. Omit both for every cluster plus the\
+          \ ungrouped row."
         explode: true
         in: query
         name: includeUngroupedQueries
@@ -1022,7 +1024,8 @@ paths:
         "401":
           description: Missing or invalid API key
         "400":
-          description: A filter was rejected; the details name the field
+          description: "A filter was rejected, including a queryClusterIds or includeUngroupedQueries\
+            \ selection that matches no tracked query; the details name the field"
         "403":
           description: The key lacks the read capability
         "404":
@@ -1495,16 +1498,17 @@ paths:
       - Analytics
   /api/v1/organizations/{organizationId}/overview:
     get:
-      description: "Minimum role: viewer. One row per active project — share of voice,\
-        \ mention rate, average mention position, positivity index and tracked-query\
-        \ count — ordered by share of voice, plus an organization-level aggregate\
-        \ of the same metrics. Archived projects are excluded. This is a current-state\
-        \ snapshot and takes no date window; for a date-ranged comparison call the\
-        \ per-project operations (getProjectMetrics, getProjectTimeSeries) for each\
-        \ projectId returned here. Every metric is nullable, and a null means the\
-        \ project has no rank data yet — not a score of zero. Higher is better for\
-        \ shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based\
-        \ rank, so LOWER is better."
+      description: "Minimum role: viewer. One row per active project the caller can\
+        \ access — share of voice, mention rate, average mention position, positivity\
+        \ index and tracked-query count — ordered by share of voice, plus an organization-level\
+        \ aggregate of the same metrics. Archived projects are excluded. For a member\
+        \ restricted to selected projects, the rows and every aggregate figure cover\
+        \ those projects only. This is a current-state snapshot and takes no date\
+        \ window; for a date-ranged comparison call the per-project operations (getProjectMetrics,\
+        \ getProjectTimeSeries) for each projectId returned here. Every metric is\
+        \ nullable, and a null means the project has no rank data yet — not a score\
+        \ of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex;\
+        \ avgMentionPosition is a 1-based rank, so LOWER is better."
       operationId: getOrganizationOverview
       parameters:
       - explode: false
@@ -1627,8 +1631,9 @@ paths:
             type: string
           type: array
         style: form
-      - description: "Only meaningful together with queryClusterIds: also counts the\
-          \ tracked queries that belong to no cluster."
+      - description: "Sent alone, restricts to tracked queries that belong to no cluster\
+          \ (refused if there are none). Sent with queryClusterIds, adds them to those\
+          \ clusters. Omit both for all tracked queries."
         explode: true
         in: query
         name: includeUngroupedQueries
@@ -1648,7 +1653,8 @@ paths:
         "401":
           description: Missing or invalid API key
         "400":
-          description: A filter was rejected; the details name the field
+          description: "A filter was rejected, including a queryClusterIds or includeUngroupedQueries\
+            \ selection that matches no tracked query; the details name the field"
         "403":
           description: The key lacks the read capability
         "404":
@@ -1739,7 +1745,10 @@ paths:
             type: string
           type: array
         style: form
-      - explode: true
+      - description: "Sent alone, restricts to tracked queries that belong to no cluster\
+          \ (refused if there are none). Sent with queryClusterIds, adds them to those\
+          \ clusters. Omit both for all tracked queries."
+        explode: true
         in: query
         name: includeUngroupedQueries
         required: false
@@ -1757,7 +1766,8 @@ paths:
         "401":
           description: Missing or invalid API key
         "400":
-          description: A filter was rejected; the details name the field
+          description: "A filter was rejected, including a queryClusterIds or includeUngroupedQueries\
+            \ selection that matches no tracked query; the details name the field"
         "403":
           description: The key lacks the read capability
         "404":
@@ -1866,9 +1876,9 @@ paths:
             type: string
           type: array
         style: form
-      - description: On its own this NARROWS the series to tracked queries that belong
-          to no cluster; combined with queryClusterIds it widens those clusters to
-          also cover them.
+      - description: "Sent alone, restricts to tracked queries that belong to no cluster\
+          \ (refused if there are none). Sent with queryClusterIds, adds them to those\
+          \ clusters. Omit both for all tracked queries."
         explode: true
         in: query
         name: includeUngroupedQueries
@@ -1900,7 +1910,8 @@ paths:
         "401":
           description: Missing or invalid API key
         "400":
-          description: A filter was rejected; the details name the field
+          description: "A filter was rejected, including a queryClusterIds or includeUngroupedQueries\
+            \ selection that matches no tracked query; the details name the field"
         "403":
           description: The key lacks the read capability
         "404":
@@ -2322,7 +2333,10 @@ paths:
         \ has never subscribed answers 200 with \"status\": \"none\" and every other\
         \ field null - a null is \"not applicable\", never a stand-in for a zero budget\
         \ or zero consumption. Stripe identifiers, prices and payment methods are\
-        \ not part of this API."
+        \ not part of this API. For a member restricted to selected projects, `tierCode`,\
+        \ `billingCycleType`, `billingCycleAnchor`, `checkBudget`, `checksConsumed`,\
+        \ `checksAvailable`, `nextResetAt` and `deactivationReason` are null: they\
+        \ keep `status`, `isEntitled` and the cancellation and grace dates."
       operationId: getSubscription
       parameters:
       - explode: false
@@ -3449,7 +3463,9 @@ paths:
       - Discovery
   /api/v1/organizations/{organizationId}/brand-name-suggestions:
     post:
-      description: "Minimum role: manager. Starts a background, web-search-grounded\
+      description: "Minimum role: manager, with access to every project of the organization:\
+        \ the job names no project, so a member restricted to selected projects is\
+        \ refused as a role below the minimum is. Starts a background, web-search-grounded\
         \ job that suggests alias spellings for one entity - a brand, a project or\
         \ a competitor - described entirely by the body, and answers 202 with the\
         \ job to poll; it never returns suggestions inline. The entity need not exist:\
@@ -3500,7 +3516,8 @@ paths:
         "403":
           description: The key lacks the write capability
         "404":
-          description: No organization the caller can access under this id
+          description: "No organization the caller can access under this id, or the\
+            \ caller is restricted to selected projects of it"
         "409":
           description: "The organization is archived, or the Idempotency-Key was already\
             \ used for a different request, or a previous attempt with it ended without\
@@ -3909,6 +3926,9 @@ paths:
           description: "Nothing was created because the address already belongs to\
             \ an active member. Not an error: the end state the caller asked for already\
             \ holds."
+        "400":
+          description: "The body is invalid, or the selected projects are empty, more\
+            \ than 500, or not the organization's"
         "401":
           description: Missing or invalid API key
         "403":
@@ -3917,7 +3937,8 @@ paths:
           description: No organization the caller can access under this id
         "409":
           description: "The confirmation is invalid, expired, already used, or its\
-            \ effects changed; or a pending invitation already exists for this address"
+            \ effects changed; or a pending invitation already exists for this address;\
+            \ or an owner invitation carries a project selection"
         "428":
           description: No confirmation was sent; preview the operation first
       summary: Invite somebody to an organization
@@ -4151,8 +4172,9 @@ paths:
             type: string
           type: array
         style: form
-      - description: "Sent alone, restricts the listing to keywords whose variants\
-          \ belong to no cluster; sent with queryClusterIds, adds them to that selection."
+      - description: "Sent alone, restricts to keywords with variants that belong\
+          \ to no cluster (refused if there are none). Sent with queryClusterIds,\
+          \ adds them to those clusters. Omit both for all keywords."
         explode: true
         in: query
         name: includeUngroupedQueries
@@ -4273,8 +4295,9 @@ paths:
           description: "A page of keywords, the totals behind it, and whether the\
             \ metrics are pending recalculation"
         "400":
-          description: "A filter, sort key or page bound was rejected; the details\
-            \ name the field"
+          description: "A filter, sort key or page bound was rejected, including a\
+            \ queryClusterIds or includeUngroupedQueries selection that matches no\
+            \ tracked query; the details name the field"
         "401":
           description: Missing or invalid API key
         "403":
@@ -4521,11 +4544,12 @@ paths:
       description: "Aggregate counts over every organization the key's owner is an\
         \ active member of, narrowed to the key's scope — the same set /api/v1/organizations\
         \ pages through. `organizations.total` is that set's size; `projects.total`\
-        \ and `projects.active` count the projects inside it, archived ones included\
-        \ in the total and excluded from the active figure. Every value is an exact\
-        \ count: zero means zero, and no value here is ever null or unknown. Per-organization\
-        \ billing and usage figures are not part of this response; read them from\
-        \ the subscription and entitlements operations instead."
+        \ and `projects.active` count the projects inside it the owner can access,\
+        \ archived ones included in the total and excluded from the active figure.\
+        \ Every value is an exact count: zero means zero, and no value here is ever\
+        \ null or unknown. Per-organization billing and usage figures are not part\
+        \ of this response; read them from the subscription and entitlements operations\
+        \ instead."
       operationId: getMeStats
       responses:
         "200":
@@ -4822,6 +4846,80 @@ paths:
         "428":
           description: No confirmation was sent; preview the operation first
       summary: Reactivate a suspended member
+      tags:
+      - Members
+  /api/v1/organizations/{organizationId}/members/{memberId}/project-access:
+    put:
+      description: "Minimum role: owner. A member reaches every project of the organization\
+        \ (`all`) or only the listed projects (`selected`); a project outside a selection\
+        \ answers as if it did not exist. The change applies from the member's next\
+        \ request, including through any API key or MCP connection they own. An owner\
+        \ always reaches every project and cannot be limited. Setting the access a\
+        \ member already has changes nothing. Preview it first: the confirmation is\
+        \ bound to the member's access at preview time, so another change in between\
+        \ invalidates it."
+      operationId: setMemberProjectAccess
+      parameters:
+      - explode: false
+        in: path
+        name: organizationId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: memberId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: X-Mencoro-Confirmation
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/setMemberProjectAccess_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemberResource"
+          description: The membership with its new access
+        "400":
+          description: "The access is invalid: a selection that is empty, lists more\
+            \ than 500 projects, or names a project that is not the organization's"
+        "401":
+          description: Missing or invalid API key
+        "403":
+          description: The key lacks the organization:manage capability
+        "404":
+          description: No organization or membership the caller can access under these
+            ids
+        "409":
+          description: "The confirmation is invalid, expired, already used, or its\
+            \ effects changed; the organization is archived; the member is suspended;\
+            \ or the member is an owner, who always reaches every project"
+        "428":
+          description: No confirmation was sent; preview the operation first
+      summary: Set which projects a member reaches
       tags:
       - Members
   /api/v1/organizations/{organizationId}/members/{memberId}/suspend:
@@ -5409,12 +5507,15 @@ paths:
   /api/v1/organizations/{organizationId}/stats:
     get:
       description: "Minimum role: viewer. Active members, projects (total and active)\
-        \ and pending invitations, in one call. Every value is a count and is always\
-        \ known: 0 means the organization really has none of that thing, and no field\
-        \ is ever null. `members.total` counts ACTIVE memberships only, so a suspended\
-        \ member is not included; `projects.total` counts every project including\
-        \ archived ones, and `projects.active` the non-archived subset. This is a\
-        \ current-state snapshot and takes no date window."
+        \ and pending invitations, in one call. Every value is a count: 0 means the\
+        \ organization really has none of that thing you can access. Only `members.total`\
+        \ and `invitations.pending` can be null, and only for a member restricted\
+        \ to selected projects, who is not shown them. `members.total` counts ACTIVE\
+        \ memberships only, so a suspended member is not included; `projects.total`\
+        \ counts every project you can access, archived ones included, and `projects.active`\
+        \ the non-archived subset. For a member restricted to selected projects, the\
+        \ project figures cover those projects only. This is a current-state snapshot\
+        \ and takes no date window."
       operationId: getOrganizationStats
       parameters:
       - explode: false
@@ -5680,16 +5781,18 @@ paths:
     get:
       description: "Minimum role: viewer. Metrics come from the same read model the\
         \ application uses, so the figures match what the product shows. A null metric\
-        \ means \"not known yet\", never zero.Send `Accept: text/csv` to receive the\
-        \ same page as a CSV download instead of JSON: same filters, same authorization,\
-        \ same page window and the same maximum of 100 rows — it is this page in another\
-        \ format, not a bulk export, so a whole collection is still read by paging.\
-        \ The CSV carries no `total`, because a table whose every row is a record\
-        \ has nowhere to put one; read it from the JSON representation of the same\
-        \ request. A list-valued field is joined into one cell with `; ` as a display\
-        \ projection — parse the JSON if you need the structure. Cells beginning with\
-        \ `=`, `+`, `-` or `@` are prefixed with an apostrophe so a spreadsheet treats\
-        \ them as text rather than running them as formulas."
+        \ means \"not known yet\", never zero. For a member restricted to selected\
+        \ projects, the list and `total` cover those projects only. Send `Accept:\
+        \ text/csv` to receive the same page as a CSV download instead of JSON: same\
+        \ filters, same authorization, same page window and the same maximum of 100\
+        \ rows — it is this page in another format, not a bulk export, so a whole\
+        \ collection is still read by paging. The CSV carries no `total`, because\
+        \ a table whose every row is a record has nowhere to put one; read it from\
+        \ the JSON representation of the same request. A list-valued field is joined\
+        \ into one cell with `; ` as a display projection — parse the JSON if you\
+        \ need the structure. Cells beginning with `=`, `+`, `-` or `@` are prefixed\
+        \ with an apostrophe so a spreadsheet treats them as text rather than running\
+        \ them as formulas."
       operationId: listProjects
       parameters:
       - explode: false
@@ -5848,19 +5951,21 @@ paths:
       tags:
       - Projects
     post:
-      description: "Minimum role: manager, in an active organization. Requires the\
-        \ \"write\" capability. Creates the project, the brand monitoring profile\
-        \ holding the domains and brand names to watch, and one competitor per entry\
-        \ of `competitors`, in a single call. The project id is minted by the server;\
-        \ a caller-supplied id is rejected as an unknown field. What is NOT done:\
-        \ no tracked queries are created, no check is run and no scraping is scheduled\
-        \ — a new project has nothing collected against it until tracked queries are\
-        \ added. Each website entry may be a full URL or a bare domain: a URL is reduced\
-        \ to its host with any leading \"www.\" removed, so \"https://www.acme.com/pricing\"\
-        \ is stored as \"acme.com\". Duplicate domains and duplicate brand names are\
-        \ collapsed, exactly as the stored value objects do. Send an Idempotency-Key:\
-        \ a retry with the same key and the same body returns this same project instead\
-        \ of creating a second one."
+      description: "Minimum role: manager, in an active organization, with access\
+        \ to every project of it: a member restricted to selected projects is refused\
+        \ as a role below the minimum is. Requires the \"write\" capability. Creates\
+        \ the project, the brand monitoring profile holding the domains and brand\
+        \ names to watch, and one competitor per entry of `competitors`, in a single\
+        \ call. The project id is minted by the server; a caller-supplied id is rejected\
+        \ as an unknown field. What is NOT done: no tracked queries are created, no\
+        \ check is run and no scraping is scheduled — a new project has nothing collected\
+        \ against it until tracked queries are added. Each website entry may be a\
+        \ full URL or a bare domain: a URL is reduced to its host with any leading\
+        \ \"www.\" removed, so \"https://www.acme.com/pricing\" is stored as \"acme.com\"\
+        . Duplicate domains and duplicate brand names are collapsed, exactly as the\
+        \ stored value objects do. Send an Idempotency-Key: a retry with the same\
+        \ key and the same body returns this same project instead of creating a second\
+        \ one."
       operationId: createProject
       parameters:
       - explode: false
@@ -5901,7 +6006,8 @@ paths:
         "403":
           description: The key lacks the write capability
         "404":
-          description: No organization the caller can access under this id
+          description: "No organization the caller can access under this id, or the\
+            \ caller is restricted to selected projects of it"
         "409":
           description: "The organization is archived, the idempotency key was already\
             \ used for a different request, or a previous attempt with it ended without\
@@ -7369,7 +7475,8 @@ paths:
       - Tracked Queries
   /api/v1/organizations/{organizationId}/usage/tracked-queries:
     get:
-      description: "Minimum role: viewer. How many tracked queries the organization\
+      description: "Minimum role: viewer. For a member restricted to selected projects,\
+        \ every figure covers those projects only. How many tracked queries the organization\
         \ has configured, counted live in PostgreSQL — the write model — over EVERY\
         \ project it owns, archived projects included, and over every tracked query\
         \ in them, active and paused alike. It is deliberately a DIFFERENT number\
@@ -7421,24 +7528,25 @@ paths:
       - Organizations
   /api/v1/organizations/{organizationId}/usage/projected-monthly-checks:
     get:
-      description: "Minimum role: viewer. What the organization's current configuration\
-        \ would consume in a month, in checks — the same unit `checkBudget` and `checksAvailable`\
-        \ are counted in by the entitlements operation — so the two are directly comparable\
-        \ when sizing a plan. The arithmetic is published so it can be reproduced\
-        \ rather than trusted: for each ACTIVE tracked query, runs per month (daily\
-        \ 30, weekly 4, monthly 1) multiplied by its nPasses and engine weight, summed.\
-        \ Claude uses five checks per pass; every other engine uses one. A weekly\
-        \ query runs 4 times per month, not 4.345: a month is modelled as 30 days\
-        \ and 4 weeks, a planning convention rather than a calendar. Take `checkFrequency`,\
-        \ `nPasses` and `engine` from the tracked-query listing and the arithmetic\
-        \ will match — though the two sides are read from different places and settle\
-        \ at different times: this figure is computed in the Postgres write model\
-        \ and served from a cache that background subscribers invalidate, while that\
-        \ listing reads an Elasticsearch projection. Immediately after a write the\
-        \ two can disagree; neither is wrong, they are catching up. PAUSED queries\
-        \ are excluded from both figures; archived PROJECTS are not — archiving a\
-        \ project does not pause its tracked queries, so they still count here, exactly\
-        \ as they do in countOrganizationTrackedQueries. `activeTrackedQueryCount`\
+      description: "Minimum role: viewer. For a member restricted to selected projects,\
+        \ every figure covers those projects only. What the organization's current\
+        \ configuration would consume in a month, in checks — the same unit `checkBudget`\
+        \ and `checksAvailable` are counted in by the entitlements operation — so\
+        \ the two are directly comparable when sizing a plan. The arithmetic is published\
+        \ so it can be reproduced rather than trusted: for each ACTIVE tracked query,\
+        \ runs per month (daily 30, weekly 4, monthly 1) multiplied by its nPasses\
+        \ and engine weight, summed. Claude uses five checks per pass; every other\
+        \ engine uses one. A weekly query runs 4 times per month, not 4.345: a month\
+        \ is modelled as 30 days and 4 weeks, a planning convention rather than a\
+        \ calendar. Take `checkFrequency`, `nPasses` and `engine` from the tracked-query\
+        \ listing and the arithmetic will match — though the two sides are read from\
+        \ different places and settle at different times: this figure is computed\
+        \ in the Postgres write model and served from a cache that background subscribers\
+        \ invalidate, while that listing reads an Elasticsearch projection. Immediately\
+        \ after a write the two can disagree; neither is wrong, they are catching\
+        \ up. PAUSED queries are excluded from both figures; archived PROJECTS are\
+        \ not — archiving a project does not pause its tracked queries, so they still\
+        \ count here, exactly as they do in countOrganizationTrackedQueries. `activeTrackedQueryCount`\
         \ describes the same population as that count, minus the paused queries —\
         \ but do not compute the difference to learn how many are paused: THIS OPERATION\
         \ IS CACHED and that one is read live, so the two can disagree while the cache\
@@ -9139,7 +9247,9 @@ components:
       - status
       type: object
     SubscriptionResource:
-      description: The current subscription contract of an organization
+      description: "The current subscription contract of an organization. For a member\
+        \ restricted to selected projects, the plan, the billing cycle, the check\
+        \ budget, its consumption and the deactivation reason are null."
       example:
         status: active
         tierCode: tier_2000
@@ -9220,8 +9330,8 @@ components:
           type: string
         deactivationReason:
           description: "Why the subscription is currently inactive. Null for an active\
-            \ subscription, and meaningless once \"cancelledAt\" is set - the cancellation\
-            \ supersedes it."
+            \ subscription and for a member restricted to selected projects, and meaningless\
+            \ once \"cancelledAt\" is set - the cancellation supersedes it."
           enum:
           - payment_failed
           - paused
@@ -9780,6 +9890,10 @@ components:
         createdAt: 2000-01-23T04:56:07.000+00:00
         expiresAt: 2000-01-23T04:56:07.000+00:00
         acceptedAt: 2000-01-23T04:56:07.000+00:00
+        projectAccessMode: all
+        projectIds:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         id:
           format: uuid
@@ -9811,11 +9925,28 @@ components:
           format: date-time
           nullable: true
           type: string
+        projectAccessMode:
+          description: "Which projects of the organization the invitee reaches on\
+            \ accepting: every project, or only projectIds"
+          enum:
+          - all
+          - selected
+          type: string
+        projectIds:
+          description: "The projects a selected access reaches, limited to those still\
+            \ in the organization; empty when the mode is all. It may be empty on\
+            \ selected once its projects left the organization, which grants nothing"
+          items:
+            format: uuid
+            type: string
+          type: array
       required:
       - createdAt
       - email
       - expiresAt
       - id
+      - projectAccessMode
+      - projectIds
       - role
       - state
       type: object
@@ -9925,6 +10056,19 @@ components:
           listing: 3
           example: 6
           reference: 1
+        carriedPositions:
+          serp:
+            measuredAt: 2000-01-23
+            allCarried: true
+          shopping:
+            measuredAt: 2000-01-23
+            allCarried: true
+          mention:
+            measuredAt: 2000-01-23
+            allCarried: true
+          link:
+            measuredAt: 2000-01-23
+            allCarried: true
       properties:
         keyword:
           description: "The keyword as a human types it, picked from the variants\
@@ -10012,46 +10156,53 @@ components:
           type: string
         avgSerpPosition:
           description: "Average position in traditional search over the window. 1-based,\
-            \ LOWER is better."
+            \ LOWER is better. A variant not checked in the window contributes its\
+            \ latest earlier measurement instead; see carriedPositions."
           format: float
           nullable: true
           type: number
         trendSerp:
           description: Signed improvement in avgSerpPosition against the previous
-            window. Positive is better.
+            window. Positive is better. Null when carriedPositions.serp is set.
           format: float
           nullable: true
           type: number
         avgShoppingPosition:
           description: "Average position in shopping results over the window. 1-based,\
-            \ LOWER is better."
+            \ LOWER is better. A variant not checked in the window contributes its\
+            \ latest earlier measurement instead; see carriedPositions."
           format: float
           nullable: true
           type: number
         trendShopping:
           description: Signed improvement in avgShoppingPosition. Positive is better.
+            Null when carriedPositions.shopping is set.
           format: float
           nullable: true
           type: number
         avgMentionPosition:
           description: "Average position of the brand mention inside the AI answer.\
-            \ 1-based, LOWER is better."
+            \ 1-based, LOWER is better. A variant not checked in the window contributes\
+            \ its latest earlier measurement instead; see carriedPositions."
           format: float
           nullable: true
           type: number
         trendMention:
           description: Signed improvement in avgMentionPosition. Positive is better.
+            Null when carriedPositions.mention is set.
           format: float
           nullable: true
           type: number
         avgLinkPosition:
           description: "Average position of a cited link to the brand. 1-based, LOWER\
-            \ is better."
+            \ is better. A variant not checked in the window contributes its latest\
+            \ earlier measurement instead; see carriedPositions."
           format: float
           nullable: true
           type: number
         trendLink:
           description: Signed improvement in avgLinkPosition. Positive is better.
+            Null when carriedPositions.link is set.
           format: float
           nullable: true
           type: number
@@ -10123,7 +10274,10 @@ components:
           type: number
         mentionTypeCounts:
           $ref: "#/components/schemas/KeywordListingResource_mentionTypeCounts"
+        carriedPositions:
+          $ref: "#/components/schemas/KeywordListingResource_carriedPositions"
       required:
+      - carriedPositions
       - checkFrequencies
       - countries
       - engines
@@ -10326,6 +10480,10 @@ components:
         state: active
         isActive: true
         joinedAt: 2000-01-23T04:56:07.000+00:00
+        projectAccessMode: all
+        projectIds:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         id:
           format: uuid
@@ -10350,10 +10508,26 @@ components:
         joinedAt:
           format: date-time
           type: string
+        projectAccessMode:
+          description: "Which projects of the organization the member reaches: every\
+            \ project, or only projectIds"
+          enum:
+          - all
+          - selected
+          type: string
+        projectIds:
+          description: The projects a selected access reaches; empty when the mode
+            is all
+          items:
+            format: uuid
+            type: string
+          type: array
       required:
       - id
       - isActive
       - joinedAt
+      - projectAccessMode
+      - projectIds
       - role
       - state
       - userId
@@ -11117,9 +11291,9 @@ components:
         trackedQueryCount: 124
       properties:
         trackedQueryCount:
-          description: "Tracked queries across every project of the organization,\
-            \ archived projects included, counting active and paused queries alike.\
-            \ Never null; 0 means none are configured."
+          description: "Tracked queries across every project of the organization the\
+            \ caller can access, archived projects included, counting active and paused\
+            \ queries alike. Never null; 0 means none are configured."
           example: 124
           minimum: 0
           type: integer
@@ -11143,8 +11317,8 @@ components:
           type: integer
         activeTrackedQueryCount:
           description: "Active tracked queries the projection was summed over, across\
-            \ every project of the organization, archived projects included. Paused\
-            \ queries are excluded from both figures. Never null."
+            \ every project of the organization the caller can access, archived projects\
+            \ included. Paused queries are excluded from both figures. Never null."
           example: 24
           minimum: 0
           type: integer
@@ -11539,10 +11713,13 @@ components:
         name: name
         status: status
         trackedQueryCount: 0
-        shareOfVoice: 6.0274563
-        mentionRate: 1
-        avgMentionPosition: 5.962134
-        positivityIndex: 5
+        aiTrackedQueryCount: 6
+        serpTrackedQueryCount: 1
+        shoppingTrackedQueryCount: 5
+        shareOfVoice: 5.637377
+        mentionRate: 2
+        avgMentionPosition: 7.0614014
+        positivityIndex: 9
       properties:
         projectId:
           format: uuid
@@ -11552,6 +11729,17 @@ components:
         status:
           type: string
         trackedQueryCount:
+          description: "Configured tracked queries of the project, paused ones included."
+          type: integer
+        aiTrackedQueryCount:
+          description: "How many of trackedQueryCount run on an AI answer engine (ChatGPT,\
+            \ Claude, Perplexity, Google AI Overview, Google AI Mode)."
+          type: integer
+        serpTrackedQueryCount:
+          description: How many of trackedQueryCount run on classic Google SERP.
+          type: integer
+        shoppingTrackedQueryCount:
+          description: How many of trackedQueryCount run on Google Shopping.
           type: integer
         shareOfVoice:
           description: 0-100 percentage share of weighted AI mentions against all
@@ -11581,16 +11769,17 @@ components:
       type: object
     getOrganizationOverview_200_response_aggregate:
       example:
-        projectCount: 2
-        projectsWithData: 7
-        totalTrackedQueries: 9
-        avgShareOfVoice: 3.6160767
-        avgMentionRate: 2
-        avgMentionPosition: 4.145608
-        avgPositivityIndex: 7
+        projectCount: 3
+        projectsWithData: 2
+        totalTrackedQueries: 4
+        avgShareOfVoice: 7.386282
+        avgMentionRate: 1
+        avgMentionPosition: 1.0246457
+        avgPositivityIndex: 1
       properties:
         projectCount:
-          description: "Active projects in the organization, the length of `projects`."
+          description: "Active projects of the organization the caller can access,\
+            \ the length of `projects`."
           type: integer
         projectsWithData:
           description: "How many of those have a share of voice; the averages below\
@@ -11623,26 +11812,32 @@ components:
           name: name
           status: status
           trackedQueryCount: 0
-          shareOfVoice: 6.0274563
-          mentionRate: 1
-          avgMentionPosition: 5.962134
-          positivityIndex: 5
+          aiTrackedQueryCount: 6
+          serpTrackedQueryCount: 1
+          shoppingTrackedQueryCount: 5
+          shareOfVoice: 5.637377
+          mentionRate: 2
+          avgMentionPosition: 7.0614014
+          positivityIndex: 9
         - projectId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           name: name
           status: status
           trackedQueryCount: 0
-          shareOfVoice: 6.0274563
-          mentionRate: 1
-          avgMentionPosition: 5.962134
-          positivityIndex: 5
+          aiTrackedQueryCount: 6
+          serpTrackedQueryCount: 1
+          shoppingTrackedQueryCount: 5
+          shareOfVoice: 5.637377
+          mentionRate: 2
+          avgMentionPosition: 7.0614014
+          positivityIndex: 9
         aggregate:
-          projectCount: 2
-          projectsWithData: 7
-          totalTrackedQueries: 9
-          avgShareOfVoice: 3.6160767
-          avgMentionRate: 2
-          avgMentionPosition: 4.145608
-          avgPositivityIndex: 7
+          projectCount: 3
+          projectsWithData: 2
+          totalTrackedQueries: 4
+          avgShareOfVoice: 7.386282
+          avgMentionRate: 1
+          avgMentionPosition: 1.0246457
+          avgPositivityIndex: 1
       properties:
         projects:
           items:
@@ -12154,6 +12349,10 @@ components:
           createdAt: 2000-01-23T04:56:07.000+00:00
           expiresAt: 2000-01-23T04:56:07.000+00:00
           acceptedAt: 2000-01-23T04:56:07.000+00:00
+          projectAccessMode: all
+          projectIds:
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           email: email
           role: owner
@@ -12161,6 +12360,10 @@ components:
           createdAt: 2000-01-23T04:56:07.000+00:00
           expiresAt: 2000-01-23T04:56:07.000+00:00
           acceptedAt: 2000-01-23T04:56:07.000+00:00
+          projectAccessMode: all
+          projectIds:
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         total: 0
       properties:
         items:
@@ -12169,6 +12372,27 @@ components:
           type: array
         total:
           type: integer
+      type: object
+    createInvitation_request_projectAccess:
+      description: "Which projects of the organization the invitee reaches once they\
+        \ accept. Omitted or null, they reach every project. An owner always reaches\
+        \ every project, so an owner invitation cannot carry a selection."
+      nullable: true
+      properties:
+        mode:
+          enum:
+          - all
+          - selected
+          type: string
+        projectIds:
+          description: "For selected: at least one and at most 500 projects of the\
+            \ organization."
+          items:
+            format: uuid
+            type: string
+          type: array
+      required:
+      - mode
       type: object
     createInvitation_request:
       properties:
@@ -12182,6 +12406,8 @@ components:
           - manager
           - viewer
           type: string
+        projectAccess:
+          $ref: "#/components/schemas/createInvitation_request_projectAccess"
       type: object
     createInvitation_201_response:
       allOf:
@@ -12200,6 +12426,10 @@ components:
         createdAt: 2000-01-23T04:56:07.000+00:00
         expiresAt: 2000-01-23T04:56:07.000+00:00
         acceptedAt: 2000-01-23T04:56:07.000+00:00
+        projectAccessMode: all
+        projectIds:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
     createInvitation_200_response:
       example:
         created: true
@@ -12277,6 +12507,19 @@ components:
             listing: 3
             example: 6
             reference: 1
+          carriedPositions:
+            serp:
+              measuredAt: 2000-01-23
+              allCarried: true
+            shopping:
+              measuredAt: 2000-01-23
+              allCarried: true
+            mention:
+              measuredAt: 2000-01-23
+              allCarried: true
+            link:
+              measuredAt: 2000-01-23
+              allCarried: true
         - keyword: keyword
           keywordNormalized: keywordNormalized
           variantCount: 0
@@ -12332,6 +12575,19 @@ components:
             listing: 3
             example: 6
             reference: 1
+          carriedPositions:
+            serp:
+              measuredAt: 2000-01-23
+              allCarried: true
+            shopping:
+              measuredAt: 2000-01-23
+              allCarried: true
+            mention:
+              measuredAt: 2000-01-23
+              allCarried: true
+            link:
+              measuredAt: 2000-01-23
+              allCarried: true
         total: 2
         totalVariantCount: 6
         dataDirtySince: 2000-01-23T04:56:07.000+00:00
@@ -12438,7 +12694,8 @@ components:
         active: 18
       properties:
         total:
-          description: "Projects across those organizations, archived ones included."
+          description: "Projects across those organizations the owner can access,\
+            \ archived ones included."
           example: 25
           minimum: 0
           type: integer
@@ -12479,12 +12736,20 @@ components:
           state: active
           isActive: true
           joinedAt: 2000-01-23T04:56:07.000+00:00
+          projectAccessMode: all
+          projectIds:
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           userId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           role: owner
           state: active
           isActive: true
           joinedAt: 2000-01-23T04:56:07.000+00:00
+          projectAccessMode: all
+          projectIds:
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         total: 0
       properties:
         items:
@@ -12493,6 +12758,23 @@ components:
           type: array
         total:
           type: integer
+      type: object
+    setMemberProjectAccess_request:
+      properties:
+        mode:
+          enum:
+          - all
+          - selected
+          type: string
+        projectIds:
+          description: "The projects of the organization a selected access reaches:\
+            \ at least one and at most 500. Omit it, or send an empty list, for all."
+          items:
+            format: uuid
+            type: string
+          type: array
+      required:
+      - mode
       type: object
     listOrganizations_200_response:
       example:
@@ -12555,6 +12837,7 @@ components:
           - changeMemberRole
           - suspendMember
           - reactivateMember
+          - setMemberProjectAccess
           - createInvitation
           - cancelInvitation
           type: string
@@ -12750,9 +13033,11 @@ components:
         total: 12
       properties:
         total:
-          description: Active memberships. Suspended members are excluded.
+          description: Active memberships. Suspended members are excluded. Null for
+            a member restricted to selected projects.
           example: 12
           minimum: 0
+          nullable: true
           type: integer
       type: object
     getOrganizationStats_200_response_projects:
@@ -12761,7 +13046,8 @@ components:
         active: 18
       properties:
         total:
-          description: "Every project in the organization, archived ones included."
+          description: "Every project of the organization the caller can access, archived\
+            \ ones included."
           example: 25
           minimum: 0
           type: integer
@@ -12777,9 +13063,11 @@ components:
       properties:
         pending:
           description: "Invitations still awaiting an answer. Accepted, cancelled\
-            \ and expired ones are excluded."
+            \ and expired ones are excluded. Null for a member restricted to selected\
+            \ projects."
           example: 3
           minimum: 0
+          nullable: true
           type: integer
       type: object
     getOrganizationStats_200_response:
@@ -12894,7 +13182,8 @@ components:
             $ref: "#/components/schemas/ProjectResource"
           type: array
         total:
-          description: "Every project matching the filters, not the size of this page."
+          description: "Every project matching the filters that the caller can access,\
+            \ not the size of this page."
           type: integer
       type: object
     createProject_request_competitors_inner:
@@ -13192,6 +13481,58 @@ components:
           type: integer
         reference:
           type: integer
+      type: object
+    KeywordListingResource_carriedPositions_serp:
+      example:
+        measuredAt: 2000-01-23
+        allCarried: true
+      nullable: true
+      properties:
+        measuredAt:
+          description: Date (YYYY-MM-DD) of the oldest carried measurement.
+          format: date
+          type: string
+        allCarried:
+          description: "True when every variant behind the figure carried, so it holds\
+            \ no measurement from the window."
+          type: boolean
+      required:
+      - allCarried
+      - measuredAt
+      type: object
+    KeywordListingResource_carriedPositions:
+      description: "Per engine family, whether the position figure includes a measurement\
+        \ from before the window. An active variant with no check of its engine in\
+        \ the window contributes the brand's position in its latest earlier capture,\
+        \ and nothing when the brand was absent from that capture. An entry is null\
+        \ when no variant behind the figure carried. Every other metric stays window-only."
+      example:
+        serp:
+          measuredAt: 2000-01-23
+          allCarried: true
+        shopping:
+          measuredAt: 2000-01-23
+          allCarried: true
+        mention:
+          measuredAt: 2000-01-23
+          allCarried: true
+        link:
+          measuredAt: 2000-01-23
+          allCarried: true
+      properties:
+        serp:
+          $ref: "#/components/schemas/KeywordListingResource_carriedPositions_serp"
+        shopping:
+          $ref: "#/components/schemas/KeywordListingResource_carriedPositions_serp"
+        mention:
+          $ref: "#/components/schemas/KeywordListingResource_carriedPositions_serp"
+        link:
+          $ref: "#/components/schemas/KeywordListingResource_carriedPositions_serp"
+      required:
+      - link
+      - mention
+      - serp
+      - shopping
       type: object
     ProjectDetailResource_competitors_inner:
       example:

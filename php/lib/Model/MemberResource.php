@@ -64,7 +64,9 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'role' => 'string',
         'state' => 'string',
         'is_active' => 'bool',
-        'joined_at' => '\DateTime'
+        'joined_at' => '\DateTime',
+        'project_access_mode' => 'string',
+        'project_ids' => 'string[]'
     ];
 
     /**
@@ -80,7 +82,9 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'role' => null,
         'state' => null,
         'is_active' => null,
-        'joined_at' => 'date-time'
+        'joined_at' => 'date-time',
+        'project_access_mode' => null,
+        'project_ids' => 'uuid'
     ];
 
     /**
@@ -94,7 +98,9 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'role' => false,
         'state' => false,
         'is_active' => false,
-        'joined_at' => false
+        'joined_at' => false,
+        'project_access_mode' => false,
+        'project_ids' => false
     ];
 
     /**
@@ -188,7 +194,9 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'role' => 'role',
         'state' => 'state',
         'is_active' => 'isActive',
-        'joined_at' => 'joinedAt'
+        'joined_at' => 'joinedAt',
+        'project_access_mode' => 'projectAccessMode',
+        'project_ids' => 'projectIds'
     ];
 
     /**
@@ -202,7 +210,9 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'role' => 'setRole',
         'state' => 'setState',
         'is_active' => 'setIsActive',
-        'joined_at' => 'setJoinedAt'
+        'joined_at' => 'setJoinedAt',
+        'project_access_mode' => 'setProjectAccessMode',
+        'project_ids' => 'setProjectIds'
     ];
 
     /**
@@ -216,7 +226,9 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
         'role' => 'getRole',
         'state' => 'getState',
         'is_active' => 'getIsActive',
-        'joined_at' => 'getJoinedAt'
+        'joined_at' => 'getJoinedAt',
+        'project_access_mode' => 'getProjectAccessMode',
+        'project_ids' => 'getProjectIds'
     ];
 
     /**
@@ -265,6 +277,8 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
     public const ROLE_VIEWER = 'viewer';
     public const STATE_ACTIVE = 'active';
     public const STATE_SUSPENDED = 'suspended';
+    public const PROJECT_ACCESS_MODE_ALL = 'all';
+    public const PROJECT_ACCESS_MODE_SELECTED = 'selected';
 
     /**
      * Gets allowable values of the enum
@@ -294,6 +308,19 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getProjectAccessModeAllowableValues()
+    {
+        return [
+            self::PROJECT_ACCESS_MODE_ALL,
+            self::PROJECT_ACCESS_MODE_SELECTED,
+        ];
+    }
+
+    /**
      * Associative array for storing property values
      *
      * @var mixed[]
@@ -314,6 +341,8 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('state', $data ?? [], null);
         $this->setIfExists('is_active', $data ?? [], null);
         $this->setIfExists('joined_at', $data ?? [], null);
+        $this->setIfExists('project_access_mode', $data ?? [], null);
+        $this->setIfExists('project_ids', $data ?? [], null);
     }
 
     /**
@@ -378,6 +407,21 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['joined_at'] === null) {
             $invalidProperties[] = "'joined_at' can't be null";
+        }
+        if ($this->container['project_access_mode'] === null) {
+            $invalidProperties[] = "'project_access_mode' can't be null";
+        }
+        $allowedValues = $this->getProjectAccessModeAllowableValues();
+        if (!is_null($this->container['project_access_mode']) && !in_array($this->container['project_access_mode'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'project_access_mode', must be one of '%s'",
+                $this->container['project_access_mode'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['project_ids'] === null) {
+            $invalidProperties[] = "'project_ids' can't be null";
         }
         return $invalidProperties;
     }
@@ -572,6 +616,70 @@ class MemberResource implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable joined_at cannot be null');
         }
         $this->container['joined_at'] = $joined_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets project_access_mode
+     *
+     * @return string
+     */
+    public function getProjectAccessMode()
+    {
+        return $this->container['project_access_mode'];
+    }
+
+    /**
+     * Sets project_access_mode
+     *
+     * @param string $project_access_mode Which projects of the organization the member reaches: every project, or only projectIds
+     *
+     * @return self
+     */
+    public function setProjectAccessMode($project_access_mode)
+    {
+        if (is_null($project_access_mode)) {
+            throw new \InvalidArgumentException('non-nullable project_access_mode cannot be null');
+        }
+        $allowedValues = $this->getProjectAccessModeAllowableValues();
+        if (!in_array($project_access_mode, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'project_access_mode', must be one of '%s'",
+                    $project_access_mode,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['project_access_mode'] = $project_access_mode;
+
+        return $this;
+    }
+
+    /**
+     * Gets project_ids
+     *
+     * @return string[]
+     */
+    public function getProjectIds()
+    {
+        return $this->container['project_ids'];
+    }
+
+    /**
+     * Sets project_ids
+     *
+     * @param string[] $project_ids The projects a selected access reaches; empty when the mode is all
+     *
+     * @return self
+     */
+    public function setProjectIds($project_ids)
+    {
+        if (is_null($project_ids)) {
+            throw new \InvalidArgumentException('non-nullable project_ids cannot be null');
+        }
+        $this->container['project_ids'] = $project_ids;
 
         return $this;
     }

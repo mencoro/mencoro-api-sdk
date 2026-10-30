@@ -20,8 +20,8 @@ var _ MappedNullable = &GetOrganizationStats200ResponseInvitations{}
 
 // GetOrganizationStats200ResponseInvitations struct for GetOrganizationStats200ResponseInvitations
 type GetOrganizationStats200ResponseInvitations struct {
-	// Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded.
-	Pending *int32 `json:"pending,omitempty"`
+	// Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects.
+	Pending NullableInt32 `json:"pending,omitempty"`
 }
 
 // NewGetOrganizationStats200ResponseInvitations instantiates a new GetOrganizationStats200ResponseInvitations object
@@ -41,36 +41,46 @@ func NewGetOrganizationStats200ResponseInvitationsWithDefaults() *GetOrganizatio
 	return &this
 }
 
-// GetPending returns the Pending field value if set, zero value otherwise.
+// GetPending returns the Pending field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *GetOrganizationStats200ResponseInvitations) GetPending() int32 {
-	if o == nil || IsNil(o.Pending) {
+	if o == nil || IsNil(o.Pending.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.Pending
+	return *o.Pending.Get()
 }
 
 // GetPendingOk returns a tuple with the Pending field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *GetOrganizationStats200ResponseInvitations) GetPendingOk() (*int32, bool) {
-	if o == nil || IsNil(o.Pending) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Pending, true
+	return o.Pending.Get(), o.Pending.IsSet()
 }
 
 // HasPending returns a boolean if a field has been set.
 func (o *GetOrganizationStats200ResponseInvitations) HasPending() bool {
-	if o != nil && !IsNil(o.Pending) {
+	if o != nil && o.Pending.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetPending gets a reference to the given int32 and assigns it to the Pending field.
+// SetPending gets a reference to the given NullableInt32 and assigns it to the Pending field.
 func (o *GetOrganizationStats200ResponseInvitations) SetPending(v int32) {
-	o.Pending = &v
+	o.Pending.Set(&v)
+}
+// SetPendingNil sets the value for Pending to be an explicit nil
+func (o *GetOrganizationStats200ResponseInvitations) SetPendingNil() {
+	o.Pending.Set(nil)
+}
+
+// UnsetPending ensures that no value is present for Pending, not even an explicit nil
+func (o *GetOrganizationStats200ResponseInvitations) UnsetPending() {
+	o.Pending.Unset()
 }
 
 func (o GetOrganizationStats200ResponseInvitations) MarshalJSON() ([]byte, error) {
@@ -83,8 +93,8 @@ func (o GetOrganizationStats200ResponseInvitations) MarshalJSON() ([]byte, error
 
 func (o GetOrganizationStats200ResponseInvitations) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Pending) {
-		toSerialize["pending"] = o.Pending
+	if o.Pending.IsSet() {
+		toSerialize["pending"] = o.Pending.Get()
 	}
 	return toSerialize, nil
 }

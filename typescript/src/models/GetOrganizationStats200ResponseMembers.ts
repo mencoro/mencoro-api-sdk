@@ -20,11 +20,11 @@ import { mapValues } from '../runtime';
  */
 export interface GetOrganizationStats200ResponseMembers {
     /**
-     * Active memberships. Suspended members are excluded.
+     * Active memberships. Suspended members are excluded. Null for a member restricted to selected projects.
      * @type {number}
      * @memberof GetOrganizationStats200ResponseMembers
      */
-    total?: number;
+    total?: number | null;
 }
 
 /**
@@ -44,7 +44,7 @@ export function GetOrganizationStats200ResponseMembersFromJSONTyped(json: any, i
     }
     return {
         
-        'total': json['total'] == null ? undefined : json['total'],
+        'total': json['total'] === undefined ? undefined : json['total'] === null ? null : json['total'],
     };
 }
 

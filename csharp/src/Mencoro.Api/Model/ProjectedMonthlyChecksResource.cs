@@ -42,7 +42,7 @@ namespace Mencoro.Api.Model
         /// Initializes a new instance of the <see cref="ProjectedMonthlyChecksResource" /> class.
         /// </summary>
         /// <param name="projectedMonthlyChecks">Checks a month of the current configuration would consume: for each ACTIVE tracked query, its runs per month (daily 30, weekly 4, monthly 1) multiplied by its nPasses and engine weight, summed. Claude uses five checks per pass; every other engine uses one. Never null. (required).</param>
-        /// <param name="activeTrackedQueryCount">Active tracked queries the projection was summed over, across every project of the organization, archived projects included. Paused queries are excluded from both figures. Never null. (required).</param>
+        /// <param name="activeTrackedQueryCount">Active tracked queries the projection was summed over, across every project of the organization the caller can access, archived projects included. Paused queries are excluded from both figures. Never null. (required).</param>
         public ProjectedMonthlyChecksResource(int projectedMonthlyChecks = default, int activeTrackedQueryCount = default)
         {
             this.ProjectedMonthlyChecks = projectedMonthlyChecks;
@@ -60,9 +60,9 @@ namespace Mencoro.Api.Model
         public int ProjectedMonthlyChecks { get; set; }
 
         /// <summary>
-        /// Active tracked queries the projection was summed over, across every project of the organization, archived projects included. Paused queries are excluded from both figures. Never null.
+        /// Active tracked queries the projection was summed over, across every project of the organization the caller can access, archived projects included. Paused queries are excluded from both figures. Never null.
         /// </summary>
-        /// <value>Active tracked queries the projection was summed over, across every project of the organization, archived projects included. Paused queries are excluded from both figures. Never null.</value>
+        /// <value>Active tracked queries the projection was summed over, across every project of the organization the caller can access, archived projects included. Paused queries are excluded from both figures. Never null.</value>
         /*
         <example>24</example>
         */

@@ -108,6 +108,33 @@ namespace Mencoro.Api.Model
         [DataMember(Name = "state", IsRequired = true, EmitDefaultValue = true)]
         public StateEnum State { get; set; }
         /// <summary>
+        /// Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+        /// </summary>
+        /// <value>Which projects of the organization the invitee reaches on accepting: every project, or only projectIds</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ProjectAccessModeEnum
+        {
+            /// <summary>
+            /// Enum All for value: all
+            /// </summary>
+            [EnumMember(Value = "all")]
+            All = 1,
+
+            /// <summary>
+            /// Enum Selected for value: selected
+            /// </summary>
+            [EnumMember(Value = "selected")]
+            Selected = 2
+        }
+
+
+        /// <summary>
+        /// Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+        /// </summary>
+        /// <value>Which projects of the organization the invitee reaches on accepting: every project, or only projectIds</value>
+        [DataMember(Name = "projectAccessMode", IsRequired = true, EmitDefaultValue = true)]
+        public ProjectAccessModeEnum ProjectAccessMode { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="CreateInvitation201Response" /> class.
         /// </summary>
         [JsonConstructorAttribute]
@@ -122,8 +149,10 @@ namespace Mencoro.Api.Model
         /// <param name="createdAt">createdAt (required).</param>
         /// <param name="expiresAt">expiresAt (required).</param>
         /// <param name="acceptedAt">acceptedAt.</param>
+        /// <param name="projectAccessMode">Which projects of the organization the invitee reaches on accepting: every project, or only projectIds (required).</param>
+        /// <param name="projectIds">The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing (required).</param>
         /// <param name="created">Always true on a 201..</param>
-        public CreateInvitation201Response(Guid id = default, string email = default, RoleEnum role = default, StateEnum state = default, DateTime createdAt = default, DateTime expiresAt = default, DateTime? acceptedAt = default, bool created = default)
+        public CreateInvitation201Response(Guid id = default, string email = default, RoleEnum role = default, StateEnum state = default, DateTime createdAt = default, DateTime expiresAt = default, DateTime? acceptedAt = default, ProjectAccessModeEnum projectAccessMode = default, List<Guid> projectIds = default, bool created = default)
         {
             this.Id = id;
             // to ensure "email" is required (not null)
@@ -136,6 +165,13 @@ namespace Mencoro.Api.Model
             this.State = state;
             this.CreatedAt = createdAt;
             this.ExpiresAt = expiresAt;
+            this.ProjectAccessMode = projectAccessMode;
+            // to ensure "projectIds" is required (not null)
+            if (projectIds == null)
+            {
+                throw new ArgumentNullException("projectIds is a required property for CreateInvitation201Response and cannot be null");
+            }
+            this.ProjectIds = projectIds;
             this.AcceptedAt = acceptedAt;
             this.Created = created;
         }
@@ -171,6 +207,13 @@ namespace Mencoro.Api.Model
         public DateTime? AcceptedAt { get; set; }
 
         /// <summary>
+        /// The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing
+        /// </summary>
+        /// <value>The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing</value>
+        [DataMember(Name = "projectIds", IsRequired = true, EmitDefaultValue = true)]
+        public List<Guid> ProjectIds { get; set; }
+
+        /// <summary>
         /// Always true on a 201.
         /// </summary>
         /// <value>Always true on a 201.</value>
@@ -192,6 +235,8 @@ namespace Mencoro.Api.Model
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  ExpiresAt: ").Append(ExpiresAt).Append("\n");
             sb.Append("  AcceptedAt: ").Append(AcceptedAt).Append("\n");
+            sb.Append("  ProjectAccessMode: ").Append(ProjectAccessMode).Append("\n");
+            sb.Append("  ProjectIds: ").Append(ProjectIds).Append("\n");
             sb.Append("  Created: ").Append(Created).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

@@ -30,6 +30,10 @@ type InvitationResource struct {
 	CreatedAt time.Time `json:"createdAt"`
 	ExpiresAt time.Time `json:"expiresAt"`
 	AcceptedAt NullableTime `json:"acceptedAt,omitempty"`
+	// Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+	ProjectAccessMode string `json:"projectAccessMode"`
+	// The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing
+	ProjectIds []string `json:"projectIds"`
 }
 
 type _InvitationResource InvitationResource
@@ -38,7 +42,7 @@ type _InvitationResource InvitationResource
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInvitationResource(id string, email string, role string, state string, createdAt time.Time, expiresAt time.Time) *InvitationResource {
+func NewInvitationResource(id string, email string, role string, state string, createdAt time.Time, expiresAt time.Time, projectAccessMode string, projectIds []string) *InvitationResource {
 	this := InvitationResource{}
 	this.Id = id
 	this.Email = email
@@ -46,6 +50,8 @@ func NewInvitationResource(id string, email string, role string, state string, c
 	this.State = state
 	this.CreatedAt = createdAt
 	this.ExpiresAt = expiresAt
+	this.ProjectAccessMode = projectAccessMode
+	this.ProjectIds = projectIds
 	return &this
 }
 
@@ -243,6 +249,54 @@ func (o *InvitationResource) UnsetAcceptedAt() {
 	o.AcceptedAt.Unset()
 }
 
+// GetProjectAccessMode returns the ProjectAccessMode field value
+func (o *InvitationResource) GetProjectAccessMode() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ProjectAccessMode
+}
+
+// GetProjectAccessModeOk returns a tuple with the ProjectAccessMode field value
+// and a boolean to check if the value has been set.
+func (o *InvitationResource) GetProjectAccessModeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ProjectAccessMode, true
+}
+
+// SetProjectAccessMode sets field value
+func (o *InvitationResource) SetProjectAccessMode(v string) {
+	o.ProjectAccessMode = v
+}
+
+// GetProjectIds returns the ProjectIds field value
+func (o *InvitationResource) GetProjectIds() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.ProjectIds
+}
+
+// GetProjectIdsOk returns a tuple with the ProjectIds field value
+// and a boolean to check if the value has been set.
+func (o *InvitationResource) GetProjectIdsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProjectIds, true
+}
+
+// SetProjectIds sets field value
+func (o *InvitationResource) SetProjectIds(v []string) {
+	o.ProjectIds = v
+}
+
 func (o InvitationResource) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -262,6 +316,8 @@ func (o InvitationResource) ToMap() (map[string]interface{}, error) {
 	if o.AcceptedAt.IsSet() {
 		toSerialize["acceptedAt"] = o.AcceptedAt.Get()
 	}
+	toSerialize["projectAccessMode"] = o.ProjectAccessMode
+	toSerialize["projectIds"] = o.ProjectIds
 	return toSerialize, nil
 }
 
@@ -276,6 +332,8 @@ func (o *InvitationResource) UnmarshalJSON(data []byte) (err error) {
 		"state",
 		"createdAt",
 		"expiresAt",
+		"projectAccessMode",
+		"projectIds",
 	}
 
 	allProperties := make(map[string]interface{})

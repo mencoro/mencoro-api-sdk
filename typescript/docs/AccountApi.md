@@ -80,7 +80,7 @@ This endpoint does not need any parameter.
 
 Counts across everything the key can reach
 
-Aggregate counts over every organization the key\&#39;s owner is an active member of, narrowed to the key\&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set\&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+Aggregate counts over every organization the key\&#39;s owner is an active member of, narrowed to the key\&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set\&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
 
 ### Example
 

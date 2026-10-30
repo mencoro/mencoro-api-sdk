@@ -311,7 +311,7 @@ class TrackedQueryUsageResource implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets tracked_query_count
      *
-     * @param int $tracked_query_count Tracked queries across every project of the organization, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.
+     * @param int $tracked_query_count Tracked queries across every project of the organization the caller can access, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.
      *
      * @return self
      */

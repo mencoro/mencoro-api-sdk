@@ -19,6 +19,8 @@ module Mencoro
 
     attr_accessor :role
 
+    attr_accessor :project_access
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -45,7 +47,8 @@ module Mencoro
     def self.attribute_map
       {
         :'email' => :'email',
-        :'role' => :'role'
+        :'role' => :'role',
+        :'project_access' => :'projectAccess'
       }
     end
 
@@ -63,13 +66,15 @@ module Mencoro
     def self.openapi_types
       {
         :'email' => :'String',
-        :'role' => :'String'
+        :'role' => :'String',
+        :'project_access' => :'CreateInvitationRequestProjectAccess'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'project_access'
       ])
     end
 
@@ -97,6 +102,10 @@ module Mencoro
         self.role = attributes[:'role']
       else
         self.role = 'viewer'
+      end
+
+      if attributes.key?(:'project_access')
+        self.project_access = attributes[:'project_access']
       end
     end
 
@@ -133,7 +142,8 @@ module Mencoro
       return true if self.equal?(o)
       self.class == o.class &&
           email == o.email &&
-          role == o.role
+          role == o.role &&
+          project_access == o.project_access
     end
 
     # @see the `==` method
@@ -145,7 +155,7 @@ module Mencoro
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [email, role].hash
+      [email, role, project_access].hash
     end
 
     # Builds the object from hash

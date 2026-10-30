@@ -2,7 +2,7 @@
 
 # SubscriptionResource
 
-The current subscription contract of an organization
+The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
 
 ## Properties
 
@@ -19,7 +19,7 @@ The current subscription contract of an organization
 |**cancelledAt** | **OffsetDateTime** | When the subscription was terminally cancelled. Null while it has not been. |  [optional] |
 |**scheduledToCancelAt** | **OffsetDateTime** | When a scheduled cancellation takes effect, while the subscription is still running. Null when none is scheduled. |  [optional] |
 |**gracePeriodEndsAt** | **OffsetDateTime** | When paid access ends after a cancellation. Null when the subscription is not cancelled. |  [optional] |
-|**deactivationReason** | [**DeactivationReasonEnum**](#DeactivationReasonEnum) | Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it. |  [optional] |
+|**deactivationReason** | [**DeactivationReasonEnum**](#DeactivationReasonEnum) | Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it. |  [optional] |
 |**isEntitled** | **Boolean** | Whether the organization may use paid features right now: active, or cancelled but still inside its paid grace window. |  |
 
 

@@ -254,6 +254,7 @@ class PreviewOrganizationOperationRequest implements ModelInterface, ArrayAccess
     public const ACTION_CHANGE_MEMBER_ROLE = 'changeMemberRole';
     public const ACTION_SUSPEND_MEMBER = 'suspendMember';
     public const ACTION_REACTIVATE_MEMBER = 'reactivateMember';
+    public const ACTION_SET_MEMBER_PROJECT_ACCESS = 'setMemberProjectAccess';
     public const ACTION_CREATE_INVITATION = 'createInvitation';
     public const ACTION_CANCEL_INVITATION = 'cancelInvitation';
 
@@ -272,6 +273,7 @@ class PreviewOrganizationOperationRequest implements ModelInterface, ArrayAccess
             self::ACTION_CHANGE_MEMBER_ROLE,
             self::ACTION_SUSPEND_MEMBER,
             self::ACTION_REACTIVATE_MEMBER,
+            self::ACTION_SET_MEMBER_PROJECT_ACCESS,
             self::ACTION_CREATE_INVITATION,
             self::ACTION_CANCEL_INVITATION,
         ];

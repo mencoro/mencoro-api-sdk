@@ -30,6 +30,10 @@ type CreateInvitation201Response struct {
 	CreatedAt time.Time `json:"createdAt"`
 	ExpiresAt time.Time `json:"expiresAt"`
 	AcceptedAt NullableTime `json:"acceptedAt,omitempty"`
+	// Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+	ProjectAccessMode string `json:"projectAccessMode"`
+	// The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing
+	ProjectIds []string `json:"projectIds"`
 	// Always true on a 201.
 	Created *bool `json:"created,omitempty"`
 }
@@ -40,7 +44,7 @@ type _CreateInvitation201Response CreateInvitation201Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateInvitation201Response(id string, email string, role string, state string, createdAt time.Time, expiresAt time.Time) *CreateInvitation201Response {
+func NewCreateInvitation201Response(id string, email string, role string, state string, createdAt time.Time, expiresAt time.Time, projectAccessMode string, projectIds []string) *CreateInvitation201Response {
 	this := CreateInvitation201Response{}
 	this.Id = id
 	this.Email = email
@@ -48,6 +52,8 @@ func NewCreateInvitation201Response(id string, email string, role string, state 
 	this.State = state
 	this.CreatedAt = createdAt
 	this.ExpiresAt = expiresAt
+	this.ProjectAccessMode = projectAccessMode
+	this.ProjectIds = projectIds
 	return &this
 }
 
@@ -245,6 +251,54 @@ func (o *CreateInvitation201Response) UnsetAcceptedAt() {
 	o.AcceptedAt.Unset()
 }
 
+// GetProjectAccessMode returns the ProjectAccessMode field value
+func (o *CreateInvitation201Response) GetProjectAccessMode() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ProjectAccessMode
+}
+
+// GetProjectAccessModeOk returns a tuple with the ProjectAccessMode field value
+// and a boolean to check if the value has been set.
+func (o *CreateInvitation201Response) GetProjectAccessModeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ProjectAccessMode, true
+}
+
+// SetProjectAccessMode sets field value
+func (o *CreateInvitation201Response) SetProjectAccessMode(v string) {
+	o.ProjectAccessMode = v
+}
+
+// GetProjectIds returns the ProjectIds field value
+func (o *CreateInvitation201Response) GetProjectIds() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.ProjectIds
+}
+
+// GetProjectIdsOk returns a tuple with the ProjectIds field value
+// and a boolean to check if the value has been set.
+func (o *CreateInvitation201Response) GetProjectIdsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProjectIds, true
+}
+
+// SetProjectIds sets field value
+func (o *CreateInvitation201Response) SetProjectIds(v []string) {
+	o.ProjectIds = v
+}
+
 // GetCreated returns the Created field value if set, zero value otherwise.
 func (o *CreateInvitation201Response) GetCreated() bool {
 	if o == nil || IsNil(o.Created) {
@@ -296,6 +350,8 @@ func (o CreateInvitation201Response) ToMap() (map[string]interface{}, error) {
 	if o.AcceptedAt.IsSet() {
 		toSerialize["acceptedAt"] = o.AcceptedAt.Get()
 	}
+	toSerialize["projectAccessMode"] = o.ProjectAccessMode
+	toSerialize["projectIds"] = o.ProjectIds
 	if !IsNil(o.Created) {
 		toSerialize["created"] = o.Created
 	}
@@ -313,6 +369,8 @@ func (o *CreateInvitation201Response) UnmarshalJSON(data []byte) (err error) {
 		"state",
 		"createdAt",
 		"expiresAt",
+		"projectAccessMode",
+		"projectIds",
 	}
 
 	allProperties := make(map[string]interface{})

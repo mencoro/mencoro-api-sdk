@@ -32,12 +32,15 @@ class GetOrganizationOverview200ResponseProjectsInner(BaseModel):
     project_id: Optional[UUID] = Field(default=None, alias="projectId")
     name: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
-    tracked_query_count: Optional[StrictInt] = Field(default=None, alias="trackedQueryCount")
+    tracked_query_count: Optional[StrictInt] = Field(default=None, description="Configured tracked queries of the project, paused ones included.", alias="trackedQueryCount")
+    ai_tracked_query_count: Optional[StrictInt] = Field(default=None, description="How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode).", alias="aiTrackedQueryCount")
+    serp_tracked_query_count: Optional[StrictInt] = Field(default=None, description="How many of trackedQueryCount run on classic Google SERP.", alias="serpTrackedQueryCount")
+    shopping_tracked_query_count: Optional[StrictInt] = Field(default=None, description="How many of trackedQueryCount run on Google Shopping.", alias="shoppingTrackedQueryCount")
     share_of_voice: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet.", alias="shareOfVoice")
     mention_rate: Optional[StrictInt] = Field(default=None, description="0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet.", alias="mentionRate")
     avg_mention_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="1-based average rank of the brand within the answer; LOWER is better. Null when the project has no rank data yet.", alias="avgMentionPosition")
     positivity_index: Optional[StrictInt] = Field(default=None, description="0-100 sentiment score; higher is better. Null when the project has no rank data yet.", alias="positivityIndex")
-    __properties: ClassVar[List[str]] = ["projectId", "name", "status", "trackedQueryCount", "shareOfVoice", "mentionRate", "avgMentionPosition", "positivityIndex"]
+    __properties: ClassVar[List[str]] = ["projectId", "name", "status", "trackedQueryCount", "aiTrackedQueryCount", "serpTrackedQueryCount", "shoppingTrackedQueryCount", "shareOfVoice", "mentionRate", "avgMentionPosition", "positivityIndex"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -114,6 +117,9 @@ class GetOrganizationOverview200ResponseProjectsInner(BaseModel):
             "name": obj.get("name"),
             "status": obj.get("status"),
             "trackedQueryCount": obj.get("trackedQueryCount"),
+            "aiTrackedQueryCount": obj.get("aiTrackedQueryCount"),
+            "serpTrackedQueryCount": obj.get("serpTrackedQueryCount"),
+            "shoppingTrackedQueryCount": obj.get("shoppingTrackedQueryCount"),
             "shareOfVoice": obj.get("shareOfVoice"),
             "mentionRate": obj.get("mentionRate"),
             "avgMentionPosition": obj.get("avgMentionPosition"),

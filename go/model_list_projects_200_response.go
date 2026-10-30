@@ -21,7 +21,7 @@ var _ MappedNullable = &ListProjects200Response{}
 // ListProjects200Response struct for ListProjects200Response
 type ListProjects200Response struct {
 	Items []ProjectResource `json:"items,omitempty"`
-	// Every project matching the filters, not the size of this page.
+	// Every project matching the filters that the caller can access, not the size of this page.
 	Total *int32 `json:"total,omitempty"`
 }
 

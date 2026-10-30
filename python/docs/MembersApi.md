@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**get_member**](MembersApi.md#get_member) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership
 [**list_members**](MembersApi.md#list_members) | **GET** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members
 [**reactivate_member**](MembersApi.md#reactivate_member) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member
+[**set_member_project_access**](MembersApi.md#set_member_project_access) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches
 [**suspend_member**](MembersApi.md#suspend_member) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member
 
 
@@ -363,6 +364,99 @@ Name | Type | Description  | Notes
 **403** | The key lacks the organization:manage capability |  -  |
 **404** | No organization or membership the caller can access under these ids |  -  |
 **409** | The confirmation is invalid, expired, already used, or its effects changed; or the member is already active |  -  |
+**428** | No confirmation was sent; preview the operation first |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **set_member_project_access**
+> MemberResource set_member_project_access(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request)
+
+Set which projects a member reaches
+
+Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member's next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member's access at preview time, so another change in between invalidates it.
+
+### Example
+
+* Bearer Authentication (ApiKey):
+
+```python
+import mencoro
+from mencoro.models.member_resource import MemberResource
+from mencoro.models.set_member_project_access_request import SetMemberProjectAccessRequest
+from mencoro.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.mencoro.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = mencoro.Configuration(
+    host = "https://api.mencoro.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization: ApiKey
+configuration = mencoro.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with mencoro.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = mencoro.MembersApi(api_client)
+    organization_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    member_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    x_mencoro_confirmation = 'x_mencoro_confirmation_example' # str | 
+    idempotency_key = 'idempotency_key_example' # str | 
+    set_member_project_access_request = mencoro.SetMemberProjectAccessRequest() # SetMemberProjectAccessRequest | 
+
+    try:
+        # Set which projects a member reaches
+        api_response = api_instance.set_member_project_access(organization_id, member_id, x_mencoro_confirmation, idempotency_key, set_member_project_access_request)
+        print("The response of MembersApi->set_member_project_access:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling MembersApi->set_member_project_access: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **organization_id** | **UUID**|  | 
+ **member_id** | **UUID**|  | 
+ **x_mencoro_confirmation** | **str**|  | 
+ **idempotency_key** | **str**|  | 
+ **set_member_project_access_request** | [**SetMemberProjectAccessRequest**](SetMemberProjectAccessRequest.md)|  | 
+
+### Return type
+
+[**MemberResource**](MemberResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The membership with its new access |  -  |
+**400** | The access is invalid: a selection that is empty, lists more than 500 projects, or names a project that is not the organization&#39;s |  -  |
+**401** | Missing or invalid API key |  -  |
+**403** | The key lacks the organization:manage capability |  -  |
+**404** | No organization or membership the caller can access under these ids |  -  |
+**409** | The confirmation is invalid, expired, already used, or its effects changed; the organization is archived; the member is suspended; or the member is an owner, who always reaches every project |  -  |
 **428** | No confirmation was sent; preview the operation first |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

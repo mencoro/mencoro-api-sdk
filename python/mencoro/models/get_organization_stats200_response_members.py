@@ -29,7 +29,7 @@ class GetOrganizationStats200ResponseMembers(BaseModel):
     """
     GetOrganizationStats200ResponseMembers
     """ # noqa: E501
-    total: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Active memberships. Suspended members are excluded.", json_schema_extra={"examples": [12]})
+    total: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Active memberships. Suspended members are excluded. Null for a member restricted to selected projects.", json_schema_extra={"examples": [12]})
     __properties: ClassVar[List[str]] = ["total"]
 
     model_config = ConfigDict(
@@ -71,6 +71,11 @@ class GetOrganizationStats200ResponseMembers(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if total (nullable) is None
+        # and model_fields_set contains the field
+        if self.total is None and "total" in self.model_fields_set:
+            _dict['total'] = None
+
         return _dict
 
     @classmethod

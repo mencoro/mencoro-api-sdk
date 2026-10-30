@@ -18,8 +18,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from mencoro.models.create_invitation_request_project_access import CreateInvitationRequestProjectAccess
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -30,7 +31,8 @@ class CreateInvitationRequest(BaseModel):
     """ # noqa: E501
     email: Optional[StrictStr] = None
     role: Optional[StrictStr] = 'viewer'
-    __properties: ClassVar[List[str]] = ["email", "role"]
+    project_access: Optional[CreateInvitationRequestProjectAccess] = Field(default=None, alias="projectAccess")
+    __properties: ClassVar[List[str]] = ["email", "role", "projectAccess"]
 
     @field_validator('role')
     def role_validate_enum(cls, value):
@@ -81,6 +83,14 @@ class CreateInvitationRequest(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of project_access
+        if self.project_access:
+            _dict['projectAccess'] = self.project_access.to_dict()
+        # set to None if project_access (nullable) is None
+        # and model_fields_set contains the field
+        if self.project_access is None and "project_access" in self.model_fields_set:
+            _dict['projectAccess'] = None
+
         return _dict
 
     @classmethod
@@ -94,7 +104,8 @@ class CreateInvitationRequest(BaseModel):
 
         _obj = cls.model_validate({
             "email": obj.get("email"),
-            "role": obj.get("role") if obj.get("role") is not None else 'viewer'
+            "role": obj.get("role") if obj.get("role") is not None else 'viewer',
+            "projectAccess": CreateInvitationRequestProjectAccess.from_dict(obj["projectAccess"]) if obj.get("projectAccess") is not None else None
         })
         return _obj
 

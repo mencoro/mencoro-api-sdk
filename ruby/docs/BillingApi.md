@@ -13,7 +13,7 @@ All URIs are relative to *https://api.mencoro.com*
 
 Get the subscription of an organization
 
-Minimum role: viewer. The most recent subscription contract of the organization, whatever its state: tier, billing interval, check budget and consumption, and the cancellation and grace dates. An organization that has never subscribed answers 200 with \"status\": \"none\" and every other field null - a null is \"not applicable\", never a stand-in for a zero budget or zero consumption. Stripe identifiers, prices and payment methods are not part of this API.
+Minimum role: viewer. The most recent subscription contract of the organization, whatever its state: tier, billing interval, check budget and consumption, and the cancellation and grace dates. An organization that has never subscribed answers 200 with \"status\": \"none\" and every other field null - a null is \"not applicable\", never a stand-in for a zero budget or zero consumption. Stripe identifiers, prices and payment methods are not part of this API. For a member restricted to selected projects, `tierCode`, `billingCycleType`, `billingCycleAnchor`, `checkBudget`, `checksConsumed`, `checksAvailable`, `nextResetAt` and `deactivationReason` are null: they keep `status`, `isEntitled` and the cancellation and grace dates.
 
 ### Examples
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Pending** | Pointer to **int32** | Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. | [optional] 
+**Pending** | Pointer to **NullableInt32** | Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects. | [optional] 
 
 ## Methods
 
@@ -50,6 +50,16 @@ SetPending sets Pending field to given value.
 
 HasPending returns a boolean if a field has been set.
 
+### SetPendingNil
+
+`func (o *GetOrganizationStats200ResponseInvitations) SetPendingNil(b bool)`
+
+ SetPendingNil sets the value for Pending to be an explicit nil
+
+### UnsetPending
+`func (o *GetOrganizationStats200ResponseInvitations) UnsetPending()`
+
+UnsetPending ensures that no value is present for Pending, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

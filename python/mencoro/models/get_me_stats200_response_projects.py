@@ -29,7 +29,7 @@ class GetMeStats200ResponseProjects(BaseModel):
     """
     GetMeStats200ResponseProjects
     """ # noqa: E501
-    total: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Projects across those organizations, archived ones included.", json_schema_extra={"examples": [25]})
+    total: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Projects across those organizations the owner can access, archived ones included.", json_schema_extra={"examples": [25]})
     active: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="How many of those are active; the remainder are archived.", json_schema_extra={"examples": [18]})
     __properties: ClassVar[List[str]] = ["total", "active"]
 

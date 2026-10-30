@@ -27,7 +27,7 @@ from pydantic_core import to_jsonable_python
 
 class SubscriptionResource(BaseModel):
     """
-    The current subscription contract of an organization
+    The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
     """ # noqa: E501
     status: StrictStr = Field(description="Contract state. \"none\" when the organization has never held a subscription.")
     tier_code: Optional[StrictStr] = Field(default=None, description="Public tier identifier derived from the check budget.", alias="tierCode", json_schema_extra={"examples": ["tier_2000"]})
@@ -40,7 +40,7 @@ class SubscriptionResource(BaseModel):
     cancelled_at: Optional[datetime] = Field(default=None, description="When the subscription was terminally cancelled. Null while it has not been.", alias="cancelledAt")
     scheduled_to_cancel_at: Optional[datetime] = Field(default=None, description="When a scheduled cancellation takes effect, while the subscription is still running. Null when none is scheduled.", alias="scheduledToCancelAt")
     grace_period_ends_at: Optional[datetime] = Field(default=None, description="When paid access ends after a cancellation. Null when the subscription is not cancelled.", alias="gracePeriodEndsAt")
-    deactivation_reason: Optional[StrictStr] = Field(default=None, description="Why the subscription is currently inactive. Null for an active subscription, and meaningless once \"cancelledAt\" is set - the cancellation supersedes it.", alias="deactivationReason")
+    deactivation_reason: Optional[StrictStr] = Field(default=None, description="Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \"cancelledAt\" is set - the cancellation supersedes it.", alias="deactivationReason")
     is_entitled: StrictBool = Field(description="Whether the organization may use paid features right now: active, or cancelled but still inside its paid grace window.", alias="isEntitled")
     __properties: ClassVar[List[str]] = ["status", "tierCode", "billingCycleType", "billingCycleAnchor", "checkBudget", "checksConsumed", "checksAvailable", "nextResetAt", "cancelledAt", "scheduledToCancelAt", "gracePeriodEndsAt", "deactivationReason", "isEntitled"]
 

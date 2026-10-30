@@ -36,21 +36,21 @@ namespace Mencoro.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GetOrganizationStats200ResponseInvitations" /> class.
         /// </summary>
-        /// <param name="pending">Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded..</param>
-        public GetOrganizationStats200ResponseInvitations(int pending = default)
+        /// <param name="pending">Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects..</param>
+        public GetOrganizationStats200ResponseInvitations(int? pending = default)
         {
             this.Pending = pending;
         }
 
         /// <summary>
-        /// Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded.
+        /// Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects.
         /// </summary>
-        /// <value>Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded.</value>
+        /// <value>Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects.</value>
         /*
         <example>3</example>
         */
-        [DataMember(Name = "pending", EmitDefaultValue = false)]
-        public int Pending { get; set; }
+        [DataMember(Name = "pending", EmitDefaultValue = true)]
+        public int? Pending { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -81,8 +81,8 @@ namespace Mencoro.Api.Model
         /// <returns>Validation Result</returns>
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Pending (int) minimum
-            if (this.Pending < (int)0)
+            // Pending (int?) minimum
+            if (this.Pending < (int?)0)
             {
                 yield return new ValidationResult("Invalid value for Pending, must be a value greater than or equal to 0.", new [] { "Pending" });
             }

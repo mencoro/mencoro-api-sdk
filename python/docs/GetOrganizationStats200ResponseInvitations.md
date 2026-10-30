@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**pending** | **int** | Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. | [optional] 
+**pending** | **int** | Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects. | [optional] 
 
 ## Example
 

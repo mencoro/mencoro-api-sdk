@@ -20,7 +20,7 @@ import { mapValues } from '../runtime';
  */
 export interface GetOrganizationStats200ResponseProjects {
     /**
-     * Every project in the organization, archived ones included.
+     * Every project of the organization the caller can access, archived ones included.
      * @type {number}
      * @memberof GetOrganizationStats200ResponseProjects
      */

@@ -81,6 +81,21 @@ func Test_mencoro_MembersAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test MembersAPIService SetMemberProjectAccess", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var organizationId string
+		var memberId string
+
+		resp, httpRes, err := apiClient.MembersAPI.SetMemberProjectAccess(context.Background(), organizationId, memberId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test MembersAPIService SuspendMember", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

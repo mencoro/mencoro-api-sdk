@@ -277,10 +277,11 @@ public class InvitationsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> The invitation that was created. &#x60;created&#x60; is true; branch on it rather than on the status code, so one code path handles both answers. </td><td>  -  </td></tr>
         <tr><td> 200 </td><td> Nothing was created because the address already belongs to an active member. Not an error: the end state the caller asked for already holds. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> The body is invalid, or the selected projects are empty, more than 500, or not the organization&#39;s </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the organization:manage capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization the caller can access under this id </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address; or an owner invitation carries a project selection </td><td>  -  </td></tr>
         <tr><td> 428 </td><td> No confirmation was sent; preview the operation first </td><td>  -  </td></tr>
      </table>
      */
@@ -381,10 +382,11 @@ public class InvitationsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> The invitation that was created. &#x60;created&#x60; is true; branch on it rather than on the status code, so one code path handles both answers. </td><td>  -  </td></tr>
         <tr><td> 200 </td><td> Nothing was created because the address already belongs to an active member. Not an error: the end state the caller asked for already holds. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> The body is invalid, or the selected projects are empty, more than 500, or not the organization&#39;s </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the organization:manage capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization the caller can access under this id </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address; or an owner invitation carries a project selection </td><td>  -  </td></tr>
         <tr><td> 428 </td><td> No confirmation was sent; preview the operation first </td><td>  -  </td></tr>
      </table>
      */
@@ -408,10 +410,11 @@ public class InvitationsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> The invitation that was created. &#x60;created&#x60; is true; branch on it rather than on the status code, so one code path handles both answers. </td><td>  -  </td></tr>
         <tr><td> 200 </td><td> Nothing was created because the address already belongs to an active member. Not an error: the end state the caller asked for already holds. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> The body is invalid, or the selected projects are empty, more than 500, or not the organization&#39;s </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the organization:manage capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization the caller can access under this id </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address; or an owner invitation carries a project selection </td><td>  -  </td></tr>
         <tr><td> 428 </td><td> No confirmation was sent; preview the operation first </td><td>  -  </td></tr>
      </table>
      */
@@ -437,10 +440,11 @@ public class InvitationsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> The invitation that was created. &#x60;created&#x60; is true; branch on it rather than on the status code, so one code path handles both answers. </td><td>  -  </td></tr>
         <tr><td> 200 </td><td> Nothing was created because the address already belongs to an active member. Not an error: the end state the caller asked for already holds. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> The body is invalid, or the selected projects are empty, more than 500, or not the organization&#39;s </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the organization:manage capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization the caller can access under this id </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address; or an owner invitation carries a project selection </td><td>  -  </td></tr>
         <tr><td> 428 </td><td> No confirmation was sent; preview the operation first </td><td>  -  </td></tr>
      </table>
      */

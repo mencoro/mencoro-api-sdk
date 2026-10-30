@@ -318,7 +318,7 @@ class GetOrganizationStats200ResponseProjects implements ModelInterface, ArrayAc
     /**
      * Sets total
      *
-     * @param int|null $total Every project in the organization, archived ones included.
+     * @param int|null $total Every project of the organization the caller can access, archived ones included.
      *
      * @return self
      */

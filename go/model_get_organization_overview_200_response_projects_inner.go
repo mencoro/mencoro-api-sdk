@@ -23,7 +23,14 @@ type GetOrganizationOverview200ResponseProjectsInner struct {
 	ProjectId *string `json:"projectId,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Status *string `json:"status,omitempty"`
+	// Configured tracked queries of the project, paused ones included.
 	TrackedQueryCount *int32 `json:"trackedQueryCount,omitempty"`
+	// How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode).
+	AiTrackedQueryCount *int32 `json:"aiTrackedQueryCount,omitempty"`
+	// How many of trackedQueryCount run on classic Google SERP.
+	SerpTrackedQueryCount *int32 `json:"serpTrackedQueryCount,omitempty"`
+	// How many of trackedQueryCount run on Google Shopping.
+	ShoppingTrackedQueryCount *int32 `json:"shoppingTrackedQueryCount,omitempty"`
 	// 0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet.
 	ShareOfVoice NullableFloat32 `json:"shareOfVoice,omitempty"`
 	// 0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet.
@@ -177,6 +184,102 @@ func (o *GetOrganizationOverview200ResponseProjectsInner) HasTrackedQueryCount()
 // SetTrackedQueryCount gets a reference to the given int32 and assigns it to the TrackedQueryCount field.
 func (o *GetOrganizationOverview200ResponseProjectsInner) SetTrackedQueryCount(v int32) {
 	o.TrackedQueryCount = &v
+}
+
+// GetAiTrackedQueryCount returns the AiTrackedQueryCount field value if set, zero value otherwise.
+func (o *GetOrganizationOverview200ResponseProjectsInner) GetAiTrackedQueryCount() int32 {
+	if o == nil || IsNil(o.AiTrackedQueryCount) {
+		var ret int32
+		return ret
+	}
+	return *o.AiTrackedQueryCount
+}
+
+// GetAiTrackedQueryCountOk returns a tuple with the AiTrackedQueryCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GetOrganizationOverview200ResponseProjectsInner) GetAiTrackedQueryCountOk() (*int32, bool) {
+	if o == nil || IsNil(o.AiTrackedQueryCount) {
+		return nil, false
+	}
+	return o.AiTrackedQueryCount, true
+}
+
+// HasAiTrackedQueryCount returns a boolean if a field has been set.
+func (o *GetOrganizationOverview200ResponseProjectsInner) HasAiTrackedQueryCount() bool {
+	if o != nil && !IsNil(o.AiTrackedQueryCount) {
+		return true
+	}
+
+	return false
+}
+
+// SetAiTrackedQueryCount gets a reference to the given int32 and assigns it to the AiTrackedQueryCount field.
+func (o *GetOrganizationOverview200ResponseProjectsInner) SetAiTrackedQueryCount(v int32) {
+	o.AiTrackedQueryCount = &v
+}
+
+// GetSerpTrackedQueryCount returns the SerpTrackedQueryCount field value if set, zero value otherwise.
+func (o *GetOrganizationOverview200ResponseProjectsInner) GetSerpTrackedQueryCount() int32 {
+	if o == nil || IsNil(o.SerpTrackedQueryCount) {
+		var ret int32
+		return ret
+	}
+	return *o.SerpTrackedQueryCount
+}
+
+// GetSerpTrackedQueryCountOk returns a tuple with the SerpTrackedQueryCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GetOrganizationOverview200ResponseProjectsInner) GetSerpTrackedQueryCountOk() (*int32, bool) {
+	if o == nil || IsNil(o.SerpTrackedQueryCount) {
+		return nil, false
+	}
+	return o.SerpTrackedQueryCount, true
+}
+
+// HasSerpTrackedQueryCount returns a boolean if a field has been set.
+func (o *GetOrganizationOverview200ResponseProjectsInner) HasSerpTrackedQueryCount() bool {
+	if o != nil && !IsNil(o.SerpTrackedQueryCount) {
+		return true
+	}
+
+	return false
+}
+
+// SetSerpTrackedQueryCount gets a reference to the given int32 and assigns it to the SerpTrackedQueryCount field.
+func (o *GetOrganizationOverview200ResponseProjectsInner) SetSerpTrackedQueryCount(v int32) {
+	o.SerpTrackedQueryCount = &v
+}
+
+// GetShoppingTrackedQueryCount returns the ShoppingTrackedQueryCount field value if set, zero value otherwise.
+func (o *GetOrganizationOverview200ResponseProjectsInner) GetShoppingTrackedQueryCount() int32 {
+	if o == nil || IsNil(o.ShoppingTrackedQueryCount) {
+		var ret int32
+		return ret
+	}
+	return *o.ShoppingTrackedQueryCount
+}
+
+// GetShoppingTrackedQueryCountOk returns a tuple with the ShoppingTrackedQueryCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GetOrganizationOverview200ResponseProjectsInner) GetShoppingTrackedQueryCountOk() (*int32, bool) {
+	if o == nil || IsNil(o.ShoppingTrackedQueryCount) {
+		return nil, false
+	}
+	return o.ShoppingTrackedQueryCount, true
+}
+
+// HasShoppingTrackedQueryCount returns a boolean if a field has been set.
+func (o *GetOrganizationOverview200ResponseProjectsInner) HasShoppingTrackedQueryCount() bool {
+	if o != nil && !IsNil(o.ShoppingTrackedQueryCount) {
+		return true
+	}
+
+	return false
+}
+
+// SetShoppingTrackedQueryCount gets a reference to the given int32 and assigns it to the ShoppingTrackedQueryCount field.
+func (o *GetOrganizationOverview200ResponseProjectsInner) SetShoppingTrackedQueryCount(v int32) {
+	o.ShoppingTrackedQueryCount = &v
 }
 
 // GetShareOfVoice returns the ShareOfVoice field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -368,6 +471,15 @@ func (o GetOrganizationOverview200ResponseProjectsInner) ToMap() (map[string]int
 	}
 	if !IsNil(o.TrackedQueryCount) {
 		toSerialize["trackedQueryCount"] = o.TrackedQueryCount
+	}
+	if !IsNil(o.AiTrackedQueryCount) {
+		toSerialize["aiTrackedQueryCount"] = o.AiTrackedQueryCount
+	}
+	if !IsNil(o.SerpTrackedQueryCount) {
+		toSerialize["serpTrackedQueryCount"] = o.SerpTrackedQueryCount
+	}
+	if !IsNil(o.ShoppingTrackedQueryCount) {
+		toSerialize["shoppingTrackedQueryCount"] = o.ShoppingTrackedQueryCount
 	}
 	if o.ShareOfVoice.IsSet() {
 		toSerialize["shareOfVoice"] = o.ShareOfVoice.Get()

@@ -59,7 +59,8 @@ class CreateInvitationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $openAPITypes = [
         'email' => 'string',
-        'role' => 'string'
+        'role' => 'string',
+        'project_access' => '\Mencoro\Api\Model\CreateInvitationRequestProjectAccess'
     ];
 
     /**
@@ -71,7 +72,8 @@ class CreateInvitationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $openAPIFormats = [
         'email' => 'email',
-        'role' => null
+        'role' => null,
+        'project_access' => null
     ];
 
     /**
@@ -81,7 +83,8 @@ class CreateInvitationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static array $openAPINullables = [
         'email' => false,
-        'role' => false
+        'role' => false,
+        'project_access' => true
     ];
 
     /**
@@ -171,7 +174,8 @@ class CreateInvitationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $attributeMap = [
         'email' => 'email',
-        'role' => 'role'
+        'role' => 'role',
+        'project_access' => 'projectAccess'
     ];
 
     /**
@@ -181,7 +185,8 @@ class CreateInvitationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $setters = [
         'email' => 'setEmail',
-        'role' => 'setRole'
+        'role' => 'setRole',
+        'project_access' => 'setProjectAccess'
     ];
 
     /**
@@ -191,7 +196,8 @@ class CreateInvitationRequest implements ModelInterface, ArrayAccess, \JsonSeria
      */
     protected static $getters = [
         'email' => 'getEmail',
-        'role' => 'getRole'
+        'role' => 'getRole',
+        'project_access' => 'getProjectAccess'
     ];
 
     /**
@@ -270,6 +276,7 @@ class CreateInvitationRequest implements ModelInterface, ArrayAccess, \JsonSeria
     {
         $this->setIfExists('email', $data ?? [], null);
         $this->setIfExists('role', $data ?? [], 'viewer');
+        $this->setIfExists('project_access', $data ?? [], null);
     }
 
     /**
@@ -383,6 +390,40 @@ class CreateInvitationRequest implements ModelInterface, ArrayAccess, \JsonSeria
             );
         }
         $this->container['role'] = $role;
+
+        return $this;
+    }
+
+    /**
+     * Gets project_access
+     *
+     * @return \Mencoro\Api\Model\CreateInvitationRequestProjectAccess|null
+     */
+    public function getProjectAccess()
+    {
+        return $this->container['project_access'];
+    }
+
+    /**
+     * Sets project_access
+     *
+     * @param \Mencoro\Api\Model\CreateInvitationRequestProjectAccess|null $project_access project_access
+     *
+     * @return self
+     */
+    public function setProjectAccess($project_access)
+    {
+        if (is_null($project_access)) {
+            array_push($this->openAPINullablesSetToNull, 'project_access');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('project_access', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['project_access'] = $project_access;
 
         return $this;
     }

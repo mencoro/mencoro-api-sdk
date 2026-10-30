@@ -78,7 +78,7 @@ class GetOrganizationStats200ResponseInvitations implements ModelInterface, Arra
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'pending' => false
+        'pending' => true
     ];
 
     /**
@@ -307,16 +307,23 @@ class GetOrganizationStats200ResponseInvitations implements ModelInterface, Arra
     /**
      * Sets pending
      *
-     * @param int|null $pending Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded.
+     * @param int|null $pending Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects.
      *
      * @return self
      */
     public function setPending($pending)
     {
         if (is_null($pending)) {
-            throw new \InvalidArgumentException('non-nullable pending cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'pending');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pending', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        if (($pending < 0)) {
+        if (!is_null($pending) && ($pending < 0)) {
             throw new \InvalidArgumentException('invalid value for $pending when calling GetOrganizationStats200ResponseInvitations., must be bigger than or equal to 0.');
         }
 

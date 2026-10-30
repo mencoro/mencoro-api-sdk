@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 *MembersApi* | [**getMember**](docs/Api/MembersApi.md#getmember) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership
 *MembersApi* | [**listMembers**](docs/Api/MembersApi.md#listmembers) | **GET** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members
 *MembersApi* | [**reactivateMember**](docs/Api/MembersApi.md#reactivatemember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member
+*MembersApi* | [**setMemberProjectAccess**](docs/Api/MembersApi.md#setmemberprojectaccess) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches
 *MembersApi* | [**suspendMember**](docs/Api/MembersApi.md#suspendmember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member
 *OrganizationOperationsApi* | [**previewOrganizationOperation**](docs/Api/OrganizationOperationsApi.md#previeworganizationoperation) | **POST** /api/v1/organization-operation-previews | Preview an organization operation and obtain a confirmation
 *OrganizationsApi* | [**archiveOrganization**](docs/Api/OrganizationsApi.md#archiveorganization) | **POST** /api/v1/organizations/{organizationId}/archive | Archive an organization
@@ -218,6 +219,7 @@ Class | Method | HTTP request | Description
 - [CreateInvitation200Response](docs/Model/CreateInvitation200Response.md)
 - [CreateInvitation201Response](docs/Model/CreateInvitation201Response.md)
 - [CreateInvitationRequest](docs/Model/CreateInvitationRequest.md)
+- [CreateInvitationRequestProjectAccess](docs/Model/CreateInvitationRequestProjectAccess.md)
 - [CreateOrganization201Response](docs/Model/CreateOrganization201Response.md)
 - [CreateOrganizationRequest](docs/Model/CreateOrganizationRequest.md)
 - [CreateProjectRequest](docs/Model/CreateProjectRequest.md)
@@ -248,6 +250,8 @@ Class | Method | HTTP request | Description
 - [GetTrackingCoverage200ResponseSampleInner](docs/Model/GetTrackingCoverage200ResponseSampleInner.md)
 - [InvitationResource](docs/Model/InvitationResource.md)
 - [KeywordListingResource](docs/Model/KeywordListingResource.md)
+- [KeywordListingResourceCarriedPositions](docs/Model/KeywordListingResourceCarriedPositions.md)
+- [KeywordListingResourceCarriedPositionsSerp](docs/Model/KeywordListingResourceCarriedPositionsSerp.md)
 - [KeywordListingResourceMentionTypeCounts](docs/Model/KeywordListingResourceMentionTypeCounts.md)
 - [ListAiResponses200Response](docs/Model/ListAiResponses200Response.md)
 - [ListCompetitors200Response](docs/Model/ListCompetitors200Response.md)
@@ -291,6 +295,7 @@ Class | Method | HTTP request | Description
 - [SearchTrackedQueryMentionMatches200Response](docs/Model/SearchTrackedQueryMentionMatches200Response.md)
 - [SearchTrackedQuerySerpMatches200Response](docs/Model/SearchTrackedQuerySerpMatches200Response.md)
 - [SerpMatchResource](docs/Model/SerpMatchResource.md)
+- [SetMemberProjectAccessRequest](docs/Model/SetMemberProjectAccessRequest.md)
 - [ShoppingOfferResource](docs/Model/ShoppingOfferResource.md)
 - [ShoppingSnapshotResource](docs/Model/ShoppingSnapshotResource.md)
 - [StartBrandDiscoveryJobRequest](docs/Model/StartBrandDiscoveryJobRequest.md)

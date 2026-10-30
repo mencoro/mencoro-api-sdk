@@ -147,7 +147,7 @@ public class BillingApi {
 
     /**
      * Get the subscription of an organization
-     * Minimum role: viewer. The most recent subscription contract of the organization, whatever its state: tier, billing interval, check budget and consumption, and the cancellation and grace dates. An organization that has never subscribed answers 200 with \&quot;status\&quot;: \&quot;none\&quot; and every other field null - a null is \&quot;not applicable\&quot;, never a stand-in for a zero budget or zero consumption. Stripe identifiers, prices and payment methods are not part of this API.
+     * Minimum role: viewer. The most recent subscription contract of the organization, whatever its state: tier, billing interval, check budget and consumption, and the cancellation and grace dates. An organization that has never subscribed answers 200 with \&quot;status\&quot;: \&quot;none\&quot; and every other field null - a null is \&quot;not applicable\&quot;, never a stand-in for a zero budget or zero consumption. Stripe identifiers, prices and payment methods are not part of this API. For a member restricted to selected projects, &#x60;tierCode&#x60;, &#x60;billingCycleType&#x60;, &#x60;billingCycleAnchor&#x60;, &#x60;checkBudget&#x60;, &#x60;checksConsumed&#x60;, &#x60;checksAvailable&#x60;, &#x60;nextResetAt&#x60; and &#x60;deactivationReason&#x60; are null: they keep &#x60;status&#x60;, &#x60;isEntitled&#x60; and the cancellation and grace dates.
      * @param organizationId  (required)
      * @return SubscriptionResource
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -168,7 +168,7 @@ public class BillingApi {
 
     /**
      * Get the subscription of an organization
-     * Minimum role: viewer. The most recent subscription contract of the organization, whatever its state: tier, billing interval, check budget and consumption, and the cancellation and grace dates. An organization that has never subscribed answers 200 with \&quot;status\&quot;: \&quot;none\&quot; and every other field null - a null is \&quot;not applicable\&quot;, never a stand-in for a zero budget or zero consumption. Stripe identifiers, prices and payment methods are not part of this API.
+     * Minimum role: viewer. The most recent subscription contract of the organization, whatever its state: tier, billing interval, check budget and consumption, and the cancellation and grace dates. An organization that has never subscribed answers 200 with \&quot;status\&quot;: \&quot;none\&quot; and every other field null - a null is \&quot;not applicable\&quot;, never a stand-in for a zero budget or zero consumption. Stripe identifiers, prices and payment methods are not part of this API. For a member restricted to selected projects, &#x60;tierCode&#x60;, &#x60;billingCycleType&#x60;, &#x60;billingCycleAnchor&#x60;, &#x60;checkBudget&#x60;, &#x60;checksConsumed&#x60;, &#x60;checksAvailable&#x60;, &#x60;nextResetAt&#x60; and &#x60;deactivationReason&#x60; are null: they keep &#x60;status&#x60;, &#x60;isEntitled&#x60; and the cancellation and grace dates.
      * @param organizationId  (required)
      * @return ApiResponse&lt;SubscriptionResource&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -190,7 +190,7 @@ public class BillingApi {
 
     /**
      * Get the subscription of an organization (asynchronously)
-     * Minimum role: viewer. The most recent subscription contract of the organization, whatever its state: tier, billing interval, check budget and consumption, and the cancellation and grace dates. An organization that has never subscribed answers 200 with \&quot;status\&quot;: \&quot;none\&quot; and every other field null - a null is \&quot;not applicable\&quot;, never a stand-in for a zero budget or zero consumption. Stripe identifiers, prices and payment methods are not part of this API.
+     * Minimum role: viewer. The most recent subscription contract of the organization, whatever its state: tier, billing interval, check budget and consumption, and the cancellation and grace dates. An organization that has never subscribed answers 200 with \&quot;status\&quot;: \&quot;none\&quot; and every other field null - a null is \&quot;not applicable\&quot;, never a stand-in for a zero budget or zero consumption. Stripe identifiers, prices and payment methods are not part of this API. For a member restricted to selected projects, &#x60;tierCode&#x60;, &#x60;billingCycleType&#x60;, &#x60;billingCycleAnchor&#x60;, &#x60;checkBudget&#x60;, &#x60;checksConsumed&#x60;, &#x60;checksAvailable&#x60;, &#x60;nextResetAt&#x60; and &#x60;deactivationReason&#x60; are null: they keep &#x60;status&#x60;, &#x60;isEntitled&#x60; and the cancellation and grace dates.
      * @param organizationId  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call

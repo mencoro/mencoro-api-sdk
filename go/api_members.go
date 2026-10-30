@@ -561,6 +561,144 @@ func (a *MembersAPIService) ReactivateMemberExecute(r ApiReactivateMemberRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiSetMemberProjectAccessRequest struct {
+	ctx context.Context
+	ApiService *MembersAPIService
+	organizationId string
+	memberId string
+	xMencoroConfirmation *string
+	idempotencyKey *string
+	setMemberProjectAccessRequest *SetMemberProjectAccessRequest
+}
+
+func (r ApiSetMemberProjectAccessRequest) XMencoroConfirmation(xMencoroConfirmation string) ApiSetMemberProjectAccessRequest {
+	r.xMencoroConfirmation = &xMencoroConfirmation
+	return r
+}
+
+func (r ApiSetMemberProjectAccessRequest) IdempotencyKey(idempotencyKey string) ApiSetMemberProjectAccessRequest {
+	r.idempotencyKey = &idempotencyKey
+	return r
+}
+
+func (r ApiSetMemberProjectAccessRequest) SetMemberProjectAccessRequest(setMemberProjectAccessRequest SetMemberProjectAccessRequest) ApiSetMemberProjectAccessRequest {
+	r.setMemberProjectAccessRequest = &setMemberProjectAccessRequest
+	return r
+}
+
+func (r ApiSetMemberProjectAccessRequest) Execute() (*MemberResource, *http.Response, error) {
+	return r.ApiService.SetMemberProjectAccessExecute(r)
+}
+
+/*
+SetMemberProjectAccess Set which projects a member reaches
+
+Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member's next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member's access at preview time, so another change in between invalidates it.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param organizationId
+ @param memberId
+ @return ApiSetMemberProjectAccessRequest
+*/
+func (a *MembersAPIService) SetMemberProjectAccess(ctx context.Context, organizationId string, memberId string) ApiSetMemberProjectAccessRequest {
+	return ApiSetMemberProjectAccessRequest{
+		ApiService: a,
+		ctx: ctx,
+		organizationId: organizationId,
+		memberId: memberId,
+	}
+}
+
+// Execute executes the request
+//  @return MemberResource
+func (a *MembersAPIService) SetMemberProjectAccessExecute(r ApiSetMemberProjectAccessRequest) (*MemberResource, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *MemberResource
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MembersAPIService.SetMemberProjectAccess")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{organizationId}/members/{memberId}/project-access"
+	localVarPath = strings.Replace(localVarPath, "{"+"organizationId"+"}", url.PathEscape(parameterValueToString(r.organizationId, "organizationId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"memberId"+"}", url.PathEscape(parameterValueToString(r.memberId, "memberId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xMencoroConfirmation == nil {
+		return localVarReturnValue, nil, reportError("xMencoroConfirmation is required and must be specified")
+	}
+	if r.idempotencyKey == nil {
+		return localVarReturnValue, nil, reportError("idempotencyKey is required and must be specified")
+	}
+	if r.setMemberProjectAccessRequest == nil {
+		return localVarReturnValue, nil, reportError("setMemberProjectAccessRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Mencoro-Confirmation", r.xMencoroConfirmation, "simple", "")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
+	// body params
+	localVarPostBody = r.setMemberProjectAccessRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiSuspendMemberRequest struct {
 	ctx context.Context
 	ApiService *MembersAPIService

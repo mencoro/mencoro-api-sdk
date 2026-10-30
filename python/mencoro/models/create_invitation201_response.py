@@ -37,8 +37,10 @@ class CreateInvitation201Response(BaseModel):
     created_at: datetime = Field(alias="createdAt")
     expires_at: datetime = Field(alias="expiresAt")
     accepted_at: Optional[datetime] = Field(default=None, alias="acceptedAt")
+    project_access_mode: StrictStr = Field(description="Which projects of the organization the invitee reaches on accepting: every project, or only projectIds", alias="projectAccessMode")
+    project_ids: List[UUID] = Field(description="The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing", alias="projectIds")
     created: Optional[StrictBool] = Field(default=None, description="Always true on a 201.")
-    __properties: ClassVar[List[str]] = ["id", "email", "role", "state", "createdAt", "expiresAt", "acceptedAt", "created"]
+    __properties: ClassVar[List[str]] = ["id", "email", "role", "state", "createdAt", "expiresAt", "acceptedAt", "projectAccessMode", "projectIds", "created"]
 
     @field_validator('role')
     def role_validate_enum(cls, value):
@@ -52,6 +54,13 @@ class CreateInvitation201Response(BaseModel):
         """Validates the enum"""
         if value not in set(['pending', 'accepted', 'rejected', 'expired', 'cancelled']):
             raise ValueError("must be one of enum values ('pending', 'accepted', 'rejected', 'expired', 'cancelled')")
+        return value
+
+    @field_validator('project_access_mode')
+    def project_access_mode_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['all', 'selected']):
+            raise ValueError("must be one of enum values ('all', 'selected')")
         return value
 
     model_config = ConfigDict(
@@ -117,6 +126,8 @@ class CreateInvitation201Response(BaseModel):
             "createdAt": obj.get("createdAt"),
             "expiresAt": obj.get("expiresAt"),
             "acceptedAt": obj.get("acceptedAt"),
+            "projectAccessMode": obj.get("projectAccessMode"),
+            "projectIds": obj.get("projectIds"),
             "created": obj.get("created")
         })
         return _obj

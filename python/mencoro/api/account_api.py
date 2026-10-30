@@ -307,7 +307,7 @@ class AccountApi:
     ) -> GetMeStats200Response:
         """Counts across everything the key can reach
 
-        Aggregate counts over every organization the key's owner is an active member of, narrowed to the key's scope — the same set /api/v1/organizations pages through. `organizations.total` is that set's size; `projects.total` and `projects.active` count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        Aggregate counts over every organization the key's owner is an active member of, narrowed to the key's scope — the same set /api/v1/organizations pages through. `organizations.total` is that set's size; `projects.total` and `projects.active` count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -372,7 +372,7 @@ class AccountApi:
     ) -> ApiResponse[GetMeStats200Response]:
         """Counts across everything the key can reach
 
-        Aggregate counts over every organization the key's owner is an active member of, narrowed to the key's scope — the same set /api/v1/organizations pages through. `organizations.total` is that set's size; `projects.total` and `projects.active` count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        Aggregate counts over every organization the key's owner is an active member of, narrowed to the key's scope — the same set /api/v1/organizations pages through. `organizations.total` is that set's size; `projects.total` and `projects.active` count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -437,7 +437,7 @@ class AccountApi:
     ) -> RESTResponseType:
         """Counts across everything the key can reach
 
-        Aggregate counts over every organization the key's owner is an active member of, narrowed to the key's scope — the same set /api/v1/organizations pages through. `organizations.total` is that set's size; `projects.total` and `projects.active` count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+        Aggregate counts over every organization the key's owner is an active member of, narrowed to the key's scope — the same set /api/v1/organizations pages through. `organizations.total` is that set's size; `projects.total` and `projects.active` count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

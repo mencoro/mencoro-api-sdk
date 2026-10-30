@@ -1,5 +1,5 @@
 # Mencoro.Api.Model.SubscriptionResource
-The current subscription contract of an organization
+The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
 
 ## Properties
 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **CancelledAt** | **DateTime?** | When the subscription was terminally cancelled. Null while it has not been. | [optional] 
 **ScheduledToCancelAt** | **DateTime?** | When a scheduled cancellation takes effect, while the subscription is still running. Null when none is scheduled. | [optional] 
 **GracePeriodEndsAt** | **DateTime?** | When paid access ends after a cancellation. Null when the subscription is not cancelled. | [optional] 
-**DeactivationReason** | **string** | Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it. | [optional] 
+**DeactivationReason** | **string** | Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it. | [optional] 
 **IsEntitled** | **bool** | Whether the organization may use paid features right now: active, or cancelled but still inside its paid grace window. | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

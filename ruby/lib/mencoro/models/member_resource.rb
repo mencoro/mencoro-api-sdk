@@ -29,6 +29,12 @@ module Mencoro
 
     attr_accessor :joined_at
 
+    # Which projects of the organization the member reaches: every project, or only projectIds
+    attr_accessor :project_access_mode
+
+    # The projects a selected access reaches; empty when the mode is all
+    attr_accessor :project_ids
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -59,7 +65,9 @@ module Mencoro
         :'role' => :'role',
         :'state' => :'state',
         :'is_active' => :'isActive',
-        :'joined_at' => :'joinedAt'
+        :'joined_at' => :'joinedAt',
+        :'project_access_mode' => :'projectAccessMode',
+        :'project_ids' => :'projectIds'
       }
     end
 
@@ -81,7 +89,9 @@ module Mencoro
         :'role' => :'String',
         :'state' => :'String',
         :'is_active' => :'Boolean',
-        :'joined_at' => :'Time'
+        :'joined_at' => :'Time',
+        :'project_access_mode' => :'String',
+        :'project_ids' => :'Array<String>'
       }
     end
 
@@ -142,6 +152,20 @@ module Mencoro
       else
         self.joined_at = nil
       end
+
+      if attributes.key?(:'project_access_mode')
+        self.project_access_mode = attributes[:'project_access_mode']
+      else
+        self.project_access_mode = nil
+      end
+
+      if attributes.key?(:'project_ids')
+        if (value = attributes[:'project_ids']).is_a?(Array)
+          self.project_ids = value
+        end
+      else
+        self.project_ids = nil
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -173,6 +197,14 @@ module Mencoro
         invalid_properties.push('invalid value for "joined_at", joined_at cannot be nil.')
       end
 
+      if @project_access_mode.nil?
+        invalid_properties.push('invalid value for "project_access_mode", project_access_mode cannot be nil.')
+      end
+
+      if @project_ids.nil?
+        invalid_properties.push('invalid value for "project_ids", project_ids cannot be nil.')
+      end
+
       invalid_properties
     end
 
@@ -190,6 +222,10 @@ module Mencoro
       return false unless state_validator.valid?(@state)
       return false if @is_active.nil?
       return false if @joined_at.nil?
+      return false if @project_access_mode.nil?
+      project_access_mode_validator = EnumAttributeValidator.new('String', ["all", "selected"])
+      return false unless project_access_mode_validator.valid?(@project_access_mode)
+      return false if @project_ids.nil?
       true
     end
 
@@ -253,6 +289,26 @@ module Mencoro
       @joined_at = joined_at
     end
 
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] project_access_mode Object to be assigned
+    def project_access_mode=(project_access_mode)
+      validator = EnumAttributeValidator.new('String', ["all", "selected"])
+      unless validator.valid?(project_access_mode)
+        fail ArgumentError, "invalid value for \"project_access_mode\", must be one of #{validator.allowable_values}."
+      end
+      @project_access_mode = project_access_mode
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] project_ids Value to be assigned
+    def project_ids=(project_ids)
+      if project_ids.nil?
+        fail ArgumentError, 'project_ids cannot be nil'
+      end
+
+      @project_ids = project_ids
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -263,7 +319,9 @@ module Mencoro
           role == o.role &&
           state == o.state &&
           is_active == o.is_active &&
-          joined_at == o.joined_at
+          joined_at == o.joined_at &&
+          project_access_mode == o.project_access_mode &&
+          project_ids == o.project_ids
     end
 
     # @see the `==` method
@@ -275,7 +333,7 @@ module Mencoro
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, user_id, role, state, is_active, joined_at].hash
+      [id, user_id, role, state, is_active, joined_at, project_access_mode, project_ids].hash
     end
 
     # Builds the object from hash

@@ -30,7 +30,7 @@ class ListProjects200Response(BaseModel):
     ListProjects200Response
     """ # noqa: E501
     items: Optional[List[ProjectResource]] = None
-    total: Optional[StrictInt] = Field(default=None, description="Every project matching the filters, not the size of this page.")
+    total: Optional[StrictInt] = Field(default=None, description="Every project matching the filters that the caller can access, not the size of this page.")
     __properties: ClassVar[List[str]] = ["items", "total"]
 
     model_config = ConfigDict(

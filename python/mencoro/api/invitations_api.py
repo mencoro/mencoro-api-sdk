@@ -432,6 +432,7 @@ class InvitationsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateInvitation201Response",
             '200': "CreateInvitation200Response",
+            '400': None,
             '401': None,
             '403': None,
             '404': None,
@@ -517,6 +518,7 @@ class InvitationsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateInvitation201Response",
             '200': "CreateInvitation200Response",
+            '400': None,
             '401': None,
             '403': None,
             '404': None,
@@ -602,6 +604,7 @@ class InvitationsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateInvitation201Response",
             '200': "CreateInvitation200Response",
+            '400': None,
             '401': None,
             '403': None,
             '404': None,

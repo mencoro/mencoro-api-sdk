@@ -69,10 +69,12 @@ namespace Mencoro.Api.Model
         /// </summary>
         /// <param name="email">email.</param>
         /// <param name="role">role (default to RoleEnum.Viewer).</param>
-        public CreateInvitationRequest(string email = default, RoleEnum? role = RoleEnum.Viewer)
+        /// <param name="projectAccess">projectAccess.</param>
+        public CreateInvitationRequest(string email = default, RoleEnum? role = RoleEnum.Viewer, CreateInvitationRequestProjectAccess projectAccess = default)
         {
             this.Email = email;
             this.Role = role;
+            this.ProjectAccess = projectAccess;
         }
 
         /// <summary>
@@ -80,6 +82,12 @@ namespace Mencoro.Api.Model
         /// </summary>
         [DataMember(Name = "email", EmitDefaultValue = false)]
         public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ProjectAccess
+        /// </summary>
+        [DataMember(Name = "projectAccess", EmitDefaultValue = true)]
+        public CreateInvitationRequestProjectAccess ProjectAccess { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -91,6 +99,7 @@ namespace Mencoro.Api.Model
             sb.Append("class CreateInvitationRequest {\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
             sb.Append("  Role: ").Append(Role).Append("\n");
+            sb.Append("  ProjectAccess: ").Append(ProjectAccess).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

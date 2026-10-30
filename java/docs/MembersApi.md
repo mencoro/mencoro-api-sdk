@@ -8,6 +8,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**getMember**](MembersApi.md#getMember) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership |
 | [**listMembers**](MembersApi.md#listMembers) | **GET** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members |
 | [**reactivateMember**](MembersApi.md#reactivateMember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member |
+| [**setMemberProjectAccess**](MembersApi.md#setMemberProjectAccess) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches |
 | [**suspendMember**](MembersApi.md#suspendMember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member |
 
 
@@ -320,6 +321,87 @@ public class Example {
 | **403** | The key lacks the organization:manage capability |  -  |
 | **404** | No organization or membership the caller can access under these ids |  -  |
 | **409** | The confirmation is invalid, expired, already used, or its effects changed; or the member is already active |  -  |
+| **428** | No confirmation was sent; preview the operation first |  -  |
+
+<a id="setMemberProjectAccess"></a>
+# **setMemberProjectAccess**
+> MemberResource setMemberProjectAccess(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest)
+
+Set which projects a member reaches
+
+Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+
+### Example
+```java
+// Import classes:
+import com.mencoro.api.ApiClient;
+import com.mencoro.api.ApiException;
+import com.mencoro.api.Configuration;
+import com.mencoro.api.auth.*;
+import com.mencoro.api.models.*;
+import com.mencoro.api.api.MembersApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.mencoro.com");
+    
+    // Configure HTTP bearer authorization: ApiKey
+    HttpBearerAuth ApiKey = (HttpBearerAuth) defaultClient.getAuthentication("ApiKey");
+    ApiKey.setBearerToken("BEARER TOKEN");
+
+    MembersApi apiInstance = new MembersApi(defaultClient);
+    UUID organizationId = UUID.randomUUID(); // UUID | 
+    UUID memberId = UUID.randomUUID(); // UUID | 
+    String xMencoroConfirmation = "xMencoroConfirmation_example"; // String | 
+    String idempotencyKey = "idempotencyKey_example"; // String | 
+    SetMemberProjectAccessRequest setMemberProjectAccessRequest = new SetMemberProjectAccessRequest(); // SetMemberProjectAccessRequest | 
+    try {
+      MemberResource result = apiInstance.setMemberProjectAccess(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MembersApi#setMemberProjectAccess");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **organizationId** | **UUID**|  | |
+| **memberId** | **UUID**|  | |
+| **xMencoroConfirmation** | **String**|  | |
+| **idempotencyKey** | **String**|  | |
+| **setMemberProjectAccessRequest** | [**SetMemberProjectAccessRequest**](SetMemberProjectAccessRequest.md)|  | |
+
+### Return type
+
+[**MemberResource**](MemberResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The membership with its new access |  -  |
+| **400** | The access is invalid: a selection that is empty, lists more than 500 projects, or names a project that is not the organization&#39;s |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the organization:manage capability |  -  |
+| **404** | No organization or membership the caller can access under these ids |  -  |
+| **409** | The confirmation is invalid, expired, already used, or its effects changed; the organization is archived; the member is suspended; or the member is an owner, who always reaches every project |  -  |
 | **428** | No confirmation was sent; preview the operation first |  -  |
 
 <a id="suspendMember"></a>

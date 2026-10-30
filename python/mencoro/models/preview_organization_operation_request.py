@@ -41,8 +41,8 @@ class PreviewOrganizationOperationRequest(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['createOrganization', 'updateOrganization', 'archiveOrganization', 'restoreOrganization', 'changeMemberRole', 'suspendMember', 'reactivateMember', 'createInvitation', 'cancelInvitation']):
-            raise ValueError("must be one of enum values ('createOrganization', 'updateOrganization', 'archiveOrganization', 'restoreOrganization', 'changeMemberRole', 'suspendMember', 'reactivateMember', 'createInvitation', 'cancelInvitation')")
+        if value not in set(['createOrganization', 'updateOrganization', 'archiveOrganization', 'restoreOrganization', 'changeMemberRole', 'suspendMember', 'reactivateMember', 'setMemberProjectAccess', 'createInvitation', 'cancelInvitation']):
+            raise ValueError("must be one of enum values ('createOrganization', 'updateOrganization', 'archiveOrganization', 'restoreOrganization', 'changeMemberRole', 'suspendMember', 'reactivateMember', 'setMemberProjectAccess', 'createInvitation', 'cancelInvitation')")
         return value
 
     model_config = ConfigDict(

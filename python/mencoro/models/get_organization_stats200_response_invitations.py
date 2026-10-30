@@ -29,7 +29,7 @@ class GetOrganizationStats200ResponseInvitations(BaseModel):
     """
     GetOrganizationStats200ResponseInvitations
     """ # noqa: E501
-    pending: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded.", json_schema_extra={"examples": [3]})
+    pending: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects.", json_schema_extra={"examples": [3]})
     __properties: ClassVar[List[str]] = ["pending"]
 
     model_config = ConfigDict(
@@ -71,6 +71,11 @@ class GetOrganizationStats200ResponseInvitations(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if pending (nullable) is None
+        # and model_fields_set contains the field
+        if self.pending is None and "pending" in self.model_fields_set:
+            _dict['pending'] = None
+
         return _dict
 
     @classmethod

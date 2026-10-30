@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Total** | Pointer to **int32** | Every project in the organization, archived ones included. | [optional] 
+**Total** | Pointer to **int32** | Every project of the organization the caller can access, archived ones included. | [optional] 
 **Active** | Pointer to **int32** | Projects that are not archived; never greater than &#x60;total&#x60;. | [optional] 
 
 ## Methods

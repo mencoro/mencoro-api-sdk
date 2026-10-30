@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Items** | Pointer to [**[]ProjectResource**](ProjectResource.md) |  | [optional] 
-**Total** | Pointer to **int32** | Every project matching the filters, not the size of this page. | [optional] 
+**Total** | Pointer to **int32** | Every project matching the filters that the caller can access, not the size of this page. | [optional] 
 
 ## Methods
 

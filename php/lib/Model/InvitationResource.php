@@ -65,7 +65,9 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
         'state' => 'string',
         'created_at' => '\DateTime',
         'expires_at' => '\DateTime',
-        'accepted_at' => '\DateTime'
+        'accepted_at' => '\DateTime',
+        'project_access_mode' => 'string',
+        'project_ids' => 'string[]'
     ];
 
     /**
@@ -82,7 +84,9 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
         'state' => null,
         'created_at' => 'date-time',
         'expires_at' => 'date-time',
-        'accepted_at' => 'date-time'
+        'accepted_at' => 'date-time',
+        'project_access_mode' => null,
+        'project_ids' => 'uuid'
     ];
 
     /**
@@ -97,7 +101,9 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
         'state' => false,
         'created_at' => false,
         'expires_at' => false,
-        'accepted_at' => true
+        'accepted_at' => true,
+        'project_access_mode' => false,
+        'project_ids' => false
     ];
 
     /**
@@ -192,7 +198,9 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
         'state' => 'state',
         'created_at' => 'createdAt',
         'expires_at' => 'expiresAt',
-        'accepted_at' => 'acceptedAt'
+        'accepted_at' => 'acceptedAt',
+        'project_access_mode' => 'projectAccessMode',
+        'project_ids' => 'projectIds'
     ];
 
     /**
@@ -207,7 +215,9 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
         'state' => 'setState',
         'created_at' => 'setCreatedAt',
         'expires_at' => 'setExpiresAt',
-        'accepted_at' => 'setAcceptedAt'
+        'accepted_at' => 'setAcceptedAt',
+        'project_access_mode' => 'setProjectAccessMode',
+        'project_ids' => 'setProjectIds'
     ];
 
     /**
@@ -222,7 +232,9 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
         'state' => 'getState',
         'created_at' => 'getCreatedAt',
         'expires_at' => 'getExpiresAt',
-        'accepted_at' => 'getAcceptedAt'
+        'accepted_at' => 'getAcceptedAt',
+        'project_access_mode' => 'getProjectAccessMode',
+        'project_ids' => 'getProjectIds'
     ];
 
     /**
@@ -274,6 +286,8 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
     public const STATE_REJECTED = 'rejected';
     public const STATE_EXPIRED = 'expired';
     public const STATE_CANCELLED = 'cancelled';
+    public const PROJECT_ACCESS_MODE_ALL = 'all';
+    public const PROJECT_ACCESS_MODE_SELECTED = 'selected';
 
     /**
      * Gets allowable values of the enum
@@ -306,6 +320,19 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
     }
 
     /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getProjectAccessModeAllowableValues()
+    {
+        return [
+            self::PROJECT_ACCESS_MODE_ALL,
+            self::PROJECT_ACCESS_MODE_SELECTED,
+        ];
+    }
+
+    /**
      * Associative array for storing property values
      *
      * @var mixed[]
@@ -327,6 +354,8 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('expires_at', $data ?? [], null);
         $this->setIfExists('accepted_at', $data ?? [], null);
+        $this->setIfExists('project_access_mode', $data ?? [], null);
+        $this->setIfExists('project_ids', $data ?? [], null);
     }
 
     /**
@@ -391,6 +420,21 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
         }
         if ($this->container['expires_at'] === null) {
             $invalidProperties[] = "'expires_at' can't be null";
+        }
+        if ($this->container['project_access_mode'] === null) {
+            $invalidProperties[] = "'project_access_mode' can't be null";
+        }
+        $allowedValues = $this->getProjectAccessModeAllowableValues();
+        if (!is_null($this->container['project_access_mode']) && !in_array($this->container['project_access_mode'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'project_access_mode', must be one of '%s'",
+                $this->container['project_access_mode'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['project_ids'] === null) {
+            $invalidProperties[] = "'project_ids' can't be null";
         }
         return $invalidProperties;
     }
@@ -619,6 +663,70 @@ class InvitationResource implements ModelInterface, ArrayAccess, \JsonSerializab
             }
         }
         $this->container['accepted_at'] = $accepted_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets project_access_mode
+     *
+     * @return string
+     */
+    public function getProjectAccessMode()
+    {
+        return $this->container['project_access_mode'];
+    }
+
+    /**
+     * Sets project_access_mode
+     *
+     * @param string $project_access_mode Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+     *
+     * @return self
+     */
+    public function setProjectAccessMode($project_access_mode)
+    {
+        if (is_null($project_access_mode)) {
+            throw new \InvalidArgumentException('non-nullable project_access_mode cannot be null');
+        }
+        $allowedValues = $this->getProjectAccessModeAllowableValues();
+        if (!in_array($project_access_mode, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'project_access_mode', must be one of '%s'",
+                    $project_access_mode,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['project_access_mode'] = $project_access_mode;
+
+        return $this;
+    }
+
+    /**
+     * Gets project_ids
+     *
+     * @return string[]
+     */
+    public function getProjectIds()
+    {
+        return $this->container['project_ids'];
+    }
+
+    /**
+     * Sets project_ids
+     *
+     * @param string[] $project_ids The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing
+     *
+     * @return self
+     */
+    public function setProjectIds($project_ids)
+    {
+        if (is_null($project_ids)) {
+            throw new \InvalidArgumentException('non-nullable project_ids cannot be null');
+        }
+        $this->container['project_ids'] = $project_ids;
 
         return $this;
     }

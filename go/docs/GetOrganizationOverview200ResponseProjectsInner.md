@@ -7,7 +7,10 @@ Name | Type | Description | Notes
 **ProjectId** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
 **Status** | Pointer to **string** |  | [optional] 
-**TrackedQueryCount** | Pointer to **int32** |  | [optional] 
+**TrackedQueryCount** | Pointer to **int32** | Configured tracked queries of the project, paused ones included. | [optional] 
+**AiTrackedQueryCount** | Pointer to **int32** | How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode). | [optional] 
+**SerpTrackedQueryCount** | Pointer to **int32** | How many of trackedQueryCount run on classic Google SERP. | [optional] 
+**ShoppingTrackedQueryCount** | Pointer to **int32** | How many of trackedQueryCount run on Google Shopping. | [optional] 
 **ShareOfVoice** | Pointer to **NullableFloat32** | 0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet. | [optional] 
 **MentionRate** | Pointer to **NullableInt32** | 0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet. | [optional] 
 **AvgMentionPosition** | Pointer to **NullableFloat32** | 1-based average rank of the brand within the answer; LOWER is better. Null when the project has no rank data yet. | [optional] 
@@ -131,6 +134,81 @@ SetTrackedQueryCount sets TrackedQueryCount field to given value.
 `func (o *GetOrganizationOverview200ResponseProjectsInner) HasTrackedQueryCount() bool`
 
 HasTrackedQueryCount returns a boolean if a field has been set.
+
+### GetAiTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) GetAiTrackedQueryCount() int32`
+
+GetAiTrackedQueryCount returns the AiTrackedQueryCount field if non-nil, zero value otherwise.
+
+### GetAiTrackedQueryCountOk
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) GetAiTrackedQueryCountOk() (*int32, bool)`
+
+GetAiTrackedQueryCountOk returns a tuple with the AiTrackedQueryCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAiTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) SetAiTrackedQueryCount(v int32)`
+
+SetAiTrackedQueryCount sets AiTrackedQueryCount field to given value.
+
+### HasAiTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) HasAiTrackedQueryCount() bool`
+
+HasAiTrackedQueryCount returns a boolean if a field has been set.
+
+### GetSerpTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) GetSerpTrackedQueryCount() int32`
+
+GetSerpTrackedQueryCount returns the SerpTrackedQueryCount field if non-nil, zero value otherwise.
+
+### GetSerpTrackedQueryCountOk
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) GetSerpTrackedQueryCountOk() (*int32, bool)`
+
+GetSerpTrackedQueryCountOk returns a tuple with the SerpTrackedQueryCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSerpTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) SetSerpTrackedQueryCount(v int32)`
+
+SetSerpTrackedQueryCount sets SerpTrackedQueryCount field to given value.
+
+### HasSerpTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) HasSerpTrackedQueryCount() bool`
+
+HasSerpTrackedQueryCount returns a boolean if a field has been set.
+
+### GetShoppingTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) GetShoppingTrackedQueryCount() int32`
+
+GetShoppingTrackedQueryCount returns the ShoppingTrackedQueryCount field if non-nil, zero value otherwise.
+
+### GetShoppingTrackedQueryCountOk
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) GetShoppingTrackedQueryCountOk() (*int32, bool)`
+
+GetShoppingTrackedQueryCountOk returns a tuple with the ShoppingTrackedQueryCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetShoppingTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) SetShoppingTrackedQueryCount(v int32)`
+
+SetShoppingTrackedQueryCount sets ShoppingTrackedQueryCount field to given value.
+
+### HasShoppingTrackedQueryCount
+
+`func (o *GetOrganizationOverview200ResponseProjectsInner) HasShoppingTrackedQueryCount() bool`
+
+HasShoppingTrackedQueryCount returns a boolean if a field has been set.
 
 ### GetShareOfVoice
 

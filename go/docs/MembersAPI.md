@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**GetMember**](MembersAPI.md#GetMember) | **Get** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership
 [**ListMembers**](MembersAPI.md#ListMembers) | **Get** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members
 [**ReactivateMember**](MembersAPI.md#ReactivateMember) | **Post** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member
+[**SetMemberProjectAccess**](MembersAPI.md#SetMemberProjectAccess) | **Put** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches
 [**SuspendMember**](MembersAPI.md#SuspendMember) | **Post** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member
 
 
@@ -314,6 +315,85 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SetMemberProjectAccess
+
+> MemberResource SetMemberProjectAccess(ctx, organizationId, memberId).XMencoroConfirmation(xMencoroConfirmation).IdempotencyKey(idempotencyKey).SetMemberProjectAccessRequest(setMemberProjectAccessRequest).Execute()
+
+Set which projects a member reaches
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+)
+
+func main() {
+	organizationId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	memberId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	xMencoroConfirmation := "xMencoroConfirmation_example" // string | 
+	idempotencyKey := "idempotencyKey_example" // string | 
+	setMemberProjectAccessRequest := *openapiclient.NewSetMemberProjectAccessRequest("Mode_example") // SetMemberProjectAccessRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.MembersAPI.SetMemberProjectAccess(context.Background(), organizationId, memberId).XMencoroConfirmation(xMencoroConfirmation).IdempotencyKey(idempotencyKey).SetMemberProjectAccessRequest(setMemberProjectAccessRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.SetMemberProjectAccess``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SetMemberProjectAccess`: MemberResource
+	fmt.Fprintf(os.Stdout, "Response from `MembersAPI.SetMemberProjectAccess`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**organizationId** | **string** |  | 
+**memberId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSetMemberProjectAccessRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **xMencoroConfirmation** | **string** |  | 
+ **idempotencyKey** | **string** |  | 
+ **setMemberProjectAccessRequest** | [**SetMemberProjectAccessRequest**](SetMemberProjectAccessRequest.md) |  | 
+
+### Return type
+
+[**MemberResource**](MemberResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

@@ -36,7 +36,7 @@ use \Mencoro\Api\ObjectSerializer;
  * SubscriptionResource Class Doc Comment
  *
  * @category Class
- * @description The current subscription contract of an organization
+ * @description The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
  * @package  Mencoro\Api
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -859,7 +859,7 @@ class SubscriptionResource implements ModelInterface, ArrayAccess, \JsonSerializ
     /**
      * Sets deactivation_reason
      *
-     * @param string|null $deactivation_reason Why the subscription is currently inactive. Null for an active subscription, and meaningless once \"cancelledAt\" is set - the cancellation supersedes it.
+     * @param string|null $deactivation_reason Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \"cancelledAt\" is set - the cancellation supersedes it.
      *
      * @return self
      */

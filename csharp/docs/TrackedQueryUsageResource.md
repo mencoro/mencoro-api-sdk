@@ -5,7 +5,7 @@ How many tracked queries an organization has configured
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**TrackedQueryCount** | **int** | Tracked queries across every project of the organization, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured. | 
+**TrackedQueryCount** | **int** | Tracked queries across every project of the organization the caller can access, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured. | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

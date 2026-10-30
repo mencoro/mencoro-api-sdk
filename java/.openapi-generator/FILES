@@ -60,6 +60,7 @@ docs/CreateCompetitorRequest.md
 docs/CreateInvitation200Response.md
 docs/CreateInvitation201Response.md
 docs/CreateInvitationRequest.md
+docs/CreateInvitationRequestProjectAccess.md
 docs/CreateOrganization201Response.md
 docs/CreateOrganizationRequest.md
 docs/CreateProjectRequest.md
@@ -93,6 +94,8 @@ docs/InvitationResource.md
 docs/InvitationsApi.md
 docs/JobsApi.md
 docs/KeywordListingResource.md
+docs/KeywordListingResourceCarriedPositions.md
+docs/KeywordListingResourceCarriedPositionsSerp.md
 docs/KeywordListingResourceMentionTypeCounts.md
 docs/ListAiResponses200Response.md
 docs/ListCompetitors200Response.md
@@ -140,6 +143,7 @@ docs/SearchTrackedQueries200Response.md
 docs/SearchTrackedQueryMentionMatches200Response.md
 docs/SearchTrackedQuerySerpMatches200Response.md
 docs/SerpMatchResource.md
+docs/SetMemberProjectAccessRequest.md
 docs/ShoppingOfferResource.md
 docs/ShoppingSnapshotResource.md
 docs/StartBrandDiscoveryJobRequest.md
@@ -251,6 +255,7 @@ src/main/java/com/mencoro/api/model/CreateCompetitorRequest.java
 src/main/java/com/mencoro/api/model/CreateInvitation200Response.java
 src/main/java/com/mencoro/api/model/CreateInvitation201Response.java
 src/main/java/com/mencoro/api/model/CreateInvitationRequest.java
+src/main/java/com/mencoro/api/model/CreateInvitationRequestProjectAccess.java
 src/main/java/com/mencoro/api/model/CreateOrganization201Response.java
 src/main/java/com/mencoro/api/model/CreateOrganizationRequest.java
 src/main/java/com/mencoro/api/model/CreateProjectRequest.java
@@ -281,6 +286,8 @@ src/main/java/com/mencoro/api/model/GetTrackingCoverage200Response.java
 src/main/java/com/mencoro/api/model/GetTrackingCoverage200ResponseSampleInner.java
 src/main/java/com/mencoro/api/model/InvitationResource.java
 src/main/java/com/mencoro/api/model/KeywordListingResource.java
+src/main/java/com/mencoro/api/model/KeywordListingResourceCarriedPositions.java
+src/main/java/com/mencoro/api/model/KeywordListingResourceCarriedPositionsSerp.java
 src/main/java/com/mencoro/api/model/KeywordListingResourceMentionTypeCounts.java
 src/main/java/com/mencoro/api/model/ListAiResponses200Response.java
 src/main/java/com/mencoro/api/model/ListCompetitors200Response.java
@@ -324,6 +331,7 @@ src/main/java/com/mencoro/api/model/SearchTrackedQueries200Response.java
 src/main/java/com/mencoro/api/model/SearchTrackedQueryMentionMatches200Response.java
 src/main/java/com/mencoro/api/model/SearchTrackedQuerySerpMatches200Response.java
 src/main/java/com/mencoro/api/model/SerpMatchResource.java
+src/main/java/com/mencoro/api/model/SetMemberProjectAccessRequest.java
 src/main/java/com/mencoro/api/model/ShoppingOfferResource.java
 src/main/java/com/mencoro/api/model/ShoppingSnapshotResource.java
 src/main/java/com/mencoro/api/model/StartBrandDiscoveryJobRequest.java
