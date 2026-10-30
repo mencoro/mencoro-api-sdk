@@ -32,6 +32,10 @@ sdk = next(s for s in json.load(open("sdks.json"))["sdks"] if s["dir"] == "go")
 print(sdk["config"]["packageName"])
 ')"
 
+# The oldest Node release line still supported upstream; CI tests the TypeScript package on it and
+# on the current LTS.
+NODE_FLOOR="22"
+
 sync_contract() {
   echo "fetching ${CONTRACT_URL}"
   # Written in the committed file's layout — two-space indent, UTF-8 left unescaped — so a sync
@@ -285,6 +289,26 @@ for name in sorted(listed(previous_list) - listed(current_list)):
         directory = directory.parent
 ' "${target}" "${previous_files}"
   rm -f "${previous_files}"
+
+  if [[ "${target}" == "typescript" ]]; then
+    # The generated package.json declares no supported Node range and no option adds one, so the
+    # floor is written here rather than by hand, because a hand edit is discarded by the next run.
+    # The file goes back in the generator's own layout, so `engines` is all that differs from what
+    # it wrote. A run that produced no manifest has nothing to correct, and the check that
+    # regeneration leaves the tree clean reports the missing file.
+    python3 -c '
+import json, pathlib, sys
+
+floor = sys.argv[1]
+path = pathlib.Path("typescript/package.json")
+if not path.is_file():
+    sys.exit(0)
+package = json.loads(path.read_text(encoding="utf-8"))
+package["engines"] = {"node": f">={floor}"}
+path.write_text(json.dumps(package, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+print(f"    package.json: engines node >={floor}")
+' "${NODE_FLOOR}"
+  fi
 
   if [[ "${target}" == "php" ]]; then
     # Packagist reads composer.json from the repository ROOT and has no notion of a package living

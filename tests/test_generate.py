@@ -351,6 +351,87 @@ class OrphanedFileTest(unittest.TestCase):
         self.assertFalse((self.root / "typescript/docs/Removed.md").exists())
 
 
+class TypeScriptPackageMetadataTest(unittest.TestCase):
+    """generate.sh declares the Node floor in typescript/package.json, which the generator writes
+    without one, so that the floor survives every regeneration."""
+
+    # The fields openapi-generator 7.24.0 writes that matter here; it emits no `engines`.
+    GENERATED = {
+        "name": "@mencoro/api",
+        "version": "1.0.1",
+        "description": "OpenAPI client for @mencoro/api",
+        "author": "OpenAPI-Generator",
+        "license": "MIT",
+        "devDependencies": {"typescript": "^4.0 || ^5.0"},
+    }
+
+    # Overwrites the manifest of the SDK it is asked for, on every run, as the real generator does.
+    FAKE_GENERATOR = (
+        "import pathlib, sys\n"
+        "output = pathlib.Path(sys.argv[sys.argv.index('-o') + 1].removeprefix('/local/'))\n"
+        "output.mkdir(exist_ok=True)\n"
+        "(output / 'package.json').write_text(pathlib.Path('generated.json').read_text())\n"
+    )
+
+    def setUp(self):
+        directory = tempfile.TemporaryDirectory(prefix="mencoro-typescript-metadata-test-")
+        self.addCleanup(directory.cleanup)
+        self.root = Path(directory.name)
+        for name in ("generate.sh", "sdks.json"):
+            shutil.copyfile(ROOT / name, self.root / name)
+        commands = self.root / "bin"
+        commands.mkdir()
+        docker = commands / "docker"
+        docker.write_text(f"#!{sys.executable}\n" + self.FAKE_GENERATOR)
+        docker.chmod(0o755)
+        self.path = f"{commands}:{os.environ['PATH']}"
+
+    def generate(self, package, sdk="typescript"):
+        (self.root / "generated.json").write_text(json.dumps(package, indent=2) + "\n", encoding="utf-8")
+        result = subprocess.run(
+            ["bash", "generate.sh", sdk],
+            cwd=self.root,
+            env={**os.environ, "PATH": self.path},
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        return result, (self.root / sdk / "package.json").read_text(encoding="utf-8")
+
+    def test_the_generated_manifest_gets_the_node_floor_and_keeps_its_layout(self):
+        result, text = self.generate(self.GENERATED)
+        expected = {**self.GENERATED, "engines": {"node": ">=22"}}
+        # Compared as text: every line the generator wrote stays as it wrote it.
+        self.assertEqual(json.dumps(expected, indent=2) + "\n", text)
+        self.assertIn("engines node >=22", result.stdout)
+
+    def test_a_second_regeneration_changes_nothing(self):
+        _, once = self.generate(self.GENERATED)
+        _, twice = self.generate(self.GENERATED)
+        self.assertEqual(once, twice)
+
+    def test_a_range_a_later_generator_writes_gives_way_to_the_floor(self):
+        _, text = self.generate({**self.GENERATED, "engines": {"node": ">=18"}})
+        self.assertEqual({"node": ">=22"}, json.loads(text)["engines"])
+
+    def test_regenerating_another_sdk_leaves_the_manifest_alone(self):
+        manifest = self.root / "typescript/package.json"
+        manifest.parent.mkdir()
+        manifest.write_text("committed manifest")
+        self.generate(self.GENERATED, sdk="ruby")
+        self.assertEqual("committed manifest", manifest.read_text())
+
+    def test_the_committed_manifest_declares_the_floor_ci_tests(self):
+        package = json.loads((ROOT / "typescript/package.json").read_text(encoding="utf-8"))
+        self.assertEqual({"node": ">=22"}, package["engines"])
+        # A floor the package claims but CI never runs is a claim nobody checked.
+        ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+        self.assertIn('node-version: ["22", "26"]\n', ci)
+        release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+        self.assertIn('node-version: "26"\n', release)
+
+
 class ContractSyncTest(unittest.TestCase):
     """`--sync` writes the fetched contract in the committed layout, or not at all."""
 
