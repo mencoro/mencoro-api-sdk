@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * The current subscription contract of an organization
+ * The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
  * @export
  * @interface SubscriptionResource
  */
@@ -86,7 +86,7 @@ export interface SubscriptionResource {
      */
     gracePeriodEndsAt?: Date | null;
     /**
-     * Why the subscription is currently inactive. Null for an active subscription, and meaningless once "cancelledAt" is set - the cancellation supersedes it.
+     * Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once "cancelledAt" is set - the cancellation supersedes it.
      * @type {SubscriptionResourceDeactivationReasonEnum}
      * @memberof SubscriptionResource
      */

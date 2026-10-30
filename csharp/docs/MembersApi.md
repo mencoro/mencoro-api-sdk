@@ -8,6 +8,7 @@ All URIs are relative to *https://api.mencoro.com*
 | [**GetMember**](MembersApi.md#getmember) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership |
 | [**ListMembers**](MembersApi.md#listmembers) | **GET** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members |
 | [**ReactivateMember**](MembersApi.md#reactivatemember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member |
+| [**SetMemberProjectAccess**](MembersApi.md#setmemberprojectaccess) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches |
 | [**SuspendMember**](MembersApi.md#suspendmember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member |
 
 <a id="changememberrole"></a>
@@ -441,6 +442,118 @@ catch (ApiException e)
 | **403** | The key lacks the organization:manage capability |  -  |
 | **404** | No organization or membership the caller can access under these ids |  -  |
 | **409** | The confirmation is invalid, expired, already used, or its effects changed; or the member is already active |  -  |
+| **428** | No confirmation was sent; preview the operation first |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="setmemberprojectaccess"></a>
+# **SetMemberProjectAccess**
+> MemberResource SetMemberProjectAccess (Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest)
+
+Set which projects a member reaches
+
+Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member's next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member's access at preview time, so another change in between invalidates it.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Mencoro.Api.Api;
+using Mencoro.Api.Client;
+using Mencoro.Api.Model;
+
+namespace Example
+{
+    public class SetMemberProjectAccessExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.mencoro.com";
+            // Configure Bearer token for authorization: ApiKey
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new MembersApi(httpClient, config, httpClientHandler);
+            var organizationId = "organizationId_example";  // Guid | 
+            var memberId = "memberId_example";  // Guid | 
+            var xMencoroConfirmation = "xMencoroConfirmation_example";  // string | 
+            var idempotencyKey = "idempotencyKey_example";  // string | 
+            var setMemberProjectAccessRequest = new SetMemberProjectAccessRequest(); // SetMemberProjectAccessRequest | 
+
+            try
+            {
+                // Set which projects a member reaches
+                MemberResource result = apiInstance.SetMemberProjectAccess(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling MembersApi.SetMemberProjectAccess: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the SetMemberProjectAccessWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Set which projects a member reaches
+    ApiResponse<MemberResource> response = apiInstance.SetMemberProjectAccessWithHttpInfo(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling MembersApi.SetMemberProjectAccessWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **organizationId** | **Guid** |  |  |
+| **memberId** | **Guid** |  |  |
+| **xMencoroConfirmation** | **string** |  |  |
+| **idempotencyKey** | **string** |  |  |
+| **setMemberProjectAccessRequest** | [**SetMemberProjectAccessRequest**](SetMemberProjectAccessRequest.md) |  |  |
+
+### Return type
+
+[**MemberResource**](MemberResource.md)
+
+### Authorization
+
+[ApiKey](../README.md#ApiKey)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The membership with its new access |  -  |
+| **400** | The access is invalid: a selection that is empty, lists more than 500 projects, or names a project that is not the organization&#39;s |  -  |
+| **401** | Missing or invalid API key |  -  |
+| **403** | The key lacks the organization:manage capability |  -  |
+| **404** | No organization or membership the caller can access under these ids |  -  |
+| **409** | The confirmation is invalid, expired, already used, or its effects changed; the organization is archived; the member is suspended; or the member is an owner, who always reaches every project |  -  |
 | **428** | No confirmation was sent; preview the operation first |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

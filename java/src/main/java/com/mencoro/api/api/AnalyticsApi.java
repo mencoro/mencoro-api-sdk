@@ -459,7 +459,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these clusters. Each must belong to the project. (optional)
-     * @param includeUngroupedQueries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -469,7 +469,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> One row per keyword cluster, plus the ungrouped bucket where it applies </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -580,7 +580,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these clusters. Each must belong to the project. (optional)
-     * @param includeUngroupedQueries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @return ProjectRankTrackingClusterBreakdown
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -589,7 +589,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> One row per keyword cluster, plus the ungrouped bucket where it applies </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -609,7 +609,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these clusters. Each must belong to the project. (optional)
-     * @param includeUngroupedQueries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @return ApiResponse&lt;ProjectRankTrackingClusterBreakdown&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -618,7 +618,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> One row per keyword cluster, plus the ungrouped bucket where it applies </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -639,7 +639,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these clusters. Each must belong to the project. (optional)
-     * @param includeUngroupedQueries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -649,7 +649,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> One row per keyword cluster, plus the ungrouped bucket where it applies </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1501,7 +1501,7 @@ public class AnalyticsApi {
 
     /**
      * Snapshot rank-health board across an organization active projects
-     * Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+     * Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
      * @param organizationId  (required)
      * @return GetOrganizationOverview200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1522,7 +1522,7 @@ public class AnalyticsApi {
 
     /**
      * Snapshot rank-health board across an organization active projects
-     * Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+     * Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
      * @param organizationId  (required)
      * @return ApiResponse&lt;GetOrganizationOverview200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1544,7 +1544,7 @@ public class AnalyticsApi {
 
     /**
      * Snapshot rank-health board across an organization active projects (asynchronously)
-     * Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+     * Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
      * @param organizationId  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -1575,7 +1575,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param includeUngroupedQueries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1585,7 +1585,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1696,7 +1696,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param includeUngroupedQueries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @return ProjectRankTrackingStats
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1705,7 +1705,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1725,7 +1725,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param includeUngroupedQueries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @return ApiResponse&lt;ProjectRankTrackingStats&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1734,7 +1734,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1755,7 +1755,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param includeUngroupedQueries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1765,7 +1765,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1786,7 +1786,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
-     * @param includeUngroupedQueries  (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1796,7 +1796,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Sentiment per engine and per competitor </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1907,7 +1907,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
-     * @param includeUngroupedQueries  (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @return ProjectSentimentBreakdown
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1916,7 +1916,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Sentiment per engine and per competitor </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1936,7 +1936,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
-     * @param includeUngroupedQueries  (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @return ApiResponse&lt;ProjectSentimentBreakdown&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1945,7 +1945,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Sentiment per engine and per competitor </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1966,7 +1966,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
-     * @param includeUngroupedQueries  (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1976,7 +1976,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Sentiment per engine and per competitor </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -1998,7 +1998,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
-     * @param includeUngroupedQueries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param competitorIds Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -2009,7 +2009,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -2129,7 +2129,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
-     * @param includeUngroupedQueries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param competitorIds Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @return ProjectRankTrackingTimeSeries
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -2139,7 +2139,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -2160,7 +2160,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
-     * @param includeUngroupedQueries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param competitorIds Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @return ApiResponse&lt;ProjectRankTrackingTimeSeries&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -2170,7 +2170,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -2192,7 +2192,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds  (optional)
-     * @param includeUngroupedQueries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param competitorIds Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -2203,7 +2203,7 @@ public class AnalyticsApi {
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
      </table>
@@ -2962,7 +2962,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param includeUngroupedQueries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param checkFrequencies Repeatable, or comma-separated. (optional)
      * @param nPasses Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -2979,7 +2979,7 @@ public class AnalyticsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> A page of keywords, the totals behind it, and whether the metrics are pending recalculation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter, sort key or page bound was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter, sort key or page bound was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
@@ -3123,7 +3123,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param includeUngroupedQueries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param checkFrequencies Repeatable, or comma-separated. (optional)
      * @param nPasses Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -3139,7 +3139,7 @@ public class AnalyticsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> A page of keywords, the totals behind it, and whether the metrics are pending recalculation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter, sort key or page bound was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter, sort key or page bound was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
@@ -3160,7 +3160,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param includeUngroupedQueries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param checkFrequencies Repeatable, or comma-separated. (optional)
      * @param nPasses Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -3176,7 +3176,7 @@ public class AnalyticsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> A page of keywords, the totals behind it, and whether the metrics are pending recalculation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter, sort key or page bound was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter, sort key or page bound was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>
@@ -3198,7 +3198,7 @@ public class AnalyticsApi {
      * @param engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param queryClusterIds Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param includeUngroupedQueries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param includeUngroupedQueries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param checkFrequencies Repeatable, or comma-separated. (optional)
      * @param nPasses Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -3215,7 +3215,7 @@ public class AnalyticsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> A page of keywords, the totals behind it, and whether the metrics are pending recalculation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> A filter, sort key or page bound was rejected; the details name the field </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> A filter, sort key or page bound was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key lacks the read capability </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> No organization or project the caller can access under these ids </td><td>  -  </td></tr>

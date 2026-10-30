@@ -13,6 +13,8 @@ Name | Type | Description | Notes
 **created_at** | **datetime** |  | 
 **expires_at** | **datetime** |  | 
 **accepted_at** | **datetime** |  | [optional] 
+**project_access_mode** | **str** | Which projects of the organization the invitee reaches on accepting: every project, or only projectIds | 
+**project_ids** | **List[UUID]** | The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing | 
 
 ## Example
 

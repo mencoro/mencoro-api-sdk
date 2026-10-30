@@ -20,7 +20,7 @@ import { mapValues } from '../runtime';
  */
 export interface GetOrganizationOverview200ResponseAggregate {
     /**
-     * Active projects in the organization, the length of `projects`.
+     * Active projects of the organization the caller can access, the length of `projects`.
      * @type {number}
      * @memberof GetOrganizationOverview200ResponseAggregate
      */

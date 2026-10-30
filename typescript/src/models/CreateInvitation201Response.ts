@@ -62,6 +62,18 @@ export interface CreateInvitation201Response {
      */
     acceptedAt?: Date | null;
     /**
+     * Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+     * @type {CreateInvitation201ResponseProjectAccessModeEnum}
+     * @memberof CreateInvitation201Response
+     */
+    projectAccessMode: CreateInvitation201ResponseProjectAccessModeEnum;
+    /**
+     * The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing
+     * @type {Array<string>}
+     * @memberof CreateInvitation201Response
+     */
+    projectIds: Array<string>;
+    /**
      * Always true on a 201.
      * @type {boolean}
      * @memberof CreateInvitation201Response
@@ -92,6 +104,15 @@ export const CreateInvitation201ResponseStateEnum = {
 } as const;
 export type CreateInvitation201ResponseStateEnum = typeof CreateInvitation201ResponseStateEnum[keyof typeof CreateInvitation201ResponseStateEnum];
 
+/**
+ * @export
+ */
+export const CreateInvitation201ResponseProjectAccessModeEnum = {
+    All: 'all',
+    Selected: 'selected'
+} as const;
+export type CreateInvitation201ResponseProjectAccessModeEnum = typeof CreateInvitation201ResponseProjectAccessModeEnum[keyof typeof CreateInvitation201ResponseProjectAccessModeEnum];
+
 
 /**
  * Check if a given object implements the CreateInvitation201Response interface.
@@ -103,6 +124,8 @@ export function instanceOfCreateInvitation201Response(value: object): value is C
     if (!('state' in value) || value['state'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     if (!('expiresAt' in value) || value['expiresAt'] === undefined) return false;
+    if (!('projectAccessMode' in value) || value['projectAccessMode'] === undefined) return false;
+    if (!('projectIds' in value) || value['projectIds'] === undefined) return false;
     return true;
 }
 
@@ -123,6 +146,8 @@ export function CreateInvitation201ResponseFromJSONTyped(json: any, ignoreDiscri
         'createdAt': (new Date(json['createdAt'])),
         'expiresAt': (new Date(json['expiresAt'])),
         'acceptedAt': json['acceptedAt'] === undefined ? undefined : json['acceptedAt'] === null ? null : (new Date(json['acceptedAt'])),
+        'projectAccessMode': json['projectAccessMode'],
+        'projectIds': json['projectIds'],
         'created': json['created'] == null ? undefined : json['created'],
     };
 }
@@ -145,6 +170,8 @@ export function CreateInvitation201ResponseToJSONTyped(value?: CreateInvitation2
         'createdAt': value['createdAt'].toISOString(),
         'expiresAt': value['expiresAt'].toISOString(),
         'acceptedAt': value['acceptedAt'] == null ? value['acceptedAt'] : value['acceptedAt'].toISOString(),
+        'projectAccessMode': value['projectAccessMode'],
+        'projectIds': value['projectIds'],
         'created': value['created'],
     };
 }

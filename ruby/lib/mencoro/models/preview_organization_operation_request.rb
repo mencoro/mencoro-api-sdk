@@ -131,7 +131,7 @@ module Mencoro
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      action_validator = EnumAttributeValidator.new('String', ["createOrganization", "updateOrganization", "archiveOrganization", "restoreOrganization", "changeMemberRole", "suspendMember", "reactivateMember", "createInvitation", "cancelInvitation"])
+      action_validator = EnumAttributeValidator.new('String', ["createOrganization", "updateOrganization", "archiveOrganization", "restoreOrganization", "changeMemberRole", "suspendMember", "reactivateMember", "setMemberProjectAccess", "createInvitation", "cancelInvitation"])
       return false unless action_validator.valid?(@action)
       true
     end
@@ -139,7 +139,7 @@ module Mencoro
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] action Object to be assigned
     def action=(action)
-      validator = EnumAttributeValidator.new('String', ["createOrganization", "updateOrganization", "archiveOrganization", "restoreOrganization", "changeMemberRole", "suspendMember", "reactivateMember", "createInvitation", "cancelInvitation"])
+      validator = EnumAttributeValidator.new('String', ["createOrganization", "updateOrganization", "archiveOrganization", "restoreOrganization", "changeMemberRole", "suspendMember", "reactivateMember", "setMemberProjectAccess", "createInvitation", "cancelInvitation"])
       unless validator.valid?(action)
         fail ArgumentError, "invalid value for \"action\", must be one of #{validator.allowable_values}."
       end

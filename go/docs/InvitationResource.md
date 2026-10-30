@@ -11,12 +11,14 @@ Name | Type | Description | Notes
 **CreatedAt** | **time.Time** |  | 
 **ExpiresAt** | **time.Time** |  | 
 **AcceptedAt** | Pointer to **NullableTime** |  | [optional] 
+**ProjectAccessMode** | **string** | Which projects of the organization the invitee reaches on accepting: every project, or only projectIds | 
+**ProjectIds** | **[]string** | The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing | 
 
 ## Methods
 
 ### NewInvitationResource
 
-`func NewInvitationResource(id string, email string, role string, state string, createdAt time.Time, expiresAt time.Time, ) *InvitationResource`
+`func NewInvitationResource(id string, email string, role string, state string, createdAt time.Time, expiresAt time.Time, projectAccessMode string, projectIds []string, ) *InvitationResource`
 
 NewInvitationResource instantiates a new InvitationResource object
 This constructor will assign default values to properties that have it defined,
@@ -186,6 +188,46 @@ HasAcceptedAt returns a boolean if a field has been set.
 `func (o *InvitationResource) UnsetAcceptedAt()`
 
 UnsetAcceptedAt ensures that no value is present for AcceptedAt, not even an explicit nil
+### GetProjectAccessMode
+
+`func (o *InvitationResource) GetProjectAccessMode() string`
+
+GetProjectAccessMode returns the ProjectAccessMode field if non-nil, zero value otherwise.
+
+### GetProjectAccessModeOk
+
+`func (o *InvitationResource) GetProjectAccessModeOk() (*string, bool)`
+
+GetProjectAccessModeOk returns a tuple with the ProjectAccessMode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectAccessMode
+
+`func (o *InvitationResource) SetProjectAccessMode(v string)`
+
+SetProjectAccessMode sets ProjectAccessMode field to given value.
+
+
+### GetProjectIds
+
+`func (o *InvitationResource) GetProjectIds() []string`
+
+GetProjectIds returns the ProjectIds field if non-nil, zero value otherwise.
+
+### GetProjectIdsOk
+
+`func (o *InvitationResource) GetProjectIdsOk() (*[]string, bool)`
+
+GetProjectIdsOk returns a tuple with the ProjectIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectIds
+
+`func (o *InvitationResource) SetProjectIds(v []string)`
+
+SetProjectIds sets ProjectIds field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

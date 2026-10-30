@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **CreatedAt** | **DateTime** |  | 
 **ExpiresAt** | **DateTime** |  | 
 **AcceptedAt** | **DateTime?** |  | [optional] 
+**ProjectAccessMode** | **string** | Which projects of the organization the invitee reaches on accepting: every project, or only projectIds | 
+**ProjectIds** | **List&lt;Guid&gt;** | The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing | 
 **Created** | **bool** | Always true on a 201. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

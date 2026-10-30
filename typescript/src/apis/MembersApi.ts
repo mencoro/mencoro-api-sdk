@@ -28,6 +28,11 @@ import {
     MemberResourceFromJSON,
     MemberResourceToJSON,
 } from '../models/MemberResource';
+import {
+    type SetMemberProjectAccessRequest,
+    SetMemberProjectAccessRequestFromJSON,
+    SetMemberProjectAccessRequestToJSON,
+} from '../models/SetMemberProjectAccessRequest';
 
 export interface ChangeMemberRoleOperationRequest {
     organizationId: string;
@@ -56,6 +61,14 @@ export interface ReactivateMemberRequest {
     memberId: string;
     xMencoroConfirmation: string;
     idempotencyKey: string;
+}
+
+export interface SetMemberProjectAccessOperationRequest {
+    organizationId: string;
+    memberId: string;
+    xMencoroConfirmation: string;
+    idempotencyKey: string;
+    setMemberProjectAccessRequest: SetMemberProjectAccessRequest;
 }
 
 export interface SuspendMemberRequest {
@@ -193,6 +206,38 @@ export interface MembersApiInterface {
      * Reactivate a suspended member
      */
     reactivateMember(requestParameters: ReactivateMemberRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MemberResource>;
+
+    /**
+     * Creates request options for setMemberProjectAccess without sending the request
+     * @param {string} organizationId 
+     * @param {string} memberId 
+     * @param {string} xMencoroConfirmation 
+     * @param {string} idempotencyKey 
+     * @param {SetMemberProjectAccessRequest} setMemberProjectAccessRequest 
+     * @throws {RequiredError}
+     * @memberof MembersApiInterface
+     */
+    setMemberProjectAccessRequestOpts(requestParameters: SetMemberProjectAccessOperationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member\'s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member\'s access at preview time, so another change in between invalidates it.
+     * @summary Set which projects a member reaches
+     * @param {string} organizationId 
+     * @param {string} memberId 
+     * @param {string} xMencoroConfirmation 
+     * @param {string} idempotencyKey 
+     * @param {SetMemberProjectAccessRequest} setMemberProjectAccessRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MembersApiInterface
+     */
+    setMemberProjectAccessRaw(requestParameters: SetMemberProjectAccessOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MemberResource>>;
+
+    /**
+     * Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member\'s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member\'s access at preview time, so another change in between invalidates it.
+     * Set which projects a member reaches
+     */
+    setMemberProjectAccess(requestParameters: SetMemberProjectAccessOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MemberResource>;
 
     /**
      * Creates request options for suspendMember without sending the request
@@ -546,6 +591,101 @@ export class MembersApi extends runtime.BaseAPI implements MembersApiInterface {
      */
     async reactivateMember(requestParameters: ReactivateMemberRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MemberResource> {
         const response = await this.reactivateMemberRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for setMemberProjectAccess without sending the request
+     */
+    async setMemberProjectAccessRequestOpts(requestParameters: SetMemberProjectAccessOperationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['organizationId'] == null) {
+            throw new runtime.RequiredError(
+                'organizationId',
+                'Required parameter "organizationId" was null or undefined when calling setMemberProjectAccess().'
+            );
+        }
+
+        if (requestParameters['memberId'] == null) {
+            throw new runtime.RequiredError(
+                'memberId',
+                'Required parameter "memberId" was null or undefined when calling setMemberProjectAccess().'
+            );
+        }
+
+        if (requestParameters['xMencoroConfirmation'] == null) {
+            throw new runtime.RequiredError(
+                'xMencoroConfirmation',
+                'Required parameter "xMencoroConfirmation" was null or undefined when calling setMemberProjectAccess().'
+            );
+        }
+
+        if (requestParameters['idempotencyKey'] == null) {
+            throw new runtime.RequiredError(
+                'idempotencyKey',
+                'Required parameter "idempotencyKey" was null or undefined when calling setMemberProjectAccess().'
+            );
+        }
+
+        if (requestParameters['setMemberProjectAccessRequest'] == null) {
+            throw new runtime.RequiredError(
+                'setMemberProjectAccessRequest',
+                'Required parameter "setMemberProjectAccessRequest" was null or undefined when calling setMemberProjectAccess().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['xMencoroConfirmation'] != null) {
+            headerParameters['X-Mencoro-Confirmation'] = String(requestParameters['xMencoroConfirmation']);
+        }
+
+        if (requestParameters['idempotencyKey'] != null) {
+            headerParameters['Idempotency-Key'] = String(requestParameters['idempotencyKey']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("ApiKey", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/api/v1/organizations/{organizationId}/members/{memberId}/project-access`;
+        urlPath = urlPath.replace('{organizationId}', encodeURIComponent(String(requestParameters['organizationId'])));
+        urlPath = urlPath.replace('{memberId}', encodeURIComponent(String(requestParameters['memberId'])));
+
+        return {
+            path: urlPath,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SetMemberProjectAccessRequestToJSON(requestParameters['setMemberProjectAccessRequest']),
+        };
+    }
+
+    /**
+     * Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member\'s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member\'s access at preview time, so another change in between invalidates it.
+     * Set which projects a member reaches
+     */
+    async setMemberProjectAccessRaw(requestParameters: SetMemberProjectAccessOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MemberResource>> {
+        const requestOptions = await this.setMemberProjectAccessRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MemberResourceFromJSON(jsonValue));
+    }
+
+    /**
+     * Minimum role: owner. A member reaches every project of the organization (`all`) or only the listed projects (`selected`); a project outside a selection answers as if it did not exist. The change applies from the member\'s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member\'s access at preview time, so another change in between invalidates it.
+     * Set which projects a member reaches
+     */
+    async setMemberProjectAccess(requestParameters: SetMemberProjectAccessOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MemberResource> {
+        const response = await this.setMemberProjectAccessRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

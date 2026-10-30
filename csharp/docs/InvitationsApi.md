@@ -219,10 +219,11 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **201** | The invitation that was created. &#x60;created&#x60; is true; branch on it rather than on the status code, so one code path handles both answers. |  -  |
 | **200** | Nothing was created because the address already belongs to an active member. Not an error: the end state the caller asked for already holds. |  -  |
+| **400** | The body is invalid, or the selected projects are empty, more than 500, or not the organization&#39;s |  -  |
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the organization:manage capability |  -  |
 | **404** | No organization the caller can access under this id |  -  |
-| **409** | The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address |  -  |
+| **409** | The confirmation is invalid, expired, already used, or its effects changed; or a pending invitation already exists for this address; or an owner invitation carries a project selection |  -  |
 | **428** | No confirmation was sent; preview the operation first |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

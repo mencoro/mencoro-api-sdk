@@ -194,7 +194,7 @@ $date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Inclusive 
 $engines = array('engines_example'); // string[] | Repeatable, or comma-separated.
 $countries = array('countries_example'); // string[] | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
 $query_cluster_ids = array('query_cluster_ids_example'); // string[] | Restrict to these clusters. Each must belong to the project.
-$include_ungrouped_queries = false; // bool | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster.
+$include_ungrouped_queries = false; // bool | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row.
 
 try {
     $result = $apiInstance->getClusterBreakdown($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
@@ -215,7 +215,7 @@ try {
 | **engines** | [**string[]**](../Model/string.md)| Repeatable, or comma-separated. | [optional] |
 | **countries** | [**string[]**](../Model/string.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**string[]**](../Model/string.md)| Restrict to these clusters. Each must belong to the project. | [optional] |
-| **include_ungrouped_queries** | **bool**| Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. | [optional] [default to false] |
+| **include_ungrouped_queries** | **bool**| Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. | [optional] [default to false] |
 
 ### Return type
 
@@ -523,7 +523,7 @@ getOrganizationOverview($organization_id): \Mencoro\Api\Model\GetOrganizationOve
 
 Snapshot rank-health board across an organization active projects
 
-Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
 
 ### Example
 
@@ -609,7 +609,7 @@ $date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Inclusive 
 $engines = array('engines_example'); // string[] | Repeatable, or comma-separated.
 $countries = array('countries_example'); // string[] | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
 $query_cluster_ids = array('query_cluster_ids_example'); // string[] | Restrict to these keyword clusters. Each must belong to this project.
-$include_ungrouped_queries = false; // bool | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster.
+$include_ungrouped_queries = false; // bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
 
 try {
     $result = $apiInstance->getProjectMetrics($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
@@ -630,7 +630,7 @@ try {
 | **engines** | [**string[]**](../Model/string.md)| Repeatable, or comma-separated. | [optional] |
 | **countries** | [**string[]**](../Model/string.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**string[]**](../Model/string.md)| Restrict to these keyword clusters. Each must belong to this project. | [optional] |
-| **include_ungrouped_queries** | **bool**| Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. | [optional] [default to false] |
+| **include_ungrouped_queries** | **bool**| Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to false] |
 
 ### Return type
 
@@ -683,7 +683,7 @@ $date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Inclusive 
 $engines = array('engines_example'); // string[] | Repeatable, or comma-separated.
 $countries = array('countries_example'); // string[] | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
 $query_cluster_ids = array('query_cluster_ids_example'); // string[]
-$include_ungrouped_queries = false; // bool
+$include_ungrouped_queries = false; // bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
 
 try {
     $result = $apiInstance->getProjectSentiment($organization_id, $project_id, $date_from, $date_to, $engines, $countries, $query_cluster_ids, $include_ungrouped_queries);
@@ -704,7 +704,7 @@ try {
 | **engines** | [**string[]**](../Model/string.md)| Repeatable, or comma-separated. | [optional] |
 | **countries** | [**string[]**](../Model/string.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**string[]**](../Model/string.md)|  | [optional] |
-| **include_ungrouped_queries** | **bool**|  | [optional] [default to false] |
+| **include_ungrouped_queries** | **bool**| Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to false] |
 
 ### Return type
 
@@ -758,7 +758,7 @@ $granularity = 'daily'; // string | Bucket size of each point.
 $engines = array('engines_example'); // string[] | Repeatable, or comma-separated.
 $countries = array('countries_example'); // string[] | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
 $query_cluster_ids = array('query_cluster_ids_example'); // string[]
-$include_ungrouped_queries = false; // bool | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them.
+$include_ungrouped_queries = false; // bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
 $competitor_ids = array('competitor_ids_example'); // string[] | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
 
 try {
@@ -781,7 +781,7 @@ try {
 | **engines** | [**string[]**](../Model/string.md)| Repeatable, or comma-separated. | [optional] |
 | **countries** | [**string[]**](../Model/string.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**string[]**](../Model/string.md)|  | [optional] |
-| **include_ungrouped_queries** | **bool**| On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. | [optional] [default to false] |
+| **include_ungrouped_queries** | **bool**| Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to false] |
 | **competitor_ids** | [**string[]**](../Model/string.md)| Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. | [optional] |
 
 ### Return type
@@ -1109,7 +1109,7 @@ $date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | Inclusive 
 $engines = array('engines_example'); // string[] | Repeatable, or comma-separated. Narrows which variants count towards each row.
 $countries = array('countries_example'); // string[] | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
 $query_cluster_ids = array('query_cluster_ids_example'); // string[] | Restrict to keywords with a variant in these clusters. Each must belong to the project.
-$include_ungrouped_queries = false; // bool | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection.
+$include_ungrouped_queries = false; // bool | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords.
 $status = 'status_example'; // string | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \"mixed\".
 $check_frequencies = array('check_frequencies_example'); // string[] | Repeatable, or comma-separated.
 $n_passes = array(56); // int[] | Repeatable, or comma-separated. Restrict to variants configured with these pass counts.
@@ -1138,7 +1138,7 @@ try {
 | **engines** | [**string[]**](../Model/string.md)| Repeatable, or comma-separated. Narrows which variants count towards each row. | [optional] |
 | **countries** | [**string[]**](../Model/string.md)| ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**string[]**](../Model/string.md)| Restrict to keywords with a variant in these clusters. Each must belong to the project. | [optional] |
-| **include_ungrouped_queries** | **bool**| Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. | [optional] [default to false] |
+| **include_ungrouped_queries** | **bool**| Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. | [optional] [default to false] |
 | **status** | **string**| Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. | [optional] |
 | **check_frequencies** | [**string[]**](../Model/string.md)| Repeatable, or comma-separated. | [optional] |
 | **n_passes** | [**int[]**](../Model/int.md)| Repeatable, or comma-separated. Restrict to variants configured with these pass counts. | [optional] |

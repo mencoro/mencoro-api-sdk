@@ -30,6 +30,7 @@ import java.io.IOException;
 import com.mencoro.api.model.ChangeMemberRoleRequest;
 import com.mencoro.api.model.ListMembers200Response;
 import com.mencoro.api.model.MemberResource;
+import com.mencoro.api.model.SetMemberProjectAccessRequest;
 import java.util.UUID;
 
 import java.lang.reflect.Type;
@@ -784,6 +785,205 @@ public class MembersApi {
     public okhttp3.Call reactivateMemberAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID memberId, @javax.annotation.Nonnull String xMencoroConfirmation, @javax.annotation.Nonnull String idempotencyKey, final ApiCallback<MemberResource> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = reactivateMemberValidateBeforeCall(organizationId, memberId, xMencoroConfirmation, idempotencyKey, _callback);
+        Type localVarReturnType = new TypeToken<MemberResource>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for setMemberProjectAccess
+     * @param organizationId  (required)
+     * @param memberId  (required)
+     * @param xMencoroConfirmation  (required)
+     * @param idempotencyKey  (required)
+     * @param setMemberProjectAccessRequest  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The membership with its new access </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> The access is invalid: a selection that is empty, lists more than 500 projects, or names a project that is not the organization&#39;s </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the organization:manage capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization or membership the caller can access under these ids </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; the organization is archived; the member is suspended; or the member is an owner, who always reaches every project </td><td>  -  </td></tr>
+        <tr><td> 428 </td><td> No confirmation was sent; preview the operation first </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call setMemberProjectAccessCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID memberId, @javax.annotation.Nonnull String xMencoroConfirmation, @javax.annotation.Nonnull String idempotencyKey, @javax.annotation.Nonnull SetMemberProjectAccessRequest setMemberProjectAccessRequest, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = setMemberProjectAccessRequest;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/organizations/{organizationId}/members/{memberId}/project-access"
+            .replace("{" + "organizationId" + "}", localVarApiClient.escapeString(organizationId.toString()))
+            .replace("{" + "memberId" + "}", localVarApiClient.escapeString(memberId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xMencoroConfirmation != null) {
+            localVarHeaderParams.put("X-Mencoro-Confirmation", localVarApiClient.parameterToString(xMencoroConfirmation));
+        }
+
+
+        if (idempotencyKey != null) {
+            localVarHeaderParams.put("Idempotency-Key", localVarApiClient.parameterToString(idempotencyKey));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "ApiKey" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call setMemberProjectAccessValidateBeforeCall(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID memberId, @javax.annotation.Nonnull String xMencoroConfirmation, @javax.annotation.Nonnull String idempotencyKey, @javax.annotation.Nonnull SetMemberProjectAccessRequest setMemberProjectAccessRequest, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'organizationId' is set
+        if (organizationId == null) {
+            throw new ApiException("Missing the required parameter 'organizationId' when calling setMemberProjectAccess(Async)");
+        }
+
+        // verify the required parameter 'memberId' is set
+        if (memberId == null) {
+            throw new ApiException("Missing the required parameter 'memberId' when calling setMemberProjectAccess(Async)");
+        }
+
+        // verify the required parameter 'xMencoroConfirmation' is set
+        if (xMencoroConfirmation == null) {
+            throw new ApiException("Missing the required parameter 'xMencoroConfirmation' when calling setMemberProjectAccess(Async)");
+        }
+
+        // verify the required parameter 'idempotencyKey' is set
+        if (idempotencyKey == null) {
+            throw new ApiException("Missing the required parameter 'idempotencyKey' when calling setMemberProjectAccess(Async)");
+        }
+
+        // verify the required parameter 'setMemberProjectAccessRequest' is set
+        if (setMemberProjectAccessRequest == null) {
+            throw new ApiException("Missing the required parameter 'setMemberProjectAccessRequest' when calling setMemberProjectAccess(Async)");
+        }
+
+        return setMemberProjectAccessCall(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest, _callback);
+
+    }
+
+    /**
+     * Set which projects a member reaches
+     * Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+     * @param organizationId  (required)
+     * @param memberId  (required)
+     * @param xMencoroConfirmation  (required)
+     * @param idempotencyKey  (required)
+     * @param setMemberProjectAccessRequest  (required)
+     * @return MemberResource
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The membership with its new access </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> The access is invalid: a selection that is empty, lists more than 500 projects, or names a project that is not the organization&#39;s </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the organization:manage capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization or membership the caller can access under these ids </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; the organization is archived; the member is suspended; or the member is an owner, who always reaches every project </td><td>  -  </td></tr>
+        <tr><td> 428 </td><td> No confirmation was sent; preview the operation first </td><td>  -  </td></tr>
+     </table>
+     */
+    public MemberResource setMemberProjectAccess(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID memberId, @javax.annotation.Nonnull String xMencoroConfirmation, @javax.annotation.Nonnull String idempotencyKey, @javax.annotation.Nonnull SetMemberProjectAccessRequest setMemberProjectAccessRequest) throws ApiException {
+        ApiResponse<MemberResource> localVarResp = setMemberProjectAccessWithHttpInfo(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Set which projects a member reaches
+     * Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+     * @param organizationId  (required)
+     * @param memberId  (required)
+     * @param xMencoroConfirmation  (required)
+     * @param idempotencyKey  (required)
+     * @param setMemberProjectAccessRequest  (required)
+     * @return ApiResponse&lt;MemberResource&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The membership with its new access </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> The access is invalid: a selection that is empty, lists more than 500 projects, or names a project that is not the organization&#39;s </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the organization:manage capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization or membership the caller can access under these ids </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; the organization is archived; the member is suspended; or the member is an owner, who always reaches every project </td><td>  -  </td></tr>
+        <tr><td> 428 </td><td> No confirmation was sent; preview the operation first </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<MemberResource> setMemberProjectAccessWithHttpInfo(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID memberId, @javax.annotation.Nonnull String xMencoroConfirmation, @javax.annotation.Nonnull String idempotencyKey, @javax.annotation.Nonnull SetMemberProjectAccessRequest setMemberProjectAccessRequest) throws ApiException {
+        okhttp3.Call localVarCall = setMemberProjectAccessValidateBeforeCall(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest, null);
+        Type localVarReturnType = new TypeToken<MemberResource>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Set which projects a member reaches (asynchronously)
+     * Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+     * @param organizationId  (required)
+     * @param memberId  (required)
+     * @param xMencoroConfirmation  (required)
+     * @param idempotencyKey  (required)
+     * @param setMemberProjectAccessRequest  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The membership with its new access </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> The access is invalid: a selection that is empty, lists more than 500 projects, or names a project that is not the organization&#39;s </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Missing or invalid API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key lacks the organization:manage capability </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No organization or membership the caller can access under these ids </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> The confirmation is invalid, expired, already used, or its effects changed; the organization is archived; the member is suspended; or the member is an owner, who always reaches every project </td><td>  -  </td></tr>
+        <tr><td> 428 </td><td> No confirmation was sent; preview the operation first </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call setMemberProjectAccessAsync(@javax.annotation.Nonnull UUID organizationId, @javax.annotation.Nonnull UUID memberId, @javax.annotation.Nonnull String xMencoroConfirmation, @javax.annotation.Nonnull String idempotencyKey, @javax.annotation.Nonnull SetMemberProjectAccessRequest setMemberProjectAccessRequest, final ApiCallback<MemberResource> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = setMemberProjectAccessValidateBeforeCall(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest, _callback);
         Type localVarReturnType = new TypeToken<MemberResource>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

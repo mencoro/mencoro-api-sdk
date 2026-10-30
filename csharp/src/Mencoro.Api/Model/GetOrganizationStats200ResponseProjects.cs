@@ -36,7 +36,7 @@ namespace Mencoro.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GetOrganizationStats200ResponseProjects" /> class.
         /// </summary>
-        /// <param name="total">Every project in the organization, archived ones included..</param>
+        /// <param name="total">Every project of the organization the caller can access, archived ones included..</param>
         /// <param name="active">Projects that are not archived; never greater than &#x60;total&#x60;..</param>
         public GetOrganizationStats200ResponseProjects(int total = default, int active = default)
         {
@@ -45,9 +45,9 @@ namespace Mencoro.Api.Model
         }
 
         /// <summary>
-        /// Every project in the organization, archived ones included.
+        /// Every project of the organization the caller can access, archived ones included.
         /// </summary>
-        /// <value>Every project in the organization, archived ones included.</value>
+        /// <value>Every project of the organization the caller can access, archived ones included.</value>
         /*
         <example>25</example>
         */

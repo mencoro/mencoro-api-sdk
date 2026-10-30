@@ -21,7 +21,9 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import org.openapitools.jackson.nullable.JsonNullable;
 
@@ -200,6 +202,68 @@ public class InvitationResource {
   @javax.annotation.Nullable
   private OffsetDateTime acceptedAt;
 
+  /**
+   * Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+   */
+  @JsonAdapter(ProjectAccessModeEnum.Adapter.class)
+  public enum ProjectAccessModeEnum {
+    ALL("all"),
+    
+    SELECTED("selected");
+
+    private String value;
+
+    ProjectAccessModeEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static ProjectAccessModeEnum fromValue(String value) {
+      for (ProjectAccessModeEnum b : ProjectAccessModeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<ProjectAccessModeEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final ProjectAccessModeEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public ProjectAccessModeEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return ProjectAccessModeEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      ProjectAccessModeEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_PROJECT_ACCESS_MODE = "projectAccessMode";
+  @SerializedName(SERIALIZED_NAME_PROJECT_ACCESS_MODE)
+  @javax.annotation.Nonnull
+  private ProjectAccessModeEnum projectAccessMode;
+
+  public static final String SERIALIZED_NAME_PROJECT_IDS = "projectIds";
+  @SerializedName(SERIALIZED_NAME_PROJECT_IDS)
+  @javax.annotation.Nonnull
+  private List<UUID> projectIds = new ArrayList<>();
+
   public InvitationResource() {
   }
 
@@ -336,6 +400,52 @@ public class InvitationResource {
   }
 
 
+  public InvitationResource projectAccessMode(@javax.annotation.Nonnull ProjectAccessModeEnum projectAccessMode) {
+    this.projectAccessMode = projectAccessMode;
+    return this;
+  }
+
+  /**
+   * Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+   * @return projectAccessMode
+   */
+  @javax.annotation.Nonnull
+  public ProjectAccessModeEnum getProjectAccessMode() {
+    return projectAccessMode;
+  }
+
+  public void setProjectAccessMode(@javax.annotation.Nonnull ProjectAccessModeEnum projectAccessMode) {
+    this.projectAccessMode = projectAccessMode;
+  }
+
+
+  public InvitationResource projectIds(@javax.annotation.Nonnull List<UUID> projectIds) {
+    this.projectIds = projectIds;
+    return this;
+  }
+
+  public InvitationResource addProjectIdsItem(UUID projectIdsItem) {
+    if (this.projectIds == null) {
+      this.projectIds = new ArrayList<>();
+    }
+    this.projectIds.add(projectIdsItem);
+    return this;
+  }
+
+  /**
+   * The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing
+   * @return projectIds
+   */
+  @javax.annotation.Nonnull
+  public List<UUID> getProjectIds() {
+    return projectIds;
+  }
+
+  public void setProjectIds(@javax.annotation.Nonnull List<UUID> projectIds) {
+    this.projectIds = projectIds;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -352,7 +462,9 @@ public class InvitationResource {
         Objects.equals(this.state, invitationResource.state) &&
         Objects.equals(this.createdAt, invitationResource.createdAt) &&
         Objects.equals(this.expiresAt, invitationResource.expiresAt) &&
-        Objects.equals(this.acceptedAt, invitationResource.acceptedAt);
+        Objects.equals(this.acceptedAt, invitationResource.acceptedAt) &&
+        Objects.equals(this.projectAccessMode, invitationResource.projectAccessMode) &&
+        Objects.equals(this.projectIds, invitationResource.projectIds);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -361,7 +473,7 @@ public class InvitationResource {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, email, role, state, createdAt, expiresAt, acceptedAt);
+    return Objects.hash(id, email, role, state, createdAt, expiresAt, acceptedAt, projectAccessMode, projectIds);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -382,6 +494,8 @@ public class InvitationResource {
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
     sb.append("    acceptedAt: ").append(toIndentedString(acceptedAt)).append("\n");
+    sb.append("    projectAccessMode: ").append(toIndentedString(projectAccessMode)).append("\n");
+    sb.append("    projectIds: ").append(toIndentedString(projectIds)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -400,10 +514,10 @@ public class InvitationResource {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "email", "role", "state", "createdAt", "expiresAt", "acceptedAt"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "email", "role", "state", "createdAt", "expiresAt", "acceptedAt", "projectAccessMode", "projectIds"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("id", "email", "role", "state", "createdAt", "expiresAt"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("id", "email", "role", "state", "createdAt", "expiresAt", "projectAccessMode", "projectIds"));
   }
 
   /**
@@ -450,6 +564,17 @@ public class InvitationResource {
       }
       // validate the required field `state`
       StateEnum.validateJsonElement(jsonObj.get("state"));
+      if (!jsonObj.get("projectAccessMode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `projectAccessMode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("projectAccessMode").toString()));
+      }
+      // validate the required field `projectAccessMode`
+      ProjectAccessModeEnum.validateJsonElement(jsonObj.get("projectAccessMode"));
+      // ensure the required json array is present
+      if (jsonObj.get("projectIds") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("projectIds").isJsonArray()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `projectIds` to be an array in the JSON string but got `%s`", jsonObj.get("projectIds").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

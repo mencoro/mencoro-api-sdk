@@ -25,7 +25,7 @@ CONTRACT_URL="${MENCORO_CONTRACT_URL:-$(python3 -c 'import json; print(json.load
 IMAGE="openapitools/openapi-generator-cli:v${GENERATOR_VERSION}"
 
 GO_TOOLCHAIN=$(python3 -c 'import json; print(json.load(open("sdks.json"))["goToolchain"])')
-GO_MODULE="github.com/mencoro/mencoro-api-sdk/go"
+GO_MODULE="github.com/mencoro/mencoro-api-sdk/go/v2"
 GO_GENERATED_MODULE="github.com/mencoro/mencoro-api-sdk/$(python3 -c '
 import json
 sdk = next(s for s in json.load(open("sdks.json"))["sdks"] if s["dir"] == "go")
@@ -333,11 +333,13 @@ print(f"    package.json: engines node >={floor}")
   fi
 
   if [[ "${target}" == "go" ]]; then
-    # Go has no package registry: the import path IS the repository URL plus the directory, so in a
-    # monorepo it has to be ".../mencoro-api-sdk/go". The generator derives the module path from
+    # Go has no package registry: the import path IS the repository URL plus the directory, and
+    # from major version 2 on it also ends in the major, so in a monorepo it has to be
+    # ".../mencoro-api-sdk/go/v2". A `go/v2.0.0` tag on a module path without that suffix is
+    # rejected, so GO_MODULE moves with every new major. The generator derives the module path from
     # packageName, which is also the Go package name — and `go` is a keyword, so it cannot produce
-    # that path. The module line and the 28 files that echo it are corrected here rather than by
-    # hand, because a hand edit would be discarded by the next run.
+    # that path. The module line and every generated file that echoes it are corrected here rather
+    # than by hand, because a hand edit would be discarded by the next run.
     grep -rl "${GO_GENERATED_MODULE}" go \
       | xargs sed -i "s|${GO_GENERATED_MODULE}|${GO_MODULE}|g"
     echo "    module path -> ${GO_MODULE}"

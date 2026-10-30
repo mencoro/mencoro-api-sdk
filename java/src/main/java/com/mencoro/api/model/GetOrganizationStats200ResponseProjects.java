@@ -69,7 +69,7 @@ public class GetOrganizationStats200ResponseProjects {
   }
 
   /**
-   * Every project in the organization, archived ones included.
+   * Every project of the organization the caller can access, archived ones included.
    * minimum: 0
    * @return total
    */

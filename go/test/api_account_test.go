@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func Test_mencoro_AccountAPIService(t *testing.T) {

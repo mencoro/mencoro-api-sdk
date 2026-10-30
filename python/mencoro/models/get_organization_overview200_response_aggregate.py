@@ -28,7 +28,7 @@ class GetOrganizationOverview200ResponseAggregate(BaseModel):
     """
     GetOrganizationOverview200ResponseAggregate
     """ # noqa: E501
-    project_count: Optional[StrictInt] = Field(default=None, description="Active projects in the organization, the length of `projects`.", alias="projectCount")
+    project_count: Optional[StrictInt] = Field(default=None, description="Active projects of the organization the caller can access, the length of `projects`.", alias="projectCount")
     projects_with_data: Optional[StrictInt] = Field(default=None, description="How many of those have a share of voice; the averages below are means over the projects that report each metric, never over the ones still null.", alias="projectsWithData")
     total_tracked_queries: Optional[StrictInt] = Field(default=None, alias="totalTrackedQueries")
     avg_share_of_voice: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Null when no project reports a share of voice.", alias="avgShareOfVoice")

@@ -36,7 +36,7 @@ namespace Mencoro.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GetOrganizationOverview200ResponseAggregate" /> class.
         /// </summary>
-        /// <param name="projectCount">Active projects in the organization, the length of &#x60;projects&#x60;..</param>
+        /// <param name="projectCount">Active projects of the organization the caller can access, the length of &#x60;projects&#x60;..</param>
         /// <param name="projectsWithData">How many of those have a share of voice; the averages below are means over the projects that report each metric, never over the ones still null..</param>
         /// <param name="totalTrackedQueries">totalTrackedQueries.</param>
         /// <param name="avgShareOfVoice">Null when no project reports a share of voice..</param>
@@ -55,9 +55,9 @@ namespace Mencoro.Api.Model
         }
 
         /// <summary>
-        /// Active projects in the organization, the length of &#x60;projects&#x60;.
+        /// Active projects of the organization the caller can access, the length of &#x60;projects&#x60;.
         /// </summary>
-        /// <value>Active projects in the organization, the length of &#x60;projects&#x60;.</value>
+        /// <value>Active projects of the organization the caller can access, the length of &#x60;projects&#x60;.</value>
         [DataMember(Name = "projectCount", EmitDefaultValue = false)]
         public int ProjectCount { get; set; }
 

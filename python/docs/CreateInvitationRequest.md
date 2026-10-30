@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **email** | **str** |  | [optional] 
 **role** | **str** |  | [optional] [default to 'viewer']
+**project_access** | [**CreateInvitationRequestProjectAccess**](CreateInvitationRequestProjectAccess.md) |  | [optional] 
 
 ## Example
 

@@ -19,6 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.mencoro.api.model.KeywordListingResourceCarriedPositions;
 import com.mencoro.api.model.KeywordListingResourceMentionTypeCounts;
 import java.io.IOException;
 import java.time.OffsetDateTime;
@@ -458,6 +459,11 @@ public class KeywordListingResource {
   @javax.annotation.Nonnull
   private KeywordListingResourceMentionTypeCounts mentionTypeCounts;
 
+  public static final String SERIALIZED_NAME_CARRIED_POSITIONS = "carriedPositions";
+  @SerializedName(SERIALIZED_NAME_CARRIED_POSITIONS)
+  @javax.annotation.Nonnull
+  private KeywordListingResourceCarriedPositions carriedPositions;
+
   public KeywordListingResource() {
   }
 
@@ -770,7 +776,7 @@ public class KeywordListingResource {
   }
 
   /**
-   * Average position in traditional search over the window. 1-based, LOWER is better.
+   * Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
    * @return avgSerpPosition
    */
   @javax.annotation.Nullable
@@ -789,7 +795,7 @@ public class KeywordListingResource {
   }
 
   /**
-   * Signed improvement in avgSerpPosition against the previous window. Positive is better.
+   * Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set.
    * @return trendSerp
    */
   @javax.annotation.Nullable
@@ -808,7 +814,7 @@ public class KeywordListingResource {
   }
 
   /**
-   * Average position in shopping results over the window. 1-based, LOWER is better.
+   * Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
    * @return avgShoppingPosition
    */
   @javax.annotation.Nullable
@@ -827,7 +833,7 @@ public class KeywordListingResource {
   }
 
   /**
-   * Signed improvement in avgShoppingPosition. Positive is better.
+   * Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set.
    * @return trendShopping
    */
   @javax.annotation.Nullable
@@ -846,7 +852,7 @@ public class KeywordListingResource {
   }
 
   /**
-   * Average position of the brand mention inside the AI answer. 1-based, LOWER is better.
+   * Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
    * @return avgMentionPosition
    */
   @javax.annotation.Nullable
@@ -865,7 +871,7 @@ public class KeywordListingResource {
   }
 
   /**
-   * Signed improvement in avgMentionPosition. Positive is better.
+   * Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set.
    * @return trendMention
    */
   @javax.annotation.Nullable
@@ -884,7 +890,7 @@ public class KeywordListingResource {
   }
 
   /**
-   * Average position of a cited link to the brand. 1-based, LOWER is better.
+   * Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
    * @return avgLinkPosition
    */
   @javax.annotation.Nullable
@@ -903,7 +909,7 @@ public class KeywordListingResource {
   }
 
   /**
-   * Signed improvement in avgLinkPosition. Positive is better.
+   * Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set.
    * @return trendLink
    */
   @javax.annotation.Nullable
@@ -1201,6 +1207,25 @@ public class KeywordListingResource {
   }
 
 
+  public KeywordListingResource carriedPositions(@javax.annotation.Nonnull KeywordListingResourceCarriedPositions carriedPositions) {
+    this.carriedPositions = carriedPositions;
+    return this;
+  }
+
+  /**
+   * Get carriedPositions
+   * @return carriedPositions
+   */
+  @javax.annotation.Nonnull
+  public KeywordListingResourceCarriedPositions getCarriedPositions() {
+    return carriedPositions;
+  }
+
+  public void setCarriedPositions(@javax.annotation.Nonnull KeywordListingResourceCarriedPositions carriedPositions) {
+    this.carriedPositions = carriedPositions;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -1246,7 +1271,8 @@ public class KeywordListingResource {
         Objects.equals(this.sentimentNeutral, keywordListingResource.sentimentNeutral) &&
         Objects.equals(this.sentimentNegative, keywordListingResource.sentimentNegative) &&
         Objects.equals(this.avgMentionCount, keywordListingResource.avgMentionCount) &&
-        Objects.equals(this.mentionTypeCounts, keywordListingResource.mentionTypeCounts);
+        Objects.equals(this.mentionTypeCounts, keywordListingResource.mentionTypeCounts) &&
+        Objects.equals(this.carriedPositions, keywordListingResource.carriedPositions);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -1255,7 +1281,7 @@ public class KeywordListingResource {
 
   @Override
   public int hashCode() {
-    return Objects.hash(keyword, keywordNormalized, variantCount, variantIds, engines, countries, queryClusterIds, hasUnclusteredVariant, statusSummary, statuses, checkFrequencies, nPassesValues, lastCheckedAt, avgSerpPosition, trendSerp, avgShoppingPosition, trendShopping, avgMentionPosition, trendMention, avgLinkPosition, trendLink, mentionPositionStability, trendStability, positivityIndex, trendPositivity, mentionRate, trendMentionRate, serpRate, trendSerpRate, shareOfVoice, trendShareOfVoice, sentimentPositive, sentimentNeutral, sentimentNegative, avgMentionCount, mentionTypeCounts);
+    return Objects.hash(keyword, keywordNormalized, variantCount, variantIds, engines, countries, queryClusterIds, hasUnclusteredVariant, statusSummary, statuses, checkFrequencies, nPassesValues, lastCheckedAt, avgSerpPosition, trendSerp, avgShoppingPosition, trendShopping, avgMentionPosition, trendMention, avgLinkPosition, trendLink, mentionPositionStability, trendStability, positivityIndex, trendPositivity, mentionRate, trendMentionRate, serpRate, trendSerpRate, shareOfVoice, trendShareOfVoice, sentimentPositive, sentimentNeutral, sentimentNegative, avgMentionCount, mentionTypeCounts, carriedPositions);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -1305,6 +1331,7 @@ public class KeywordListingResource {
     sb.append("    sentimentNegative: ").append(toIndentedString(sentimentNegative)).append("\n");
     sb.append("    avgMentionCount: ").append(toIndentedString(avgMentionCount)).append("\n");
     sb.append("    mentionTypeCounts: ").append(toIndentedString(mentionTypeCounts)).append("\n");
+    sb.append("    carriedPositions: ").append(toIndentedString(carriedPositions)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -1323,10 +1350,10 @@ public class KeywordListingResource {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("keyword", "keywordNormalized", "variantCount", "variantIds", "engines", "countries", "queryClusterIds", "hasUnclusteredVariant", "statusSummary", "statuses", "checkFrequencies", "nPassesValues", "lastCheckedAt", "avgSerpPosition", "trendSerp", "avgShoppingPosition", "trendShopping", "avgMentionPosition", "trendMention", "avgLinkPosition", "trendLink", "mentionPositionStability", "trendStability", "positivityIndex", "trendPositivity", "mentionRate", "trendMentionRate", "serpRate", "trendSerpRate", "shareOfVoice", "trendShareOfVoice", "sentimentPositive", "sentimentNeutral", "sentimentNegative", "avgMentionCount", "mentionTypeCounts"));
+    openapiFields = new HashSet<String>(Arrays.asList("keyword", "keywordNormalized", "variantCount", "variantIds", "engines", "countries", "queryClusterIds", "hasUnclusteredVariant", "statusSummary", "statuses", "checkFrequencies", "nPassesValues", "lastCheckedAt", "avgSerpPosition", "trendSerp", "avgShoppingPosition", "trendShopping", "avgMentionPosition", "trendMention", "avgLinkPosition", "trendLink", "mentionPositionStability", "trendStability", "positivityIndex", "trendPositivity", "mentionRate", "trendMentionRate", "serpRate", "trendSerpRate", "shareOfVoice", "trendShareOfVoice", "sentimentPositive", "sentimentNeutral", "sentimentNegative", "avgMentionCount", "mentionTypeCounts", "carriedPositions"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("keyword", "keywordNormalized", "variantCount", "variantIds", "engines", "countries", "queryClusterIds", "hasUnclusteredVariant", "statusSummary", "statuses", "checkFrequencies", "nPassesValues", "sentimentPositive", "sentimentNeutral", "sentimentNegative", "mentionTypeCounts"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("keyword", "keywordNormalized", "variantCount", "variantIds", "engines", "countries", "queryClusterIds", "hasUnclusteredVariant", "statusSummary", "statuses", "checkFrequencies", "nPassesValues", "sentimentPositive", "sentimentNeutral", "sentimentNegative", "mentionTypeCounts", "carriedPositions"));
   }
 
   /**
@@ -1412,6 +1439,8 @@ public class KeywordListingResource {
       }
       // validate the required field `mentionTypeCounts`
       KeywordListingResourceMentionTypeCounts.validateJsonElement(jsonObj.get("mentionTypeCounts"));
+      // validate the required field `carriedPositions`
+      KeywordListingResourceCarriedPositions.validateJsonElement(jsonObj.get("carriedPositions"));
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

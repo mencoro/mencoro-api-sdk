@@ -29,7 +29,7 @@ class TrackedQueryUsageResource(BaseModel):
     """
     How many tracked queries an organization has configured
     """ # noqa: E501
-    tracked_query_count: Annotated[int, Field(strict=True, ge=0)] = Field(description="Tracked queries across every project of the organization, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.", alias="trackedQueryCount", json_schema_extra={"examples": [124]})
+    tracked_query_count: Annotated[int, Field(strict=True, ge=0)] = Field(description="Tracked queries across every project of the organization the caller can access, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.", alias="trackedQueryCount", json_schema_extra={"examples": [124]})
     __properties: ClassVar[List[str]] = ["trackedQueryCount"]
 
     model_config = ConfigDict(

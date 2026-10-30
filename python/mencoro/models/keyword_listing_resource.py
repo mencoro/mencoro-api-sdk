@@ -22,6 +22,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from uuid import UUID
+from mencoro.models.keyword_listing_resource_carried_positions import KeywordListingResourceCarriedPositions
 from mencoro.models.keyword_listing_resource_mention_type_counts import KeywordListingResourceMentionTypeCounts
 from typing import Optional, Set
 from typing_extensions import Self
@@ -44,14 +45,14 @@ class KeywordListingResource(BaseModel):
     check_frequencies: List[StrictStr] = Field(description="Distinct check frequencies across the variants.", alias="checkFrequencies")
     n_passes_values: List[StrictInt] = Field(description="Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one.", alias="nPassesValues")
     last_checked_at: Optional[datetime] = Field(default=None, description="The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing.", alias="lastCheckedAt")
-    avg_serp_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position in traditional search over the window. 1-based, LOWER is better.", alias="avgSerpPosition")
-    trend_serp: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgSerpPosition against the previous window. Positive is better.", alias="trendSerp")
-    avg_shopping_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position in shopping results over the window. 1-based, LOWER is better.", alias="avgShoppingPosition")
-    trend_shopping: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgShoppingPosition. Positive is better.", alias="trendShopping")
-    avg_mention_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position of the brand mention inside the AI answer. 1-based, LOWER is better.", alias="avgMentionPosition")
-    trend_mention: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgMentionPosition. Positive is better.", alias="trendMention")
-    avg_link_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position of a cited link to the brand. 1-based, LOWER is better.", alias="avgLinkPosition")
-    trend_link: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgLinkPosition. Positive is better.", alias="trendLink")
+    avg_serp_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.", alias="avgSerpPosition")
+    trend_serp: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set.", alias="trendSerp")
+    avg_shopping_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.", alias="avgShoppingPosition")
+    trend_shopping: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set.", alias="trendShopping")
+    avg_mention_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.", alias="avgMentionPosition")
+    trend_mention: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set.", alias="trendMention")
+    avg_link_position: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.", alias="avgLinkPosition")
+    trend_link: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set.", alias="trendLink")
     mention_position_stability: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Day-to-day spread of the mention position (a standard deviation): LOWER means steadier.", alias="mentionPositionStability")
     trend_stability: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Signed improvement in mentionPositionStability. Positive means steadier than the previous window.", alias="trendStability")
     positivity_index: Optional[StrictInt] = Field(default=None, description="0-100 weighted sentiment score of the mentions; HIGHER is better. Null when there were no mentions to score.", alias="positivityIndex")
@@ -67,7 +68,8 @@ class KeywordListingResource(BaseModel):
     sentiment_negative: StrictInt = Field(description="Negative brand mentions counted in the window.", alias="sentimentNegative")
     avg_mention_count: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Mentions per AI engine per day with a capture, over the window. Not a total: the window total is not part of this contract.", alias="avgMentionCount")
     mention_type_counts: KeywordListingResourceMentionTypeCounts = Field(alias="mentionTypeCounts")
-    __properties: ClassVar[List[str]] = ["keyword", "keywordNormalized", "variantCount", "variantIds", "engines", "countries", "queryClusterIds", "hasUnclusteredVariant", "statusSummary", "statuses", "checkFrequencies", "nPassesValues", "lastCheckedAt", "avgSerpPosition", "trendSerp", "avgShoppingPosition", "trendShopping", "avgMentionPosition", "trendMention", "avgLinkPosition", "trendLink", "mentionPositionStability", "trendStability", "positivityIndex", "trendPositivity", "mentionRate", "trendMentionRate", "serpRate", "trendSerpRate", "shareOfVoice", "trendShareOfVoice", "sentimentPositive", "sentimentNeutral", "sentimentNegative", "avgMentionCount", "mentionTypeCounts"]
+    carried_positions: KeywordListingResourceCarriedPositions = Field(alias="carriedPositions")
+    __properties: ClassVar[List[str]] = ["keyword", "keywordNormalized", "variantCount", "variantIds", "engines", "countries", "queryClusterIds", "hasUnclusteredVariant", "statusSummary", "statuses", "checkFrequencies", "nPassesValues", "lastCheckedAt", "avgSerpPosition", "trendSerp", "avgShoppingPosition", "trendShopping", "avgMentionPosition", "trendMention", "avgLinkPosition", "trendLink", "mentionPositionStability", "trendStability", "positivityIndex", "trendPositivity", "mentionRate", "trendMentionRate", "serpRate", "trendSerpRate", "shareOfVoice", "trendShareOfVoice", "sentimentPositive", "sentimentNeutral", "sentimentNegative", "avgMentionCount", "mentionTypeCounts", "carriedPositions"]
 
     @field_validator('engines')
     def engines_validate_enum(cls, value):
@@ -142,6 +144,9 @@ class KeywordListingResource(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of mention_type_counts
         if self.mention_type_counts:
             _dict['mentionTypeCounts'] = self.mention_type_counts.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of carried_positions
+        if self.carried_positions:
+            _dict['carriedPositions'] = self.carried_positions.to_dict()
         # set to None if last_checked_at (nullable) is None
         # and model_fields_set contains the field
         if self.last_checked_at is None and "last_checked_at" in self.model_fields_set:
@@ -289,7 +294,8 @@ class KeywordListingResource(BaseModel):
             "sentimentNeutral": obj.get("sentimentNeutral"),
             "sentimentNegative": obj.get("sentimentNegative"),
             "avgMentionCount": obj.get("avgMentionCount"),
-            "mentionTypeCounts": KeywordListingResourceMentionTypeCounts.from_dict(obj["mentionTypeCounts"]) if obj.get("mentionTypeCounts") is not None else None
+            "mentionTypeCounts": KeywordListingResourceMentionTypeCounts.from_dict(obj["mentionTypeCounts"]) if obj.get("mentionTypeCounts") is not None else None,
+            "carriedPositions": KeywordListingResourceCarriedPositions.from_dict(obj["carriedPositions"]) if obj.get("carriedPositions") is not None else None
         })
         return _obj
 

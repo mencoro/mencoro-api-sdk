@@ -139,6 +139,35 @@ namespace Mencoro.Api.Api
         /// <returns>ApiResponse of MemberResource</returns>
         ApiResponse<MemberResource> ReactivateMemberWithHttpInfo(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey);
         /// <summary>
+        /// Set which projects a member reaches
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="xMencoroConfirmation"></param>
+        /// <param name="idempotencyKey"></param>
+        /// <param name="setMemberProjectAccessRequest"></param>
+        /// <returns>MemberResource</returns>
+        MemberResource SetMemberProjectAccess(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest);
+
+        /// <summary>
+        /// Set which projects a member reaches
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="xMencoroConfirmation"></param>
+        /// <param name="idempotencyKey"></param>
+        /// <param name="setMemberProjectAccessRequest"></param>
+        /// <returns>ApiResponse of MemberResource</returns>
+        ApiResponse<MemberResource> SetMemberProjectAccessWithHttpInfo(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest);
+        /// <summary>
         /// Suspend a member
         /// </summary>
         /// <remarks>
@@ -292,6 +321,37 @@ namespace Mencoro.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (MemberResource)</returns>
         System.Threading.Tasks.Task<ApiResponse<MemberResource>> ReactivateMemberWithHttpInfoAsync(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Set which projects a member reaches
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="xMencoroConfirmation"></param>
+        /// <param name="idempotencyKey"></param>
+        /// <param name="setMemberProjectAccessRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of MemberResource</returns>
+        System.Threading.Tasks.Task<MemberResource> SetMemberProjectAccessAsync(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Set which projects a member reaches
+        /// </summary>
+        /// <remarks>
+        /// Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+        /// </remarks>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="xMencoroConfirmation"></param>
+        /// <param name="idempotencyKey"></param>
+        /// <param name="setMemberProjectAccessRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (MemberResource)</returns>
+        System.Threading.Tasks.Task<ApiResponse<MemberResource>> SetMemberProjectAccessWithHttpInfoAsync(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Suspend a member
         /// </summary>
@@ -1156,6 +1216,175 @@ namespace Mencoro.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("ReactivateMember", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Set which projects a member reaches Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="xMencoroConfirmation"></param>
+        /// <param name="idempotencyKey"></param>
+        /// <param name="setMemberProjectAccessRequest"></param>
+        /// <returns>MemberResource</returns>
+        public MemberResource SetMemberProjectAccess(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest)
+        {
+            Mencoro.Api.Client.ApiResponse<MemberResource> localVarResponse = SetMemberProjectAccessWithHttpInfo(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Set which projects a member reaches Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="xMencoroConfirmation"></param>
+        /// <param name="idempotencyKey"></param>
+        /// <param name="setMemberProjectAccessRequest"></param>
+        /// <returns>ApiResponse of MemberResource</returns>
+        public Mencoro.Api.Client.ApiResponse<MemberResource> SetMemberProjectAccessWithHttpInfo(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest)
+        {
+            // verify the required parameter 'xMencoroConfirmation' is set
+            if (xMencoroConfirmation == null)
+                throw new Mencoro.Api.Client.ApiException(400, "Missing required parameter 'xMencoroConfirmation' when calling MembersApi->SetMemberProjectAccess");
+
+            // verify the required parameter 'idempotencyKey' is set
+            if (idempotencyKey == null)
+                throw new Mencoro.Api.Client.ApiException(400, "Missing required parameter 'idempotencyKey' when calling MembersApi->SetMemberProjectAccess");
+
+            // verify the required parameter 'setMemberProjectAccessRequest' is set
+            if (setMemberProjectAccessRequest == null)
+                throw new Mencoro.Api.Client.ApiException(400, "Missing required parameter 'setMemberProjectAccessRequest' when calling MembersApi->SetMemberProjectAccess");
+
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("memberId", Mencoro.Api.Client.ClientUtils.ParameterToString(memberId)); // path parameter
+            localVarRequestOptions.HeaderParameters.Add("X-Mencoro-Confirmation", Mencoro.Api.Client.ClientUtils.ParameterToString(xMencoroConfirmation)); // header parameter
+            localVarRequestOptions.HeaderParameters.Add("Idempotency-Key", Mencoro.Api.Client.ClientUtils.ParameterToString(idempotencyKey)); // header parameter
+            localVarRequestOptions.Data = setMemberProjectAccessRequest;
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Put<MemberResource>("/api/v1/organizations/{organizationId}/members/{memberId}/project-access", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("SetMemberProjectAccess", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Set which projects a member reaches Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="xMencoroConfirmation"></param>
+        /// <param name="idempotencyKey"></param>
+        /// <param name="setMemberProjectAccessRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of MemberResource</returns>
+        public async System.Threading.Tasks.Task<MemberResource> SetMemberProjectAccessAsync(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Mencoro.Api.Client.ApiResponse<MemberResource> localVarResponse = await SetMemberProjectAccessWithHttpInfoAsync(organizationId, memberId, xMencoroConfirmation, idempotencyKey, setMemberProjectAccessRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Set which projects a member reaches Minimum role: owner. A member reaches every project of the organization (&#x60;all&#x60;) or only the listed projects (&#x60;selected&#x60;); a project outside a selection answers as if it did not exist. The change applies from the member&#39;s next request, including through any API key or MCP connection they own. An owner always reaches every project and cannot be limited. Setting the access a member already has changes nothing. Preview it first: the confirmation is bound to the member&#39;s access at preview time, so another change in between invalidates it.
+        /// </summary>
+        /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="organizationId"></param>
+        /// <param name="memberId"></param>
+        /// <param name="xMencoroConfirmation"></param>
+        /// <param name="idempotencyKey"></param>
+        /// <param name="setMemberProjectAccessRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (MemberResource)</returns>
+        public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<MemberResource>> SetMemberProjectAccessWithHttpInfoAsync(Guid organizationId, Guid memberId, string xMencoroConfirmation, string idempotencyKey, SetMemberProjectAccessRequest setMemberProjectAccessRequest, System.Threading.CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'xMencoroConfirmation' is set
+            if (xMencoroConfirmation == null)
+                throw new Mencoro.Api.Client.ApiException(400, "Missing required parameter 'xMencoroConfirmation' when calling MembersApi->SetMemberProjectAccess");
+
+            // verify the required parameter 'idempotencyKey' is set
+            if (idempotencyKey == null)
+                throw new Mencoro.Api.Client.ApiException(400, "Missing required parameter 'idempotencyKey' when calling MembersApi->SetMemberProjectAccess");
+
+            // verify the required parameter 'setMemberProjectAccessRequest' is set
+            if (setMemberProjectAccessRequest == null)
+                throw new Mencoro.Api.Client.ApiException(400, "Missing required parameter 'setMemberProjectAccessRequest' when calling MembersApi->SetMemberProjectAccess");
+
+
+            Mencoro.Api.Client.RequestOptions localVarRequestOptions = new Mencoro.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Mencoro.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Mencoro.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("organizationId", Mencoro.Api.Client.ClientUtils.ParameterToString(organizationId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("memberId", Mencoro.Api.Client.ClientUtils.ParameterToString(memberId)); // path parameter
+            localVarRequestOptions.HeaderParameters.Add("X-Mencoro-Confirmation", Mencoro.Api.Client.ClientUtils.ParameterToString(xMencoroConfirmation)); // header parameter
+            localVarRequestOptions.HeaderParameters.Add("Idempotency-Key", Mencoro.Api.Client.ClientUtils.ParameterToString(idempotencyKey)); // header parameter
+            localVarRequestOptions.Data = setMemberProjectAccessRequest;
+
+            // authentication (ApiKey) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PutAsync<MemberResource>("/api/v1/organizations/{organizationId}/members/{memberId}/project-access", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("SetMemberProjectAccess", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

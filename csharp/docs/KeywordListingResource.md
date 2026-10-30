@@ -18,14 +18,14 @@ Name | Type | Description | Notes
 **CheckFrequencies** | **List&lt;KeywordListingResource.CheckFrequenciesEnum&gt;** | Distinct check frequencies across the variants. | 
 **NPassesValues** | **List&lt;int&gt;** | Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. | 
 **LastCheckedAt** | **DateTime?** | The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing. | [optional] 
-**AvgSerpPosition** | **float?** | Average position in traditional search over the window. 1-based, LOWER is better. | [optional] 
-**TrendSerp** | **float?** | Signed improvement in avgSerpPosition against the previous window. Positive is better. | [optional] 
-**AvgShoppingPosition** | **float?** | Average position in shopping results over the window. 1-based, LOWER is better. | [optional] 
-**TrendShopping** | **float?** | Signed improvement in avgShoppingPosition. Positive is better. | [optional] 
-**AvgMentionPosition** | **float?** | Average position of the brand mention inside the AI answer. 1-based, LOWER is better. | [optional] 
-**TrendMention** | **float?** | Signed improvement in avgMentionPosition. Positive is better. | [optional] 
-**AvgLinkPosition** | **float?** | Average position of a cited link to the brand. 1-based, LOWER is better. | [optional] 
-**TrendLink** | **float?** | Signed improvement in avgLinkPosition. Positive is better. | [optional] 
+**AvgSerpPosition** | **float?** | Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] 
+**TrendSerp** | **float?** | Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set. | [optional] 
+**AvgShoppingPosition** | **float?** | Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] 
+**TrendShopping** | **float?** | Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set. | [optional] 
+**AvgMentionPosition** | **float?** | Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] 
+**TrendMention** | **float?** | Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set. | [optional] 
+**AvgLinkPosition** | **float?** | Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] 
+**TrendLink** | **float?** | Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set. | [optional] 
 **MentionPositionStability** | **float?** | Day-to-day spread of the mention position (a standard deviation): LOWER means steadier. | [optional] 
 **TrendStability** | **float?** | Signed improvement in mentionPositionStability. Positive means steadier than the previous window. | [optional] 
 **PositivityIndex** | **int?** | 0-100 weighted sentiment score of the mentions; HIGHER is better. Null when there were no mentions to score. | [optional] 
@@ -41,6 +41,7 @@ Name | Type | Description | Notes
 **SentimentNegative** | **int** | Negative brand mentions counted in the window. | 
 **AvgMentionCount** | **float?** | Mentions per AI engine per day with a capture, over the window. Not a total: the window total is not part of this contract. | [optional] 
 **MentionTypeCounts** | [**KeywordListingResourceMentionTypeCounts**](KeywordListingResourceMentionTypeCounts.md) |  | 
+**CarriedPositions** | [**KeywordListingResourceCarriedPositions**](KeywordListingResourceCarriedPositions.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

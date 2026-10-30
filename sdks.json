@@ -1,6 +1,6 @@
 {
   "generatorVersion": "7.24.0",
-  "packageVersion": "1.0.1",
+  "packageVersion": "2.0.0",
   "contractUrl": "https://api.mencoro.com/api/v1/doc/json",
   "license": {
     "name": "MIT",
@@ -44,7 +44,7 @@
     {
       "dir": "go",
       "generator": "go",
-      "label": "Go 1.21+",
+      "label": "Go 1.23+",
       "config": {
         "packageName": "mencoro",
         "isGoSubmodule": true,

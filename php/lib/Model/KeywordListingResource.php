@@ -94,7 +94,8 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
         'sentiment_neutral' => 'int',
         'sentiment_negative' => 'int',
         'avg_mention_count' => 'float',
-        'mention_type_counts' => '\Mencoro\Api\Model\KeywordListingResourceMentionTypeCounts'
+        'mention_type_counts' => '\Mencoro\Api\Model\KeywordListingResourceMentionTypeCounts',
+        'carried_positions' => '\Mencoro\Api\Model\KeywordListingResourceCarriedPositions'
     ];
 
     /**
@@ -140,7 +141,8 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
         'sentiment_neutral' => null,
         'sentiment_negative' => null,
         'avg_mention_count' => 'float',
-        'mention_type_counts' => null
+        'mention_type_counts' => null,
+        'carried_positions' => null
     ];
 
     /**
@@ -184,7 +186,8 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
         'sentiment_neutral' => false,
         'sentiment_negative' => false,
         'avg_mention_count' => true,
-        'mention_type_counts' => false
+        'mention_type_counts' => false,
+        'carried_positions' => false
     ];
 
     /**
@@ -308,7 +311,8 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
         'sentiment_neutral' => 'sentimentNeutral',
         'sentiment_negative' => 'sentimentNegative',
         'avg_mention_count' => 'avgMentionCount',
-        'mention_type_counts' => 'mentionTypeCounts'
+        'mention_type_counts' => 'mentionTypeCounts',
+        'carried_positions' => 'carriedPositions'
     ];
 
     /**
@@ -352,7 +356,8 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
         'sentiment_neutral' => 'setSentimentNeutral',
         'sentiment_negative' => 'setSentimentNegative',
         'avg_mention_count' => 'setAvgMentionCount',
-        'mention_type_counts' => 'setMentionTypeCounts'
+        'mention_type_counts' => 'setMentionTypeCounts',
+        'carried_positions' => 'setCarriedPositions'
     ];
 
     /**
@@ -396,7 +401,8 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
         'sentiment_neutral' => 'getSentimentNeutral',
         'sentiment_negative' => 'getSentimentNegative',
         'avg_mention_count' => 'getAvgMentionCount',
-        'mention_type_counts' => 'getMentionTypeCounts'
+        'mention_type_counts' => 'getMentionTypeCounts',
+        'carried_positions' => 'getCarriedPositions'
     ];
 
     /**
@@ -566,6 +572,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
         $this->setIfExists('sentiment_negative', $data ?? [], null);
         $this->setIfExists('avg_mention_count', $data ?? [], null);
         $this->setIfExists('mention_type_counts', $data ?? [], null);
+        $this->setIfExists('carried_positions', $data ?? [], null);
     }
 
     /**
@@ -651,6 +658,9 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
         }
         if ($this->container['mention_type_counts'] === null) {
             $invalidProperties[] = "'mention_type_counts' can't be null";
+        }
+        if ($this->container['carried_positions'] === null) {
+            $invalidProperties[] = "'carried_positions' can't be null";
         }
         return $invalidProperties;
     }
@@ -1075,7 +1085,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets avg_serp_position
      *
-     * @param float|null $avg_serp_position Average position in traditional search over the window. 1-based, LOWER is better.
+     * @param float|null $avg_serp_position Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
      *
      * @return self
      */
@@ -1109,7 +1119,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets trend_serp
      *
-     * @param float|null $trend_serp Signed improvement in avgSerpPosition against the previous window. Positive is better.
+     * @param float|null $trend_serp Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set.
      *
      * @return self
      */
@@ -1143,7 +1153,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets avg_shopping_position
      *
-     * @param float|null $avg_shopping_position Average position in shopping results over the window. 1-based, LOWER is better.
+     * @param float|null $avg_shopping_position Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
      *
      * @return self
      */
@@ -1177,7 +1187,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets trend_shopping
      *
-     * @param float|null $trend_shopping Signed improvement in avgShoppingPosition. Positive is better.
+     * @param float|null $trend_shopping Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set.
      *
      * @return self
      */
@@ -1211,7 +1221,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets avg_mention_position
      *
-     * @param float|null $avg_mention_position Average position of the brand mention inside the AI answer. 1-based, LOWER is better.
+     * @param float|null $avg_mention_position Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
      *
      * @return self
      */
@@ -1245,7 +1255,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets trend_mention
      *
-     * @param float|null $trend_mention Signed improvement in avgMentionPosition. Positive is better.
+     * @param float|null $trend_mention Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set.
      *
      * @return self
      */
@@ -1279,7 +1289,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets avg_link_position
      *
-     * @param float|null $avg_link_position Average position of a cited link to the brand. 1-based, LOWER is better.
+     * @param float|null $avg_link_position Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
      *
      * @return self
      */
@@ -1313,7 +1323,7 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
     /**
      * Sets trend_link
      *
-     * @param float|null $trend_link Signed improvement in avgLinkPosition. Positive is better.
+     * @param float|null $trend_link Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set.
      *
      * @return self
      */
@@ -1812,6 +1822,33 @@ class KeywordListingResource implements ModelInterface, ArrayAccess, \JsonSerial
             throw new \InvalidArgumentException('non-nullable mention_type_counts cannot be null');
         }
         $this->container['mention_type_counts'] = $mention_type_counts;
+
+        return $this;
+    }
+
+    /**
+     * Gets carried_positions
+     *
+     * @return \Mencoro\Api\Model\KeywordListingResourceCarriedPositions
+     */
+    public function getCarriedPositions()
+    {
+        return $this->container['carried_positions'];
+    }
+
+    /**
+     * Sets carried_positions
+     *
+     * @param \Mencoro\Api\Model\KeywordListingResourceCarriedPositions $carried_positions carried_positions
+     *
+     * @return self
+     */
+    public function setCarriedPositions($carried_positions)
+    {
+        if (is_null($carried_positions)) {
+            throw new \InvalidArgumentException('non-nullable carried_positions cannot be null');
+        }
+        $this->container['carried_positions'] = $carried_positions;
 
         return $this;
     }

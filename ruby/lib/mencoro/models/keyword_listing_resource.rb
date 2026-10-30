@@ -55,28 +55,28 @@ module Mencoro
     # The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing.
     attr_accessor :last_checked_at
 
-    # Average position in traditional search over the window. 1-based, LOWER is better.
+    # Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
     attr_accessor :avg_serp_position
 
-    # Signed improvement in avgSerpPosition against the previous window. Positive is better.
+    # Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set.
     attr_accessor :trend_serp
 
-    # Average position in shopping results over the window. 1-based, LOWER is better.
+    # Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
     attr_accessor :avg_shopping_position
 
-    # Signed improvement in avgShoppingPosition. Positive is better.
+    # Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set.
     attr_accessor :trend_shopping
 
-    # Average position of the brand mention inside the AI answer. 1-based, LOWER is better.
+    # Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
     attr_accessor :avg_mention_position
 
-    # Signed improvement in avgMentionPosition. Positive is better.
+    # Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set.
     attr_accessor :trend_mention
 
-    # Average position of a cited link to the brand. 1-based, LOWER is better.
+    # Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
     attr_accessor :avg_link_position
 
-    # Signed improvement in avgLinkPosition. Positive is better.
+    # Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set.
     attr_accessor :trend_link
 
     # Day-to-day spread of the mention position (a standard deviation): LOWER means steadier.
@@ -122,6 +122,8 @@ module Mencoro
     attr_accessor :avg_mention_count
 
     attr_accessor :mention_type_counts
+
+    attr_accessor :carried_positions
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -183,7 +185,8 @@ module Mencoro
         :'sentiment_neutral' => :'sentimentNeutral',
         :'sentiment_negative' => :'sentimentNegative',
         :'avg_mention_count' => :'avgMentionCount',
-        :'mention_type_counts' => :'mentionTypeCounts'
+        :'mention_type_counts' => :'mentionTypeCounts',
+        :'carried_positions' => :'carriedPositions'
       }
     end
 
@@ -235,7 +238,8 @@ module Mencoro
         :'sentiment_neutral' => :'Integer',
         :'sentiment_negative' => :'Integer',
         :'avg_mention_count' => :'Float',
-        :'mention_type_counts' => :'KeywordListingResourceMentionTypeCounts'
+        :'mention_type_counts' => :'KeywordListingResourceMentionTypeCounts',
+        :'carried_positions' => :'KeywordListingResourceCarriedPositions'
       }
     end
 
@@ -470,6 +474,12 @@ module Mencoro
       else
         self.mention_type_counts = nil
       end
+
+      if attributes.key?(:'carried_positions')
+        self.carried_positions = attributes[:'carried_positions']
+      else
+        self.carried_positions = nil
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -541,6 +551,10 @@ module Mencoro
         invalid_properties.push('invalid value for "mention_type_counts", mention_type_counts cannot be nil.')
       end
 
+      if @carried_positions.nil?
+        invalid_properties.push('invalid value for "carried_positions", carried_positions cannot be nil.')
+      end
+
       invalid_properties
     end
 
@@ -566,6 +580,7 @@ module Mencoro
       return false if @sentiment_neutral.nil?
       return false if @sentiment_negative.nil?
       return false if @mention_type_counts.nil?
+      return false if @carried_positions.nil?
       true
     end
 
@@ -699,6 +714,16 @@ module Mencoro
       @mention_type_counts = mention_type_counts
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] carried_positions Value to be assigned
+    def carried_positions=(carried_positions)
+      if carried_positions.nil?
+        fail ArgumentError, 'carried_positions cannot be nil'
+      end
+
+      @carried_positions = carried_positions
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -739,7 +764,8 @@ module Mencoro
           sentiment_neutral == o.sentiment_neutral &&
           sentiment_negative == o.sentiment_negative &&
           avg_mention_count == o.avg_mention_count &&
-          mention_type_counts == o.mention_type_counts
+          mention_type_counts == o.mention_type_counts &&
+          carried_positions == o.carried_positions
     end
 
     # @see the `==` method
@@ -751,7 +777,7 @@ module Mencoro
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [keyword, keyword_normalized, variant_count, variant_ids, engines, countries, query_cluster_ids, has_unclustered_variant, status_summary, statuses, check_frequencies, n_passes_values, last_checked_at, avg_serp_position, trend_serp, avg_shopping_position, trend_shopping, avg_mention_position, trend_mention, avg_link_position, trend_link, mention_position_stability, trend_stability, positivity_index, trend_positivity, mention_rate, trend_mention_rate, serp_rate, trend_serp_rate, share_of_voice, trend_share_of_voice, sentiment_positive, sentiment_neutral, sentiment_negative, avg_mention_count, mention_type_counts].hash
+      [keyword, keyword_normalized, variant_count, variant_ids, engines, countries, query_cluster_ids, has_unclustered_variant, status_summary, statuses, check_frequencies, n_passes_values, last_checked_at, avg_serp_position, trend_serp, avg_shopping_position, trend_shopping, avg_mention_position, trend_mention, avg_link_position, trend_link, mention_position_stability, trend_stability, positivity_index, trend_positivity, mention_rate, trend_mention_rate, serp_rate, trend_serp_rate, share_of_voice, trend_share_of_voice, sentiment_positive, sentiment_neutral, sentiment_negative, avg_mention_count, mention_type_counts, carried_positions].hash
     end
 
     # Builds the object from hash

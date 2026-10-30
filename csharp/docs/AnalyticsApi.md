@@ -279,7 +279,7 @@ namespace Example
             var engines = new List<string>?(); // List<string>? | Repeatable, or comma-separated. (optional) 
             var countries = new List<string>?(); // List<string>? | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional) 
             var queryClusterIds = new List<Guid>?(); // List<Guid>? | Restrict to these clusters. Each must belong to the project. (optional) 
-            var includeUngroupedQueries = false;  // bool? | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional)  (default to false)
+            var includeUngroupedQueries = false;  // bool? | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional)  (default to false)
 
             try
             {
@@ -329,7 +329,7 @@ catch (ApiException e)
 | **engines** | [**List&lt;string&gt;?**](string.md) | Repeatable, or comma-separated. | [optional]  |
 | **countries** | [**List&lt;string&gt;?**](string.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional]  |
 | **queryClusterIds** | [**List&lt;Guid&gt;?**](Guid.md) | Restrict to these clusters. Each must belong to the project. | [optional]  |
-| **includeUngroupedQueries** | **bool?** | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. | [optional] [default to false] |
+| **includeUngroupedQueries** | **bool?** | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. | [optional] [default to false] |
 
 ### Return type
 
@@ -350,7 +350,7 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | One row per keyword cluster, plus the ungrouped bucket where it applies |  -  |
 | **401** | Missing or invalid API key |  -  |
-| **400** | A filter was rejected; the details name the field |  -  |
+| **400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -807,7 +807,7 @@ This endpoint does not need any parameter.
 
 Snapshot rank-health board across an organization active projects
 
-Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
 
 ### Example
 ```csharp
@@ -941,7 +941,7 @@ namespace Example
             var engines = new List<string>?(); // List<string>? | Repeatable, or comma-separated. (optional) 
             var countries = new List<string>?(); // List<string>? | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional) 
             var queryClusterIds = new List<Guid>?(); // List<Guid>? | Restrict to these keyword clusters. Each must belong to this project. (optional) 
-            var includeUngroupedQueries = false;  // bool? | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional)  (default to false)
+            var includeUngroupedQueries = false;  // bool? | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional)  (default to false)
 
             try
             {
@@ -991,7 +991,7 @@ catch (ApiException e)
 | **engines** | [**List&lt;string&gt;?**](string.md) | Repeatable, or comma-separated. | [optional]  |
 | **countries** | [**List&lt;string&gt;?**](string.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional]  |
 | **queryClusterIds** | [**List&lt;Guid&gt;?**](Guid.md) | Restrict to these keyword clusters. Each must belong to this project. | [optional]  |
-| **includeUngroupedQueries** | **bool?** | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. | [optional] [default to false] |
+| **includeUngroupedQueries** | **bool?** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to false] |
 
 ### Return type
 
@@ -1012,7 +1012,7 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions |  -  |
 | **401** | Missing or invalid API key |  -  |
-| **400** | A filter was rejected; the details name the field |  -  |
+| **400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -1057,7 +1057,7 @@ namespace Example
             var engines = new List<string>?(); // List<string>? | Repeatable, or comma-separated. (optional) 
             var countries = new List<string>?(); // List<string>? | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional) 
             var queryClusterIds = new List<Guid>?(); // List<Guid>? |  (optional) 
-            var includeUngroupedQueries = false;  // bool? |  (optional)  (default to false)
+            var includeUngroupedQueries = false;  // bool? | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional)  (default to false)
 
             try
             {
@@ -1107,7 +1107,7 @@ catch (ApiException e)
 | **engines** | [**List&lt;string&gt;?**](string.md) | Repeatable, or comma-separated. | [optional]  |
 | **countries** | [**List&lt;string&gt;?**](string.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional]  |
 | **queryClusterIds** | [**List&lt;Guid&gt;?**](Guid.md) |  | [optional]  |
-| **includeUngroupedQueries** | **bool?** |  | [optional] [default to false] |
+| **includeUngroupedQueries** | **bool?** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to false] |
 
 ### Return type
 
@@ -1128,7 +1128,7 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Sentiment per engine and per competitor |  -  |
 | **401** | Missing or invalid API key |  -  |
-| **400** | A filter was rejected; the details name the field |  -  |
+| **400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -1174,7 +1174,7 @@ namespace Example
             var engines = new List<string>?(); // List<string>? | Repeatable, or comma-separated. (optional) 
             var countries = new List<string>?(); // List<string>? | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional) 
             var queryClusterIds = new List<Guid>?(); // List<Guid>? |  (optional) 
-            var includeUngroupedQueries = false;  // bool? | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional)  (default to false)
+            var includeUngroupedQueries = false;  // bool? | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional)  (default to false)
             var competitorIds = new List<Guid>?(); // List<Guid>? | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional) 
 
             try
@@ -1226,7 +1226,7 @@ catch (ApiException e)
 | **engines** | [**List&lt;string&gt;?**](string.md) | Repeatable, or comma-separated. | [optional]  |
 | **countries** | [**List&lt;string&gt;?**](string.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional]  |
 | **queryClusterIds** | [**List&lt;Guid&gt;?**](Guid.md) |  | [optional]  |
-| **includeUngroupedQueries** | **bool?** | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. | [optional] [default to false] |
+| **includeUngroupedQueries** | **bool?** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional] [default to false] |
 | **competitorIds** | [**List&lt;Guid&gt;?**](Guid.md) | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. | [optional]  |
 
 ### Return type
@@ -1248,7 +1248,7 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending |  -  |
 | **401** | Missing or invalid API key |  -  |
-| **400** | A filter was rejected; the details name the field |  -  |
+| **400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -1735,7 +1735,7 @@ namespace Example
             var engines = new List<string>?(); // List<string>? | Repeatable, or comma-separated. Narrows which variants count towards each row. (optional) 
             var countries = new List<string>?(); // List<string>? | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional) 
             var queryClusterIds = new List<Guid>?(); // List<Guid>? | Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional) 
-            var includeUngroupedQueries = false;  // bool? | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional)  (default to false)
+            var includeUngroupedQueries = false;  // bool? | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional)  (default to false)
             var status = "active";  // string? | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \"mixed\". (optional) 
             var checkFrequencies = new List<string>?(); // List<string>? | Repeatable, or comma-separated. (optional) 
             var nPasses = new List<int>?(); // List<int>? | Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional) 
@@ -1793,7 +1793,7 @@ catch (ApiException e)
 | **engines** | [**List&lt;string&gt;?**](string.md) | Repeatable, or comma-separated. Narrows which variants count towards each row. | [optional]  |
 | **countries** | [**List&lt;string&gt;?**](string.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional]  |
 | **queryClusterIds** | [**List&lt;Guid&gt;?**](Guid.md) | Restrict to keywords with a variant in these clusters. Each must belong to the project. | [optional]  |
-| **includeUngroupedQueries** | **bool?** | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. | [optional] [default to false] |
+| **includeUngroupedQueries** | **bool?** | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. | [optional] [default to false] |
 | **status** | **string?** | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. | [optional]  |
 | **checkFrequencies** | [**List&lt;string&gt;?**](string.md) | Repeatable, or comma-separated. | [optional]  |
 | **nPasses** | [**List&lt;int&gt;?**](int.md) | Repeatable, or comma-separated. Restrict to variants configured with these pass counts. | [optional]  |
@@ -1821,7 +1821,7 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | A page of keywords, the totals behind it, and whether the metrics are pending recalculation |  -  |
-| **400** | A filter, sort key or page bound was rejected; the details name the field |  -  |
+| **400** | A filter, sort key or page bound was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |

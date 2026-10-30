@@ -9,6 +9,7 @@
 |------------ | ------------- | ------------- | -------------|
 |**email** | **String** |  |  [optional] |
 |**role** | [**RoleEnum**](#RoleEnum) |  |  [optional] |
+|**projectAccess** | [**CreateInvitationRequestProjectAccess**](CreateInvitationRequestProjectAccess.md) |  |  [optional] |
 
 
 

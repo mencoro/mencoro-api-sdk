@@ -39,17 +39,23 @@ namespace Mencoro.Api.Model
         /// <param name="projectId">projectId.</param>
         /// <param name="name">name.</param>
         /// <param name="status">status.</param>
-        /// <param name="trackedQueryCount">trackedQueryCount.</param>
+        /// <param name="trackedQueryCount">Configured tracked queries of the project, paused ones included..</param>
+        /// <param name="aiTrackedQueryCount">How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode)..</param>
+        /// <param name="serpTrackedQueryCount">How many of trackedQueryCount run on classic Google SERP..</param>
+        /// <param name="shoppingTrackedQueryCount">How many of trackedQueryCount run on Google Shopping..</param>
         /// <param name="shareOfVoice">0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet..</param>
         /// <param name="mentionRate">0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet..</param>
         /// <param name="avgMentionPosition">1-based average rank of the brand within the answer; LOWER is better. Null when the project has no rank data yet..</param>
         /// <param name="positivityIndex">0-100 sentiment score; higher is better. Null when the project has no rank data yet..</param>
-        public GetOrganizationOverview200ResponseProjectsInner(Guid projectId = default, string name = default, string status = default, int trackedQueryCount = default, float? shareOfVoice = default, int? mentionRate = default, float? avgMentionPosition = default, int? positivityIndex = default)
+        public GetOrganizationOverview200ResponseProjectsInner(Guid projectId = default, string name = default, string status = default, int trackedQueryCount = default, int aiTrackedQueryCount = default, int serpTrackedQueryCount = default, int shoppingTrackedQueryCount = default, float? shareOfVoice = default, int? mentionRate = default, float? avgMentionPosition = default, int? positivityIndex = default)
         {
             this.ProjectId = projectId;
             this.Name = name;
             this.Status = status;
             this.TrackedQueryCount = trackedQueryCount;
+            this.AiTrackedQueryCount = aiTrackedQueryCount;
+            this.SerpTrackedQueryCount = serpTrackedQueryCount;
+            this.ShoppingTrackedQueryCount = shoppingTrackedQueryCount;
             this.ShareOfVoice = shareOfVoice;
             this.MentionRate = mentionRate;
             this.AvgMentionPosition = avgMentionPosition;
@@ -75,10 +81,32 @@ namespace Mencoro.Api.Model
         public string Status { get; set; }
 
         /// <summary>
-        /// Gets or Sets TrackedQueryCount
+        /// Configured tracked queries of the project, paused ones included.
         /// </summary>
+        /// <value>Configured tracked queries of the project, paused ones included.</value>
         [DataMember(Name = "trackedQueryCount", EmitDefaultValue = false)]
         public int TrackedQueryCount { get; set; }
+
+        /// <summary>
+        /// How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode).
+        /// </summary>
+        /// <value>How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode).</value>
+        [DataMember(Name = "aiTrackedQueryCount", EmitDefaultValue = false)]
+        public int AiTrackedQueryCount { get; set; }
+
+        /// <summary>
+        /// How many of trackedQueryCount run on classic Google SERP.
+        /// </summary>
+        /// <value>How many of trackedQueryCount run on classic Google SERP.</value>
+        [DataMember(Name = "serpTrackedQueryCount", EmitDefaultValue = false)]
+        public int SerpTrackedQueryCount { get; set; }
+
+        /// <summary>
+        /// How many of trackedQueryCount run on Google Shopping.
+        /// </summary>
+        /// <value>How many of trackedQueryCount run on Google Shopping.</value>
+        [DataMember(Name = "shoppingTrackedQueryCount", EmitDefaultValue = false)]
+        public int ShoppingTrackedQueryCount { get; set; }
 
         /// <summary>
         /// 0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet.
@@ -120,6 +148,9 @@ namespace Mencoro.Api.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  TrackedQueryCount: ").Append(TrackedQueryCount).Append("\n");
+            sb.Append("  AiTrackedQueryCount: ").Append(AiTrackedQueryCount).Append("\n");
+            sb.Append("  SerpTrackedQueryCount: ").Append(SerpTrackedQueryCount).Append("\n");
+            sb.Append("  ShoppingTrackedQueryCount: ").Append(ShoppingTrackedQueryCount).Append("\n");
             sb.Append("  ShareOfVoice: ").Append(ShareOfVoice).Append("\n");
             sb.Append("  MentionRate: ").Append(MentionRate).Append("\n");
             sb.Append("  AvgMentionPosition: ").Append(AvgMentionPosition).Append("\n");

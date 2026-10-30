@@ -19,8 +19,10 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.mencoro.api.model.CreateInvitationRequestProjectAccess;
 import java.io.IOException;
 import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -114,6 +116,11 @@ public class CreateInvitationRequest {
   @javax.annotation.Nullable
   private RoleEnum role = RoleEnum.VIEWER;
 
+  public static final String SERIALIZED_NAME_PROJECT_ACCESS = "projectAccess";
+  @SerializedName(SERIALIZED_NAME_PROJECT_ACCESS)
+  @javax.annotation.Nullable
+  private CreateInvitationRequestProjectAccess projectAccess;
+
   public CreateInvitationRequest() {
   }
 
@@ -155,6 +162,25 @@ public class CreateInvitationRequest {
   }
 
 
+  public CreateInvitationRequest projectAccess(@javax.annotation.Nullable CreateInvitationRequestProjectAccess projectAccess) {
+    this.projectAccess = projectAccess;
+    return this;
+  }
+
+  /**
+   * Get projectAccess
+   * @return projectAccess
+   */
+  @javax.annotation.Nullable
+  public CreateInvitationRequestProjectAccess getProjectAccess() {
+    return projectAccess;
+  }
+
+  public void setProjectAccess(@javax.annotation.Nullable CreateInvitationRequestProjectAccess projectAccess) {
+    this.projectAccess = projectAccess;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -166,12 +192,24 @@ public class CreateInvitationRequest {
     }
     CreateInvitationRequest createInvitationRequest = (CreateInvitationRequest) o;
     return Objects.equals(this.email, createInvitationRequest.email) &&
-        Objects.equals(this.role, createInvitationRequest.role);
+        Objects.equals(this.role, createInvitationRequest.role) &&
+        Objects.equals(this.projectAccess, createInvitationRequest.projectAccess);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, role);
+    return Objects.hash(email, role, projectAccess);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -180,6 +218,7 @@ public class CreateInvitationRequest {
     sb.append("class CreateInvitationRequest {\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    role: ").append(toIndentedString(role)).append("\n");
+    sb.append("    projectAccess: ").append(toIndentedString(projectAccess)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -198,7 +237,7 @@ public class CreateInvitationRequest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("email", "role"));
+    openapiFields = new HashSet<String>(Arrays.asList("email", "role", "projectAccess"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -234,6 +273,10 @@ public class CreateInvitationRequest {
       // validate the optional field `role`
       if (jsonObj.get("role") != null && !jsonObj.get("role").isJsonNull()) {
         RoleEnum.validateJsonElement(jsonObj.get("role"));
+      }
+      // validate the optional field `projectAccess`
+      if (jsonObj.get("projectAccess") != null && !jsonObj.get("projectAccess").isJsonNull()) {
+        CreateInvitationRequestProjectAccess.validateJsonElement(jsonObj.get("projectAccess"));
       }
   }
 

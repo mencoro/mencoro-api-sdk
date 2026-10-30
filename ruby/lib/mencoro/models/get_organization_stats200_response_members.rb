@@ -15,7 +15,7 @@ require 'time'
 
 module Mencoro
   class GetOrganizationStats200ResponseMembers < ApiModelBase
-    # Active memberships. Suspended members are excluded.
+    # Active memberships. Suspended members are excluded. Null for a member restricted to selected projects.
     attr_accessor :total
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -45,6 +45,7 @@ module Mencoro
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'total'
       ])
     end
 
@@ -92,11 +93,7 @@ module Mencoro
     # Custom attribute writer method with validation
     # @param [Object] total Value to be assigned
     def total=(total)
-      if total.nil?
-        fail ArgumentError, 'total cannot be nil'
-      end
-
-      if total < 0
+      if !total.nil? && total < 0
         fail ArgumentError, 'invalid value for "total", must be greater than or equal to 0.'
       end
 

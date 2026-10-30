@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**project_count** | **int** | Active projects in the organization, the length of &#x60;projects&#x60;. | [optional]
+**project_count** | **int** | Active projects of the organization the caller can access, the length of &#x60;projects&#x60;. | [optional]
 **projects_with_data** | **int** | How many of those have a share of voice; the averages below are means over the projects that report each metric, never over the ones still null. | [optional]
 **total_tracked_queries** | **int** |  | [optional]
 **avg_share_of_voice** | **float** | Null when no project reports a share of voice. | [optional]

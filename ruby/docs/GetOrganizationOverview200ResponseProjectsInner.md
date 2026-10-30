@@ -7,7 +7,10 @@
 | **project_id** | **String** |  | [optional] |
 | **name** | **String** |  | [optional] |
 | **status** | **String** |  | [optional] |
-| **tracked_query_count** | **Integer** |  | [optional] |
+| **tracked_query_count** | **Integer** | Configured tracked queries of the project, paused ones included. | [optional] |
+| **ai_tracked_query_count** | **Integer** | How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode). | [optional] |
+| **serp_tracked_query_count** | **Integer** | How many of trackedQueryCount run on classic Google SERP. | [optional] |
+| **shopping_tracked_query_count** | **Integer** | How many of trackedQueryCount run on Google Shopping. | [optional] |
 | **share_of_voice** | **Float** | 0-100 percentage share of weighted AI mentions against all tracked brands; higher is better. Null when the project has no rank data yet. | [optional] |
 | **mention_rate** | **Integer** | 0-100 percentage of AI checks (one per tracked query x engine x UTC day) across all retained data that mentioned the brand, each check counted as the share of its passes that did; higher is better. Null when the project has no rank data yet. | [optional] |
 | **avg_mention_position** | **Float** | 1-based average rank of the brand within the answer; LOWER is better. Null when the project has no rank data yet. | [optional] |
@@ -23,6 +26,9 @@ instance = Mencoro::GetOrganizationOverview200ResponseProjectsInner.new(
   name: null,
   status: null,
   tracked_query_count: null,
+  ai_tracked_query_count: null,
+  serp_tracked_query_count: null,
+  shopping_tracked_query_count: null,
   share_of_voice: null,
   mention_rate: null,
   avg_mention_position: null,

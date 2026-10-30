@@ -22,6 +22,7 @@ var _ MappedNullable = &CreateInvitationRequest{}
 type CreateInvitationRequest struct {
 	Email *string `json:"email,omitempty"`
 	Role *string `json:"role,omitempty"`
+	ProjectAccess NullableCreateInvitationRequestProjectAccess `json:"projectAccess,omitempty"`
 }
 
 // NewCreateInvitationRequest instantiates a new CreateInvitationRequest object
@@ -109,6 +110,48 @@ func (o *CreateInvitationRequest) SetRole(v string) {
 	o.Role = &v
 }
 
+// GetProjectAccess returns the ProjectAccess field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CreateInvitationRequest) GetProjectAccess() CreateInvitationRequestProjectAccess {
+	if o == nil || IsNil(o.ProjectAccess.Get()) {
+		var ret CreateInvitationRequestProjectAccess
+		return ret
+	}
+	return *o.ProjectAccess.Get()
+}
+
+// GetProjectAccessOk returns a tuple with the ProjectAccess field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CreateInvitationRequest) GetProjectAccessOk() (*CreateInvitationRequestProjectAccess, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProjectAccess.Get(), o.ProjectAccess.IsSet()
+}
+
+// HasProjectAccess returns a boolean if a field has been set.
+func (o *CreateInvitationRequest) HasProjectAccess() bool {
+	if o != nil && o.ProjectAccess.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetProjectAccess gets a reference to the given NullableCreateInvitationRequestProjectAccess and assigns it to the ProjectAccess field.
+func (o *CreateInvitationRequest) SetProjectAccess(v CreateInvitationRequestProjectAccess) {
+	o.ProjectAccess.Set(&v)
+}
+// SetProjectAccessNil sets the value for ProjectAccess to be an explicit nil
+func (o *CreateInvitationRequest) SetProjectAccessNil() {
+	o.ProjectAccess.Set(nil)
+}
+
+// UnsetProjectAccess ensures that no value is present for ProjectAccess, not even an explicit nil
+func (o *CreateInvitationRequest) UnsetProjectAccess() {
+	o.ProjectAccess.Unset()
+}
+
 func (o CreateInvitationRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -124,6 +167,9 @@ func (o CreateInvitationRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Role) {
 		toSerialize["role"] = o.Role
+	}
+	if o.ProjectAccess.IsSet() {
+		toSerialize["projectAccess"] = o.ProjectAccess.Get()
 	}
 	return toSerialize, nil
 }

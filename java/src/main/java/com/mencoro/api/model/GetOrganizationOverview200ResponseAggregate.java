@@ -95,7 +95,7 @@ public class GetOrganizationOverview200ResponseAggregate {
   }
 
   /**
-   * Active projects in the organization, the length of &#x60;projects&#x60;.
+   * Active projects of the organization the caller can access, the length of &#x60;projects&#x60;.
    * @return projectCount
    */
   @javax.annotation.Nullable

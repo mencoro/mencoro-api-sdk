@@ -69,7 +69,7 @@ public class GetMeStats200ResponseProjects {
   }
 
   /**
-   * Projects across those organizations, archived ones included.
+   * Projects across those organizations the owner can access, archived ones included.
    * minimum: 0
    * @return total
    */

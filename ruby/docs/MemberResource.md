@@ -10,6 +10,8 @@
 | **state** | **String** |  |  |
 | **is_active** | **Boolean** |  |  |
 | **joined_at** | **Time** |  |  |
+| **project_access_mode** | **String** | Which projects of the organization the member reaches: every project, or only projectIds |  |
+| **project_ids** | **Array&lt;String&gt;** | The projects a selected access reaches; empty when the mode is all |  |
 
 ## Example
 
@@ -22,7 +24,9 @@ instance = Mencoro::MemberResource.new(
   role: null,
   state: null,
   is_active: null,
-  joined_at: null
+  joined_at: null,
+  project_access_mode: null,
+  project_ids: null
 )
 ```
 

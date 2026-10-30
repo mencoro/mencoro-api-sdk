@@ -40,7 +40,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -114,7 +114,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -200,7 +200,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -211,7 +211,7 @@ func main() {
 	engines := []string{"Engines_example"} // []string | Repeatable, or comma-separated. (optional)
 	countries := []string{"Inner_example"} // []string | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
 	queryClusterIds := []string{"Inner_example"} // []string | Restrict to these clusters. Each must belong to the project. (optional)
-	includeUngroupedQueries := true // bool | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional) (default to false)
+	includeUngroupedQueries := true // bool | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional) (default to false)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -248,7 +248,7 @@ Name | Type | Description  | Notes
  **engines** | **[]string** | Repeatable, or comma-separated. | 
  **countries** | **[]string** | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | 
  **queryClusterIds** | **[]string** | Restrict to these clusters. Each must belong to the project. | 
- **includeUngroupedQueries** | **bool** | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. | [default to false]
+ **includeUngroupedQueries** | **bool** | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. | [default to false]
 
 ### Return type
 
@@ -286,7 +286,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -370,7 +370,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -452,7 +452,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -545,7 +545,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -606,7 +606,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -677,7 +677,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -688,7 +688,7 @@ func main() {
 	engines := []string{"Engines_example"} // []string | Repeatable, or comma-separated. (optional)
 	countries := []string{"Inner_example"} // []string | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
 	queryClusterIds := []string{"Inner_example"} // []string | Restrict to these keyword clusters. Each must belong to this project. (optional)
-	includeUngroupedQueries := true // bool | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional) (default to false)
+	includeUngroupedQueries := true // bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional) (default to false)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -725,7 +725,7 @@ Name | Type | Description  | Notes
  **engines** | **[]string** | Repeatable, or comma-separated. | 
  **countries** | **[]string** | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | 
  **queryClusterIds** | **[]string** | Restrict to these keyword clusters. Each must belong to this project. | 
- **includeUngroupedQueries** | **bool** | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. | [default to false]
+ **includeUngroupedQueries** | **bool** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [default to false]
 
 ### Return type
 
@@ -763,7 +763,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -774,7 +774,7 @@ func main() {
 	engines := []string{"Engines_example"} // []string | Repeatable, or comma-separated. (optional)
 	countries := []string{"Inner_example"} // []string | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
 	queryClusterIds := []string{"Inner_example"} // []string |  (optional)
-	includeUngroupedQueries := true // bool |  (optional) (default to false)
+	includeUngroupedQueries := true // bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional) (default to false)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -811,7 +811,7 @@ Name | Type | Description  | Notes
  **engines** | **[]string** | Repeatable, or comma-separated. | 
  **countries** | **[]string** | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | 
  **queryClusterIds** | **[]string** |  | 
- **includeUngroupedQueries** | **bool** |  | [default to false]
+ **includeUngroupedQueries** | **bool** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [default to false]
 
 ### Return type
 
@@ -849,7 +849,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -861,7 +861,7 @@ func main() {
 	engines := []string{"Engines_example"} // []string | Repeatable, or comma-separated. (optional)
 	countries := []string{"Inner_example"} // []string | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
 	queryClusterIds := []string{"Inner_example"} // []string |  (optional)
-	includeUngroupedQueries := true // bool | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional) (default to false)
+	includeUngroupedQueries := true // bool | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional) (default to false)
 	competitorIds := []string{"Inner_example"} // []string | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -900,7 +900,7 @@ Name | Type | Description  | Notes
  **engines** | **[]string** | Repeatable, or comma-separated. | 
  **countries** | **[]string** | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | 
  **queryClusterIds** | **[]string** |  | 
- **includeUngroupedQueries** | **bool** | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. | [default to false]
+ **includeUngroupedQueries** | **bool** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [default to false]
  **competitorIds** | **[]string** | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. | 
 
 ### Return type
@@ -939,7 +939,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -1028,7 +1028,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -1102,7 +1102,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -1186,7 +1186,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -1260,7 +1260,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {
@@ -1271,7 +1271,7 @@ func main() {
 	engines := []string{"Engines_example"} // []string | Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
 	countries := []string{"Inner_example"} // []string | ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
 	queryClusterIds := []string{"Inner_example"} // []string | Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-	includeUngroupedQueries := true // bool | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional) (default to false)
+	includeUngroupedQueries := true // bool | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional) (default to false)
 	status := "status_example" // string | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \"mixed\". (optional)
 	checkFrequencies := []string{"CheckFrequencies_example"} // []string | Repeatable, or comma-separated. (optional)
 	nPasses := []int32{int32(123)} // []int32 | Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -1316,7 +1316,7 @@ Name | Type | Description  | Notes
  **engines** | **[]string** | Repeatable, or comma-separated. Narrows which variants count towards each row. | 
  **countries** | **[]string** | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | 
  **queryClusterIds** | **[]string** | Restrict to keywords with a variant in these clusters. Each must belong to the project. | 
- **includeUngroupedQueries** | **bool** | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. | [default to false]
+ **includeUngroupedQueries** | **bool** | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. | [default to false]
  **status** | **string** | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. | 
  **checkFrequencies** | **[]string** | Repeatable, or comma-separated. | 
  **nPasses** | **[]int32** | Repeatable, or comma-separated. Restrict to variants configured with these pass counts. | 

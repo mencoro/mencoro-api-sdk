@@ -10,12 +10,14 @@ Name | Type | Description | Notes
 **State** | **string** |  | 
 **IsActive** | **bool** |  | 
 **JoinedAt** | **time.Time** |  | 
+**ProjectAccessMode** | **string** | Which projects of the organization the member reaches: every project, or only projectIds | 
+**ProjectIds** | **[]string** | The projects a selected access reaches; empty when the mode is all | 
 
 ## Methods
 
 ### NewMemberResource
 
-`func NewMemberResource(id string, userId string, role string, state string, isActive bool, joinedAt time.Time, ) *MemberResource`
+`func NewMemberResource(id string, userId string, role string, state string, isActive bool, joinedAt time.Time, projectAccessMode string, projectIds []string, ) *MemberResource`
 
 NewMemberResource instantiates a new MemberResource object
 This constructor will assign default values to properties that have it defined,
@@ -148,6 +150,46 @@ and a boolean to check if the value has been set.
 `func (o *MemberResource) SetJoinedAt(v time.Time)`
 
 SetJoinedAt sets JoinedAt field to given value.
+
+
+### GetProjectAccessMode
+
+`func (o *MemberResource) GetProjectAccessMode() string`
+
+GetProjectAccessMode returns the ProjectAccessMode field if non-nil, zero value otherwise.
+
+### GetProjectAccessModeOk
+
+`func (o *MemberResource) GetProjectAccessModeOk() (*string, bool)`
+
+GetProjectAccessModeOk returns a tuple with the ProjectAccessMode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectAccessMode
+
+`func (o *MemberResource) SetProjectAccessMode(v string)`
+
+SetProjectAccessMode sets ProjectAccessMode field to given value.
+
+
+### GetProjectIds
+
+`func (o *MemberResource) GetProjectIds() []string`
+
+GetProjectIds returns the ProjectIds field if non-nil, zero value otherwise.
+
+### GetProjectIdsOk
+
+`func (o *MemberResource) GetProjectIdsOk() (*[]string, bool)`
+
+GetProjectIdsOk returns a tuple with the ProjectIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectIds
+
+`func (o *MemberResource) SetProjectIds(v []string)`
+
+SetProjectIds sets ProjectIds field to given value.
 
 
 

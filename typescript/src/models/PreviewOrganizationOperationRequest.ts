@@ -57,6 +57,7 @@ export const PreviewOrganizationOperationRequestActionEnum = {
     ChangeMemberRole: 'changeMemberRole',
     SuspendMember: 'suspendMember',
     ReactivateMember: 'reactivateMember',
+    SetMemberProjectAccess: 'setMemberProjectAccess',
     CreateInvitation: 'createInvitation',
     CancelInvitation: 'cancelInvitation'
 } as const;

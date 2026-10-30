@@ -878,7 +878,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getClusterBreakdown'] to see the possible values for this operation
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
@@ -903,7 +903,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getClusterBreakdown'] to see the possible values for this operation
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
@@ -995,7 +995,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getClusterBreakdown'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1023,7 +1023,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getClusterBreakdown'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1080,7 +1080,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getClusterBreakdown'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3016,7 +3016,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param  bool|null $include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectMetrics'] to see the possible values for this operation
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3041,7 +3041,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param  bool|null $include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectMetrics'] to see the possible values for this operation
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3133,7 +3133,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param  bool|null $include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectMetrics'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3161,7 +3161,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param  bool|null $include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectMetrics'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3218,7 +3218,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to these keyword clusters. Each must belong to this project. (optional)
-     * @param  bool|null $include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectMetrics'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3410,7 +3410,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries include_ungrouped_queries (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectSentiment'] to see the possible values for this operation
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3435,7 +3435,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectSentiment'] to see the possible values for this operation
      *
      * @throws \Mencoro\Api\ApiException on non-2xx response or if the response body is not in the expected format
@@ -3527,7 +3527,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectSentiment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3555,7 +3555,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectSentiment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3612,7 +3612,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectSentiment'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -3805,7 +3805,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string[]|null $competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectTimeSeries'] to see the possible values for this operation
      *
@@ -3832,7 +3832,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string[]|null $competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectTimeSeries'] to see the possible values for this operation
      *
@@ -3926,7 +3926,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string[]|null $competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectTimeSeries'] to see the possible values for this operation
      *
@@ -3956,7 +3956,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string[]|null $competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectTimeSeries'] to see the possible values for this operation
      *
@@ -4015,7 +4015,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids (optional)
-     * @param  bool|null $include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)
      * @param  string[]|null $competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getProjectTimeSeries'] to see the possible values for this operation
      *
@@ -5629,7 +5629,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param  string|null $status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param  string[]|null $check_frequencies Repeatable, or comma-separated. (optional)
      * @param  int[]|null $n_passes Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -5662,7 +5662,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param  string|null $status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param  string[]|null $check_frequencies Repeatable, or comma-separated. (optional)
      * @param  int[]|null $n_passes Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -5762,7 +5762,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param  string|null $status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param  string[]|null $check_frequencies Repeatable, or comma-separated. (optional)
      * @param  int[]|null $n_passes Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -5798,7 +5798,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param  string|null $status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param  string[]|null $check_frequencies Repeatable, or comma-separated. (optional)
      * @param  int[]|null $n_passes Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)
@@ -5863,7 +5863,7 @@ class AnalyticsApi
      * @param  string[]|null $engines Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)
      * @param  string[]|null $countries ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)
      * @param  string[]|null $query_cluster_ids Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
-     * @param  bool|null $include_ungrouped_queries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)
+     * @param  bool|null $include_ungrouped_queries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)
      * @param  string|null $status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)
      * @param  string[]|null $check_frequencies Repeatable, or comma-separated. (optional)
      * @param  int[]|null $n_passes Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)

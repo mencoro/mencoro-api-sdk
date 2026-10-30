@@ -331,7 +331,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] Restrict to these clusters. Each must belong to the project.
-     * @param {boolean} [includeUngroupedQueries] Sent alone, returns only the ungrouped bucket rather than adding it to every cluster.
+     * @param {boolean} [includeUngroupedQueries] Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row.
      * @throws {RequiredError}
      * @memberof AnalyticsApiInterface
      */
@@ -347,7 +347,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] Restrict to these clusters. Each must belong to the project.
-     * @param {boolean} [includeUngroupedQueries] Sent alone, returns only the ungrouped bucket rather than adding it to every cluster.
+     * @param {boolean} [includeUngroupedQueries] Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnalyticsApiInterface
@@ -507,7 +507,7 @@ export interface AnalyticsApiInterface {
     getOrganizationOverviewRequestOpts(requestParameters: GetOrganizationOverviewRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+     * Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
      * @summary Snapshot rank-health board across an organization active projects
      * @param {string} organizationId 
      * @param {*} [options] Override http request option.
@@ -517,7 +517,7 @@ export interface AnalyticsApiInterface {
     getOrganizationOverviewRaw(requestParameters: GetOrganizationOverviewRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetOrganizationOverview200Response>>;
 
     /**
-     * Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+     * Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
      * Snapshot rank-health board across an organization active projects
      */
     getOrganizationOverview(requestParameters: GetOrganizationOverviewRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetOrganizationOverview200Response>;
@@ -531,7 +531,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] Restrict to these keyword clusters. Each must belong to this project.
-     * @param {boolean} [includeUngroupedQueries] Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster.
+     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
      * @throws {RequiredError}
      * @memberof AnalyticsApiInterface
      */
@@ -547,7 +547,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] Restrict to these keyword clusters. Each must belong to this project.
-     * @param {boolean} [includeUngroupedQueries] Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster.
+     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnalyticsApiInterface
@@ -569,7 +569,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] 
-     * @param {boolean} [includeUngroupedQueries] 
+     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
      * @throws {RequiredError}
      * @memberof AnalyticsApiInterface
      */
@@ -585,7 +585,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] 
-     * @param {boolean} [includeUngroupedQueries] 
+     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnalyticsApiInterface
@@ -608,7 +608,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] 
-     * @param {boolean} [includeUngroupedQueries] On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them.
+     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
      * @param {Array<string>} [competitorIds] Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
      * @throws {RequiredError}
      * @memberof AnalyticsApiInterface
@@ -626,7 +626,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] 
-     * @param {boolean} [includeUngroupedQueries] On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them.
+     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
      * @param {Array<string>} [competitorIds] Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -779,7 +779,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated. Narrows which variants count towards each row.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] Restrict to keywords with a variant in these clusters. Each must belong to the project.
-     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection.
+     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords.
      * @param {'active' | 'paused'} [status] Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;.
      * @param {Array<'daily' | 'weekly' | 'monthly'>} [checkFrequencies] Repeatable, or comma-separated.
      * @param {Array<number>} [nPasses] Repeatable, or comma-separated. Restrict to variants configured with these pass counts.
@@ -803,7 +803,7 @@ export interface AnalyticsApiInterface {
      * @param {Array<'chatgpt' | 'claude' | 'perplexity' | 'google_ai_overview' | 'google_ai_mode' | 'google_serp' | 'google_shopping'>} [engines] Repeatable, or comma-separated. Narrows which variants count towards each row.
      * @param {Array<string>} [countries] ISO-3166 alpha-2 codes or English names. Must be configured on the project.
      * @param {Array<string>} [queryClusterIds] Restrict to keywords with a variant in these clusters. Each must belong to the project.
-     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection.
+     * @param {boolean} [includeUngroupedQueries] Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords.
      * @param {'active' | 'paused'} [status] Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;.
      * @param {Array<'daily' | 'weekly' | 'monthly'>} [checkFrequencies] Repeatable, or comma-separated.
      * @param {Array<number>} [nPasses] Repeatable, or comma-separated. Restrict to variants configured with these pass counts.
@@ -1486,7 +1486,7 @@ export class AnalyticsApi extends runtime.BaseAPI implements AnalyticsApiInterfa
     }
 
     /**
-     * Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+     * Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
      * Snapshot rank-health board across an organization active projects
      */
     async getOrganizationOverviewRaw(requestParameters: GetOrganizationOverviewRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetOrganizationOverview200Response>> {
@@ -1497,7 +1497,7 @@ export class AnalyticsApi extends runtime.BaseAPI implements AnalyticsApiInterfa
     }
 
     /**
-     * Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+     * Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
      * Snapshot rank-health board across an organization active projects
      */
     async getOrganizationOverview(requestParameters: GetOrganizationOverviewRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetOrganizationOverview200Response> {

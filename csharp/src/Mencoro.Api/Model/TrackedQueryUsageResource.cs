@@ -41,16 +41,16 @@ namespace Mencoro.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="TrackedQueryUsageResource" /> class.
         /// </summary>
-        /// <param name="trackedQueryCount">Tracked queries across every project of the organization, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured. (required).</param>
+        /// <param name="trackedQueryCount">Tracked queries across every project of the organization the caller can access, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured. (required).</param>
         public TrackedQueryUsageResource(int trackedQueryCount = default)
         {
             this.TrackedQueryCount = trackedQueryCount;
         }
 
         /// <summary>
-        /// Tracked queries across every project of the organization, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.
+        /// Tracked queries across every project of the organization the caller can access, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.
         /// </summary>
-        /// <value>Tracked queries across every project of the organization, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.</value>
+        /// <value>Tracked queries across every project of the organization the caller can access, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.</value>
         /*
         <example>124</example>
         */

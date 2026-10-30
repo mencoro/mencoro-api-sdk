@@ -236,7 +236,7 @@ async function example() {
     countries: ...,
     // Array<string> | Restrict to these clusters. Each must belong to the project. (optional)
     queryClusterIds: ...,
-    // boolean | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional)
+    // boolean | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional)
     includeUngroupedQueries: true,
   } satisfies GetClusterBreakdownRequest;
 
@@ -264,7 +264,7 @@ example().catch(console.error);
 | **engines** | `chatgpt`, `claude`, `perplexity`, `google_ai_overview`, `google_ai_mode`, `google_serp`, `google_shopping` | Repeatable, or comma-separated. | [Optional] [Enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | `Array<string>` | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [Optional] |
 | **queryClusterIds** | `Array<string>` | Restrict to these clusters. Each must belong to the project. | [Optional] |
-| **includeUngroupedQueries** | `boolean` | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. | [Optional] [Defaults to `false`] |
+| **includeUngroupedQueries** | `boolean` | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. | [Optional] [Defaults to `false`] |
 
 ### Return type
 
@@ -285,7 +285,7 @@ example().catch(console.error);
 |-------------|-------------|------------------|
 | **200** | One row per keyword cluster, plus the ungrouped bucket where it applies |  -  |
 | **401** | Missing or invalid API key |  -  |
-| **400** | A filter was rejected; the details name the field |  -  |
+| **400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -654,7 +654,7 @@ This endpoint does not need any parameter.
 
 Snapshot rank-health board across an organization active projects
 
-Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
 
 ### Example
 
@@ -762,7 +762,7 @@ async function example() {
     countries: ...,
     // Array<string> | Restrict to these keyword clusters. Each must belong to this project. (optional)
     queryClusterIds: ...,
-    // boolean | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional)
+    // boolean | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional)
     includeUngroupedQueries: true,
   } satisfies GetProjectMetricsRequest;
 
@@ -790,7 +790,7 @@ example().catch(console.error);
 | **engines** | `chatgpt`, `claude`, `perplexity`, `google_ai_overview`, `google_ai_mode`, `google_serp`, `google_shopping` | Repeatable, or comma-separated. | [Optional] [Enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | `Array<string>` | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [Optional] |
 | **queryClusterIds** | `Array<string>` | Restrict to these keyword clusters. Each must belong to this project. | [Optional] |
-| **includeUngroupedQueries** | `boolean` | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. | [Optional] [Defaults to `false`] |
+| **includeUngroupedQueries** | `boolean` | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [Optional] [Defaults to `false`] |
 
 ### Return type
 
@@ -811,7 +811,7 @@ example().catch(console.error);
 |-------------|-------------|------------------|
 | **200** | Headline metrics, trends, sentiment split, per-competitor share of voice and position distributions |  -  |
 | **401** | Missing or invalid API key |  -  |
-| **400** | A filter was rejected; the details name the field |  -  |
+| **400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -858,7 +858,7 @@ async function example() {
     countries: ...,
     // Array<string> (optional)
     queryClusterIds: ...,
-    // boolean (optional)
+    // boolean | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional)
     includeUngroupedQueries: true,
   } satisfies GetProjectSentimentRequest;
 
@@ -886,7 +886,7 @@ example().catch(console.error);
 | **engines** | `chatgpt`, `claude`, `perplexity`, `google_ai_overview`, `google_ai_mode`, `google_serp`, `google_shopping` | Repeatable, or comma-separated. | [Optional] [Enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | `Array<string>` | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [Optional] |
 | **queryClusterIds** | `Array<string>` |  | [Optional] |
-| **includeUngroupedQueries** | `boolean` |  | [Optional] [Defaults to `false`] |
+| **includeUngroupedQueries** | `boolean` | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [Optional] [Defaults to `false`] |
 
 ### Return type
 
@@ -907,7 +907,7 @@ example().catch(console.error);
 |-------------|-------------|------------------|
 | **200** | Sentiment per engine and per competitor |  -  |
 | **401** | Missing or invalid API key |  -  |
-| **400** | A filter was rejected; the details name the field |  -  |
+| **400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -956,7 +956,7 @@ async function example() {
     countries: ...,
     // Array<string> (optional)
     queryClusterIds: ...,
-    // boolean | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional)
+    // boolean | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional)
     includeUngroupedQueries: true,
     // Array<string> | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)
     competitorIds: ...,
@@ -987,7 +987,7 @@ example().catch(console.error);
 | **engines** | `chatgpt`, `claude`, `perplexity`, `google_ai_overview`, `google_ai_mode`, `google_serp`, `google_shopping` | Repeatable, or comma-separated. | [Optional] [Enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | `Array<string>` | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [Optional] |
 | **queryClusterIds** | `Array<string>` |  | [Optional] |
-| **includeUngroupedQueries** | `boolean` | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. | [Optional] [Defaults to `false`] |
+| **includeUngroupedQueries** | `boolean` | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [Optional] [Defaults to `false`] |
 | **competitorIds** | `Array<string>` | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. | [Optional] |
 
 ### Return type
@@ -1009,7 +1009,7 @@ example().catch(console.error);
 |-------------|-------------|------------------|
 | **200** | Points in bucket order, plus dataDirtySince: a date from which the rank data is being recomputed, or null when nothing is pending |  -  |
 | **401** | Missing or invalid API key |  -  |
-| **400** | A filter was rejected; the details name the field |  -  |
+| **400** | A filter was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |
 
@@ -1407,7 +1407,7 @@ async function example() {
     countries: ...,
     // Array<string> | Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)
     queryClusterIds: ...,
-    // boolean | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional)
+    // boolean | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional)
     includeUngroupedQueries: true,
     // 'active' | 'paused' | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \"mixed\". (optional)
     status: status_example,
@@ -1451,7 +1451,7 @@ example().catch(console.error);
 | **engines** | `chatgpt`, `claude`, `perplexity`, `google_ai_overview`, `google_ai_mode`, `google_serp`, `google_shopping` | Repeatable, or comma-separated. Narrows which variants count towards each row. | [Optional] [Enum: chatgpt, claude, perplexity, google_ai_overview, google_ai_mode, google_serp, google_shopping] |
 | **countries** | `Array<string>` | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [Optional] |
 | **queryClusterIds** | `Array<string>` | Restrict to keywords with a variant in these clusters. Each must belong to the project. | [Optional] |
-| **includeUngroupedQueries** | `boolean` | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. | [Optional] [Defaults to `false`] |
+| **includeUngroupedQueries** | `boolean` | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. | [Optional] [Defaults to `false`] |
 | **status** | `active`, `paused` | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. | [Optional] [Defaults to `undefined`] [Enum: active, paused] |
 | **checkFrequencies** | `daily`, `weekly`, `monthly` | Repeatable, or comma-separated. | [Optional] [Enum: daily, weekly, monthly] |
 | **nPasses** | `Array<number>` | Repeatable, or comma-separated. Restrict to variants configured with these pass counts. | [Optional] |
@@ -1479,7 +1479,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | A page of keywords, the totals behind it, and whether the metrics are pending recalculation |  -  |
-| **400** | A filter, sort key or page bound was rejected; the details name the field |  -  |
+| **400** | A filter, sort key or page bound was rejected, including a queryClusterIds or includeUngroupedQueries selection that matches no tracked query; the details name the field |  -  |
 | **401** | Missing or invalid API key |  -  |
 | **403** | The key lacks the read capability |  -  |
 | **404** | No organization or project the caller can access under these ids |  -  |

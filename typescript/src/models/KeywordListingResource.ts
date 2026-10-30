@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { KeywordListingResourceCarriedPositions } from './KeywordListingResourceCarriedPositions';
+import {
+    KeywordListingResourceCarriedPositionsFromJSON,
+    KeywordListingResourceCarriedPositionsFromJSONTyped,
+    KeywordListingResourceCarriedPositionsToJSON,
+    KeywordListingResourceCarriedPositionsToJSONTyped,
+} from './KeywordListingResourceCarriedPositions';
 import type { KeywordListingResourceMentionTypeCounts } from './KeywordListingResourceMentionTypeCounts';
 import {
     KeywordListingResourceMentionTypeCountsFromJSON,
@@ -106,49 +113,49 @@ export interface KeywordListingResource {
      */
     lastCheckedAt?: Date | null;
     /**
-     * Average position in traditional search over the window. 1-based, LOWER is better.
+     * Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
      * @type {number}
      * @memberof KeywordListingResource
      */
     avgSerpPosition?: number | null;
     /**
-     * Signed improvement in avgSerpPosition against the previous window. Positive is better.
+     * Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set.
      * @type {number}
      * @memberof KeywordListingResource
      */
     trendSerp?: number | null;
     /**
-     * Average position in shopping results over the window. 1-based, LOWER is better.
+     * Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
      * @type {number}
      * @memberof KeywordListingResource
      */
     avgShoppingPosition?: number | null;
     /**
-     * Signed improvement in avgShoppingPosition. Positive is better.
+     * Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set.
      * @type {number}
      * @memberof KeywordListingResource
      */
     trendShopping?: number | null;
     /**
-     * Average position of the brand mention inside the AI answer. 1-based, LOWER is better.
+     * Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
      * @type {number}
      * @memberof KeywordListingResource
      */
     avgMentionPosition?: number | null;
     /**
-     * Signed improvement in avgMentionPosition. Positive is better.
+     * Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set.
      * @type {number}
      * @memberof KeywordListingResource
      */
     trendMention?: number | null;
     /**
-     * Average position of a cited link to the brand. 1-based, LOWER is better.
+     * Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions.
      * @type {number}
      * @memberof KeywordListingResource
      */
     avgLinkPosition?: number | null;
     /**
-     * Signed improvement in avgLinkPosition. Positive is better.
+     * Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set.
      * @type {number}
      * @memberof KeywordListingResource
      */
@@ -243,6 +250,12 @@ export interface KeywordListingResource {
      * @memberof KeywordListingResource
      */
     mentionTypeCounts: KeywordListingResourceMentionTypeCounts;
+    /**
+     * 
+     * @type {KeywordListingResourceCarriedPositions}
+     * @memberof KeywordListingResource
+     */
+    carriedPositions: KeywordListingResourceCarriedPositions;
 }
 
 
@@ -310,6 +323,7 @@ export function instanceOfKeywordListingResource(value: object): value is Keywor
     if (!('sentimentNeutral' in value) || value['sentimentNeutral'] === undefined) return false;
     if (!('sentimentNegative' in value) || value['sentimentNegative'] === undefined) return false;
     if (!('mentionTypeCounts' in value) || value['mentionTypeCounts'] === undefined) return false;
+    if (!('carriedPositions' in value) || value['carriedPositions'] === undefined) return false;
     return true;
 }
 
@@ -359,6 +373,7 @@ export function KeywordListingResourceFromJSONTyped(json: any, ignoreDiscriminat
         'sentimentNegative': json['sentimentNegative'],
         'avgMentionCount': json['avgMentionCount'] === undefined ? undefined : json['avgMentionCount'] === null ? null : json['avgMentionCount'],
         'mentionTypeCounts': KeywordListingResourceMentionTypeCountsFromJSON(json['mentionTypeCounts']),
+        'carriedPositions': KeywordListingResourceCarriedPositionsFromJSON(json['carriedPositions']),
     };
 }
 
@@ -409,6 +424,7 @@ export function KeywordListingResourceToJSONTyped(value?: KeywordListingResource
         'sentimentNegative': value['sentimentNegative'],
         'avgMentionCount': value['avgMentionCount'],
         'mentionTypeCounts': KeywordListingResourceMentionTypeCountsToJSON(value['mentionTypeCounts']),
+        'carriedPositions': KeywordListingResourceCarriedPositionsToJSON(value['carriedPositions']),
     };
 }
 

@@ -213,7 +213,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to these clusters. Each must belong to the project.
-    # @option opts [Boolean] :include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (default to false)
     # @return [ProjectRankTrackingClusterBreakdown]
     def get_cluster_breakdown(organization_id, project_id, date_from, date_to, opts = {})
       data, _status_code, _headers = get_cluster_breakdown_with_http_info(organization_id, project_id, date_from, date_to, opts)
@@ -230,7 +230,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to these clusters. Each must belong to the project.
-    # @option opts [Boolean] :include_ungrouped_queries Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (default to false)
     # @return [Array<(ProjectRankTrackingClusterBreakdown, Integer, Hash)>] ProjectRankTrackingClusterBreakdown data, response status code and response headers
     def get_cluster_breakdown_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
@@ -684,7 +684,7 @@ module Mencoro
     end
 
     # Snapshot rank-health board across an organization active projects
-    # Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+    # Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
     # @param organization_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [GetOrganizationOverview200Response]
@@ -694,7 +694,7 @@ module Mencoro
     end
 
     # Snapshot rank-health board across an organization active projects
-    # Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+    # Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
     # @param organization_id [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(GetOrganizationOverview200Response, Integer, Hash)>] GetOrganizationOverview200Response data, response status code and response headers
@@ -756,7 +756,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to these keyword clusters. Each must belong to this project.
-    # @option opts [Boolean] :include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (default to false)
     # @return [ProjectRankTrackingStats]
     def get_project_metrics(organization_id, project_id, date_from, date_to, opts = {})
       data, _status_code, _headers = get_project_metrics_with_http_info(organization_id, project_id, date_from, date_to, opts)
@@ -773,7 +773,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to these keyword clusters. Each must belong to this project.
-    # @option opts [Boolean] :include_ungrouped_queries Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (default to false)
     # @return [Array<(ProjectRankTrackingStats, Integer, Hash)>] ProjectRankTrackingStats data, response status code and response headers
     def get_project_metrics_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
@@ -855,7 +855,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids 
-    # @option opts [Boolean] :include_ungrouped_queries  (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (default to false)
     # @return [ProjectSentimentBreakdown]
     def get_project_sentiment(organization_id, project_id, date_from, date_to, opts = {})
       data, _status_code, _headers = get_project_sentiment_with_http_info(organization_id, project_id, date_from, date_to, opts)
@@ -872,7 +872,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids 
-    # @option opts [Boolean] :include_ungrouped_queries  (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (default to false)
     # @return [Array<(ProjectSentimentBreakdown, Integer, Hash)>] ProjectSentimentBreakdown data, response status code and response headers
     def get_project_sentiment_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
       if @api_client.config.debugging
@@ -955,7 +955,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids 
-    # @option opts [Boolean] :include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (default to false)
     # @option opts [Array<String>] :competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
     # @return [ProjectRankTrackingTimeSeries]
     def get_project_time_series(organization_id, project_id, date_from, date_to, opts = {})
@@ -974,7 +974,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids 
-    # @option opts [Boolean] :include_ungrouped_queries On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (default to false)
     # @option opts [Array<String>] :competitor_ids Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
     # @return [Array<(ProjectRankTrackingTimeSeries, Integer, Hash)>] ProjectRankTrackingTimeSeries data, response status code and response headers
     def get_project_time_series_with_http_info(organization_id, project_id, date_from, date_to, opts = {})
@@ -1425,7 +1425,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated. Narrows which variants count towards each row.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to keywords with a variant in these clusters. Each must belong to the project.
-    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (default to false)
     # @option opts [String] :status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;.
     # @option opts [Array<String>] :check_frequencies Repeatable, or comma-separated.
     # @option opts [Array<Integer>] :n_passes Repeatable, or comma-separated. Restrict to variants configured with these pass counts.
@@ -1450,7 +1450,7 @@ module Mencoro
     # @option opts [Array<String>] :engines Repeatable, or comma-separated. Narrows which variants count towards each row.
     # @option opts [Array<String>] :countries ISO-3166 alpha-2 codes or English names. Must be configured on the project.
     # @option opts [Array<String>] :query_cluster_ids Restrict to keywords with a variant in these clusters. Each must belong to the project.
-    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (default to false)
+    # @option opts [Boolean] :include_ungrouped_queries Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (default to false)
     # @option opts [String] :status Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;.
     # @option opts [Array<String>] :check_frequencies Repeatable, or comma-separated.
     # @option opts [Array<Integer>] :n_passes Repeatable, or comma-separated. Restrict to variants configured with these pass counts.

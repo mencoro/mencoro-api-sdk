@@ -356,7 +356,7 @@ class ProjectedMonthlyChecksResource implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets active_tracked_query_count
      *
-     * @param int $active_tracked_query_count Active tracked queries the projection was summed over, across every project of the organization, archived projects included. Paused queries are excluded from both figures. Never null.
+     * @param int $active_tracked_query_count Active tracked queries the projection was summed over, across every project of the organization the caller can access, archived projects included. Paused queries are excluded from both figures. Never null.
      *
      * @return self
      */

@@ -57,6 +57,7 @@ docs/CreateCompetitorRequest.md
 docs/CreateInvitation200Response.md
 docs/CreateInvitation201Response.md
 docs/CreateInvitationRequest.md
+docs/CreateInvitationRequestProjectAccess.md
 docs/CreateOrganization201Response.md
 docs/CreateOrganizationRequest.md
 docs/CreateProjectRequest.md
@@ -90,6 +91,8 @@ docs/InvitationResource.md
 docs/InvitationsApi.md
 docs/JobsApi.md
 docs/KeywordListingResource.md
+docs/KeywordListingResourceCarriedPositions.md
+docs/KeywordListingResourceCarriedPositionsSerp.md
 docs/KeywordListingResourceMentionTypeCounts.md
 docs/ListAiResponses200Response.md
 docs/ListCompetitors200Response.md
@@ -137,6 +140,7 @@ docs/SearchTrackedQueries200Response.md
 docs/SearchTrackedQueryMentionMatches200Response.md
 docs/SearchTrackedQuerySerpMatches200Response.md
 docs/SerpMatchResource.md
+docs/SetMemberProjectAccessRequest.md
 docs/ShoppingOfferResource.md
 docs/ShoppingSnapshotResource.md
 docs/StartBrandDiscoveryJobRequest.md
@@ -242,6 +246,7 @@ src/Mencoro.Api/Model/CreateCompetitorRequest.cs
 src/Mencoro.Api/Model/CreateInvitation200Response.cs
 src/Mencoro.Api/Model/CreateInvitation201Response.cs
 src/Mencoro.Api/Model/CreateInvitationRequest.cs
+src/Mencoro.Api/Model/CreateInvitationRequestProjectAccess.cs
 src/Mencoro.Api/Model/CreateOrganization201Response.cs
 src/Mencoro.Api/Model/CreateOrganizationRequest.cs
 src/Mencoro.Api/Model/CreateProjectRequest.cs
@@ -272,6 +277,8 @@ src/Mencoro.Api/Model/GetTrackingCoverage200Response.cs
 src/Mencoro.Api/Model/GetTrackingCoverage200ResponseSampleInner.cs
 src/Mencoro.Api/Model/InvitationResource.cs
 src/Mencoro.Api/Model/KeywordListingResource.cs
+src/Mencoro.Api/Model/KeywordListingResourceCarriedPositions.cs
+src/Mencoro.Api/Model/KeywordListingResourceCarriedPositionsSerp.cs
 src/Mencoro.Api/Model/KeywordListingResourceMentionTypeCounts.cs
 src/Mencoro.Api/Model/ListAiResponses200Response.cs
 src/Mencoro.Api/Model/ListCompetitors200Response.cs
@@ -315,6 +322,7 @@ src/Mencoro.Api/Model/SearchTrackedQueries200Response.cs
 src/Mencoro.Api/Model/SearchTrackedQueryMentionMatches200Response.cs
 src/Mencoro.Api/Model/SearchTrackedQuerySerpMatches200Response.cs
 src/Mencoro.Api/Model/SerpMatchResource.cs
+src/Mencoro.Api/Model/SetMemberProjectAccessRequest.cs
 src/Mencoro.Api/Model/ShoppingOfferResource.cs
 src/Mencoro.Api/Model/ShoppingSnapshotResource.cs
 src/Mencoro.Api/Model/StartBrandDiscoveryJobRequest.cs

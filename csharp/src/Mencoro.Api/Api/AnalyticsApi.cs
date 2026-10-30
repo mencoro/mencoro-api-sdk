@@ -100,7 +100,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)</param>
         /// <returns>ProjectRankTrackingClusterBreakdown</returns>
         ProjectRankTrackingClusterBreakdown GetClusterBreakdown(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
 
@@ -118,7 +118,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)</param>
         /// <returns>ApiResponse of ProjectRankTrackingClusterBreakdown</returns>
         ApiResponse<ProjectRankTrackingClusterBreakdown> GetClusterBreakdownWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
         /// <summary>
@@ -251,7 +251,7 @@ namespace Mencoro.Api.Api
         /// Snapshot rank-health board across an organization active projects
         /// </summary>
         /// <remarks>
-        /// Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+        /// Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
         /// </remarks>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="organizationId"></param>
@@ -262,7 +262,7 @@ namespace Mencoro.Api.Api
         /// Snapshot rank-health board across an organization active projects
         /// </summary>
         /// <remarks>
-        /// Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+        /// Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
         /// </remarks>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="organizationId"></param>
@@ -282,7 +282,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <returns>ProjectRankTrackingStats</returns>
         ProjectRankTrackingStats GetProjectMetrics(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
 
@@ -300,7 +300,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <returns>ApiResponse of ProjectRankTrackingStats</returns>
         ApiResponse<ProjectRankTrackingStats> GetProjectMetricsWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
         /// <summary>
@@ -317,7 +317,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <returns>ProjectSentimentBreakdown</returns>
         ProjectSentimentBreakdown GetProjectSentiment(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
 
@@ -335,7 +335,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <returns>ApiResponse of ProjectSentimentBreakdown</returns>
         ApiResponse<ProjectSentimentBreakdown> GetProjectSentimentWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default);
         /// <summary>
@@ -353,7 +353,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <returns>ProjectRankTrackingTimeSeries</returns>
         ProjectRankTrackingTimeSeries GetProjectTimeSeries(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default);
@@ -373,7 +373,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <returns>ApiResponse of ProjectRankTrackingTimeSeries</returns>
         ApiResponse<ProjectRankTrackingTimeSeries> GetProjectTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default);
@@ -509,7 +509,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)</param>
         /// <param name="status">Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)</param>
         /// <param name="checkFrequencies">Repeatable, or comma-separated. (optional)</param>
         /// <param name="nPasses">Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)</param>
@@ -535,7 +535,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)</param>
         /// <param name="status">Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)</param>
         /// <param name="checkFrequencies">Repeatable, or comma-separated. (optional)</param>
         /// <param name="nPasses">Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)</param>
@@ -631,7 +631,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ProjectRankTrackingClusterBreakdown</returns>
         System.Threading.Tasks.Task<ProjectRankTrackingClusterBreakdown> GetClusterBreakdownAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
@@ -650,7 +650,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ProjectRankTrackingClusterBreakdown)</returns>
         System.Threading.Tasks.Task<ApiResponse<ProjectRankTrackingClusterBreakdown>> GetClusterBreakdownWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
@@ -792,7 +792,7 @@ namespace Mencoro.Api.Api
         /// Snapshot rank-health board across an organization active projects
         /// </summary>
         /// <remarks>
-        /// Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+        /// Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
         /// </remarks>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="organizationId"></param>
@@ -804,7 +804,7 @@ namespace Mencoro.Api.Api
         /// Snapshot rank-health board across an organization active projects
         /// </summary>
         /// <remarks>
-        /// Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+        /// Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
         /// </remarks>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="organizationId"></param>
@@ -825,7 +825,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ProjectRankTrackingStats</returns>
         System.Threading.Tasks.Task<ProjectRankTrackingStats> GetProjectMetricsAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
@@ -844,7 +844,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ProjectRankTrackingStats)</returns>
         System.Threading.Tasks.Task<ApiResponse<ProjectRankTrackingStats>> GetProjectMetricsWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
@@ -862,7 +862,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ProjectSentimentBreakdown</returns>
         System.Threading.Tasks.Task<ProjectSentimentBreakdown> GetProjectSentimentAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
@@ -881,7 +881,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ProjectSentimentBreakdown)</returns>
         System.Threading.Tasks.Task<ApiResponse<ProjectSentimentBreakdown>> GetProjectSentimentWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default);
@@ -900,7 +900,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ProjectRankTrackingTimeSeries</returns>
@@ -921,7 +921,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ProjectRankTrackingTimeSeries)</returns>
@@ -1066,7 +1066,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)</param>
         /// <param name="status">Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)</param>
         /// <param name="checkFrequencies">Repeatable, or comma-separated. (optional)</param>
         /// <param name="nPasses">Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)</param>
@@ -1093,7 +1093,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)</param>
         /// <param name="status">Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)</param>
         /// <param name="checkFrequencies">Repeatable, or comma-separated. (optional)</param>
         /// <param name="nPasses">Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)</param>
@@ -1639,7 +1639,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)</param>
         /// <returns>ProjectRankTrackingClusterBreakdown</returns>
         public ProjectRankTrackingClusterBreakdown GetClusterBreakdown(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
@@ -1658,7 +1658,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)</param>
         /// <returns>ApiResponse of ProjectRankTrackingClusterBreakdown</returns>
         public Mencoro.Api.Client.ApiResponse<ProjectRankTrackingClusterBreakdown> GetClusterBreakdownWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
@@ -1729,7 +1729,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ProjectRankTrackingClusterBreakdown</returns>
         public async System.Threading.Tasks.Task<ProjectRankTrackingClusterBreakdown> GetClusterBreakdownAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
@@ -1749,7 +1749,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ProjectRankTrackingClusterBreakdown)</returns>
         public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectRankTrackingClusterBreakdown>> GetClusterBreakdownWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
@@ -2494,7 +2494,7 @@ namespace Mencoro.Api.Api
         }
 
         /// <summary>
-        /// Snapshot rank-health board across an organization active projects Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+        /// Snapshot rank-health board across an organization active projects Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
         /// </summary>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="organizationId"></param>
@@ -2506,7 +2506,7 @@ namespace Mencoro.Api.Api
         }
 
         /// <summary>
-        /// Snapshot rank-health board across an organization active projects Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+        /// Snapshot rank-health board across an organization active projects Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
         /// </summary>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="organizationId"></param>
@@ -2551,7 +2551,7 @@ namespace Mencoro.Api.Api
         }
 
         /// <summary>
-        /// Snapshot rank-health board across an organization active projects Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+        /// Snapshot rank-health board across an organization active projects Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
         /// </summary>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="organizationId"></param>
@@ -2564,7 +2564,7 @@ namespace Mencoro.Api.Api
         }
 
         /// <summary>
-        /// Snapshot rank-health board across an organization active projects Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+        /// Snapshot rank-health board across an organization active projects Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
         /// </summary>
         /// <exception cref="Mencoro.Api.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="organizationId"></param>
@@ -2623,7 +2623,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <returns>ProjectRankTrackingStats</returns>
         public ProjectRankTrackingStats GetProjectMetrics(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
@@ -2642,7 +2642,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <returns>ApiResponse of ProjectRankTrackingStats</returns>
         public Mencoro.Api.Client.ApiResponse<ProjectRankTrackingStats> GetProjectMetricsWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
@@ -2713,7 +2713,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ProjectRankTrackingStats</returns>
         public async System.Threading.Tasks.Task<ProjectRankTrackingStats> GetProjectMetricsAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
@@ -2733,7 +2733,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to these keyword clusters. Each must belong to this project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ProjectRankTrackingStats)</returns>
         public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectRankTrackingStats>> GetProjectMetricsWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
@@ -2808,7 +2808,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <returns>ProjectSentimentBreakdown</returns>
         public ProjectSentimentBreakdown GetProjectSentiment(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
@@ -2827,7 +2827,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <returns>ApiResponse of ProjectSentimentBreakdown</returns>
         public Mencoro.Api.Client.ApiResponse<ProjectSentimentBreakdown> GetProjectSentimentWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default)
         {
@@ -2898,7 +2898,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ProjectSentimentBreakdown</returns>
         public async System.Threading.Tasks.Task<ProjectSentimentBreakdown> GetProjectSentimentAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
@@ -2918,7 +2918,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries"> (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ProjectSentimentBreakdown)</returns>
         public async System.Threading.Tasks.Task<Mencoro.Api.Client.ApiResponse<ProjectSentimentBreakdown>> GetProjectSentimentWithHttpInfoAsync(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, System.Threading.CancellationToken cancellationToken = default)
@@ -2994,7 +2994,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <returns>ProjectRankTrackingTimeSeries</returns>
         public ProjectRankTrackingTimeSeries GetProjectTimeSeries(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default)
@@ -3015,7 +3015,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <returns>ApiResponse of ProjectRankTrackingTimeSeries</returns>
         public Mencoro.Api.Client.ApiResponse<ProjectRankTrackingTimeSeries> GetProjectTimeSeriesWithHttpInfo(Guid organizationId, Guid projectId, DateOnly dateFrom, DateOnly dateTo, string? granularity = default, List<string>? engines = default, List<string>? countries = default, List<Guid>? queryClusterIds = default, bool? includeUngroupedQueries = default, List<Guid>? competitorIds = default)
@@ -3096,7 +3096,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ProjectRankTrackingTimeSeries</returns>
@@ -3118,7 +3118,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds"> (optional)</param>
-        /// <param name="includeUngroupedQueries">On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. (optional, default to false)</param>
         /// <param name="competitorIds">Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ProjectRankTrackingTimeSeries)</returns>
@@ -3828,7 +3828,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)</param>
         /// <param name="status">Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)</param>
         /// <param name="checkFrequencies">Repeatable, or comma-separated. (optional)</param>
         /// <param name="nPasses">Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)</param>
@@ -3855,7 +3855,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)</param>
         /// <param name="status">Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)</param>
         /// <param name="checkFrequencies">Repeatable, or comma-separated. (optional)</param>
         /// <param name="nPasses">Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)</param>
@@ -3966,7 +3966,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)</param>
         /// <param name="status">Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)</param>
         /// <param name="checkFrequencies">Repeatable, or comma-separated. (optional)</param>
         /// <param name="nPasses">Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)</param>
@@ -3994,7 +3994,7 @@ namespace Mencoro.Api.Api
         /// <param name="engines">Repeatable, or comma-separated. Narrows which variants count towards each row. (optional)</param>
         /// <param name="countries">ISO-3166 alpha-2 codes or English names. Must be configured on the project. (optional)</param>
         /// <param name="queryClusterIds">Restrict to keywords with a variant in these clusters. Each must belong to the project. (optional)</param>
-        /// <param name="includeUngroupedQueries">Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. (optional, default to false)</param>
+        /// <param name="includeUngroupedQueries">Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. (optional, default to false)</param>
         /// <param name="status">Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. (optional)</param>
         /// <param name="checkFrequencies">Repeatable, or comma-separated. (optional)</param>
         /// <param name="nPasses">Repeatable, or comma-separated. Restrict to variants configured with these pass counts. (optional)</param>

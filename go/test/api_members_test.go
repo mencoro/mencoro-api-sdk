@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func Test_mencoro_MembersAPIService(t *testing.T) {
@@ -74,6 +74,21 @@ func Test_mencoro_MembersAPIService(t *testing.T) {
 		var memberId string
 
 		resp, httpRes, err := apiClient.MembersAPI.ReactivateMember(context.Background(), organizationId, memberId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test MembersAPIService SetMemberProjectAccess", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var organizationId string
+		var memberId string
+
+		resp, httpRes, err := apiClient.MembersAPI.SetMemberProjectAccess(context.Background(), organizationId, memberId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

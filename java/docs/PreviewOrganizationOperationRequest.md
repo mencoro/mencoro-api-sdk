@@ -25,6 +25,7 @@
 | CHANGE_MEMBER_ROLE | &quot;changeMemberRole&quot; |
 | SUSPEND_MEMBER | &quot;suspendMember&quot; |
 | REACTIVATE_MEMBER | &quot;reactivateMember&quot; |
+| SET_MEMBER_PROJECT_ACCESS | &quot;setMemberProjectAccess&quot; |
 | CREATE_INVITATION | &quot;createInvitation&quot; |
 | CANCEL_INVITATION | &quot;cancelInvitation&quot; |
 

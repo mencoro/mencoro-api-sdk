@@ -108,6 +108,33 @@ namespace Mencoro.Api.Model
         [DataMember(Name = "state", IsRequired = true, EmitDefaultValue = true)]
         public StateEnum State { get; set; }
         /// <summary>
+        /// Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+        /// </summary>
+        /// <value>Which projects of the organization the invitee reaches on accepting: every project, or only projectIds</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ProjectAccessModeEnum
+        {
+            /// <summary>
+            /// Enum All for value: all
+            /// </summary>
+            [EnumMember(Value = "all")]
+            All = 1,
+
+            /// <summary>
+            /// Enum Selected for value: selected
+            /// </summary>
+            [EnumMember(Value = "selected")]
+            Selected = 2
+        }
+
+
+        /// <summary>
+        /// Which projects of the organization the invitee reaches on accepting: every project, or only projectIds
+        /// </summary>
+        /// <value>Which projects of the organization the invitee reaches on accepting: every project, or only projectIds</value>
+        [DataMember(Name = "projectAccessMode", IsRequired = true, EmitDefaultValue = true)]
+        public ProjectAccessModeEnum ProjectAccessMode { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="InvitationResource" /> class.
         /// </summary>
         [JsonConstructorAttribute]
@@ -122,7 +149,9 @@ namespace Mencoro.Api.Model
         /// <param name="createdAt">createdAt (required).</param>
         /// <param name="expiresAt">expiresAt (required).</param>
         /// <param name="acceptedAt">acceptedAt.</param>
-        public InvitationResource(Guid id = default, string email = default, RoleEnum role = default, StateEnum state = default, DateTime createdAt = default, DateTime expiresAt = default, DateTime? acceptedAt = default)
+        /// <param name="projectAccessMode">Which projects of the organization the invitee reaches on accepting: every project, or only projectIds (required).</param>
+        /// <param name="projectIds">The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing (required).</param>
+        public InvitationResource(Guid id = default, string email = default, RoleEnum role = default, StateEnum state = default, DateTime createdAt = default, DateTime expiresAt = default, DateTime? acceptedAt = default, ProjectAccessModeEnum projectAccessMode = default, List<Guid> projectIds = default)
         {
             this.Id = id;
             // to ensure "email" is required (not null)
@@ -135,6 +164,13 @@ namespace Mencoro.Api.Model
             this.State = state;
             this.CreatedAt = createdAt;
             this.ExpiresAt = expiresAt;
+            this.ProjectAccessMode = projectAccessMode;
+            // to ensure "projectIds" is required (not null)
+            if (projectIds == null)
+            {
+                throw new ArgumentNullException("projectIds is a required property for InvitationResource and cannot be null");
+            }
+            this.ProjectIds = projectIds;
             this.AcceptedAt = acceptedAt;
         }
 
@@ -169,6 +205,13 @@ namespace Mencoro.Api.Model
         public DateTime? AcceptedAt { get; set; }
 
         /// <summary>
+        /// The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing
+        /// </summary>
+        /// <value>The projects a selected access reaches, limited to those still in the organization; empty when the mode is all. It may be empty on selected once its projects left the organization, which grants nothing</value>
+        [DataMember(Name = "projectIds", IsRequired = true, EmitDefaultValue = true)]
+        public List<Guid> ProjectIds { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -183,6 +226,8 @@ namespace Mencoro.Api.Model
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  ExpiresAt: ").Append(ExpiresAt).Append("\n");
             sb.Append("  AcceptedAt: ").Append(AcceptedAt).Append("\n");
+            sb.Append("  ProjectAccessMode: ").Append(ProjectAccessMode).Append("\n");
+            sb.Append("  ProjectIds: ").Append(ProjectIds).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

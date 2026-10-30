@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Total** | Pointer to **int32** | Active memberships. Suspended members are excluded. | [optional] 
+**Total** | Pointer to **NullableInt32** | Active memberships. Suspended members are excluded. Null for a member restricted to selected projects. | [optional] 
 
 ## Methods
 
@@ -50,6 +50,16 @@ SetTotal sets Total field to given value.
 
 HasTotal returns a boolean if a field has been set.
 
+### SetTotalNil
+
+`func (o *GetOrganizationStats200ResponseMembers) SetTotalNil(b bool)`
+
+ SetTotalNil sets the value for Total to be an explicit nil
+
+### UnsetTotal
+`func (o *GetOrganizationStats200ResponseMembers) UnsetTotal()`
+
+UnsetTotal ensures that no value is present for Total, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

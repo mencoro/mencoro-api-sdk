@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ProjectCount** | Pointer to **int32** | Active projects in the organization, the length of &#x60;projects&#x60;. | [optional] 
+**ProjectCount** | Pointer to **int32** | Active projects of the organization the caller can access, the length of &#x60;projects&#x60;. | [optional] 
 **ProjectsWithData** | Pointer to **int32** | How many of those have a share of voice; the averages below are means over the projects that report each metric, never over the ones still null. | [optional] 
 **TotalTrackedQueries** | Pointer to **int32** |  | [optional] 
 **AvgShareOfVoice** | Pointer to **NullableFloat32** | Null when no project reports a share of voice. | [optional] 

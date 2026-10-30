@@ -264,7 +264,7 @@ public class AccountApi {
 
     /**
      * Counts across everything the key can reach
-     * Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+     * Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
      * @return GetMeStats200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -283,7 +283,7 @@ public class AccountApi {
 
     /**
      * Counts across everything the key can reach
-     * Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+     * Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
      * @return ApiResponse&lt;GetMeStats200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -303,7 +303,7 @@ public class AccountApi {
 
     /**
      * Counts across everything the key can reach (asynchronously)
-     * Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
+     * Aggregate counts over every organization the key&#39;s owner is an active member of, narrowed to the key&#39;s scope — the same set /api/v1/organizations pages through. &#x60;organizations.total&#x60; is that set&#39;s size; &#x60;projects.total&#x60; and &#x60;projects.active&#x60; count the projects inside it the owner can access, archived ones included in the total and excluded from the active figure. Every value is an exact count: zero means zero, and no value here is ever null or unknown. Per-organization billing and usage figures are not part of this response; read them from the subscription and entitlements operations instead.
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object

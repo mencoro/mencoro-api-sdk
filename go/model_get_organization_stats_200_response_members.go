@@ -20,8 +20,8 @@ var _ MappedNullable = &GetOrganizationStats200ResponseMembers{}
 
 // GetOrganizationStats200ResponseMembers struct for GetOrganizationStats200ResponseMembers
 type GetOrganizationStats200ResponseMembers struct {
-	// Active memberships. Suspended members are excluded.
-	Total *int32 `json:"total,omitempty"`
+	// Active memberships. Suspended members are excluded. Null for a member restricted to selected projects.
+	Total NullableInt32 `json:"total,omitempty"`
 }
 
 // NewGetOrganizationStats200ResponseMembers instantiates a new GetOrganizationStats200ResponseMembers object
@@ -41,36 +41,46 @@ func NewGetOrganizationStats200ResponseMembersWithDefaults() *GetOrganizationSta
 	return &this
 }
 
-// GetTotal returns the Total field value if set, zero value otherwise.
+// GetTotal returns the Total field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *GetOrganizationStats200ResponseMembers) GetTotal() int32 {
-	if o == nil || IsNil(o.Total) {
+	if o == nil || IsNil(o.Total.Get()) {
 		var ret int32
 		return ret
 	}
-	return *o.Total
+	return *o.Total.Get()
 }
 
 // GetTotalOk returns a tuple with the Total field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *GetOrganizationStats200ResponseMembers) GetTotalOk() (*int32, bool) {
-	if o == nil || IsNil(o.Total) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Total, true
+	return o.Total.Get(), o.Total.IsSet()
 }
 
 // HasTotal returns a boolean if a field has been set.
 func (o *GetOrganizationStats200ResponseMembers) HasTotal() bool {
-	if o != nil && !IsNil(o.Total) {
+	if o != nil && o.Total.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetTotal gets a reference to the given int32 and assigns it to the Total field.
+// SetTotal gets a reference to the given NullableInt32 and assigns it to the Total field.
 func (o *GetOrganizationStats200ResponseMembers) SetTotal(v int32) {
-	o.Total = &v
+	o.Total.Set(&v)
+}
+// SetTotalNil sets the value for Total to be an explicit nil
+func (o *GetOrganizationStats200ResponseMembers) SetTotalNil() {
+	o.Total.Set(nil)
+}
+
+// UnsetTotal ensures that no value is present for Total, not even an explicit nil
+func (o *GetOrganizationStats200ResponseMembers) UnsetTotal() {
+	o.Total.Unset()
 }
 
 func (o GetOrganizationStats200ResponseMembers) MarshalJSON() ([]byte, error) {
@@ -83,8 +93,8 @@ func (o GetOrganizationStats200ResponseMembers) MarshalJSON() ([]byte, error) {
 
 func (o GetOrganizationStats200ResponseMembers) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Total) {
-		toSerialize["total"] = o.Total
+	if o.Total.IsSet() {
+		toSerialize["total"] = o.Total.Get()
 	}
 	return toSerialize, nil
 }

@@ -73,6 +73,7 @@ docs/CreateCompetitorRequest.md
 docs/CreateInvitation200Response.md
 docs/CreateInvitation201Response.md
 docs/CreateInvitationRequest.md
+docs/CreateInvitationRequestProjectAccess.md
 docs/CreateOrganization201Response.md
 docs/CreateOrganizationRequest.md
 docs/CreateProjectRequest.md
@@ -106,6 +107,8 @@ docs/InvitationResource.md
 docs/InvitationsAPI.md
 docs/JobsAPI.md
 docs/KeywordListingResource.md
+docs/KeywordListingResourceCarriedPositions.md
+docs/KeywordListingResourceCarriedPositionsSerp.md
 docs/KeywordListingResourceMentionTypeCounts.md
 docs/ListAiResponses200Response.md
 docs/ListCompetitors200Response.md
@@ -153,6 +156,7 @@ docs/SearchTrackedQueries200Response.md
 docs/SearchTrackedQueryMentionMatches200Response.md
 docs/SearchTrackedQuerySerpMatches200Response.md
 docs/SerpMatchResource.md
+docs/SetMemberProjectAccessRequest.md
 docs/ShoppingOfferResource.md
 docs/ShoppingSnapshotResource.md
 docs/StartBrandDiscoveryJobRequest.md
@@ -227,6 +231,7 @@ model_create_competitor_request.go
 model_create_invitation_200_response.go
 model_create_invitation_201_response.go
 model_create_invitation_request.go
+model_create_invitation_request_project_access.go
 model_create_organization_201_response.go
 model_create_organization_request.go
 model_create_project_request.go
@@ -257,6 +262,8 @@ model_get_tracking_coverage_200_response.go
 model_get_tracking_coverage_200_response_sample_inner.go
 model_invitation_resource.go
 model_keyword_listing_resource.go
+model_keyword_listing_resource_carried_positions.go
+model_keyword_listing_resource_carried_positions_serp.go
 model_keyword_listing_resource_mention_type_counts.go
 model_list_ai_responses_200_response.go
 model_list_competitors_200_response.go
@@ -300,6 +307,7 @@ model_search_tracked_queries_200_response.go
 model_search_tracked_query_mention_matches_200_response.go
 model_search_tracked_query_serp_matches_200_response.go
 model_serp_match_resource.go
+model_set_member_project_access_request.go
 model_shopping_offer_resource.go
 model_shopping_snapshot_resource.go
 model_start_brand_discovery_job_request.go

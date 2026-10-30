@@ -72,6 +72,21 @@ public class GetOrganizationOverview200ResponseProjectsInner {
   @javax.annotation.Nullable
   private Integer trackedQueryCount;
 
+  public static final String SERIALIZED_NAME_AI_TRACKED_QUERY_COUNT = "aiTrackedQueryCount";
+  @SerializedName(SERIALIZED_NAME_AI_TRACKED_QUERY_COUNT)
+  @javax.annotation.Nullable
+  private Integer aiTrackedQueryCount;
+
+  public static final String SERIALIZED_NAME_SERP_TRACKED_QUERY_COUNT = "serpTrackedQueryCount";
+  @SerializedName(SERIALIZED_NAME_SERP_TRACKED_QUERY_COUNT)
+  @javax.annotation.Nullable
+  private Integer serpTrackedQueryCount;
+
+  public static final String SERIALIZED_NAME_SHOPPING_TRACKED_QUERY_COUNT = "shoppingTrackedQueryCount";
+  @SerializedName(SERIALIZED_NAME_SHOPPING_TRACKED_QUERY_COUNT)
+  @javax.annotation.Nullable
+  private Integer shoppingTrackedQueryCount;
+
   public static final String SERIALIZED_NAME_SHARE_OF_VOICE = "shareOfVoice";
   @SerializedName(SERIALIZED_NAME_SHARE_OF_VOICE)
   @javax.annotation.Nullable
@@ -158,7 +173,7 @@ public class GetOrganizationOverview200ResponseProjectsInner {
   }
 
   /**
-   * Get trackedQueryCount
+   * Configured tracked queries of the project, paused ones included.
    * @return trackedQueryCount
    */
   @javax.annotation.Nullable
@@ -168,6 +183,63 @@ public class GetOrganizationOverview200ResponseProjectsInner {
 
   public void setTrackedQueryCount(@javax.annotation.Nullable Integer trackedQueryCount) {
     this.trackedQueryCount = trackedQueryCount;
+  }
+
+
+  public GetOrganizationOverview200ResponseProjectsInner aiTrackedQueryCount(@javax.annotation.Nullable Integer aiTrackedQueryCount) {
+    this.aiTrackedQueryCount = aiTrackedQueryCount;
+    return this;
+  }
+
+  /**
+   * How many of trackedQueryCount run on an AI answer engine (ChatGPT, Claude, Perplexity, Google AI Overview, Google AI Mode).
+   * @return aiTrackedQueryCount
+   */
+  @javax.annotation.Nullable
+  public Integer getAiTrackedQueryCount() {
+    return aiTrackedQueryCount;
+  }
+
+  public void setAiTrackedQueryCount(@javax.annotation.Nullable Integer aiTrackedQueryCount) {
+    this.aiTrackedQueryCount = aiTrackedQueryCount;
+  }
+
+
+  public GetOrganizationOverview200ResponseProjectsInner serpTrackedQueryCount(@javax.annotation.Nullable Integer serpTrackedQueryCount) {
+    this.serpTrackedQueryCount = serpTrackedQueryCount;
+    return this;
+  }
+
+  /**
+   * How many of trackedQueryCount run on classic Google SERP.
+   * @return serpTrackedQueryCount
+   */
+  @javax.annotation.Nullable
+  public Integer getSerpTrackedQueryCount() {
+    return serpTrackedQueryCount;
+  }
+
+  public void setSerpTrackedQueryCount(@javax.annotation.Nullable Integer serpTrackedQueryCount) {
+    this.serpTrackedQueryCount = serpTrackedQueryCount;
+  }
+
+
+  public GetOrganizationOverview200ResponseProjectsInner shoppingTrackedQueryCount(@javax.annotation.Nullable Integer shoppingTrackedQueryCount) {
+    this.shoppingTrackedQueryCount = shoppingTrackedQueryCount;
+    return this;
+  }
+
+  /**
+   * How many of trackedQueryCount run on Google Shopping.
+   * @return shoppingTrackedQueryCount
+   */
+  @javax.annotation.Nullable
+  public Integer getShoppingTrackedQueryCount() {
+    return shoppingTrackedQueryCount;
+  }
+
+  public void setShoppingTrackedQueryCount(@javax.annotation.Nullable Integer shoppingTrackedQueryCount) {
+    this.shoppingTrackedQueryCount = shoppingTrackedQueryCount;
   }
 
 
@@ -261,6 +333,9 @@ public class GetOrganizationOverview200ResponseProjectsInner {
         Objects.equals(this.name, getOrganizationOverview200ResponseProjectsInner.name) &&
         Objects.equals(this.status, getOrganizationOverview200ResponseProjectsInner.status) &&
         Objects.equals(this.trackedQueryCount, getOrganizationOverview200ResponseProjectsInner.trackedQueryCount) &&
+        Objects.equals(this.aiTrackedQueryCount, getOrganizationOverview200ResponseProjectsInner.aiTrackedQueryCount) &&
+        Objects.equals(this.serpTrackedQueryCount, getOrganizationOverview200ResponseProjectsInner.serpTrackedQueryCount) &&
+        Objects.equals(this.shoppingTrackedQueryCount, getOrganizationOverview200ResponseProjectsInner.shoppingTrackedQueryCount) &&
         Objects.equals(this.shareOfVoice, getOrganizationOverview200ResponseProjectsInner.shareOfVoice) &&
         Objects.equals(this.mentionRate, getOrganizationOverview200ResponseProjectsInner.mentionRate) &&
         Objects.equals(this.avgMentionPosition, getOrganizationOverview200ResponseProjectsInner.avgMentionPosition) &&
@@ -273,7 +348,7 @@ public class GetOrganizationOverview200ResponseProjectsInner {
 
   @Override
   public int hashCode() {
-    return Objects.hash(projectId, name, status, trackedQueryCount, shareOfVoice, mentionRate, avgMentionPosition, positivityIndex);
+    return Objects.hash(projectId, name, status, trackedQueryCount, aiTrackedQueryCount, serpTrackedQueryCount, shoppingTrackedQueryCount, shareOfVoice, mentionRate, avgMentionPosition, positivityIndex);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -291,6 +366,9 @@ public class GetOrganizationOverview200ResponseProjectsInner {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    trackedQueryCount: ").append(toIndentedString(trackedQueryCount)).append("\n");
+    sb.append("    aiTrackedQueryCount: ").append(toIndentedString(aiTrackedQueryCount)).append("\n");
+    sb.append("    serpTrackedQueryCount: ").append(toIndentedString(serpTrackedQueryCount)).append("\n");
+    sb.append("    shoppingTrackedQueryCount: ").append(toIndentedString(shoppingTrackedQueryCount)).append("\n");
     sb.append("    shareOfVoice: ").append(toIndentedString(shareOfVoice)).append("\n");
     sb.append("    mentionRate: ").append(toIndentedString(mentionRate)).append("\n");
     sb.append("    avgMentionPosition: ").append(toIndentedString(avgMentionPosition)).append("\n");
@@ -313,7 +391,7 @@ public class GetOrganizationOverview200ResponseProjectsInner {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("projectId", "name", "status", "trackedQueryCount", "shareOfVoice", "mentionRate", "avgMentionPosition", "positivityIndex"));
+    openapiFields = new HashSet<String>(Arrays.asList("projectId", "name", "status", "trackedQueryCount", "aiTrackedQueryCount", "serpTrackedQueryCount", "shoppingTrackedQueryCount", "shareOfVoice", "mentionRate", "avgMentionPosition", "positivityIndex"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

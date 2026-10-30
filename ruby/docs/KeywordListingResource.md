@@ -17,14 +17,14 @@
 | **check_frequencies** | **Array&lt;String&gt;** | Distinct check frequencies across the variants. |  |
 | **n_passes_values** | **Array&lt;Integer&gt;** | Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. |  |
 | **last_checked_at** | **Time** | The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing. | [optional] |
-| **avg_serp_position** | **Float** | Average position in traditional search over the window. 1-based, LOWER is better. | [optional] |
-| **trend_serp** | **Float** | Signed improvement in avgSerpPosition against the previous window. Positive is better. | [optional] |
-| **avg_shopping_position** | **Float** | Average position in shopping results over the window. 1-based, LOWER is better. | [optional] |
-| **trend_shopping** | **Float** | Signed improvement in avgShoppingPosition. Positive is better. | [optional] |
-| **avg_mention_position** | **Float** | Average position of the brand mention inside the AI answer. 1-based, LOWER is better. | [optional] |
-| **trend_mention** | **Float** | Signed improvement in avgMentionPosition. Positive is better. | [optional] |
-| **avg_link_position** | **Float** | Average position of a cited link to the brand. 1-based, LOWER is better. | [optional] |
-| **trend_link** | **Float** | Signed improvement in avgLinkPosition. Positive is better. | [optional] |
+| **avg_serp_position** | **Float** | Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] |
+| **trend_serp** | **Float** | Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set. | [optional] |
+| **avg_shopping_position** | **Float** | Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] |
+| **trend_shopping** | **Float** | Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set. | [optional] |
+| **avg_mention_position** | **Float** | Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] |
+| **trend_mention** | **Float** | Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set. | [optional] |
+| **avg_link_position** | **Float** | Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. | [optional] |
+| **trend_link** | **Float** | Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set. | [optional] |
 | **mention_position_stability** | **Float** | Day-to-day spread of the mention position (a standard deviation): LOWER means steadier. | [optional] |
 | **trend_stability** | **Float** | Signed improvement in mentionPositionStability. Positive means steadier than the previous window. | [optional] |
 | **positivity_index** | **Integer** | 0-100 weighted sentiment score of the mentions; HIGHER is better. Null when there were no mentions to score. | [optional] |
@@ -40,6 +40,7 @@
 | **sentiment_negative** | **Integer** | Negative brand mentions counted in the window. |  |
 | **avg_mention_count** | **Float** | Mentions per AI engine per day with a capture, over the window. Not a total: the window total is not part of this contract. | [optional] |
 | **mention_type_counts** | [**KeywordListingResourceMentionTypeCounts**](KeywordListingResourceMentionTypeCounts.md) |  |  |
+| **carried_positions** | [**KeywordListingResourceCarriedPositions**](KeywordListingResourceCarriedPositions.md) |  |  |
 
 ## Example
 
@@ -82,7 +83,8 @@ instance = Mencoro::KeywordListingResource.new(
   sentiment_neutral: null,
   sentiment_negative: null,
   avg_mention_count: null,
-  mention_type_counts: null
+  mention_type_counts: null,
+  carried_positions: null
 )
 ```
 

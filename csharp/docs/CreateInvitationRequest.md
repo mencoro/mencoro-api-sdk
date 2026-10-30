@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Email** | **string** |  | [optional] 
 **Role** | **string** |  | [optional] [default to RoleEnum.Viewer]
+**ProjectAccess** | [**CreateInvitationRequestProjectAccess**](CreateInvitationRequestProjectAccess.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

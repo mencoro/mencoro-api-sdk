@@ -36,7 +36,9 @@ class MemberResource(BaseModel):
     state: StrictStr
     is_active: StrictBool = Field(alias="isActive")
     joined_at: datetime = Field(alias="joinedAt")
-    __properties: ClassVar[List[str]] = ["id", "userId", "role", "state", "isActive", "joinedAt"]
+    project_access_mode: StrictStr = Field(description="Which projects of the organization the member reaches: every project, or only projectIds", alias="projectAccessMode")
+    project_ids: List[UUID] = Field(description="The projects a selected access reaches; empty when the mode is all", alias="projectIds")
+    __properties: ClassVar[List[str]] = ["id", "userId", "role", "state", "isActive", "joinedAt", "projectAccessMode", "projectIds"]
 
     @field_validator('role')
     def role_validate_enum(cls, value):
@@ -50,6 +52,13 @@ class MemberResource(BaseModel):
         """Validates the enum"""
         if value not in set(['active', 'suspended']):
             raise ValueError("must be one of enum values ('active', 'suspended')")
+        return value
+
+    @field_validator('project_access_mode')
+    def project_access_mode_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['all', 'selected']):
+            raise ValueError("must be one of enum values ('all', 'selected')")
         return value
 
     model_config = ConfigDict(
@@ -108,7 +117,9 @@ class MemberResource(BaseModel):
             "role": obj.get("role"),
             "state": obj.get("state"),
             "isActive": obj.get("isActive"),
-            "joinedAt": obj.get("joinedAt")
+            "joinedAt": obj.get("joinedAt"),
+            "projectAccessMode": obj.get("projectAccessMode"),
+            "projectIds": obj.get("projectIds")
         })
         return _obj
 

@@ -41,7 +41,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.mencoro</groupId>
   <artifactId>mencoro-api</artifactId>
-  <version>1.0.1</version>
+  <version>2.0.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -57,7 +57,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.mencoro:mencoro-api:1.0.1"
+     implementation "com.mencoro:mencoro-api:2.0.0"
   }
 ```
 
@@ -71,7 +71,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/mencoro-api-1.0.1.jar`
+* `target/mencoro-api-2.0.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -160,6 +160,7 @@ Class | Method | HTTP request | Description
 *MembersApi* | [**getMember**](docs/MembersApi.md#getMember) | **GET** /api/v1/organizations/{organizationId}/members/{memberId} | Get one organization membership
 *MembersApi* | [**listMembers**](docs/MembersApi.md#listMembers) | **GET** /api/v1/organizations/{organizationId}/members | List an organization&#39;s members
 *MembersApi* | [**reactivateMember**](docs/MembersApi.md#reactivateMember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/reactivate | Reactivate a suspended member
+*MembersApi* | [**setMemberProjectAccess**](docs/MembersApi.md#setMemberProjectAccess) | **PUT** /api/v1/organizations/{organizationId}/members/{memberId}/project-access | Set which projects a member reaches
 *MembersApi* | [**suspendMember**](docs/MembersApi.md#suspendMember) | **POST** /api/v1/organizations/{organizationId}/members/{memberId}/suspend | Suspend a member
 *OrganizationOperationsApi* | [**previewOrganizationOperation**](docs/OrganizationOperationsApi.md#previewOrganizationOperation) | **POST** /api/v1/organization-operation-previews | Preview an organization operation and obtain a confirmation
 *OrganizationsApi* | [**archiveOrganization**](docs/OrganizationsApi.md#archiveOrganization) | **POST** /api/v1/organizations/{organizationId}/archive | Archive an organization
@@ -263,6 +264,7 @@ Class | Method | HTTP request | Description
  - [CreateInvitation200Response](docs/CreateInvitation200Response.md)
  - [CreateInvitation201Response](docs/CreateInvitation201Response.md)
  - [CreateInvitationRequest](docs/CreateInvitationRequest.md)
+ - [CreateInvitationRequestProjectAccess](docs/CreateInvitationRequestProjectAccess.md)
  - [CreateOrganization201Response](docs/CreateOrganization201Response.md)
  - [CreateOrganizationRequest](docs/CreateOrganizationRequest.md)
  - [CreateProjectRequest](docs/CreateProjectRequest.md)
@@ -293,6 +295,8 @@ Class | Method | HTTP request | Description
  - [GetTrackingCoverage200ResponseSampleInner](docs/GetTrackingCoverage200ResponseSampleInner.md)
  - [InvitationResource](docs/InvitationResource.md)
  - [KeywordListingResource](docs/KeywordListingResource.md)
+ - [KeywordListingResourceCarriedPositions](docs/KeywordListingResourceCarriedPositions.md)
+ - [KeywordListingResourceCarriedPositionsSerp](docs/KeywordListingResourceCarriedPositionsSerp.md)
  - [KeywordListingResourceMentionTypeCounts](docs/KeywordListingResourceMentionTypeCounts.md)
  - [ListAiResponses200Response](docs/ListAiResponses200Response.md)
  - [ListCompetitors200Response](docs/ListCompetitors200Response.md)
@@ -336,6 +340,7 @@ Class | Method | HTTP request | Description
  - [SearchTrackedQueryMentionMatches200Response](docs/SearchTrackedQueryMentionMatches200Response.md)
  - [SearchTrackedQuerySerpMatches200Response](docs/SearchTrackedQuerySerpMatches200Response.md)
  - [SerpMatchResource](docs/SerpMatchResource.md)
+ - [SetMemberProjectAccessRequest](docs/SetMemberProjectAccessRequest.md)
  - [ShoppingOfferResource](docs/ShoppingOfferResource.md)
  - [ShoppingSnapshotResource](docs/ShoppingSnapshotResource.md)
  - [StartBrandDiscoveryJobRequest](docs/StartBrandDiscoveryJobRequest.md)

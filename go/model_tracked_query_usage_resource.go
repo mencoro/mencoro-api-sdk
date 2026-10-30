@@ -22,7 +22,7 @@ var _ MappedNullable = &TrackedQueryUsageResource{}
 
 // TrackedQueryUsageResource How many tracked queries an organization has configured
 type TrackedQueryUsageResource struct {
-	// Tracked queries across every project of the organization, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.
+	// Tracked queries across every project of the organization the caller can access, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.
 	TrackedQueryCount int32 `json:"trackedQueryCount"`
 }
 

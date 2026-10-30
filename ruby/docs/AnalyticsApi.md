@@ -206,7 +206,7 @@ opts = {
   engines: ['chatgpt'], # Array<String> | Repeatable, or comma-separated.
   countries: ['inner_example'], # Array<String> | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
   query_cluster_ids: ['inner_example'], # Array<String> | Restrict to these clusters. Each must belong to the project.
-  include_ungrouped_queries: true # Boolean | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster.
+  include_ungrouped_queries: true # Boolean | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row.
 }
 
 begin
@@ -247,7 +247,7 @@ end
 | **engines** | [**Array&lt;String&gt;**](String.md) | Repeatable, or comma-separated. | [optional] |
 | **countries** | [**Array&lt;String&gt;**](String.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**Array&lt;String&gt;**](String.md) | Restrict to these clusters. Each must belong to the project. | [optional] |
-| **include_ungrouped_queries** | **Boolean** | Sent alone, returns only the ungrouped bucket rather than adding it to every cluster. | [optional][default to false] |
+| **include_ungrouped_queries** | **Boolean** | Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row. | [optional][default to false] |
 
 ### Return type
 
@@ -592,7 +592,7 @@ This endpoint does not need any parameter.
 
 Snapshot rank-health board across an organization active projects
 
-Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
 
 ### Examples
 
@@ -683,7 +683,7 @@ opts = {
   engines: ['chatgpt'], # Array<String> | Repeatable, or comma-separated.
   countries: ['inner_example'], # Array<String> | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
   query_cluster_ids: ['inner_example'], # Array<String> | Restrict to these keyword clusters. Each must belong to this project.
-  include_ungrouped_queries: true # Boolean | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster.
+  include_ungrouped_queries: true # Boolean | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
 }
 
 begin
@@ -724,7 +724,7 @@ end
 | **engines** | [**Array&lt;String&gt;**](String.md) | Repeatable, or comma-separated. | [optional] |
 | **countries** | [**Array&lt;String&gt;**](String.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**Array&lt;String&gt;**](String.md) | Restrict to these keyword clusters. Each must belong to this project. | [optional] |
-| **include_ungrouped_queries** | **Boolean** | Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster. | [optional][default to false] |
+| **include_ungrouped_queries** | **Boolean** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional][default to false] |
 
 ### Return type
 
@@ -768,7 +768,7 @@ opts = {
   engines: ['chatgpt'], # Array<String> | Repeatable, or comma-separated.
   countries: ['inner_example'], # Array<String> | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
   query_cluster_ids: ['inner_example'], # Array<String> | 
-  include_ungrouped_queries: true # Boolean | 
+  include_ungrouped_queries: true # Boolean | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
 }
 
 begin
@@ -809,7 +809,7 @@ end
 | **engines** | [**Array&lt;String&gt;**](String.md) | Repeatable, or comma-separated. | [optional] |
 | **countries** | [**Array&lt;String&gt;**](String.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**Array&lt;String&gt;**](String.md) |  | [optional] |
-| **include_ungrouped_queries** | **Boolean** |  | [optional][default to false] |
+| **include_ungrouped_queries** | **Boolean** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional][default to false] |
 
 ### Return type
 
@@ -854,7 +854,7 @@ opts = {
   engines: ['chatgpt'], # Array<String> | Repeatable, or comma-separated.
   countries: ['inner_example'], # Array<String> | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
   query_cluster_ids: ['inner_example'], # Array<String> | 
-  include_ungrouped_queries: true, # Boolean | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them.
+  include_ungrouped_queries: true, # Boolean | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
   competitor_ids: ['inner_example'] # Array<String> | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point.
 }
 
@@ -897,7 +897,7 @@ end
 | **engines** | [**Array&lt;String&gt;**](String.md) | Repeatable, or comma-separated. | [optional] |
 | **countries** | [**Array&lt;String&gt;**](String.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**Array&lt;String&gt;**](String.md) |  | [optional] |
-| **include_ungrouped_queries** | **Boolean** | On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them. | [optional][default to false] |
+| **include_ungrouped_queries** | **Boolean** | Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries. | [optional][default to false] |
 | **competitor_ids** | [**Array&lt;String&gt;**](String.md) | Repeatable, or comma-separated. Each id adds one series under the competitors map of every point. | [optional] |
 
 ### Return type
@@ -1256,7 +1256,7 @@ opts = {
   engines: ['chatgpt'], # Array<String> | Repeatable, or comma-separated. Narrows which variants count towards each row.
   countries: ['inner_example'], # Array<String> | ISO-3166 alpha-2 codes or English names. Must be configured on the project.
   query_cluster_ids: ['inner_example'], # Array<String> | Restrict to keywords with a variant in these clusters. Each must belong to the project.
-  include_ungrouped_queries: true, # Boolean | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection.
+  include_ungrouped_queries: true, # Boolean | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords.
   status: 'active', # String | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \"mixed\".
   check_frequencies: ['daily'], # Array<String> | Repeatable, or comma-separated.
   n_passes: [37], # Array<Integer> | Repeatable, or comma-separated. Restrict to variants configured with these pass counts.
@@ -1305,7 +1305,7 @@ end
 | **engines** | [**Array&lt;String&gt;**](String.md) | Repeatable, or comma-separated. Narrows which variants count towards each row. | [optional] |
 | **countries** | [**Array&lt;String&gt;**](String.md) | ISO-3166 alpha-2 codes or English names. Must be configured on the project. | [optional] |
 | **query_cluster_ids** | [**Array&lt;String&gt;**](String.md) | Restrict to keywords with a variant in these clusters. Each must belong to the project. | [optional] |
-| **include_ungrouped_queries** | **Boolean** | Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection. | [optional][default to false] |
+| **include_ungrouped_queries** | **Boolean** | Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords. | [optional][default to false] |
 | **status** | **String** | Restrict to variants with this status. A keyword whose variants disagree still reports statusSummary \&quot;mixed\&quot;. | [optional] |
 | **check_frequencies** | [**Array&lt;String&gt;**](String.md) | Repeatable, or comma-separated. | [optional] |
 | **n_passes** | [**Array&lt;Integer&gt;**](Integer.md) | Repeatable, or comma-separated. Restrict to variants configured with these pass counts. | [optional] |

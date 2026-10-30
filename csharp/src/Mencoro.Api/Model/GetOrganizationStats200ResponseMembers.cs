@@ -36,21 +36,21 @@ namespace Mencoro.Api.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GetOrganizationStats200ResponseMembers" /> class.
         /// </summary>
-        /// <param name="total">Active memberships. Suspended members are excluded..</param>
-        public GetOrganizationStats200ResponseMembers(int total = default)
+        /// <param name="total">Active memberships. Suspended members are excluded. Null for a member restricted to selected projects..</param>
+        public GetOrganizationStats200ResponseMembers(int? total = default)
         {
             this.Total = total;
         }
 
         /// <summary>
-        /// Active memberships. Suspended members are excluded.
+        /// Active memberships. Suspended members are excluded. Null for a member restricted to selected projects.
         /// </summary>
-        /// <value>Active memberships. Suspended members are excluded.</value>
+        /// <value>Active memberships. Suspended members are excluded. Null for a member restricted to selected projects.</value>
         /*
         <example>12</example>
         */
-        [DataMember(Name = "total", EmitDefaultValue = false)]
-        public int Total { get; set; }
+        [DataMember(Name = "total", EmitDefaultValue = true)]
+        public int? Total { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -81,8 +81,8 @@ namespace Mencoro.Api.Model
         /// <returns>Validation Result</returns>
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Total (int) minimum
-            if (this.Total < (int)0)
+            // Total (int?) minimum
+            if (this.Total < (int?)0)
             {
                 yield return new ValidationResult("Invalid value for Total, must be a value greater than or equal to 0.", new [] { "Total" });
             }

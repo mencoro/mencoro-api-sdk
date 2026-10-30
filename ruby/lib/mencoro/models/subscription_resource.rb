@@ -14,7 +14,7 @@ require 'date'
 require 'time'
 
 module Mencoro
-  # The current subscription contract of an organization
+  # The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
   class SubscriptionResource < ApiModelBase
     # Contract state. \"none\" when the organization has never held a subscription.
     attr_accessor :status
@@ -49,7 +49,7 @@ module Mencoro
     # When paid access ends after a cancellation. Null when the subscription is not cancelled.
     attr_accessor :grace_period_ends_at
 
-    # Why the subscription is currently inactive. Null for an active subscription, and meaningless once \"cancelledAt\" is set - the cancellation supersedes it.
+    # Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \"cancelledAt\" is set - the cancellation supersedes it.
     attr_accessor :deactivation_reason
 
     # Whether the organization may use paid features right now: active, or cancelled but still inside its paid grace window.

@@ -16,7 +16,7 @@ require 'time'
 module Mencoro
   # How many tracked queries an organization has configured
   class TrackedQueryUsageResource < ApiModelBase
-    # Tracked queries across every project of the organization, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.
+    # Tracked queries across every project of the organization the caller can access, archived projects included, counting active and paused queries alike. Never null; 0 means none are configured.
     attr_accessor :tracked_query_count
 
     # Attribute mapping from ruby-style variable name to JSON key.

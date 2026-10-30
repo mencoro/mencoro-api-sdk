@@ -318,7 +318,7 @@ class GetMeStats200ResponseProjects implements ModelInterface, ArrayAccess, \Jso
     /**
      * Sets total
      *
-     * @param int|null $total Projects across those organizations, archived ones included.
+     * @param int|null $total Projects across those organizations the owner can access, archived ones included.
      *
      * @return self
      */

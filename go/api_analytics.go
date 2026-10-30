@@ -364,7 +364,7 @@ func (r ApiGetClusterBreakdownRequest) QueryClusterIds(queryClusterIds []string)
 	return r
 }
 
-// Sent alone, returns only the ungrouped bucket rather than adding it to every cluster.
+// Sent alone, returns only the ungrouped row: the tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds that row to those clusters. Omit both for every cluster plus the ungrouped row.
 func (r ApiGetClusterBreakdownRequest) IncludeUngroupedQueries(includeUngroupedQueries bool) ApiGetClusterBreakdownRequest {
 	r.includeUngroupedQueries = &includeUngroupedQueries
 	return r
@@ -1218,7 +1218,7 @@ func (r ApiGetOrganizationOverviewRequest) Execute() (*GetOrganizationOverview20
 /*
 GetOrganizationOverview Snapshot rank-health board across an organization active projects
 
-Minimum role: viewer. One row per active project — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
+Minimum role: viewer. One row per active project the caller can access — share of voice, mention rate, average mention position, positivity index and tracked-query count — ordered by share of voice, plus an organization-level aggregate of the same metrics. Archived projects are excluded. For a member restricted to selected projects, the rows and every aggregate figure cover those projects only. This is a current-state snapshot and takes no date window; for a date-ranged comparison call the per-project operations (getProjectMetrics, getProjectTimeSeries) for each projectId returned here. Every metric is nullable, and a null means the project has no rank data yet — not a score of zero. Higher is better for shareOfVoice, mentionRate and positivityIndex; avgMentionPosition is a 1-based rank, so LOWER is better.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param organizationId
@@ -1351,7 +1351,7 @@ func (r ApiGetProjectMetricsRequest) QueryClusterIds(queryClusterIds []string) A
 	return r
 }
 
-// Only meaningful together with queryClusterIds: also counts the tracked queries that belong to no cluster.
+// Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
 func (r ApiGetProjectMetricsRequest) IncludeUngroupedQueries(includeUngroupedQueries bool) ApiGetProjectMetricsRequest {
 	r.includeUngroupedQueries = &includeUngroupedQueries
 	return r
@@ -1547,6 +1547,7 @@ func (r ApiGetProjectSentimentRequest) QueryClusterIds(queryClusterIds []string)
 	return r
 }
 
+// Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
 func (r ApiGetProjectSentimentRequest) IncludeUngroupedQueries(includeUngroupedQueries bool) ApiGetProjectSentimentRequest {
 	r.includeUngroupedQueries = &includeUngroupedQueries
 	return r
@@ -1750,7 +1751,7 @@ func (r ApiGetProjectTimeSeriesRequest) QueryClusterIds(queryClusterIds []string
 	return r
 }
 
-// On its own this NARROWS the series to tracked queries that belong to no cluster; combined with queryClusterIds it widens those clusters to also cover them.
+// Sent alone, restricts to tracked queries that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all tracked queries.
 func (r ApiGetProjectTimeSeriesRequest) IncludeUngroupedQueries(includeUngroupedQueries bool) ApiGetProjectTimeSeriesRequest {
 	r.includeUngroupedQueries = &includeUngroupedQueries
 	return r
@@ -2578,7 +2579,7 @@ func (r ApiListKeywordListingsRequest) QueryClusterIds(queryClusterIds []string)
 	return r
 }
 
-// Sent alone, restricts the listing to keywords whose variants belong to no cluster; sent with queryClusterIds, adds them to that selection.
+// Sent alone, restricts to keywords with variants that belong to no cluster (refused if there are none). Sent with queryClusterIds, adds them to those clusters. Omit both for all keywords.
 func (r ApiListKeywordListingsRequest) IncludeUngroupedQueries(includeUngroupedQueries bool) ApiListKeywordListingsRequest {
 	r.includeUngroupedQueries = &includeUngroupedQueries
 	return r

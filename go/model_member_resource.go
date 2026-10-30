@@ -30,6 +30,10 @@ type MemberResource struct {
 	State string `json:"state"`
 	IsActive bool `json:"isActive"`
 	JoinedAt time.Time `json:"joinedAt"`
+	// Which projects of the organization the member reaches: every project, or only projectIds
+	ProjectAccessMode string `json:"projectAccessMode"`
+	// The projects a selected access reaches; empty when the mode is all
+	ProjectIds []string `json:"projectIds"`
 }
 
 type _MemberResource MemberResource
@@ -38,7 +42,7 @@ type _MemberResource MemberResource
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMemberResource(id string, userId string, role string, state string, isActive bool, joinedAt time.Time) *MemberResource {
+func NewMemberResource(id string, userId string, role string, state string, isActive bool, joinedAt time.Time, projectAccessMode string, projectIds []string) *MemberResource {
 	this := MemberResource{}
 	this.Id = id
 	this.UserId = userId
@@ -46,6 +50,8 @@ func NewMemberResource(id string, userId string, role string, state string, isAc
 	this.State = state
 	this.IsActive = isActive
 	this.JoinedAt = joinedAt
+	this.ProjectAccessMode = projectAccessMode
+	this.ProjectIds = projectIds
 	return &this
 }
 
@@ -201,6 +207,54 @@ func (o *MemberResource) SetJoinedAt(v time.Time) {
 	o.JoinedAt = v
 }
 
+// GetProjectAccessMode returns the ProjectAccessMode field value
+func (o *MemberResource) GetProjectAccessMode() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ProjectAccessMode
+}
+
+// GetProjectAccessModeOk returns a tuple with the ProjectAccessMode field value
+// and a boolean to check if the value has been set.
+func (o *MemberResource) GetProjectAccessModeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ProjectAccessMode, true
+}
+
+// SetProjectAccessMode sets field value
+func (o *MemberResource) SetProjectAccessMode(v string) {
+	o.ProjectAccessMode = v
+}
+
+// GetProjectIds returns the ProjectIds field value
+func (o *MemberResource) GetProjectIds() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.ProjectIds
+}
+
+// GetProjectIdsOk returns a tuple with the ProjectIds field value
+// and a boolean to check if the value has been set.
+func (o *MemberResource) GetProjectIdsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProjectIds, true
+}
+
+// SetProjectIds sets field value
+func (o *MemberResource) SetProjectIds(v []string) {
+	o.ProjectIds = v
+}
+
 func (o MemberResource) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -217,6 +271,8 @@ func (o MemberResource) ToMap() (map[string]interface{}, error) {
 	toSerialize["state"] = o.State
 	toSerialize["isActive"] = o.IsActive
 	toSerialize["joinedAt"] = o.JoinedAt
+	toSerialize["projectAccessMode"] = o.ProjectAccessMode
+	toSerialize["projectIds"] = o.ProjectIds
 	return toSerialize, nil
 }
 
@@ -231,6 +287,8 @@ func (o *MemberResource) UnmarshalJSON(data []byte) (err error) {
 		"state",
 		"isActive",
 		"joinedAt",
+		"projectAccessMode",
+		"projectIds",
 	}
 
 	allProperties := make(map[string]interface{})

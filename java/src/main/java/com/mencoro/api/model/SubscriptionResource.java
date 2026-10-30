@@ -48,7 +48,7 @@ import java.util.Set;
 import com.mencoro.api.JSON;
 
 /**
- * The current subscription contract of an organization
+ * The current subscription contract of an organization. For a member restricted to selected projects, the plan, the billing cycle, the check budget, its consumption and the deactivation reason are null.
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.24.0")
 public class SubscriptionResource {
@@ -214,7 +214,7 @@ public class SubscriptionResource {
   private OffsetDateTime gracePeriodEndsAt;
 
   /**
-   * Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.
+   * Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.
    */
   @JsonAdapter(DeactivationReasonEnum.Adapter.class)
   public enum DeactivationReasonEnum {
@@ -497,7 +497,7 @@ public class SubscriptionResource {
   }
 
   /**
-   * Why the subscription is currently inactive. Null for an active subscription, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.
+   * Why the subscription is currently inactive. Null for an active subscription and for a member restricted to selected projects, and meaningless once \&quot;cancelledAt\&quot; is set - the cancellation supersedes it.
    * @return deactivationReason
    */
   @javax.annotation.Nullable

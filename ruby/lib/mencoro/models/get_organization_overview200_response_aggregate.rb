@@ -15,7 +15,7 @@ require 'time'
 
 module Mencoro
   class GetOrganizationOverview200ResponseAggregate < ApiModelBase
-    # Active projects in the organization, the length of `projects`.
+    # Active projects of the organization the caller can access, the length of `projects`.
     attr_accessor :project_count
 
     # How many of those have a share of voice; the averages below are means over the projects that report each metric, never over the ones still null.

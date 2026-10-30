@@ -21,14 +21,14 @@ One keyword of a project, its variants and its metrics over the requested window
 |**checkFrequencies** | [**List&lt;CheckFrequenciesEnum&gt;**](#List&lt;CheckFrequenciesEnum&gt;) | Distinct check frequencies across the variants. |  |
 |**nPassesValues** | **List&lt;Integer&gt;** | Distinct pass counts across the variants. Each Claude pass consumes five checks; each other engine pass consumes one. |  |
 |**lastCheckedAt** | **OffsetDateTime** | The most recent completed check across the variants. Null when none has ever completed — not a check that found nothing. |  [optional] |
-|**avgSerpPosition** | **Float** | Average position in traditional search over the window. 1-based, LOWER is better. |  [optional] |
-|**trendSerp** | **Float** | Signed improvement in avgSerpPosition against the previous window. Positive is better. |  [optional] |
-|**avgShoppingPosition** | **Float** | Average position in shopping results over the window. 1-based, LOWER is better. |  [optional] |
-|**trendShopping** | **Float** | Signed improvement in avgShoppingPosition. Positive is better. |  [optional] |
-|**avgMentionPosition** | **Float** | Average position of the brand mention inside the AI answer. 1-based, LOWER is better. |  [optional] |
-|**trendMention** | **Float** | Signed improvement in avgMentionPosition. Positive is better. |  [optional] |
-|**avgLinkPosition** | **Float** | Average position of a cited link to the brand. 1-based, LOWER is better. |  [optional] |
-|**trendLink** | **Float** | Signed improvement in avgLinkPosition. Positive is better. |  [optional] |
+|**avgSerpPosition** | **Float** | Average position in traditional search over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. |  [optional] |
+|**trendSerp** | **Float** | Signed improvement in avgSerpPosition against the previous window. Positive is better. Null when carriedPositions.serp is set. |  [optional] |
+|**avgShoppingPosition** | **Float** | Average position in shopping results over the window. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. |  [optional] |
+|**trendShopping** | **Float** | Signed improvement in avgShoppingPosition. Positive is better. Null when carriedPositions.shopping is set. |  [optional] |
+|**avgMentionPosition** | **Float** | Average position of the brand mention inside the AI answer. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. |  [optional] |
+|**trendMention** | **Float** | Signed improvement in avgMentionPosition. Positive is better. Null when carriedPositions.mention is set. |  [optional] |
+|**avgLinkPosition** | **Float** | Average position of a cited link to the brand. 1-based, LOWER is better. A variant not checked in the window contributes its latest earlier measurement instead; see carriedPositions. |  [optional] |
+|**trendLink** | **Float** | Signed improvement in avgLinkPosition. Positive is better. Null when carriedPositions.link is set. |  [optional] |
 |**mentionPositionStability** | **Float** | Day-to-day spread of the mention position (a standard deviation): LOWER means steadier. |  [optional] |
 |**trendStability** | **Float** | Signed improvement in mentionPositionStability. Positive means steadier than the previous window. |  [optional] |
 |**positivityIndex** | **Integer** | 0-100 weighted sentiment score of the mentions; HIGHER is better. Null when there were no mentions to score. |  [optional] |
@@ -44,6 +44,7 @@ One keyword of a project, its variants and its metrics over the requested window
 |**sentimentNegative** | **Integer** | Negative brand mentions counted in the window. |  |
 |**avgMentionCount** | **Float** | Mentions per AI engine per day with a capture, over the window. Not a total: the window total is not part of this contract. |  [optional] |
 |**mentionTypeCounts** | [**KeywordListingResourceMentionTypeCounts**](KeywordListingResourceMentionTypeCounts.md) |  |  |
+|**carriedPositions** | [**KeywordListingResourceCarriedPositions**](KeywordListingResourceCarriedPositions.md) |  |  |
 
 
 

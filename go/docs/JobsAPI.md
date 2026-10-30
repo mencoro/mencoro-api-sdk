@@ -25,7 +25,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/mencoro/mencoro-api-sdk/go"
+	openapiclient "github.com/mencoro/mencoro-api-sdk/go/v2"
 )
 
 func main() {

@@ -20,7 +20,7 @@ var _ MappedNullable = &GetOrganizationOverview200ResponseAggregate{}
 
 // GetOrganizationOverview200ResponseAggregate struct for GetOrganizationOverview200ResponseAggregate
 type GetOrganizationOverview200ResponseAggregate struct {
-	// Active projects in the organization, the length of `projects`.
+	// Active projects of the organization the caller can access, the length of `projects`.
 	ProjectCount *int32 `json:"projectCount,omitempty"`
 	// How many of those have a share of voice; the averages below are means over the projects that report each metric, never over the ones still null.
 	ProjectsWithData *int32 `json:"projectsWithData,omitempty"`

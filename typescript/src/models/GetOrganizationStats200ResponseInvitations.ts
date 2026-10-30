@@ -20,11 +20,11 @@ import { mapValues } from '../runtime';
  */
 export interface GetOrganizationStats200ResponseInvitations {
     /**
-     * Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded.
+     * Invitations still awaiting an answer. Accepted, cancelled and expired ones are excluded. Null for a member restricted to selected projects.
      * @type {number}
      * @memberof GetOrganizationStats200ResponseInvitations
      */
-    pending?: number;
+    pending?: number | null;
 }
 
 /**
@@ -44,7 +44,7 @@ export function GetOrganizationStats200ResponseInvitationsFromJSONTyped(json: an
     }
     return {
         
-        'pending': json['pending'] == null ? undefined : json['pending'],
+        'pending': json['pending'] === undefined ? undefined : json['pending'] === null ? null : json['pending'],
     };
 }
 

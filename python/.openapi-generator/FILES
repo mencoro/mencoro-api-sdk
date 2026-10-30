@@ -58,6 +58,7 @@ docs/CreateCompetitorRequest.md
 docs/CreateInvitation200Response.md
 docs/CreateInvitation201Response.md
 docs/CreateInvitationRequest.md
+docs/CreateInvitationRequestProjectAccess.md
 docs/CreateOrganization201Response.md
 docs/CreateOrganizationRequest.md
 docs/CreateProjectRequest.md
@@ -91,6 +92,8 @@ docs/InvitationResource.md
 docs/InvitationsApi.md
 docs/JobsApi.md
 docs/KeywordListingResource.md
+docs/KeywordListingResourceCarriedPositions.md
+docs/KeywordListingResourceCarriedPositionsSerp.md
 docs/KeywordListingResourceMentionTypeCounts.md
 docs/ListAiResponses200Response.md
 docs/ListCompetitors200Response.md
@@ -138,6 +141,7 @@ docs/SearchTrackedQueries200Response.md
 docs/SearchTrackedQueryMentionMatches200Response.md
 docs/SearchTrackedQuerySerpMatches200Response.md
 docs/SerpMatchResource.md
+docs/SetMemberProjectAccessRequest.md
 docs/ShoppingOfferResource.md
 docs/ShoppingSnapshotResource.md
 docs/StartBrandDiscoveryJobRequest.md
@@ -230,6 +234,7 @@ mencoro/models/create_competitor_request.py
 mencoro/models/create_invitation200_response.py
 mencoro/models/create_invitation201_response.py
 mencoro/models/create_invitation_request.py
+mencoro/models/create_invitation_request_project_access.py
 mencoro/models/create_organization201_response.py
 mencoro/models/create_organization_request.py
 mencoro/models/create_project_request.py
@@ -260,6 +265,8 @@ mencoro/models/get_tracking_coverage200_response.py
 mencoro/models/get_tracking_coverage200_response_sample_inner.py
 mencoro/models/invitation_resource.py
 mencoro/models/keyword_listing_resource.py
+mencoro/models/keyword_listing_resource_carried_positions.py
+mencoro/models/keyword_listing_resource_carried_positions_serp.py
 mencoro/models/keyword_listing_resource_mention_type_counts.py
 mencoro/models/list_ai_responses200_response.py
 mencoro/models/list_competitors200_response.py
@@ -303,6 +310,7 @@ mencoro/models/search_tracked_queries200_response.py
 mencoro/models/search_tracked_query_mention_matches200_response.py
 mencoro/models/search_tracked_query_serp_matches200_response.py
 mencoro/models/serp_match_resource.py
+mencoro/models/set_member_project_access_request.py
 mencoro/models/shopping_offer_resource.py
 mencoro/models/shopping_snapshot_resource.py
 mencoro/models/start_brand_discovery_job_request.py

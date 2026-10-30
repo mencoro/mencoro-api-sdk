@@ -8,6 +8,7 @@ Name | Type
 ------------ | -------------
 `email` | string
 `role` | string
+`projectAccess` | [CreateInvitationRequestProjectAccess](CreateInvitationRequestProjectAccess.md)
 
 ## Example
 
@@ -18,6 +19,7 @@ import type { CreateInvitationRequest } from '@mencoro/api'
 const example = {
   "email": null,
   "role": null,
+  "projectAccess": null,
 } satisfies CreateInvitationRequest
 
 console.log(example)

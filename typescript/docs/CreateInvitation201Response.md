@@ -13,6 +13,8 @@ Name | Type
 `createdAt` | Date
 `expiresAt` | Date
 `acceptedAt` | Date
+`projectAccessMode` | string
+`projectIds` | Array&lt;string&gt;
 `created` | boolean
 
 ## Example
@@ -29,6 +31,8 @@ const example = {
   "createdAt": null,
   "expiresAt": null,
   "acceptedAt": null,
+  "projectAccessMode": null,
+  "projectIds": null,
   "created": null,
 } satisfies CreateInvitation201Response
 

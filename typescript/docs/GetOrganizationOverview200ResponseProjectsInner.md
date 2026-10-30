@@ -10,6 +10,9 @@ Name | Type
 `name` | string
 `status` | string
 `trackedQueryCount` | number
+`aiTrackedQueryCount` | number
+`serpTrackedQueryCount` | number
+`shoppingTrackedQueryCount` | number
 `shareOfVoice` | number
 `mentionRate` | number
 `avgMentionPosition` | number
@@ -26,6 +29,9 @@ const example = {
   "name": null,
   "status": null,
   "trackedQueryCount": null,
+  "aiTrackedQueryCount": null,
+  "serpTrackedQueryCount": null,
+  "shoppingTrackedQueryCount": null,
   "shareOfVoice": null,
   "mentionRate": null,
   "avgMentionPosition": null,
