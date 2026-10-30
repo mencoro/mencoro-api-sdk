@@ -172,6 +172,11 @@ var me = new AccountApi(config).GetMe();
 ```
 </details>
 
+## Changes in 2.0.1
+
+No API change. Maven Central rejected 2.0.0 because of the publishing plugin, so Java moves from
+1.0.1 straight to 2.0.1. Every other language has both versions. The notes below still apply.
+
 ## Changes in 2.0.0
 
 **Some code written for 1.0.1 breaks.** Reading responses with Python, PHP, Java or Ruby needs no
