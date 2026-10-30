@@ -15,7 +15,7 @@ contract, one generator run, one version: a change to the API reaches all seven 
 | Python 3.9+ | `mencoro` | [![PyPI](https://img.shields.io/pypi/v/mencoro?label=pypi&color=informational)](https://pypi.org/project/mencoro/) | [`python/`](python/) |
 | TypeScript (Node 22+, browsers) | `@mencoro/api` | [![npm](https://img.shields.io/npm/v/%40mencoro%2Fapi?label=npm&color=informational)](https://www.npmjs.com/package/@mencoro/api) | [`typescript/`](typescript/) |
 | PHP 8.1+ | `mencoro/mencoro-api-sdk` | [![Packagist](https://img.shields.io/packagist/v/mencoro/mencoro-api-sdk?label=packagist&color=informational)](https://packagist.org/packages/mencoro/mencoro-api-sdk) | [`php/`](php/) |
-| Go 1.21+ | `github.com/mencoro/mencoro-api-sdk/go/v2` | [![Go module](https://img.shields.io/github/v/tag/mencoro/mencoro-api-sdk?filter=go%2F*&label=go&color=informational)](https://pkg.go.dev/github.com/mencoro/mencoro-api-sdk/go/v2) | [`go/`](go/) |
+| Go 1.23+ | `github.com/mencoro/mencoro-api-sdk/go/v2` | [![Go module](https://img.shields.io/github/v/tag/mencoro/mencoro-api-sdk?filter=go%2F*&label=go&color=informational)](https://pkg.go.dev/github.com/mencoro/mencoro-api-sdk/go/v2) | [`go/`](go/) |
 | Java 11+ | `com.mencoro:mencoro-api` | [![Maven Central](https://img.shields.io/maven-central/v/com.mencoro/mencoro-api?label=maven%20central&color=informational)](https://central.sonatype.com/artifact/com.mencoro/mencoro-api) | [`java/`](java/) |
 | .NET 8 | `Mencoro.Api` | [![NuGet](https://img.shields.io/nuget/v/Mencoro.Api?label=nuget&color=informational)](https://www.nuget.org/packages/Mencoro.Api/) | [`csharp/`](csharp/) |
 | Ruby 3.0+ | `mencoro` | [![RubyGems](https://img.shields.io/gem/v/mencoro?label=gem&color=informational)](https://rubygems.org/gems/mencoro) | [`ruby/`](ruby/) |
@@ -184,8 +184,9 @@ change:
   old path stays at 1.0.1.
 - **Models built by hand.** `projectAccessMode` and `projectIds` are now required on
   `InvitationResource`, `CreateInvitation201Response` and `MemberResource`, and `carriedPositions`
-  on `KeywordListingResource`. Their Go and C# constructors gain those parameters, and a TypeScript
-  literal or Python model of those types has to set them.
+  on `KeywordListingResource`. Their Go constructors gain those parameters. The C# constructors do
+  too, as optional ones, so old calls still compile and throw `ArgumentNullException` at runtime. A
+  TypeScript literal or Python model of those types has to set them.
 - **Nullable counts.** `invitations.pending` and `members.total` of `getOrganizationStats` are null
   for a member restricted to selected projects. The Go fields become `NullableInt32`, the C# ones
   `int?` and the TypeScript ones `number | null`.
