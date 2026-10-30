@@ -16,7 +16,7 @@ For more information, please visit [https://mencoro.com/contact/](https://mencor
 Import the package in a go file in your project and run `go mod tidy`:
 
 ```go
-import mencoro "github.com/mencoro/mencoro-api-sdk/go"
+import mencoro "github.com/mencoro/mencoro-api-sdk/go/v2"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:

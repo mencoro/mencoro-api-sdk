@@ -88,7 +88,7 @@ class GoTestRegenerationTest(unittest.TestCase):
     def test_regeneration_refreshes_go_tests_and_preserves_existing_files(self):
         result, test, preserved, temporary_outputs = self.run_generator(0)
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
-        self.assertEqual("updated three-result test github.com/mencoro/mencoro-api-sdk/go", test)
+        self.assertEqual("updated three-result test github.com/mencoro/mencoro-api-sdk/go/v2", test)
         self.assertEqual("preserve existing files", preserved)
         self.assertEqual(["go.json"], [path.name for path in temporary_outputs])
 

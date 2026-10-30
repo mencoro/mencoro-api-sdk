@@ -1,4 +1,4 @@
-module github.com/mencoro/mencoro-api-sdk/go
+module github.com/mencoro/mencoro-api-sdk/go/v2
 
 go 1.23
 
